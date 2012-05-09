@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ArcGIS/ArcGIS.h>
 
 @interface EDNViewController : UIViewController
 

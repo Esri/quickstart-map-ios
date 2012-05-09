@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E16C07CC1559B39C00776F3E /* ArcGIS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E16C07CB1559B39C00776F3E /* ArcGIS.bundle */; };
+		E16C07D01559B9AA00776F3E /* AGSMapView+LiteNavigation.m in Sources */ = {isa = PBXBuildFile; fileRef = E16C07CF1559B9AA00776F3E /* AGSMapView+LiteNavigation.m */; };
 		E16C28FA15598A5E00E2DB56 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E16C28F915598A5E00E2DB56 /* UIKit.framework */; };
 		E16C28FC15598A5E00E2DB56 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E16C28FB15598A5E00E2DB56 /* Foundation.framework */; };
 		E16C28FE15598A5E00E2DB56 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E16C28FD15598A5E00E2DB56 /* CoreGraphics.framework */; };
@@ -29,6 +30,9 @@
 
 /* Begin PBXFileReference section */
 		E16C07CB1559B39C00776F3E /* ArcGIS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ArcGIS.bundle; path = ../../../../Library/SDKs/ArcGIS/ArcGIS.framework/Versions/Current/Resources/ArcGIS.bundle; sourceTree = "<group>"; };
+		E16C07CE1559B9AA00776F3E /* AGSMapView+LiteNavigation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AGSMapView+LiteNavigation.h"; path = "Navigation/AGSMapView+LiteNavigation.h"; sourceTree = "<group>"; };
+		E16C07CF1559B9AA00776F3E /* AGSMapView+LiteNavigation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AGSMapView+LiteNavigation.m"; path = "Navigation/AGSMapView+LiteNavigation.m"; sourceTree = "<group>"; };
+		E16C07D81559BED900776F3E /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = ../../../Library/SDKs/ArcGIS/ArcGIS.framework; sourceTree = "<group>"; };
 		E16C28F515598A5E00E2DB56 /* iOSLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E16C28F915598A5E00E2DB56 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E16C28FB15598A5E00E2DB56 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -75,6 +79,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E16C07CD1559B96900776F3E /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				E16C07CE1559B9AA00776F3E /* AGSMapView+LiteNavigation.h */,
+				E16C07CF1559B9AA00776F3E /* AGSMapView+LiteNavigation.m */,
+			);
+			name = Navigation;
+			sourceTree = "<group>";
+		};
 		E16C28EA15598A5E00E2DB56 = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +108,7 @@
 		E16C28F815598A5E00E2DB56 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E16C07D81559BED900776F3E /* ArcGIS.framework */,
 				E1750BAC1559B0F600C50929 /* CoreLocation.framework */,
 				E1750BAD1559B0F600C50929 /* CoreText.framework */,
 				E1750BAE1559B0F600C50929 /* libstdc++.dylib */,
@@ -113,7 +127,7 @@
 		E16C28FF15598A5E00E2DB56 /* iOSLite */ = {
 			isa = PBXGroup;
 			children = (
-				E16C07CB1559B39C00776F3E /* ArcGIS.bundle */,
+				E16C07CD1559B96900776F3E /* Navigation */,
 				E16C290815598A5E00E2DB56 /* EDNAppDelegate.h */,
 				E16C290915598A5E00E2DB56 /* EDNAppDelegate.m */,
 				E16C290B15598A5E00E2DB56 /* MainStoryboard_iPhone.storyboard */,
@@ -128,6 +142,7 @@
 		E16C290015598A5E00E2DB56 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E16C07CB1559B39C00776F3E /* ArcGIS.bundle */,
 				E16C290115598A5E00E2DB56 /* iOSLite-Info.plist */,
 				E16C290215598A5E00E2DB56 /* InfoPlist.strings */,
 				E16C290515598A5E00E2DB56 /* main.m */,
@@ -205,6 +220,7 @@
 				E16C290615598A5E00E2DB56 /* main.m in Sources */,
 				E16C290A15598A5E00E2DB56 /* EDNAppDelegate.m in Sources */,
 				E16C291315598A5E00E2DB56 /* EDNViewController.m in Sources */,
+				E16C07D01559B9AA00776F3E /* AGSMapView+LiteNavigation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,10 +308,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iOSLite/iOSLite-Prefix.pch";
 				INFOPLIST_FILE = "iOSLite/iOSLite-Info.plist";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-Objc",
-					"\"-framework ArcGIS\"",
+					"-framework",
+					ArcGIS,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -309,10 +327,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iOSLite/iOSLite-Prefix.pch";
 				INFOPLIST_FILE = "iOSLite/iOSLite-Info.plist";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-Objc",
-					"\"-framework ArcGIS\"",
+					"-framework",
+					ArcGIS,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
