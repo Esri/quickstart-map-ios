@@ -6,9 +6,8 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "EDNMapViewLite.h"
 #import <ArcGIS/ArcGIS.h>
 
-@interface AGSMapView (LiteNavigation)
-- (void) zoomToLat:(double) latitude withLong:(double) longitude;
+@interface EDNMapViewLite (Navigation)
 @end

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>DefaultScaleLevels</key>
+	<dict>
+		<key>1</key>
+		<real>591657550.5</real>
+		<key>2</key>
+		<real>295828775.3</real>
+		<key>3</key>
+		<real>147914387.6</real>
+		<key>4</key>
+		<real>73957193.81999999</real>
+		<key>5</key>
+		<real>36978596.91</real>
+		<key>6</key>
+		<real>18489298.45</real>
+		<key>7</key>
+		<real>9244649.227</real>
+		<key>8</key>
+		<real>4622324.614</real>
+		<key>9</key>
+		<real>2311162.307</real>
+		<key>10</key>
+		<real>1155581.153</real>
+		<key>11</key>
+		<real>577790.5767</real>
+		<key>12</key>
+		<real>288895.2884</real>
+		<key>13</key>
+		<real>144447.6442</real>
+		<key>14</key>
+		<real>72223.82209</real>
+		<key>15</key>
+		<real>36111.91104</real>
+		<key>16</key>
+		<real>18055.95552</real>
+		<key>17</key>
+		<real>9027.977761</real>
+		<key>18</key>
+		<real>4513.98888</real>
+		<key>19</key>
+		<real>2256.99444</real>
+		<key>20</key>
+		<real>1128.49722</real>
+	</dict>
+</dict>
+</plist>

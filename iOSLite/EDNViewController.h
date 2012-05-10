@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
+#import "EDNMapViewLite.h"
 
 @interface EDNViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet EDNMapViewLite *mapView;
 
 @end
