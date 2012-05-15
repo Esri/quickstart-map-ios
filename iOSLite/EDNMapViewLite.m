@@ -8,12 +8,15 @@
 
 #import "EDNMapViewLite.h"
 
+NSString * const EDN_SCALE_LEVELS_KEY = @"DefaultScaleLevels";
+NSString * const EDN_DEFAULT_LEVEL_KEY = @"DefaultScaleLevel";
+
 @interface EDNMapViewLite()<AGSPortalDelegate, AGSWebMapDelegate>
 @end
 
 @implementation EDNMapViewLite
-NSDictionary * __scales = nil;
-NSString * __defaultScaleLevel = @"11";
+NSDictionary * __ednScales = nil;
+NSString * __ednDefaultScaleLevel = nil;
 
 - (void)LoadConfigData
 {
@@ -28,11 +31,12 @@ NSString * __defaultScaleLevel = @"11";
     
     if (pList)
     {
-        if ([pList isKindOfClass:[NSDictionary class]])
-        {
-            NSDictionary *d = (NSDictionary *)pList;
-            __scales = [d objectForKey:@"DefaultScaleLevels"];
-        }
+		if ([pList isKindOfClass:[NSDictionary class]])
+		{
+			NSDictionary *d = (NSDictionary *)pList;
+			__ednScales = [d objectForKey:EDN_SCALE_LEVELS_KEY];
+			__ednDefaultScaleLevel = [d objectForKey:EDN_DEFAULT_LEVEL_KEY];
+		}
     }
     else 
     {
@@ -45,8 +49,8 @@ NSString * __defaultScaleLevel = @"11";
     self = [super initWithCoder:aDecoder];
     if (self) {
         // Initialization code
-//        self.portal = [[AGSPortal alloc] initWithURL:[NSURL URLWithString:@"http://www.arcgis.com"] credential:nil];
-//        self.portal.delegate = self;
+		//        self.portal = [[AGSPortal alloc] initWithURL:[NSURL URLWithString:@"http://www.arcgis.com"] credential:nil];
+		//        self.portal.delegate = self;
         
         self.wrapAround = YES;
         
@@ -57,29 +61,29 @@ NSString * __defaultScaleLevel = @"11";
 
 - (void) dealloc
 {
-//    self.portal = nil;
+	//    self.portal = nil;
 }
 
 - (double) getScaleForLevel:(NSUInteger)level
 {
     NSString *key = [NSString stringWithFormat:@"%d", level];
-    id scaleVal = [__scales objectForKey:key];
+    id scaleVal = [__ednScales objectForKey:key];
     if (scaleVal)
     {
         return [scaleVal doubleValue];
     }
     else
     {
-        NSLog(@"Scale level %@ is invalid. Using default of %@.", key, __defaultScaleLevel);
-        return [[__scales objectForKey:__defaultScaleLevel] doubleValue];
+        NSLog(@"Scale level %@ is invalid. Using default of %@.", key, __ednDefaultScaleLevel);
+        return [[__ednScales objectForKey:__ednDefaultScaleLevel] doubleValue];
     }
 }
 
 - (AGSPoint *) getWebMercatorAuxSpherePointFromWGS84Point:(AGSPoint *)wgs84Point {
     @try
     {
-    return (AGSPoint *)[[AGSGeometryEngine defaultGeometryEngine] projectGeometry:wgs84Point 
-                                                               toSpatialReference:[AGSSpatialReference webMercatorSpatialReference]];    
+		return (AGSPoint *)[[AGSGeometryEngine defaultGeometryEngine] projectGeometry:wgs84Point 
+																   toSpatialReference:[AGSSpatialReference webMercatorSpatialReference]];    
     }
     @catch (NSException *e) {
         NSLog(@"Error getting Web Mercator Point from %@: %@",wgs84Point, e); 
