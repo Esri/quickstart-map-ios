@@ -8,11 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		D9E27C9E155ABDC5008F8CCB /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */; };
-		D9E27CAA155AE724008F8CCB /* EDNMapViewLite.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E27CA9155AE724008F8CCB /* EDNMapViewLite.m */; };
-		D9E27CB4155AEA6E008F8CCB /* EDNMapViewLite+Basemaps.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E27CB3155AEA6E008F8CCB /* EDNMapViewLite+Basemaps.m */; };
+		D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */; };
 		D9E27CB8155B1EDB008F8CCB /* LiteMapConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */; };
 		E16C07CC1559B39C00776F3E /* ArcGIS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E16C07CB1559B39C00776F3E /* ArcGIS.bundle */; };
-		E16C07D01559B9AA00776F3E /* EDNMapViewLite+Navigation.m in Sources */ = {isa = PBXBuildFile; fileRef = E16C07CF1559B9AA00776F3E /* EDNMapViewLite+Navigation.m */; };
+		E16C07D01559B9AA00776F3E /* AGSMapView+Navigation.m in Sources */ = {isa = PBXBuildFile; fileRef = E16C07CF1559B9AA00776F3E /* AGSMapView+Navigation.m */; };
 		E16C28FA15598A5E00E2DB56 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E16C28F915598A5E00E2DB56 /* UIKit.framework */; };
 		E16C28FC15598A5E00E2DB56 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E16C28FB15598A5E00E2DB56 /* Foundation.framework */; };
 		E16C28FE15598A5E00E2DB56 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E16C28FD15598A5E00E2DB56 /* CoreGraphics.framework */; };
@@ -34,14 +33,12 @@
 
 /* Begin PBXFileReference section */
 		D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = ../../../Library/SDKs/ArcGIS/ArcGIS.framework; sourceTree = "<group>"; };
-		D9E27CA8155AE724008F8CCB /* EDNMapViewLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNMapViewLite.h; sourceTree = "<group>"; };
-		D9E27CA9155AE724008F8CCB /* EDNMapViewLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNMapViewLite.m; sourceTree = "<group>"; };
-		D9E27CB2155AEA6E008F8CCB /* EDNMapViewLite+Basemaps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EDNMapViewLite+Basemaps.h"; path = "Basemaps/EDNMapViewLite+Basemaps.h"; sourceTree = "<group>"; };
-		D9E27CB3155AEA6E008F8CCB /* EDNMapViewLite+Basemaps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "EDNMapViewLite+Basemaps.m"; path = "Basemaps/EDNMapViewLite+Basemaps.m"; sourceTree = "<group>"; };
+		D9E27CB2155AEA6E008F8CCB /* AGSMapView+Basemaps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AGSMapView+Basemaps.h"; path = "Basemaps/AGSMapView+Basemaps.h"; sourceTree = "<group>"; };
+		D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AGSMapView+Basemaps.m"; path = "Basemaps/AGSMapView+Basemaps.m"; sourceTree = "<group>"; };
 		D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = LiteMapConfig.plist; path = ../LiteMapConfig.plist; sourceTree = "<group>"; };
 		E16C07CB1559B39C00776F3E /* ArcGIS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ArcGIS.bundle; path = ../../../../Library/SDKs/ArcGIS/ArcGIS.framework/Versions/Current/Resources/ArcGIS.bundle; sourceTree = "<group>"; };
-		E16C07CE1559B9AA00776F3E /* EDNMapViewLite+Navigation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EDNMapViewLite+Navigation.h"; path = "Navigation/EDNMapViewLite+Navigation.h"; sourceTree = "<group>"; };
-		E16C07CF1559B9AA00776F3E /* EDNMapViewLite+Navigation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "EDNMapViewLite+Navigation.m"; path = "Navigation/EDNMapViewLite+Navigation.m"; sourceTree = "<group>"; };
+		E16C07CE1559B9AA00776F3E /* AGSMapView+Navigation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AGSMapView+Navigation.h"; path = "Navigation/AGSMapView+Navigation.h"; sourceTree = "<group>"; };
+		E16C07CF1559B9AA00776F3E /* AGSMapView+Navigation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AGSMapView+Navigation.m"; path = "Navigation/AGSMapView+Navigation.m"; sourceTree = "<group>"; };
 		E16C28F515598A5E00E2DB56 /* iOSLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E16C28F915598A5E00E2DB56 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E16C28FB15598A5E00E2DB56 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -101,8 +98,8 @@
 		D9E27CB1155AEA4D008F8CCB /* Basemaps */ = {
 			isa = PBXGroup;
 			children = (
-				D9E27CB2155AEA6E008F8CCB /* EDNMapViewLite+Basemaps.h */,
-				D9E27CB3155AEA6E008F8CCB /* EDNMapViewLite+Basemaps.m */,
+				D9E27CB2155AEA6E008F8CCB /* AGSMapView+Basemaps.h */,
+				D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */,
 			);
 			name = Basemaps;
 			sourceTree = "<group>";
@@ -110,8 +107,8 @@
 		E16C07CD1559B96900776F3E /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
-				E16C07CE1559B9AA00776F3E /* EDNMapViewLite+Navigation.h */,
-				E16C07CF1559B9AA00776F3E /* EDNMapViewLite+Navigation.m */,
+				E16C07CE1559B9AA00776F3E /* AGSMapView+Navigation.h */,
+				E16C07CF1559B9AA00776F3E /* AGSMapView+Navigation.m */,
 			);
 			name = Navigation;
 			sourceTree = "<group>";
@@ -156,8 +153,6 @@
 			isa = PBXGroup;
 			children = (
 				D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */,
-				D9E27CA8155AE724008F8CCB /* EDNMapViewLite.h */,
-				D9E27CA9155AE724008F8CCB /* EDNMapViewLite.m */,
 				D9E27CAF155AE891008F8CCB /* Categories */,
 				E16C290815598A5E00E2DB56 /* EDNAppDelegate.h */,
 				E16C290915598A5E00E2DB56 /* EDNAppDelegate.m */,
@@ -252,9 +247,8 @@
 				E16C290615598A5E00E2DB56 /* main.m in Sources */,
 				E16C290A15598A5E00E2DB56 /* EDNAppDelegate.m in Sources */,
 				E16C291315598A5E00E2DB56 /* EDNViewController.m in Sources */,
-				E16C07D01559B9AA00776F3E /* EDNMapViewLite+Navigation.m in Sources */,
-				D9E27CAA155AE724008F8CCB /* EDNMapViewLite.m in Sources */,
-				D9E27CB4155AEA6E008F8CCB /* EDNMapViewLite+Basemaps.m in Sources */,
+				E16C07D01559B9AA00776F3E /* AGSMapView+Navigation.m in Sources */,
+				D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

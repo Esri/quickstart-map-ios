@@ -7,6 +7,7 @@
 //
 
 #import "EDNViewController.h"
+#import	"AGSMapView+Navigation.h"
 
 @interface EDNViewController ()
 

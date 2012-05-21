@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "EDNMapViewLite.h"
+#import <ArcGIS/ArcGIS.h>
 
-@interface EDNMapViewLite (Basemaps)
+@interface AGSMapView (Basemaps)
 
 @end

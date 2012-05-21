@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "EDNMapViewLite+Basemaps.h"
+#import "AGSMapView+Basemaps.h"
 
-@interface EDNMapViewLite()
+@interface AGSMapView()
 //@property (nonatomic, retain) AGSPortal *portal;
 //@property (nonatomic, retain) NSMutableArray *basemaps;
 //@property (nonatomic, retain) NSMutableDictionary *webMaps;
@@ -16,7 +16,7 @@
 //@property (nonatomic, retain) AGSMapView *tempMapView;
 @end
 
-@implementation EDNMapViewLite (Basemaps)
+@implementation AGSMapView (Basemaps)
 //@synthesize portal = _portal;
 //@synthesize basemaps = _basemaps;
 //@synthesize mapViews = _mapViews;

@@ -1,81 +1,82 @@
 //
-//  EDNMapViewLite.m
+//  AGSMapView+LiteNavigation.m
 //  iOSLite
 //
-//  Created by Nicholas Furness on 5/9/12.
+//  Created by Nicholas Furness on 5/8/12.
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "EDNMapViewLite.h"
+#import "AGSMapView+Navigation.h"
 
 NSString * const EDN_SCALE_LEVELS_KEY = @"DefaultScaleLevels";
 NSString * const EDN_DEFAULT_LEVEL_KEY = @"DefaultScaleLevel";
 
-@interface EDNMapViewLite()<AGSPortalDelegate, AGSWebMapDelegate>
-@end
-
-@implementation EDNMapViewLite
+@implementation AGSMapView (Navigation)
 NSDictionary * __ednScales = nil;
 NSString * __ednDefaultScaleLevel = nil;
 
 - (void)LoadConfigData
 {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"LiteMapConfig" ofType:@"plist"];
-    NSData *pListData = [NSData dataWithContentsOfFile:path];
-    NSString *error;
-    NSPropertyListFormat format;
-    id pList = [NSPropertyListSerialization propertyListFromData:pListData
-                                                mutabilityOption:NSPropertyListImmutable
-                                                          format:&format
-                                                errorDescription:&error];
-    
-    if (pList)
-    {
-		if ([pList isKindOfClass:[NSDictionary class]])
+	if (__ednScales == nil)
+	{
+		NSString *path = [[NSBundle mainBundle] pathForResource:@"LiteMapConfig" ofType:@"plist"];
+		NSData *pListData = [NSData dataWithContentsOfFile:path];
+		NSString *error;
+		NSPropertyListFormat format;
+		id pList = [NSPropertyListSerialization propertyListFromData:pListData
+													mutabilityOption:NSPropertyListImmutable
+															  format:&format
+													errorDescription:&error];
+		
+		if (pList)
 		{
-			NSDictionary *d = (NSDictionary *)pList;
-			__ednScales = [d objectForKey:EDN_SCALE_LEVELS_KEY];
-			__ednDefaultScaleLevel = [d objectForKey:EDN_DEFAULT_LEVEL_KEY];
+			if ([pList isKindOfClass:[NSDictionary class]])
+			{
+				NSDictionary *d = (NSDictionary *)pList;
+				__ednScales = [d objectForKey:EDN_SCALE_LEVELS_KEY];
+				__ednDefaultScaleLevel = [d objectForKey:EDN_DEFAULT_LEVEL_KEY];
+			}
 		}
-    }
-    else 
-    {
-        NSLog(@"Error loading config file: %@", error);
-    }
+		else 
+		{
+			NSLog(@"Error loading config file: %@", error);
+		}
+	}
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (NSDictionary *) getEdnScales
 {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        // Initialization code
-		//        self.portal = [[AGSPortal alloc] initWithURL:[NSURL URLWithString:@"http://www.arcgis.com"] credential:nil];
-		//        self.portal.delegate = self;
-        
-        self.wrapAround = YES;
-        
-        [self LoadConfigData];
-    }
-    return self;
+	if (__ednScales == nil)
+	{
+		[self LoadConfigData];
+	}
+	
+	return __ednScales;
 }
 
-- (void) dealloc
+- (NSString *) getEdnDefaultScaleLevel
 {
-	//    self.portal = nil;
+	if (__ednScales == nil)
+	{
+		[self LoadConfigData];
+	}
+	
+	return __ednDefaultScaleLevel;
 }
 
 - (double) getScaleForLevel:(NSUInteger)level
 {
+	
     NSString *key = [NSString stringWithFormat:@"%d", level];
-    id scaleVal = [__ednScales objectForKey:key];
+    id scaleVal = [[self getEdnScales] objectForKey:key];
     if (scaleVal)
     {
         return [scaleVal doubleValue];
     }
     else
     {
-        NSLog(@"Scale level %@ is invalid. Using default of %@.", key, __ednDefaultScaleLevel);
-        return [[__ednScales objectForKey:__ednDefaultScaleLevel] doubleValue];
+        NSLog(@"Scale level %@ is invalid. Using default of %@.", key, [self getEdnDefaultScaleLevel]);
+        return [[[self getEdnScales] objectForKey:[self getEdnDefaultScaleLevel]] doubleValue];
     }
 }
 
