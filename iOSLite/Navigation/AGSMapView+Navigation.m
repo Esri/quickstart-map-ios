@@ -7,112 +7,20 @@
 //
 
 #import "AGSMapView+Navigation.h"
-
-NSString * const EDN_SCALE_LEVELS_KEY = @"DefaultScaleLevels";
-NSString * const EDN_DEFAULT_LEVEL_KEY = @"DefaultScaleLevel";
+#import "EDNLiteHelper.h"
 
 @implementation AGSMapView (Navigation)
-NSDictionary * __ednScales = nil;
-NSString * __ednDefaultScaleLevel = nil;
-
-- (void)LoadConfigData
-{
-	if (__ednScales == nil)
-	{
-		NSString *path = [[NSBundle mainBundle] pathForResource:@"LiteMapConfig" ofType:@"plist"];
-		NSData *pListData = [NSData dataWithContentsOfFile:path];
-		NSString *error;
-		NSPropertyListFormat format;
-		id pList = [NSPropertyListSerialization propertyListFromData:pListData
-													mutabilityOption:NSPropertyListImmutable
-															  format:&format
-													errorDescription:&error];
-		
-		if (pList)
-		{
-			if ([pList isKindOfClass:[NSDictionary class]])
-			{
-				NSDictionary *d = (NSDictionary *)pList;
-				__ednScales = [d objectForKey:EDN_SCALE_LEVELS_KEY];
-				__ednDefaultScaleLevel = [d objectForKey:EDN_DEFAULT_LEVEL_KEY];
-			}
-		}
-		else 
-		{
-			NSLog(@"Error loading config file: %@", error);
-		}
-	}
-}
-
-- (NSDictionary *) getEdnScales
-{
-	if (__ednScales == nil)
-	{
-		[self LoadConfigData];
-	}
-	
-	return __ednScales;
-}
-
-- (NSString *) getEdnDefaultScaleLevel
-{
-	if (__ednScales == nil)
-	{
-		[self LoadConfigData];
-	}
-	
-	return __ednDefaultScaleLevel;
-}
-
-- (double) getScaleForLevel:(NSUInteger)level
-{
-	
-    NSString *key = [NSString stringWithFormat:@"%d", level];
-    id scaleVal = [[self getEdnScales] objectForKey:key];
-    if (scaleVal)
-    {
-        return [scaleVal doubleValue];
-    }
-    else
-    {
-        NSLog(@"Scale level %@ is invalid. Using default of %@.", key, [self getEdnDefaultScaleLevel]);
-        return [[[self getEdnScales] objectForKey:[self getEdnDefaultScaleLevel]] doubleValue];
-    }
-}
-
-- (AGSPoint *) getWebMercatorAuxSpherePointFromWGS84Point:(AGSPoint *)wgs84Point {
-    @try
-    {
-		return (AGSPoint *)[[AGSGeometryEngine defaultGeometryEngine] projectGeometry:wgs84Point 
-																   toSpatialReference:[AGSSpatialReference webMercatorSpatialReference]];    
-    }
-    @catch (NSException *e) {
-        NSLog(@"Error getting Web Mercator Point from %@: %@",wgs84Point, e); 
-    }
-}
-
-- (AGSPoint *) getWebMercatorAuxSpherePointFromLat:(double) latitude Long:(double) longitude
-{
-    // Ensure we're passed sensible values for lat and long
-    NSAssert1((-90 <= latitude) && (latitude <= 90), @"Latitude %f must be between -90 and 90 degrees", latitude);
-    
-    AGSPoint *wgs84CenterPt = [AGSPoint pointWithX:longitude y:latitude spatialReference:[AGSSpatialReference wgs84SpatialReference]];
-    return [self getWebMercatorAuxSpherePointFromWGS84Point:wgs84CenterPt];
-}
-
 // PUBLIC
 - (void) zoomToLat:(double) latitude Long:(double) longitude withScaleLevel:(int)scaleLevel
 {
-    AGSPoint *webMercatorCenterPt = [self getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
-    
-    double scale = [self getScaleForLevel:scaleLevel];
-    
+    AGSPoint *webMercatorCenterPt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
+    double scale = [EDNLiteHelper getScaleForLevel:scaleLevel];
     [self zoomToScale:scale withCenterPoint:webMercatorCenterPt animated:YES];    
 }
 
 - (void) centerAtLat:(double) latitude Long:(double) longitude
 {
-    AGSPoint *p = [self getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
+    AGSPoint *p = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
     [self centerAtPoint:p animated:YES];
 }
 @end

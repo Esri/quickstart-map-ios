@@ -7,7 +7,8 @@
 //
 
 #import <ArcGIS/ArcGIS.h>
+#import "EDNLiteHelper.h"
 
 @interface AGSMapView (Basemaps)
-
+- (void) setBasemap:(EDNLiteBasemapType)basemapType;
 @end

@@ -47,5 +47,39 @@
 	</dict>
 	<key>DefaultScaleLevel</key>
 	<string>11</string>
+	<key>Basemaps</key>
+	<dict>
+		<key>Street</key>
+		<string>d8855ee4d3d74413babfb0f41203b168</string>
+		<key>Satellite</key>
+		<string>86de95d4e0244cba80f0fa2c9403a7b2</string>
+		<key>Canvas</key>
+		<string>8b3b470883a744aeb60e5fff0a319ce7</string>
+		<key>National Geographic</key>
+		<string>509e2d6b034246d692a461724ae2d62c</string>
+		<key>Topographic</key>
+		<string>6e03e8c26aad4b9c92a87c1063ddb0e3</string>
+		<key>OpenStreetMap</key>
+		<string>5d2bfa736f8448b3a1708e1f6be23eed</string>
+		<key>Hybrid</key>
+		<string>413fd05bbd7342f5991d5ec96f4f8b18</string>
+	</dict>
+	<key>BasemapURLs</key>
+	<dict>
+		<key>Street</key>
+		<string>http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer</string>
+		<key>Satellite</key>
+		<string>http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer</string>
+		<key>Canvas</key>
+		<string>http://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer</string>
+		<key>National Geographic</key>
+		<string>http://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer</string>
+		<key>Topographic</key>
+		<string>http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer</string>
+		<key>OpenStreetMap</key>
+		<string>N/A</string>
+		<key>Hybrid</key>
+		<string>http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer</string>
+	</dict>
 </dict>
 </plist>

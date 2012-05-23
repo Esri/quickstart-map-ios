@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D94431A5156BE1FC00982D5C /* EDNLiteHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D94431A4156BE1FC00982D5C /* EDNLiteHelper.m */; };
 		D9E27C9E155ABDC5008F8CCB /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */; };
 		D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */; };
 		D9E27CB8155B1EDB008F8CCB /* LiteMapConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */; };
@@ -32,6 +33,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D94431A3156BE1FC00982D5C /* EDNLiteHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNLiteHelper.h; sourceTree = "<group>"; };
+		D94431A4156BE1FC00982D5C /* EDNLiteHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNLiteHelper.m; sourceTree = "<group>"; };
 		D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = ../../../Library/SDKs/ArcGIS/ArcGIS.framework; sourceTree = "<group>"; };
 		D9E27CB2155AEA6E008F8CCB /* AGSMapView+Basemaps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AGSMapView+Basemaps.h"; path = "Basemaps/AGSMapView+Basemaps.h"; sourceTree = "<group>"; };
 		D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AGSMapView+Basemaps.m"; path = "Basemaps/AGSMapView+Basemaps.m"; sourceTree = "<group>"; };
@@ -86,6 +89,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D94431A7156C1EEC00982D5C /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				D94431A3156BE1FC00982D5C /* EDNLiteHelper.h */,
+				D94431A4156BE1FC00982D5C /* EDNLiteHelper.m */,
+				D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */,
+			);
+			name = Helper;
+			sourceTree = "<group>";
+		};
 		D9E27CAF155AE891008F8CCB /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -152,7 +165,7 @@
 		E16C28FF15598A5E00E2DB56 /* iOSLite */ = {
 			isa = PBXGroup;
 			children = (
-				D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */,
+				D94431A7156C1EEC00982D5C /* Helper */,
 				D9E27CAF155AE891008F8CCB /* Categories */,
 				E16C290815598A5E00E2DB56 /* EDNAppDelegate.h */,
 				E16C290915598A5E00E2DB56 /* EDNAppDelegate.m */,
@@ -249,6 +262,7 @@
 				E16C291315598A5E00E2DB56 /* EDNViewController.m in Sources */,
 				E16C07D01559B9AA00776F3E /* AGSMapView+Navigation.m in Sources */,
 				D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */,
+				D94431A5156BE1FC00982D5C /* EDNLiteHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
