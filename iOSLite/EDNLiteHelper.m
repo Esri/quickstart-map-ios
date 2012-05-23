@@ -24,6 +24,7 @@ NSString * const EDN_BASEMAP_KEY_OSM = @"OpenStreetMap";
 @interface EDNLiteHelper ()
 + (id)defaultHelper;
 - (double) getScaleForLevel:(NSUInteger)level;
+@property (nonatomic, strong) NSMutableDictionary *mapViewQueues;
 @end
 
 
@@ -33,6 +34,73 @@ NSDictionary * __ednScales = nil;
 NSString * __ednDefaultScaleLevel = nil;
 NSDictionary * __ednBasemapWebMapIDs = nil;
 NSDictionary * __ednBasemapURLs = nil;
+
+@synthesize mapViewQueues = _mapViewQueues;
+
+#pragma mark - Queued Operations
++ (void) queueBlock:(void (^)(void))block untilMapViewLoaded:(AGSMapView *)mapView
+{
+    [[EDNLiteHelper defaultHelper] queueBlock:block untilMapViewLoaded:mapView];
+}
+
+- (NSNumber *) getHashForMapView:(AGSMapView *)mapView
+{
+    NSNumber *hashKey = [NSNumber numberWithInteger:[mapView hash]];
+    NSLog(@"Hash key = %@", hashKey);
+    return hashKey;
+}
+
+- (void) queueBlock:(void (^)(void))block untilMapViewLoaded:(AGSMapView *)mapView
+{
+    if (!self.mapViewQueues)
+    {
+        // Lazy Init
+        self.mapViewQueues = [NSMutableDictionary dictionary];
+    }
+    
+    NSNumber *key = [self getHashForMapView:mapView];
+    NSMutableArray *ops = [self.mapViewQueues objectForKey:key];
+    if (!ops)
+    {
+        // Each mapView object gets its own NSOperationQueue to queue up operations until the map has loaded.
+        ops = [NSMutableArray array];
+        // Add it to our dictionary to find later.
+        [self.mapViewQueues setObject:ops forKey:key];
+        // Watch the AGSMapView to see when it loads.
+        [mapView addObserver:self forKeyPath:@"loaded" options:NSKeyValueObservingOptionNew context:(__bridge_retained void *)key];
+    }
+    // And add the block to the queue.
+    [ops addObject:[NSBlockOperation blockOperationWithBlock:block]];
+}
+
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (keyPath == @"loaded" && 
+        self.mapViewQueues != nil)
+    {
+        AGSMapView *theMapView = (AGSMapView *)object;
+        NSLog(@"Loaded? %@", theMapView.loaded?@"YES":@"NO");
+        if (theMapView.loaded)
+        {
+            NSNumber *key = (__bridge_transfer NSNumber *)context;
+            NSMutableArray *ops = [self.mapViewQueues objectForKey:key];
+            if (ops)
+            {
+                NSLog(@"Starting queue with %d blocks waiting...", ops.count);
+                // Don't need the queue of operations any more
+                [self.mapViewQueues removeObjectForKey:key];
+                // Don't need to watch any more.
+                [theMapView removeObserver:self forKeyPath:@"loaded"];
+                for (NSBlockOperation *op in ops) 
+                {
+                    // Add each queued operation to the Main OperationQueue...
+                    // They'll get run as soon as possible now.
+                    [[NSOperationQueue mainQueue] addOperation:op];
+                }
+            }
+        }
+    }
+}
 
 #pragma mark - Configuration Loading and initialization
 - (void)LoadConfigData

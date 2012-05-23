@@ -9,6 +9,7 @@
 #import "EDNViewController.h"
 #import	"AGSMapView+Navigation.h"
 #import "AGSMapView+Basemaps.h"
+#import "EDNBasemapInfoViewController.h"
 
 @interface EDNViewController () <AGSPortalItemDelegate, UIGestureRecognizerDelegate>
 - (IBAction)nextMap:(id)sender;
@@ -17,7 +18,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *infoImageView;
 @property (weak, nonatomic) IBOutlet UILabel *infoLabel;
 @property (weak, nonatomic) IBOutlet UIButton *infoButton;
-@property (nonatomic, retain) AGSPortalItem *currentPortalItem;
+
+@property (assign) EDNLiteBasemapType currentBasemapType;
+
 - (IBAction)infoRequested:(id)sender;
 @end
 
@@ -30,55 +33,46 @@
 @synthesize mapView = _mapView;
 
 @synthesize currentPortalItem = _currentPortalItem;
-
-EDNLiteBasemapType bmType = EDNLiteBasemapStreet;
+@synthesize currentBasemapType = _currentBasemapType;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    
+	// Do any additional setup after loading the view, typically from a nib.    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(basemapDidChange:) name:@"BasemapDidChange" object:self.mapView];
     
-    [self.mapView setBasemap:bmType];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mapDidLoad:) name:@"MapViewDidLoad" object:self.mapView];
+    self.currentBasemapType = EDNLiteBasemapTopographic;
+    
     self.infoView.layer.cornerRadius = 13;
     self.infoImageView.layer.masksToBounds = YES;
     self.infoImageView.layer.cornerRadius = 8;
-}
 
-- (void)mapDidLoad:(NSNotification *)notification
-{
-    // Zoom to New York.
-    [self.mapView zoomToLat:40.7302182289573 Long:-73.9958381652832 withScaleLevel:13];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MapViewDidLoad" object:self.mapView];
+    [self.mapView setBasemap:self.currentBasemapType];
+    [self.mapView zoomToLat:40.7302 Long:-73.9958 withScaleLevel:13];    
 }
 
 - (void)basemapDidChange:(NSNotification *)notification
 {
-    NSNumber *basemapID = (NSNumber *)[notification.userInfo objectForKey:@"BasemapType"];
-    EDNLiteBasemapType basemapType = (EDNLiteBasemapType)[basemapID intValue];
-    NSString *basemapName = [EDNLiteHelper getBasemapName:basemapType];
-    [self.nextBasemapButton setTitle:basemapName forState:UIControlStateNormal];
-    [self.nextBasemapButton sizeToFit];
-    
     AGSPortalItem *pi = [notification.userInfo objectForKey:@"PortalItem"];
     if (pi != nil)
     {
         self.currentPortalItem = pi;
         self.currentPortalItem.delegate = self;
         [self.currentPortalItem fetchData];
+        [self.currentPortalItem fetchThumbnail];
     }
 }
 
 - (void)portalItem:(AGSPortalItem *)portalItem operation:(NSOperation *)op didFetchData:(NSData *)data
 {
-    [UIView animateWithDuration:0.8
-                     animations:^{
-                         self.infoView.alpha = 1;
-                     }];
+    if (self.infoView.alpha < 1)
+    {
+        [UIView animateWithDuration:0.8
+                         animations:^{
+                             self.infoView.alpha = 1;
+                         }];
+    }
     self.infoLabel.text = portalItem.title;
-    [portalItem fetchThumbnail];
 }
 
 - (void)portalItem:(AGSPortalItem *)portalItem operation:(NSOperation *)op didFetchThumbnail:(UIImage *)thumbnail
@@ -108,20 +102,24 @@ EDNLiteBasemapType bmType = EDNLiteBasemapStreet;
     return YES;
 }
 
-- (IBAction)nextMap:(id)sender {
-    if (bmType == EDNLiteBasemapOpenStreetMap)
+- (IBAction)nextMap:(id)sender
+{
+    // When the user clicks for the next map, we'll cycle through each map type and
+    // update the map.
+    if (self.currentBasemapType == EDNLiteBasemapLast)
     {
-        bmType = EDNLiteBasemapStreet;
+        self.currentBasemapType = EDNLiteBasemapFirst;
     }
     else {
-        bmType += 1;
+        self.currentBasemapType += 1;
     }
     
-    [self.mapView setBasemap:bmType];
+    [self.mapView setBasemap:self.currentBasemapType];
 }
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
+    // Make sure the gesture handler doesn't trap the button press too.
     if (touch.view == self.infoButton)
     {
         return NO;
@@ -130,10 +128,17 @@ EDNLiteBasemapType bmType = EDNLiteBasemapStreet;
 }
 
 - (IBAction)infoRequested:(id)sender {
-    if (self.currentPortalItem != nil)
+    // Seque to the Info Modal View.
+    [self performSegueWithIdentifier:@"showBasemapInfo" sender:self];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // If the Info Modal View is about to be shown, tell it what PortalItem we're showing.
+    if (segue.identifier == @"showBasemapInfo")
     {
-        NSString *url = [NSString stringWithFormat:@"http://www.arcgis.com/home/item.html?id=%@", self.currentPortalItem.itemId];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+        EDNBasemapInfoViewController *destVC = segue.destinationViewController;
+        destVC.portalItem = self.currentPortalItem;
     }
 }
 @end

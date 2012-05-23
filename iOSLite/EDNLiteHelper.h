@@ -34,4 +34,7 @@ typedef enum {
 
 // Helpers
 + (NSString *) getBasemapName:(EDNLiteBasemapType)basemapType;
+
+// Queuing...
++ (void) queueBlock:(void (^)(void))block untilMapViewLoaded:(AGSMapView *)mapView;
 @end

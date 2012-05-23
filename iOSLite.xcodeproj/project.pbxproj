@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D93C98A5156D8CC000A5F339 /* EDNBasemapInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D93C98A4156D8CC000A5F339 /* EDNBasemapInfoViewController.m */; };
 		D94431A5156BE1FC00982D5C /* EDNLiteHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D94431A4156BE1FC00982D5C /* EDNLiteHelper.m */; };
 		D9E27C9E155ABDC5008F8CCB /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */; };
 		D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */; };
@@ -33,6 +34,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D93C98A3156D8CC000A5F339 /* EDNBasemapInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNBasemapInfoViewController.h; sourceTree = "<group>"; };
+		D93C98A4156D8CC000A5F339 /* EDNBasemapInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNBasemapInfoViewController.m; sourceTree = "<group>"; };
 		D94431A3156BE1FC00982D5C /* EDNLiteHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNLiteHelper.h; sourceTree = "<group>"; };
 		D94431A4156BE1FC00982D5C /* EDNLiteHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNLiteHelper.m; sourceTree = "<group>"; };
 		D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = ../../../Library/SDKs/ArcGIS/ArcGIS.framework; sourceTree = "<group>"; };
@@ -174,6 +177,8 @@
 				E16C291115598A5E00E2DB56 /* EDNViewController.h */,
 				E16C291215598A5E00E2DB56 /* EDNViewController.m */,
 				E16C290015598A5E00E2DB56 /* Supporting Files */,
+				D93C98A3156D8CC000A5F339 /* EDNBasemapInfoViewController.h */,
+				D93C98A4156D8CC000A5F339 /* EDNBasemapInfoViewController.m */,
 			);
 			path = iOSLite;
 			sourceTree = "<group>";
@@ -263,6 +268,7 @@
 				E16C07D01559B9AA00776F3E /* AGSMapView+Navigation.m in Sources */,
 				D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */,
 				D94431A5156BE1FC00982D5C /* EDNLiteHelper.m in Sources */,
+				D93C98A5156D8CC000A5F339 /* EDNBasemapInfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
