@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D93C98A5156D8CC000A5F339 /* EDNBasemapInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D93C98A4156D8CC000A5F339 /* EDNBasemapInfoViewController.m */; };
 		D94431A5156BE1FC00982D5C /* EDNLiteHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D94431A4156BE1FC00982D5C /* EDNLiteHelper.m */; };
+		D9B1044D156D98B900DF6287 /* UILabel+EDNAutoSizeMutliline.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DCB32E156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.m */; };
 		D9E27C9E155ABDC5008F8CCB /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */; };
 		D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */; };
 		D9E27CB8155B1EDB008F8CCB /* LiteMapConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */; };
@@ -67,6 +68,8 @@
 		E1750BB11559B0F600C50929 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		E1750BB21559B0F600C50929 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E1750BB31559B0F600C50929 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		E1DCB32D156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+EDNAutoSizeMutliline.h"; sourceTree = "<group>"; };
+		E1DCB32E156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+EDNAutoSizeMutliline.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +179,8 @@
 				E16C290E15598A5E00E2DB56 /* MainStoryboard_iPad.storyboard */,
 				E16C291115598A5E00E2DB56 /* EDNViewController.h */,
 				E16C291215598A5E00E2DB56 /* EDNViewController.m */,
+				E1DCB32D156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.h */,
+				E1DCB32E156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.m */,
 				E16C290015598A5E00E2DB56 /* Supporting Files */,
 				D93C98A3156D8CC000A5F339 /* EDNBasemapInfoViewController.h */,
 				D93C98A4156D8CC000A5F339 /* EDNBasemapInfoViewController.m */,
@@ -262,6 +267,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9B1044D156D98B900DF6287 /* UILabel+EDNAutoSizeMutliline.m in Sources */,
 				E16C290615598A5E00E2DB56 /* main.m in Sources */,
 				E16C290A15598A5E00E2DB56 /* EDNAppDelegate.m in Sources */,
 				E16C291315598A5E00E2DB56 /* EDNViewController.m in Sources */,

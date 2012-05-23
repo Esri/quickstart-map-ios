@@ -10,6 +10,7 @@
 #import	"AGSMapView+Navigation.h"
 #import "AGSMapView+Basemaps.h"
 #import "EDNBasemapInfoViewController.h"
+#import "UILabel+EDNAutoSizeMutliline.h"
 
 @interface EDNViewController () <AGSPortalItemDelegate, UIGestureRecognizerDelegate>
 - (IBAction)nextMap:(id)sender;
@@ -73,6 +74,21 @@
                          }];
     }
     self.infoLabel.text = portalItem.title;
+	NSString *infoText = portalItem.title;
+	
+	if ([infoText componentsSeparatedByString:@" "].count == 1)
+	{
+		// If there's a single word, make sure we don't try to break it over two lines
+		self.infoLabel.numberOfLines = 1;
+	}
+	else 
+	{
+		// Otherwise, we can drift over two lines if we want.
+		self.infoLabel.numberOfLines = 2;
+	}
+    
+	self.infoLabel.text = portalItem.title;
+	[self.infoLabel setFontSizeToFit];
 }
 
 - (void)portalItem:(AGSPortalItem *)portalItem operation:(NSOperation *)op didFetchThumbnail:(UIImage *)thumbnail
