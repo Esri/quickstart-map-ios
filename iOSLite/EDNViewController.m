@@ -9,6 +9,7 @@
 #import "EDNViewController.h"
 #import	"AGSMapView+Navigation.h"
 #import "AGSMapView+Basemaps.h"
+#import "UILabel+EDNAutoSizeMutliline.h"
 
 @interface EDNViewController () <AGSPortalItemDelegate, UIGestureRecognizerDelegate>
 - (IBAction)nextMap:(id)sender;
@@ -77,8 +78,26 @@ EDNLiteBasemapType bmType = EDNLiteBasemapStreet;
                      animations:^{
                          self.infoView.alpha = 1;
                      }];
-    self.infoLabel.text = portalItem.title;
-    [portalItem fetchThumbnail];
+	NSString *infoText = portalItem.title;
+	
+	if ([infoText componentsSeparatedByString:@" "].count == 1)
+	{
+		// If there's a single word, make sure we don't try to break it over two lines
+		self.infoLabel.numberOfLines = 1;
+	}
+	else 
+	{
+		// Otherwise, we can drift over two lines if we want.
+		self.infoLabel.numberOfLines = 2;
+	}
+    
+	self.infoLabel.text = portalItem.title;
+	[self.infoLabel setFontSizeToFit];
+	
+	if (self.infoImageView != nil)
+	{
+		[portalItem fetchThumbnail];
+	}
 }
 
 - (void)portalItem:(AGSPortalItem *)portalItem operation:(NSOperation *)op didFetchThumbnail:(UIImage *)thumbnail
