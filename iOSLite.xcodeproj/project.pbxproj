@@ -133,6 +133,7 @@
 		D9E27CAF155AE891008F8CCB /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				D9FB2CD5156EF6ED0052E2AC /* Routing */,
 				D9F9EE6F156DE7DA00C2A15F /* Graphics */,
 				D9E27CB1155AEA4D008F8CCB /* Basemaps */,
 				E16C07CD1559B96900776F3E /* Navigation */,
@@ -163,6 +164,13 @@
 			children = (
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		D9FB2CD5156EF6ED0052E2AC /* Routing */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Routing;
 			sourceTree = "<group>";
 		};
 		E16C07CD1559B96900776F3E /* Navigation */ = {

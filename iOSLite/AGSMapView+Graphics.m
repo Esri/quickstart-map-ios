@@ -17,6 +17,9 @@ NSString * EDNLITE_GRAPHICS_LAYER_NAME_PT = @"ednLitePointGraphicsLayer";
 NSString * EDNLITE_GRAPHICS_LAYER_NAME_PL = @"ednLitePolylineGraphicsLayer";
 NSString * EDNLITE_GRAPHICS_LAYER_NAME_PG = @"ednLitePolygonGraphicsLayer";
 
+NSString * EDNLITE_GRAPHIC_TAG = @"iOSLiteAPI";
+NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
+
 - (AGSLayer *) getLayerForName:(NSString *)layerName
 {
     for (AGSLayer *l in self.mapLayers) {
@@ -78,7 +81,7 @@ NSString * EDNLITE_GRAPHICS_LAYER_NAME_PG = @"ednLitePolygonGraphicsLayer";
     
     AGSGraphic *g = [AGSGraphic graphicWithGeometry:pt
                                              symbol:[AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor redColor]]
-                                         attributes:[NSDictionary dictionaryWithObject:@"iOSLiteAPI" forKey:@"createdBy"]
+                                         attributes:[NSDictionary dictionaryWithObject:EDNLITE_GRAPHIC_TAG forKey:EDNLITE_GRAPHIC_TAG_KEY]
                                infoTemplateDelegate:nil];
     
     AGSGraphicsLayer *gl = [self getGraphicsLayer:EDNLiteGraphicsLayerTypePoint];
@@ -87,23 +90,40 @@ NSString * EDNLITE_GRAPHICS_LAYER_NAME_PG = @"ednLitePolygonGraphicsLayer";
     return g;
 }
 
+- (NSArray *) getArrayFromArguments:(NSNumber *)first arguments:(va_list)otherArgs
+{
+    NSMutableArray *result = [NSMutableArray array];
+    for (NSNumber *nextNumber = first; nextNumber != nil; nextNumber = va_arg(otherArgs, NSNumber *))
+    {
+        [result addObject:nextNumber];
+    }
+
+    return result;
+}
+
 - (AGSGraphic *) addLineWithLatsAndLongs:(NSNumber *)firstLatitude, ... NS_REQUIRES_NIL_TERMINATION
 {
     va_list args;
     va_start(args, firstLatitude);
+    NSArray *nums = [self getArrayFromArguments:firstLatitude arguments:args];
+    va_end(args);
+    
+    NSAssert1((nums.count % 2) == 0, @"Must provide an even number of NSNumbers!", nums.count);
+
     AGSMutablePolyline *line = [[AGSMutablePolyline alloc] initWithSpatialReference:[AGSSpatialReference wgs84SpatialReference]];
     [line addPathToPolyline];
-    for (NSNumber *lat = firstLatitude; lat != nil; lat = va_arg(args, NSNumber *))
+    
+    for (int i=0; i < nums.count; i = i + 2)
     {
-        NSNumber *lon = va_arg(args, NSNumber *);
+        NSNumber *lat = [nums objectAtIndex:i];
+        NSNumber *lon = [nums objectAtIndex:i+1];
         AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:[lat doubleValue] Long:[lon doubleValue]];
         [line addPointToPath:pt];
     }
-    va_end(args);
 
     AGSGraphic *g = [AGSGraphic graphicWithGeometry:line 
                                              symbol:[AGSSimpleLineSymbol simpleLineSymbolWithColor:[UIColor redColor] width:2.0f]
-                                         attributes:[NSDictionary dictionaryWithObject:@"iOSLiteAPI" forKey:@"createdBy"]
+                                         attributes:[NSDictionary dictionaryWithObject:EDNLITE_GRAPHIC_TAG forKey:EDNLITE_GRAPHIC_TAG_KEY]
                                infoTemplateDelegate:nil];
 
     AGSGraphicsLayer *gl = [self getGraphicsLayer:EDNLiteGraphicsLayerTypePolyline];
@@ -116,19 +136,25 @@ NSString * EDNLITE_GRAPHICS_LAYER_NAME_PG = @"ednLitePolygonGraphicsLayer";
 {
     va_list args;
     va_start(args, firstLatitude);
+    NSArray *nums = [self getArrayFromArguments:firstLatitude arguments:args];
+    va_end(args);
+
+    NSAssert1((nums.count % 2) == 0, @"Must provide an even number of NSNumbers!", nums.count);
+
     AGSMutablePolygon *poly = [[AGSMutablePolygon alloc] initWithSpatialReference:[AGSSpatialReference wgs84SpatialReference]];
     [poly addRingToPolygon];
-    for (NSNumber *lat = firstLatitude; lat != nil; lat = va_arg(args, NSNumber *))
+    
+    for (int i=0; i < nums.count; i = i + 2)
     {
-        NSNumber *lon = va_arg(args, NSNumber *);
+        NSNumber *lat = [nums objectAtIndex:i];
+        NSNumber *lon = [nums objectAtIndex:i+1];
         AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:[lat doubleValue] Long:[lon doubleValue]];
         [poly addPointToRing:pt];
     }
-    va_end(args);
 
     AGSGraphic *g = [AGSGraphic graphicWithGeometry:poly 
                                              symbol:[AGSSimpleFillSymbol simpleFillSymbolWithColor:[UIColor redColor] outlineColor:[UIColor blueColor]]
-                                         attributes:[NSDictionary dictionaryWithObject:@"iOSLiteAPI" forKey:@"createdBy"]
+                                         attributes:[NSDictionary dictionaryWithObject:EDNLITE_GRAPHIC_TAG forKey:EDNLITE_GRAPHIC_TAG_KEY]
                                infoTemplateDelegate:nil];
 
     AGSGraphicsLayer *gl = [self getGraphicsLayer:EDNLiteGraphicsLayerTypePolygon];

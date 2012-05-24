@@ -44,7 +44,6 @@
 - (IBAction)nextMap:(id)sender;
 - (IBAction)addGraphic:(id)sender;
 - (IBAction)uiTapped:(id)sender;
-- (IBAction)doubleTapped:(id)sender;
 
 - (IBAction)clearPoints:(id)sender;
 - (IBAction)clearLines:(id)sender;
@@ -117,13 +116,6 @@
 
 - (void)portalItem:(AGSPortalItem *)portalItem operation:(NSOperation *)op didFetchData:(NSData *)data
 {
-//    if (self.infoView.alpha < 1)
-//    {
-//        [UIView animateWithDuration:0.8
-//                         animations:^{
-//                             self.infoView.alpha = 1;
-//                         }];
-//    }
     self.infoLabel.text = portalItem.title;
 	NSString *infoText = portalItem.title;
 	
@@ -248,9 +240,6 @@
 
 - (IBAction)uiTapped:(id)sender {
     self.uiControlsVisible = !self.uiControlsVisible;
-}
-
-- (IBAction)doubleTapped:(id)sender {
 }
 
 - (IBAction)clearPoints:(id)sender {

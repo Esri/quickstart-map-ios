@@ -34,7 +34,6 @@ NSString *_urlTemplate = @"http://gsp2.apple.com/tile?api=1&style=slideshow&laye
     @try {
         // Get the tile from Apple's service.
         NSString *urlString = [NSString stringWithFormat:_urlTemplate, self.tile.level, self.tile.column, self.tile.row];
-//        NSLog(@"Loading tile [%d,%d,%d]", self.tile.column, self.tile.row, self.tile.level);
         NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
         
         _tile.image = [UIImage imageWithData:imageData];
@@ -43,7 +42,10 @@ NSString *_urlTemplate = @"http://gsp2.apple.com/tile?api=1&style=slideshow&laye
         NSLog(@"main: Caught Exception %@: %@", exception.name, exception.reason);
     }
     @finally {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
         [_target performSelector:_action withObject:self];
+#pragma clang diagnostic pop
     }
 }
 
