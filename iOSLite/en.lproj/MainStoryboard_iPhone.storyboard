@@ -75,6 +75,7 @@
                     <connections>
                         <outlet property="infoButton" destination="3qA-eQ-tv1" id="PMH-yn-qfv"/>
                         <outlet property="infoLabel" destination="00I-N5-fDc" id="rOI-7A-m5r"/>
+                        <outlet property="infoTapRecognizer" destination="h71-YC-WNa" id="1uN-4a-gnJ"/>
                         <outlet property="infoView" destination="RLt-pc-9x7" id="ufR-YP-PBH"/>
                         <outlet property="mapView" destination="d74-uu-hKI" id="VGG-pe-9AX"/>
                         <segue destination="UsU-69-K1C" kind="modal" identifier="showBasemapInfo" modalTransitionStyle="flipHorizontal" id="6jH-s9-MdF"/>
@@ -146,15 +147,23 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EDNViewController.h"/>
             <relationships>
                 <relationship kind="action" name="addGraphic:"/>
+                <relationship kind="action" name="doubleTapped:"/>
                 <relationship kind="action" name="infoRequested:"/>
                 <relationship kind="action" name="nextMap:"/>
                 <relationship kind="action" name="openBasemapSelector:"/>
+                <relationship kind="action" name="uiTapped:"/>
+                <relationship kind="outlet" name="graphicButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="infoButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="infoImageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="infoLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="infoTapRecognizer" candidateClass="UITapGestureRecognizer"/>
                 <relationship kind="outlet" name="infoView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="mapView" candidateClass="AGSMapView"/>
                 <relationship kind="outlet" name="nextBasemapButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="statusLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="statusView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="uiDoubleTapRecognizer" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="uiTapRecognizer" candidateClass="UITapGestureRecognizer"/>
             </relationships>
         </class>
     </classes>

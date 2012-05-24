@@ -19,23 +19,28 @@
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="1004"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="6is-f3-MpZ" appends="YES" id="PRE-90-DYA"/>
+                                    <outletCollection property="gestureRecognizers" destination="qzV-Mp-XVc" appends="YES" id="PZv-cT-rQs"/>
+                                </connections>
                             </view>
-                            <view alpha="0.0" contentMode="scaleToFill" id="wwH-wK-NIP">
+                            <view alpha="0.0" contentMode="scaleToFill" id="wwH-wK-NIP" userLabel="Info View">
                                 <rect key="frame" x="498" y="30" width="240" height="265"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="Gse-27-8iH">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="Gse-27-8iH" userLabel="Info Image">
                                         <rect key="frame" x="20" y="43" width="200" height="133"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="oou-L1-NmX">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="oou-L1-NmX" userLabel="Info Label">
                                         <rect key="frame" x="20" y="199" width="200" height="47"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="36"/>
                                         <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="2Bx-g9-fnj">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="2Bx-g9-fnj" userLabel="Info Button">
                                         <rect key="frame" x="207" y="12" width="18" height="19"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -58,7 +63,22 @@
                                     <outletCollection property="gestureRecognizers" destination="ZU0-A3-826" appends="YES" id="6Ow-IC-vgo"/>
                                 </connections>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="phz-y9-cDK">
+                            <view alpha="0.0" contentMode="scaleToFill" id="zLG-ll-aqV" userLabel="Status View">
+                                <rect key="frame" x="20" y="915" width="718" height="69"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="ZD3-oI-fMA" userLabel="Status Label">
+                                        <rect key="frame" x="20" y="8" width="678" height="53"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="36"/>
+                                        <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                                <gestureRecognizers/>
+                            </view>
+                            <button hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="phz-y9-cDK" userLabel="Load Graphics Button">
                                 <rect key="frame" x="20" y="20" width="121" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -73,30 +93,95 @@
                                     <action selector="addGraphic:" destination="2" eventType="touchUpInside" id="0tZ-P7-Sod"/>
                                 </connections>
                             </button>
+                            <button hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="87Z-Xw-kbS" userLabel="Clear Points Button">
+                                <rect key="frame" x="20" y="99" width="121" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Clear Points">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="clearPoints:" destination="2" eventType="touchUpInside" id="llE-t6-zWZ"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bB5-aq-ZRt" userLabel="Clear Lines Button">
+                                <rect key="frame" x="20" y="144" width="121" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Clear Lines">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="clearLines:" destination="2" eventType="touchUpInside" id="BA6-bT-dBO"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lGD-Q1-aDN" userLabel="Clear Polys Button">
+                                <rect key="frame" x="20" y="189" width="121" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Clear Polygons">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="clearPolygons:" destination="2" eventType="touchUpInside" id="Nrf-NE-95u"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                     </view>
                     <connections>
+                        <outlet property="clearLinesButton" destination="bB5-aq-ZRt" id="qqj-xh-ZPE"/>
+                        <outlet property="clearPointsButton" destination="87Z-Xw-kbS" id="uIx-Mu-anO"/>
+                        <outlet property="clearPolysButton" destination="lGD-Q1-aDN" id="64f-Jt-JJU"/>
+                        <outlet property="graphicButton" destination="phz-y9-cDK" id="kZg-l1-Y6D"/>
                         <outlet property="infoButton" destination="2Bx-g9-fnj" id="T4I-uS-qdl"/>
                         <outlet property="infoImageView" destination="Gse-27-8iH" id="bED-M0-PMt"/>
                         <outlet property="infoLabel" destination="oou-L1-NmX" id="M6M-2T-2fl"/>
+                        <outlet property="infoTapRecognizer" destination="dHD-wi-55S" id="rYe-y8-8WJ"/>
                         <outlet property="infoView" destination="wwH-wK-NIP" id="vBp-7A-QD6"/>
                         <outlet property="mapView" destination="jAh-IA-P6U" id="WTH-5S-YRJ"/>
+                        <outlet property="statusLabel" destination="ZD3-oI-fMA" id="M1Z-a3-4mW"/>
+                        <outlet property="statusView" destination="zLG-ll-aqV" id="UcA-dI-9KB"/>
+                        <outlet property="uiDoubleTapRecognizer" destination="qzV-Mp-XVc" id="L4T-GO-Wfg"/>
+                        <outlet property="uiTapRecognizer" destination="6is-f3-MpZ" id="T4J-hl-SO1"/>
                         <segue destination="DIO-Lv-QQc" kind="modal" identifier="showBasemapInfo" modalPresentationStyle="pageSheet" modalTransitionStyle="coverVertical" id="XFF-PA-Izn"/>
                     </connections>
                 </viewController>
-                <tapGestureRecognizer id="dHD-wi-55S">
+                <tapGestureRecognizer id="dHD-wi-55S" userLabel="Info Taps">
                     <connections>
                         <action selector="nextMap:" destination="2" id="C8d-H0-Qob"/>
                         <outlet property="delegate" destination="2" id="TCK-F8-aNu"/>
                     </connections>
                 </tapGestureRecognizer>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="ZU0-A3-826">
+                <pongPressGestureRecognizer enabled="NO" allowableMovement="10" minimumPressDuration="0.5" id="ZU0-A3-826" userLabel="Info Long Press">
                     <connections>
                         <action selector="openBasemapSelector:" destination="2" id="9no-rl-xp1"/>
                         <outlet property="delegate" destination="2" id="92V-lb-SO7"/>
                     </connections>
                 </pongPressGestureRecognizer>
+                <tapGestureRecognizer delaysTouchesEnded="NO" id="6is-f3-MpZ" userLabel="UI Tap">
+                    <connections>
+                        <action selector="uiTapped:" destination="2" id="H5U-sX-BXA"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer cancelsTouchesInView="NO" delaysTouchesEnded="NO" numberOfTapsRequired="2" id="qzV-Mp-XVc" userLabel="UI Tap Double-tap-fixer">
+                    <connections>
+                        <action selector="doubleTapped:" destination="2" id="14h-Ev-JPr"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
         </scene>
         <!--Basemap Details View Controller-->
@@ -142,6 +227,48 @@
             <point key="canvasLocation" x="1078" y="148"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="AGSMapView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AGSMapView.h"/>
+        </class>
+        <class className="EDNBasemapDetailsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EDNBasemapDetailsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="doneButtonClicked:"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
+            </relationships>
+        </class>
+        <class className="EDNViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EDNViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addGraphic:"/>
+                <relationship kind="action" name="clearLines:"/>
+                <relationship kind="action" name="clearPoints:"/>
+                <relationship kind="action" name="clearPolygons:"/>
+                <relationship kind="action" name="doubleTapped:"/>
+                <relationship kind="action" name="infoRequested:"/>
+                <relationship kind="action" name="nextMap:"/>
+                <relationship kind="action" name="openBasemapSelector:"/>
+                <relationship kind="action" name="uiTapped:"/>
+                <relationship kind="outlet" name="clearLinesButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="clearPointsButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="clearPolysButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="graphicButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="infoButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="infoImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="infoLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="infoTapRecognizer" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="infoView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="mapView" candidateClass="AGSMapView"/>
+                <relationship kind="outlet" name="nextBasemapButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="statusLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="statusView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="uiDoubleTapRecognizer" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="uiTapRecognizer" candidateClass="UITapGestureRecognizer"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

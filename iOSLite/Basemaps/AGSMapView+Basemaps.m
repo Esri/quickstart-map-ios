@@ -65,6 +65,13 @@ NSString *EDN_LITE_BASEMAP_LAYER_NAME = @"ednLiteBasemap";
     
     AGSPortalItem *pi = webMap.portalItem;
     [self postNewBasemapNotification:__ednLiteCurrentBasemapType forPortalItem:pi];
+    
+    if ([self respondsToSelector:@selector(__initEdnLiteGraphics)])
+    {
+        // The Graphics Category is included, let's load the graphics layers
+        // back into the map.
+        [self performSelector:@selector(__initEdnLiteGraphics)];
+    }
 }
 
 - (void)webMap:(AGSWebMap *)webMap didFailToLoadWithError:(NSError *)error

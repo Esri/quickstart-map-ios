@@ -8,13 +8,6 @@
 
 #import "AGSMapView+Graphics.h"
 
-typedef enum 
-{
-    EDNLiteGraphicsLayerTypePoint = 1,
-    EDNLiteGraphicsLayerTypePolyline = 2,
-    EDNLiteGraphicsLayerTypePolygon = 4
-} EDNLiteGraphicsLayerType;
-
 @implementation AGSMapView (Graphics)
 AGSGraphicsLayer * __ednLitePointGraphicsLayer = nil;
 AGSGraphicsLayer * __ednLitePolylineGraphicsLayer = nil;
@@ -59,11 +52,7 @@ NSString * EDNLITE_GRAPHICS_LAYER_NAME_PG = @"ednLitePolygonGraphicsLayer";
     {
         [self addMapLayer:__ednLitePointGraphicsLayer withName:EDNLITE_GRAPHICS_LAYER_NAME_PT];
     }
-    
-//    for (AGSLayer *l in self.mapLayers) {
-//        NSLog(@"Layer: %@", l.name);
-//    }
-    
+
     switch (layerType) {
         case EDNLiteGraphicsLayerTypePoint:
             return __ednLitePointGraphicsLayer;
@@ -78,7 +67,7 @@ NSString * EDNLITE_GRAPHICS_LAYER_NAME_PG = @"ednLitePolygonGraphicsLayer";
     return nil;
 }
 
-- (void) initGraphics
+- (void) __initEdnLiteGraphics
 {
     [self getGraphicsLayer:EDNLiteGraphicsLayerTypePoint];
 }
@@ -121,5 +110,62 @@ NSString * EDNLITE_GRAPHICS_LAYER_NAME_PG = @"ednLitePolygonGraphicsLayer";
     [gl addGraphic:g];
     [gl dataChanged];
     return g;
+}
+
+- (AGSGraphic *) addPolygonWithLatsAndLongs:(NSNumber *) firstLatitude, ... NS_REQUIRES_NIL_TERMINATION
+{
+    va_list args;
+    va_start(args, firstLatitude);
+    AGSMutablePolygon *poly = [[AGSMutablePolygon alloc] initWithSpatialReference:[AGSSpatialReference wgs84SpatialReference]];
+    [poly addRingToPolygon];
+    for (NSNumber *lat = firstLatitude; lat != nil; lat = va_arg(args, NSNumber *))
+    {
+        NSNumber *lon = va_arg(args, NSNumber *);
+        AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:[lat doubleValue] Long:[lon doubleValue]];
+        [poly addPointToRing:pt];
+    }
+    va_end(args);
+
+    AGSGraphic *g = [AGSGraphic graphicWithGeometry:poly 
+                                             symbol:[AGSSimpleFillSymbol simpleFillSymbolWithColor:[UIColor redColor] outlineColor:[UIColor blueColor]]
+                                         attributes:[NSDictionary dictionaryWithObject:@"iOSLiteAPI" forKey:@"createdBy"]
+                               infoTemplateDelegate:nil];
+
+    AGSGraphicsLayer *gl = [self getGraphicsLayer:EDNLiteGraphicsLayerTypePolygon];
+    [gl addGraphic:g];
+    [gl dataChanged];
+    return g;
+}
+
+- (void) clearGraphics:(EDNLiteGraphicsLayerType)layerType
+{
+    AGSGraphicsLayer *gl = nil;
+    if (layerType & EDNLiteGraphicsLayerTypePoint)
+    {
+        gl = [self getGraphicsLayer:EDNLiteGraphicsLayerTypePoint];
+        [gl removeAllGraphics];
+        [gl dataChanged];
+    }
+
+    if (layerType & EDNLiteGraphicsLayerTypePolyline)
+    {
+        gl = [self getGraphicsLayer:EDNLiteGraphicsLayerTypePolyline];
+        [gl removeAllGraphics];
+        [gl dataChanged];
+    }
+
+    if (layerType & EDNLiteGraphicsLayerTypePolygon)
+    {
+        gl = [self getGraphicsLayer:EDNLiteGraphicsLayerTypePolygon];
+        [gl removeAllGraphics];
+        [gl dataChanged];
+    }
+}
+
+- (void) clearGraphics
+{
+    [self clearGraphics:(EDNLiteGraphicsLayerTypePoint + 
+                        EDNLiteGraphicsLayerTypePolyline +
+                         EDNLiteGraphicsLayerTypePolygon)];
 }
 @end
