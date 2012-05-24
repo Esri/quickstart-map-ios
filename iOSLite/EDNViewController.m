@@ -247,12 +247,10 @@
 }
 
 - (IBAction)uiTapped:(id)sender {
-    NSLog(@"Single-tapped");
     self.uiControlsVisible = !self.uiControlsVisible;
 }
 
 - (IBAction)doubleTapped:(id)sender {
-    NSLog(@"Double-tapped");
 }
 
 - (IBAction)clearPoints:(id)sender {
@@ -269,38 +267,12 @@
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
-    NSUInteger tc = touch.tapCount;
-//    NSLog(@"Gesture Recognizer: %@ with count %d", [gestureRecognizer class], tc);
     // Make sure the gesture handler doesn't trap the button press too.
     if (gestureRecognizer == self.infoTapRecognizer &&
         touch.view == self.infoButton)
     {
         return NO;
     }
-//    else if (gestureRecognizer == self.uiTapRecognizer)
-//    {
-//        NSLog(@"SingleTapper: %d", tc);
-//        if (touch.tapCount == 1)
-//        {
-//            return YES;
-//        }
-//        else
-//        {
-//            return NO;
-//        }
-//    }
-//    else if (gestureRecognizer == self.uiDoubleTapRecognizer)
-//    {
-//        NSLog(@"DoubleTapper: %d", tc);
-//        return NO;
-//    }
-//    else if (gestureRecognizer == self.uiDoubleTapRecognizer)
-//    {
-//        if (touch.view == self.mapView.masterView)
-//        {
-//            return (touch.tapCount <= 2);
-//        }
-//    }
     return YES;
 }
 

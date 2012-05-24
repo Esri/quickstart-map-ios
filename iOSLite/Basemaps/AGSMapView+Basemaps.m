@@ -8,7 +8,7 @@
 
 #import "AGSMapView+Basemaps.h"
 
-@interface AGSMapView()<AGSWebMapDelegate, AGSPortalItemDelegate>
+@interface AGSMapView()<AGSWebMapDelegate>
 @end
 
 @implementation AGSMapView (Basemaps)

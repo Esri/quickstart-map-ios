@@ -177,11 +177,7 @@
                         <action selector="uiTapped:" destination="2" id="H5U-sX-BXA"/>
                     </connections>
                 </tapGestureRecognizer>
-                <tapGestureRecognizer cancelsTouchesInView="NO" delaysTouchesEnded="NO" numberOfTapsRequired="2" id="qzV-Mp-XVc" userLabel="UI Tap Double-tap-fixer">
-                    <connections>
-                        <action selector="doubleTapped:" destination="2" id="14h-Ev-JPr"/>
-                    </connections>
-                </tapGestureRecognizer>
+                <tapGestureRecognizer cancelsTouchesInView="NO" delaysTouchesEnded="NO" numberOfTapsRequired="2" id="qzV-Mp-XVc" userLabel="UI Tap Double-tap-fixer"/>
             </objects>
         </scene>
         <!--Basemap Details View Controller-->
