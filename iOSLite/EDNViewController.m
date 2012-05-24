@@ -9,11 +9,11 @@
 #import "EDNViewController.h"
 #import	"AGSMapView+Navigation.h"
 #import "AGSMapView+Basemaps.h"
-#import "EDNBasemapInfoViewController.h"
+#import "AGSMapView+Graphics.h"
+#import "EDNBasemapDetailsViewController.h"
 #import "UILabel+EDNAutoSizeMutliline.h"
 
 @interface EDNViewController () <AGSPortalItemDelegate, UIGestureRecognizerDelegate>
-- (IBAction)nextMap:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *nextBasemapButton;
 @property (weak, nonatomic) IBOutlet UIView *infoView;
 @property (weak, nonatomic) IBOutlet UIImageView *infoImageView;
@@ -23,6 +23,9 @@
 @property (assign) EDNLiteBasemapType currentBasemapType;
 
 - (IBAction)infoRequested:(id)sender;
+- (IBAction)openBasemapSelector:(id)sender;
+- (IBAction)nextMap:(id)sender;
+- (IBAction)addGraphic:(id)sender;
 @end
 
 @implementation EDNViewController
@@ -49,7 +52,14 @@
     self.infoImageView.layer.cornerRadius = 8;
 
     [self.mapView setBasemap:self.currentBasemapType];
-    [self.mapView zoomToLat:40.7302 Long:-73.9958 withScaleLevel:13];    
+    [self.mapView zoomToLat:40.7302 Long:-73.9958 withScaleLevel:13];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mapViewDidLoad:) name:@"MapViewDidLoad" object:self.mapView];    
+}
+
+- (void)mapViewDidLoad:(NSNotification *)notification
+{
+    [self.mapView initGraphics];
 }
 
 - (void)basemapDidChange:(NSNotification *)notification
@@ -133,6 +143,13 @@
     [self.mapView setBasemap:self.currentBasemapType];
 }
 
+- (IBAction)addGraphic:(id)sender {
+    [self.mapView addPointAtLat:40.7302 Long:-73.9958];
+    [self.mapView addLineWithLatsAndLongs:[NSNumber numberWithFloat:40.7302], [NSNumber numberWithFloat:-73.9958], 
+                                          [NSNumber numberWithFloat:41.0], [NSNumber numberWithFloat:-73.9], nil];
+
+}
+
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
     // Make sure the gesture handler doesn't trap the button press too.
@@ -148,12 +165,15 @@
     [self performSegueWithIdentifier:@"showBasemapInfo" sender:self];
 }
 
+- (IBAction)openBasemapSelector:(id)sender {
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     // If the Info Modal View is about to be shown, tell it what PortalItem we're showing.
-    if (segue.identifier == @"showBasemapInfo")
+    if ([segue.identifier isEqualToString:@"showBasemapInfo"])
     {
-        EDNBasemapInfoViewController *destVC = segue.destinationViewController;
+        EDNBasemapDetailsViewController *destVC = segue.destinationViewController;
         destVC.portalItem = self.currentPortalItem;
     }
 }

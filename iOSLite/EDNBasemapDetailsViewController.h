@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
 
-@interface EDNBasemapInfoViewController : UIViewController
+@interface EDNBasemapDetailsViewController : UIViewController
 @property (nonatomic, strong) AGSPortalItem *portalItem;
 @end

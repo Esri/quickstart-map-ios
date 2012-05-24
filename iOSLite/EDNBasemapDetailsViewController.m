@@ -7,16 +7,18 @@
 //
 
 #import <ArcGIS/ArcGIS.h>
-#import "EDNBasemapInfoViewController.h"
+#import "EDNBasemapDetailsViewController.h"
 
-@interface EDNBasemapInfoViewController ()
+@interface EDNBasemapDetailsViewController ()
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *titleLabel;
 
 - (IBAction)doneButtonClicked:(id)sender;
 @end
 
-@implementation EDNBasemapInfoViewController
+@implementation EDNBasemapDetailsViewController
 @synthesize webView;
+@synthesize titleLabel;
 @synthesize portalItem;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -34,6 +36,8 @@
 	// Do any additional setup after loading the view.
     if (self.portalItem)
     {
+        self.title = self.portalItem.title;
+        self.titleLabel.title = self.portalItem.title;
         NSString *url = [NSString stringWithFormat:@"http://www.arcgis.com/home/item.html?id=%@", self.portalItem.itemId];
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
         [self.webView loadRequest:request];
@@ -44,6 +48,7 @@
 {
     [self setWebView:nil];
     [self setPortalItem:nil];
+    [self setTitleLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
