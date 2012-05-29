@@ -7,6 +7,7 @@
 //
 
 #import "AGSMapView+Graphics.h"
+#import "EDNLiteHelper.h"
 
 @implementation AGSMapView (Graphics)
 AGSGraphicsLayer * __ednLitePointGraphicsLayer = nil;

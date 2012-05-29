@@ -8,19 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <ArcGIS/ArcGIS.h>
-
-typedef enum {
-    EDNLiteBasemapStreet,
-    EDNLiteBasemapSatellite,
-    EDNLiteBasemapHybrid,
-    EDNLiteBasemapCanvas,
-    EDNLiteBasemapNationalGeographic,
-    EDNLiteBasemapTopographic,
-    EDNLiteBasemapOpenStreetMap,
-    
-    EDNLiteBasemapFirst = EDNLiteBasemapStreet,
-    EDNLiteBasemapLast = EDNLiteBasemapOpenStreetMap
-} EDNLiteBasemapType;
+#import "EDNLiteBasemaps.h"
 
 @interface EDNLiteHelper : NSObject
 // Translate a Google/Bing/ArcGIS Online tiling scheme scale number (1-20) to an actual scale value.
@@ -31,6 +19,7 @@ typedef enum {
 // Convenience functions for translating to Web Mercator Auxiliary Sphere spatial reference
 + (AGSPoint *) getWebMercatorAuxSpherePointFromLat:(double) latitude Long:(double) longitude;
 + (AGSPoint *) getWebMercatorAuxSpherePointFromWGS84Point:(AGSPoint *)wgs84Point;
++ (AGSPoint *) getWGS84PointFromWebMercatorAuxSpherePoint:(AGSPoint *)webMercatorPoint;
 
 // Helpers
 + (NSString *) getBasemapName:(EDNLiteBasemapType)basemapType;

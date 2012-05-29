@@ -15,6 +15,8 @@
 		D9E27C9E155ABDC5008F8CCB /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */; };
 		D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */; };
 		D9E27CB8155B1EDB008F8CCB /* LiteMapConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */; };
+		D9EAB292156FD1EF008BCE8F /* AGSMapView+Routing.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EAB291156FD1EE008BCE8F /* AGSMapView+Routing.m */; };
+		D9EAB295156FE0AF008BCE8F /* EDNLitRouteTaskHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EAB294156FE0AF008BCE8F /* EDNLitRouteTaskHelper.m */; };
 		D9F9EE68156DE2D200C2A15F /* EDNBasemapSelector_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9F9EE67156DE2D200C2A15F /* EDNBasemapSelector_iPad.xib */; };
 		D9F9EE6D156DE75E00C2A15F /* EDNBasemapSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9EE6B156DE75E00C2A15F /* EDNBasemapSelectorViewController.m */; };
 		D9F9EE72156DE7FA00C2A15F /* AGSMapView+Graphics.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9EE71156DE7FA00C2A15F /* AGSMapView+Graphics.m */; };
@@ -48,10 +50,15 @@
 		D950069C156E0C9C00BA872A /* EDNTiledAppleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNTiledAppleLayer.m; sourceTree = "<group>"; };
 		D950069D156E0C9C00BA872A /* EDNAppleTileOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNAppleTileOperation.h; sourceTree = "<group>"; };
 		D950069E156E0C9C00BA872A /* EDNAppleTileOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNAppleTileOperation.m; sourceTree = "<group>"; };
+		D9CCC618156FECBE00EA4353 /* EDNLiteBasemaps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EDNLiteBasemaps.h; sourceTree = "<group>"; };
 		D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = ../../../Library/SDKs/ArcGIS/ArcGIS.framework; sourceTree = "<group>"; };
 		D9E27CB2155AEA6E008F8CCB /* AGSMapView+Basemaps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AGSMapView+Basemaps.h"; path = "Basemaps/AGSMapView+Basemaps.h"; sourceTree = "<group>"; };
 		D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AGSMapView+Basemaps.m"; path = "Basemaps/AGSMapView+Basemaps.m"; sourceTree = "<group>"; };
 		D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = LiteMapConfig.plist; path = ../LiteMapConfig.plist; sourceTree = "<group>"; };
+		D9EAB290156FD1EE008BCE8F /* AGSMapView+Routing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+Routing.h"; sourceTree = "<group>"; };
+		D9EAB291156FD1EE008BCE8F /* AGSMapView+Routing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+Routing.m"; sourceTree = "<group>"; };
+		D9EAB293156FE0AF008BCE8F /* EDNLitRouteTaskHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNLitRouteTaskHelper.h; sourceTree = "<group>"; };
+		D9EAB294156FE0AF008BCE8F /* EDNLitRouteTaskHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNLitRouteTaskHelper.m; sourceTree = "<group>"; };
 		D9F9EE67156DE2D200C2A15F /* EDNBasemapSelector_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EDNBasemapSelector_iPad.xib; sourceTree = "<group>"; };
 		D9F9EE6A156DE75E00C2A15F /* EDNBasemapSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNBasemapSelectorViewController.h; sourceTree = "<group>"; };
 		D9F9EE6B156DE75E00C2A15F /* EDNBasemapSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNBasemapSelectorViewController.m; sourceTree = "<group>"; };
@@ -112,6 +119,7 @@
 		D94431A7156C1EEC00982D5C /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				D9CCC618156FECBE00EA4353 /* EDNLiteBasemaps.h */,
 				D94431A3156BE1FC00982D5C /* EDNLiteHelper.h */,
 				D94431A4156BE1FC00982D5C /* EDNLiteHelper.m */,
 				D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */,
@@ -169,6 +177,10 @@
 		D9FB2CD5156EF6ED0052E2AC /* Routing */ = {
 			isa = PBXGroup;
 			children = (
+				D9EAB290156FD1EE008BCE8F /* AGSMapView+Routing.h */,
+				D9EAB291156FD1EE008BCE8F /* AGSMapView+Routing.m */,
+				D9EAB293156FE0AF008BCE8F /* EDNLitRouteTaskHelper.h */,
+				D9EAB294156FE0AF008BCE8F /* EDNLitRouteTaskHelper.m */,
 			);
 			name = Routing;
 			sourceTree = "<group>";
@@ -335,6 +347,8 @@
 				D9F9EE72156DE7FA00C2A15F /* AGSMapView+Graphics.m in Sources */,
 				D950069F156E0C9C00BA872A /* EDNTiledAppleLayer.m in Sources */,
 				D95006A0156E0C9C00BA872A /* EDNAppleTileOperation.m in Sources */,
+				D9EAB292156FD1EF008BCE8F /* AGSMapView+Routing.m in Sources */,
+				D9EAB295156FE0AF008BCE8F /* EDNLitRouteTaskHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

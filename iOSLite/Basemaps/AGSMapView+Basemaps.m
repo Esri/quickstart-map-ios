@@ -7,6 +7,7 @@
 //
 
 #import "AGSMapView+Basemaps.h"
+#import "EDNLiteHelper.h"
 
 @interface AGSMapView()<AGSWebMapDelegate>
 @end

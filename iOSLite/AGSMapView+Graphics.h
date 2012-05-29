@@ -7,7 +7,6 @@
 //
 
 #import <ArcGIS/ArcGIS.h>
-#import "EDNLiteHelper.h"
 
 typedef enum {
     EDNLiteGraphicsLayerTypePoint = 1,

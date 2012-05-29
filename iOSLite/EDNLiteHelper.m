@@ -280,6 +280,18 @@ NSDictionary * __ednBasemapURLs = nil;
     }
 }
 
++ (AGSPoint *) getWGS84PointFromWebMercatorAuxSpherePoint:(AGSPoint *)webMercatorPoint;
+{
+    @try
+    {
+		return (AGSPoint *)[[AGSGeometryEngine defaultGeometryEngine] projectGeometry:webMercatorPoint 
+																   toSpatialReference:[AGSSpatialReference wgs84SpatialReference]];    
+    }
+    @catch (NSException *e) {
+        NSLog(@"Error getting Web Mercator Point from %@: %@",webMercatorPoint, e); 
+    }
+}
+
 + (AGSPoint *) getWebMercatorAuxSpherePointFromLat:(double) latitude Long:(double) longitude
 {
     // Ensure we're passed sensible values for lat and long
