@@ -179,10 +179,18 @@
 			children = (
 				D9EAB290156FD1EE008BCE8F /* AGSMapView+Routing.h */,
 				D9EAB291156FD1EE008BCE8F /* AGSMapView+Routing.m */,
+				E15369E1157547BC0027EB47 /* Private */,
+			);
+			name = Routing;
+			sourceTree = "<group>";
+		};
+		E15369E1157547BC0027EB47 /* Private */ = {
+			isa = PBXGroup;
+			children = (
 				D9EAB293156FE0AF008BCE8F /* EDNLitRouteTaskHelper.h */,
 				D9EAB294156FE0AF008BCE8F /* EDNLitRouteTaskHelper.m */,
 			);
-			name = Routing;
+			name = Private;
 			sourceTree = "<group>";
 		};
 		E16C07CD1559B96900776F3E /* Navigation */ = {

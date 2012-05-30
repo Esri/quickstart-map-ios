@@ -25,6 +25,21 @@
                                     <outletCollection property="gestureRecognizers" destination="qzV-Mp-XVc" appends="YES" id="PZv-cT-rQs"/>
                                 </connections>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="w9T-wB-hG1">
+                                <rect key="frame" x="343" y="484" width="82" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Find Me">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="findMe:" destination="2" eventType="touchUpInside" id="gea-kd-Cjm"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" id="jM8-Ve-X6c" userLabel="Routing View">
                                 <rect key="frame" x="20" y="829" width="322" height="155"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -323,6 +338,7 @@
                 <relationship kind="action" name="clearLines:"/>
                 <relationship kind="action" name="clearPoints:"/>
                 <relationship kind="action" name="clearPolygons:"/>
+                <relationship kind="action" name="findMe:"/>
                 <relationship kind="action" name="infoRequested:"/>
                 <relationship kind="action" name="nextMap:"/>
                 <relationship kind="action" name="openBasemapSelector:"/>

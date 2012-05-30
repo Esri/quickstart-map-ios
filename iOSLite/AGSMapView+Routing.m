@@ -19,10 +19,10 @@ EDNLiteRouteTaskHelper *__ednLiteRouteHelper = nil;
     [self getDirectionsFromPoint:startPoint ToPoint:stopPoint WithHandler:nil];
 }
 
-- (void)getDirectionsFromLat:(double)startLat Lon:(double)startLon ToLat:(double)stopLat Lon:(double)stopLon
+- (void)getDirectionsFromLat:(double)startLat Lng:(double)startLng ToLat:(double)stopLat Lng:(double)stopLng
 {    
-    [self getDirectionsFromPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:startLat Long:startLon]
-                         ToPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:stopLat Long:stopLon]];
+    [self getDirectionsFromPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:startLat Long:startLng]
+                         ToPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:stopLat Long:stopLng]];
 }
 
 - (void)getDirectionsFromPoint:(AGSPoint*)startPoint ToPoint:(AGSPoint *)stopPoint WithHandler:(id<AGSRouteTaskDelegate>)handler
@@ -34,10 +34,10 @@ EDNLiteRouteTaskHelper *__ednLiteRouteHelper = nil;
     [self __ednLiteInitRoutingWithStartPoint:startPoint stopPoint:stopPoint AndHandler:handler];
 }
 
-- (void) getDirectionsFromLat:(double)startLat Lon:(double)startLon ToLat:(double)stopLat Lon:(double)stopLon WithHandler:(id<AGSRouteTaskDelegate>)handler
+- (void) getDirectionsFromLat:(double)startLat Lng:(double)startLng ToLat:(double)stopLat Lng:(double)stopLng WithHandler:(id<AGSRouteTaskDelegate>)handler
 {    
-    [self getDirectionsFromPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:startLat Long:startLon]
-                         ToPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:stopLat Long:stopLon]
+    [self getDirectionsFromPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:startLat Long:startLng]
+                         ToPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:stopLat Long:stopLng]
                      WithHandler:handler];
 }
 

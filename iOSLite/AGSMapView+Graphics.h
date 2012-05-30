@@ -15,9 +15,11 @@ typedef enum {
 } EDNLiteGraphicsLayerType;
 
 @interface AGSMapView (Graphics)
-- (AGSGraphic *) addPointAtLat:(double)latitude Long:(double)longitude;
-- (AGSGraphic *) addLineWithLatsAndLongs:(NSNumber *) firstLatitude, ... NS_REQUIRES_NIL_TERMINATION;
-- (AGSGraphic *) addPolygonWithLatsAndLongs:(NSNumber *) firstLatitude, ... NS_REQUIRES_NIL_TERMINATION;
+
+- (AGSGraphic *) addPointAtLat:(double)latitude Lng:(double)longitude;
+- (AGSGraphic *) addLineWithLatsAndLngs:(NSNumber *) firstLatitude, ... NS_REQUIRES_NIL_TERMINATION;
+- (AGSGraphic *) addPolygonWithLatsAndLngs:(NSNumber *) firstLatitude, ... NS_REQUIRES_NIL_TERMINATION;
+
 - (void) clearGraphics:(EDNLiteGraphicsLayerType)layerType;
 - (void) clearGraphics;
 @end

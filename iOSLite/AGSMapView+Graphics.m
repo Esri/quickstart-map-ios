@@ -40,22 +40,14 @@ NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
         __ednLitePointGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
         __ednLitePolylineGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
         __ednLitePolygonGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
-    }
-    
-    if (![self getLayerForName:EDNLITE_GRAPHICS_LAYER_NAME_PG])
-    {
-        [self addMapLayer:__ednLitePolygonGraphicsLayer withName:EDNLITE_GRAPHICS_LAYER_NAME_PG];
+		[[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(__ednLiteRouteBasemapDidChange:) 
+                                                     name:@"BasemapDidChange"
+                                                   object:self];
+
     }
 
-    if (![self getLayerForName:EDNLITE_GRAPHICS_LAYER_NAME_PL])
-    {
-        [self addMapLayer:__ednLitePolylineGraphicsLayer withName:EDNLITE_GRAPHICS_LAYER_NAME_PL];
-    }
-    
-    if (![self getLayerForName:EDNLITE_GRAPHICS_LAYER_NAME_PT])
-    {
-        [self addMapLayer:__ednLitePointGraphicsLayer withName:EDNLITE_GRAPHICS_LAYER_NAME_PT];
-    }
+    [self __ensureEdnLiteGraphicsLayerAdded];
 
     switch (layerType) {
         case EDNLiteGraphicsLayerTypePoint:
@@ -71,12 +63,35 @@ NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
     return nil;
 }
 
+- (void) __ensureEdnLiteGraphicsLayerAdded
+{
+	if (![self getLayerForName:EDNLITE_GRAPHICS_LAYER_NAME_PG])
+    {
+        [self addMapLayer:__ednLitePolygonGraphicsLayer withName:EDNLITE_GRAPHICS_LAYER_NAME_PG];
+    }
+	
+    if (![self getLayerForName:EDNLITE_GRAPHICS_LAYER_NAME_PL])
+    {
+        [self addMapLayer:__ednLitePolylineGraphicsLayer withName:EDNLITE_GRAPHICS_LAYER_NAME_PL];
+    }
+    
+    if (![self getLayerForName:EDNLITE_GRAPHICS_LAYER_NAME_PT])
+    {
+        [self addMapLayer:__ednLitePointGraphicsLayer withName:EDNLITE_GRAPHICS_LAYER_NAME_PT];
+    }
+}
+
 - (void) __initEdnLiteGraphics
 {
     [self getGraphicsLayer:EDNLiteGraphicsLayerTypePoint];
 }
 
-- (AGSGraphic *) addPointAtLat:(double)latitude Long:(double)longitude
+- (void) __ednLiteRouteBasemapDidChange:(NSNotification *)notification
+{
+	[self __ensureEdnLiteGraphicsLayerAdded];
+}
+
+- (AGSGraphic *) addPointAtLat:(double)latitude Lng:(double)longitude
 {
     AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
     
@@ -102,7 +117,7 @@ NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
     return result;
 }
 
-- (AGSGraphic *) addLineWithLatsAndLongs:(NSNumber *)firstLatitude, ... NS_REQUIRES_NIL_TERMINATION
+- (AGSGraphic *) addLineWithLatsAndLngs:(NSNumber *)firstLatitude, ... NS_REQUIRES_NIL_TERMINATION
 {
     va_list args;
     va_start(args, firstLatitude);
@@ -133,7 +148,7 @@ NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
     return g;
 }
 
-- (AGSGraphic *) addPolygonWithLatsAndLongs:(NSNumber *) firstLatitude, ... NS_REQUIRES_NIL_TERMINATION
+- (AGSGraphic *) addPolygonWithLatsAndLngs:(NSNumber *) firstLatitude, ... NS_REQUIRES_NIL_TERMINATION
 {
     va_list args;
     va_start(args, firstLatitude);

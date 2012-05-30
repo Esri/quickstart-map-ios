@@ -77,6 +77,8 @@ EDNVCState;
 - (IBAction)selectRouteStart:(id)sender;
 - (IBAction)selectRouteStop:(id)sender;
 
+- (IBAction)findMe:(id)sender;
+
 @end
 
 @implementation EDNViewController
@@ -113,19 +115,13 @@ EDNVCState;
 
 @synthesize routeResult = _routeResult;
 
-- (void)viewDidLoad
+- (void)initUI
 {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.    
-    
+	// Track the application state (for now, used for routing input)
+    self.currentState = EDNVCStateNormal;
+
     // We only want taps to be handled if the user doesn't double(ormore)-tap
     [self.uiTapRecognizer requireGestureRecognizerToFail:self.uiDoubleTapRecognizer];
-    
-    // We want to update the UI when the basemap is changed.
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(basemapDidChange:) name:@"BasemapDidChange" object:self.mapView];
-    
-    // Initialize our property for tracking the current basemap type.
-    self.currentBasemapType = EDNLiteBasemapTopographic;
     
     // Make some of the UI nice and comfy and round.
     self.infoView.layer.cornerRadius = 13;
@@ -133,20 +129,31 @@ EDNVCState;
     self.infoImageView.layer.masksToBounds = YES;
     self.infoImageView.layer.cornerRadius = 8;
     self.routingPanel.layer.cornerRadius = 8;
-    
-    // Set up the map and zoom in.
-    self.mapView.wrapAround = YES;
-    self.mapView.touchDelegate = self;
-    
-    
-    
-    [self.mapView setBasemap:self.currentBasemapType];
-    [self.mapView zoomToLat:40.7302 Long:-73.9958 withScaleLevel:13];
 
     // And show the UI by default.
     self.uiControlsVisible = YES;
+
+
+    // We want to update the UI when the basemap is changed.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(basemapDidChange:) name:@"BasemapDidChange" object:self.mapView];
     
-    self.currentState = EDNVCStateNormal;
+    // Set up the map UI a little.
+    self.mapView.wrapAround = YES;
+    self.mapView.touchDelegate = self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+	[self initUI];
+
+    // Initialize our property for tracking the current basemap type.
+    self.currentBasemapType = EDNLiteBasemapTopographic;
+    
+	// Set up our map with a basemap, and jump to a location and scale level.
+    [self.mapView setBasemap: self.currentBasemapType];
+    [self.mapView centerAtLat:40.7302 Lng:-73.9958 withScaleLevel:13];
 }
 
 - (void)mapView:(AGSMapView *)mapView didClickAtPoint:(CGPoint)screen mapPoint:(AGSPoint *)mappoint graphics:(NSDictionary *)graphics
@@ -258,13 +265,12 @@ EDNVCState;
 }
 
 - (IBAction)addGraphic:(id)sender {
-    [self.mapView addPointAtLat:40.7302 Long:-73.9958];
-    [self.mapView addLineWithLatsAndLongs:[NSNumber numberWithFloat:40.7302], [NSNumber numberWithFloat:-73.9958], 
+    [self.mapView addPointAtLat:40.7302 Lng:-73.9958];
+    [self.mapView addLineWithLatsAndLngs:[NSNumber numberWithFloat:40.7302], [NSNumber numberWithFloat:-73.9958], 
                                           [NSNumber numberWithFloat:41.0], [NSNumber numberWithFloat:-73.9], nil];
-    [self.mapView addPolygonWithLatsAndLongs:[NSNumber numberWithFloat:40.7302], [NSNumber numberWithFloat:-73.9958], 
+    [self.mapView addPolygonWithLatsAndLngs:[NSNumber numberWithFloat:40.7302], [NSNumber numberWithFloat:-73.9958], 
      [NSNumber numberWithFloat:40.85], [NSNumber numberWithFloat:-73.65],
      [NSNumber numberWithFloat:41.0], [NSNumber numberWithFloat:-73.7],nil];
-
 }
 
 - (void)setUIVisibility:(BOOL)visibility
@@ -513,5 +519,9 @@ EDNVCState;
     else {
         self.currentState = EDNVCStateNormal;
     }
+}
+
+- (IBAction)findMe:(id)sender {
+	[self.mapView centerAtMyLocation];
 }
 @end
