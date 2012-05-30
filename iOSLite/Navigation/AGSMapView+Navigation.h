@@ -9,9 +9,11 @@
 #import <ArcGIS/ArcGIS.h>
 
 @interface AGSMapView (Navigation)
-- (void) centerAtLat:(double) latitude Lng:(double) longitude;
-- (void) centerAtLat:(double) latitude Lng:(double) longitude withScaleLevel:(int)scaleLevel;
+- (void) centerAtLat:(CGFloat) latitude Lng:(CGFloat) longitude;
+- (void) centerAtLat:(CGFloat) latitude Lng:(CGFloat) longitude withScaleLevel:(NSInteger)scaleLevel;
 
 - (void) centerAtMyLocation;
-//- (void) centerAtMyLocationWithScaleLevel:(int)scaleLevel;
+- (void) centerAtMyLocationWithScaleLevel:(NSInteger)scaleLevel;
+
+- (void) zoomToLevel:(NSInteger)level;
 @end

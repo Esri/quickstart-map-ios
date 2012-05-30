@@ -15,8 +15,11 @@
 @end
 
 @implementation AGSMapView (Navigation)
+CLLocationManager * __ednLiteLocationManager = nil;
+NSInteger __ednLiteScaleForGeolocation = -1;
+
 // PUBLIC
-- (void) centerAtLat:(double) latitude Lng:(double) longitude withScaleLevel:(int)scaleLevel
+- (void) centerAtLat:(CGFloat) latitude Lng:(CGFloat) longitude withScaleLevel:(NSInteger)scaleLevel
 {
     AGSPoint *webMercatorCenterPt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
     double scale = [EDNLiteHelper getScaleForLevel:scaleLevel];
@@ -34,27 +37,44 @@
     }
 }
 
-- (void) centerAtLat:(double) latitude Lng:(double) longitude
+- (void) centerAtLat:(CGFloat) latitude Lng:(CGFloat) longitude
 {
     AGSPoint *p = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
     [self centerAtPoint:p animated:YES];
 }
 
-CLLocationManager * __ednLiteLocationManager = nil;
+- (void) zoomToLevel:(NSInteger)level
+{
+    AGSPoint *currentCenterPoint = self.visibleArea.envelope.center;
+    double scaleForLevel = [EDNLiteHelper getScaleForLevel:level];
+    [self zoomToScale:scaleForLevel withCenterPoint:currentCenterPoint animated:YES];
+}
 
 - (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
 	[__ednLiteLocationManager stopUpdatingHeading];
-	NSLog(@"Located me at %.4f,%.4f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);	
+	NSLog(@"Located me at %.4f,%.4f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
+	
+    if (__ednLiteScaleForGeolocation == -1)
+    {
 	[self centerAtLat:newLocation.coordinate.latitude
 				  Lng:newLocation.coordinate.longitude];
+    }
+    else
+    {
+        [self centerAtLat:newLocation.coordinate.latitude
+                      Lng:newLocation.coordinate.longitude
+           withScaleLevel:__ednLiteScaleForGeolocation];
+    }
 	__ednLiteLocationManager = nil;
+    __ednLiteScaleForGeolocation = -1;
 }
 
 - (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
 	[__ednLiteLocationManager stopUpdatingHeading];
 	__ednLiteLocationManager = nil;
+    __ednLiteScaleForGeolocation = -1;
 	NSLog(@"Error getting location: %@", error);
 }
 
@@ -75,5 +95,11 @@ CLLocationManager * __ednLiteLocationManager = nil;
 		UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"Cannot Find You" message:@"Location Services Not Enabled" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		[v show];
 	}
+}
+
+- (void) centerAtMyLocationWithScaleLevel:(NSInteger)scaleLevel
+{
+    __ednLiteScaleForGeolocation = scaleLevel;
+    [self centerAtMyLocation];
 }
 @end

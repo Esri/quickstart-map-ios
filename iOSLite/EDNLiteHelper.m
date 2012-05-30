@@ -214,6 +214,17 @@ NSDictionary * __ednBasemapURLs = nil;
     return r;
 }
 
+- (BOOL) basemapLayerHasSupplementLayers:(EDNLiteBasemapType)basemapType
+{
+    switch (basemapType) {
+        case EDNLiteBasemapHybrid:
+            return YES;
+            
+        default:
+            return NO;
+    }
+}
+
 - (AGSTiledLayer *) getBasemapTiledLayer:(EDNLiteBasemapType)basemapType
 {
     switch (basemapType) {
@@ -226,13 +237,49 @@ NSDictionary * __ednBasemapURLs = nil;
                 NSString *key = [self getBasemapKeyForEnum:basemapType];
                 NSAssert1(key != nil, @"Could not figure out which basemap you're after!", basemapType);
                 
-                NSString *basemapURL = [__ednBasemapURLs objectForKey:key];
+                NSString *basemapURL = nil;
+                if ([self basemapLayerHasSupplementLayers:basemapType])
+                {
+                    // The value is a dictionary of layer IDs
+                    NSArray *allBasemapLayers = [__ednBasemapURLs objectForKey:key];
+                    basemapURL = [allBasemapLayers objectAtIndex:0];
+                }
+                else
+                {
+                    // The value is a string.
+                    basemapURL = [__ednBasemapURLs objectForKey:key];
+                }
                 NSAssert1(basemapURL != nil, @"The basemap hasn't been configured properly!", key);
                 
                 AGSTiledMapServiceLayer *basemapLayer = [AGSTiledMapServiceLayer tiledMapServiceLayerWithURL:[NSURL URLWithString:basemapURL]];
                 return basemapLayer;
             }
             break;
+    }
+}
+
+- (NSArray *) getBasemapSupplementalTiledLayers:(EDNLiteBasemapType)basemapType
+{
+    if ([self basemapLayerHasSupplementLayers:basemapType])
+    {
+        NSString *key = [self getBasemapKeyForEnum:basemapType];
+        NSAssert1(key != nil, @"Could not figure out which basemap you're after!", basemapType);
+
+        // The value is a dictionary of layer IDs
+        NSArray *allBasemapLayers = [__ednBasemapURLs objectForKey:key];
+        NSMutableArray *results = [NSMutableArray array];
+        for (int i = 1; i < allBasemapLayers.count; i++)
+        {
+            NSString *url = [allBasemapLayers objectAtIndex:i];
+            AGSTiledMapServiceLayer *newlayer = [AGSTiledMapServiceLayer
+                                                 tiledMapServiceLayerWithURL:[NSURL URLWithString:url]];
+            [results addObject:newlayer];
+        }
+        return results;
+    }
+    else
+    {
+        return nil;
     }
 }
 
@@ -261,6 +308,11 @@ NSDictionary * __ednBasemapURLs = nil;
 + (AGSTiledLayer *) getBasemapTiledLayer:(EDNLiteBasemapType)basemapType
 {
     return [[EDNLiteHelper defaultHelper] getBasemapTiledLayer:basemapType];
+}
+
++ (NSArray *) getBasemapSupplementalTiledLayers:(EDNLiteBasemapType)basemapType
+{
+    return [[EDNLiteHelper defaultHelper] getBasemapSupplementalTiledLayers:basemapType];
 }
 
 + (NSString *) getBasemapName:(EDNLiteBasemapType)basemapType

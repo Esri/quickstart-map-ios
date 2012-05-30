@@ -47,9 +47,12 @@ EDNVCState;
 @property (nonatomic, strong) AGSPoint *routeStartPoint;
 @property (nonatomic, strong) AGSPoint *routeStopPoint;
 @property (weak, nonatomic) IBOutlet UIButton *solveRouteButton;
+@property (weak, nonatomic) IBOutlet UILabel *findScaleLabel;
 
 // Recognizers
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *infoTapRecognizer;
+@property (strong, nonatomic) IBOutlet UISwipeGestureRecognizer *infoSwipeLeftRecognizer;
+@property (strong, nonatomic) IBOutlet UISwipeGestureRecognizer *infoSwipeRightRecognizer;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *uiTapRecognizer;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *uiDoubleTapRecognizer;
 
@@ -61,9 +64,12 @@ EDNVCState;
 
 @property (nonatomic, retain) AGSRouteTaskResult *routeResult;
 
+@property (nonatomic, assign) NSUInteger findScale;
+
 // Actions
 - (IBAction)infoRequested:(id)sender;
 - (IBAction)openBasemapSelector:(id)sender;
+- (IBAction)previousMap:(id)sender;
 - (IBAction)nextMap:(id)sender;
 - (IBAction)addGraphic:(id)sender;
 - (IBAction)uiTapped:(id)sender;
@@ -78,6 +84,8 @@ EDNVCState;
 - (IBAction)selectRouteStop:(id)sender;
 
 - (IBAction)findMe:(id)sender;
+- (IBAction)findScaleChanged:(id)sender;
+- (IBAction)zoomToLevel:(id)sender;
 
 @end
 
@@ -97,6 +105,8 @@ EDNVCState;
 @synthesize routeStartLabel = _routeStartLabel;
 @synthesize routeStopLabel = _routeStopLabel;
 @synthesize infoTapRecognizer = _infoTapRecognizer;
+@synthesize infoSwipeLeftRecognizer = _infoSwipeLeftRecognizer;
+@synthesize infoSwipeRightRecognizer = _infoSwipeRightRecognizer;
 @synthesize uiTapRecognizer = _uiTapRecognizer;
 @synthesize uiDoubleTapRecognizer = _uiDoubleTapRecognizer;
 
@@ -112,8 +122,11 @@ EDNVCState;
 @synthesize routeStartPoint = _routeStartPoint;
 @synthesize routeStopPoint = _routeStopPoint;
 @synthesize solveRouteButton = _solveRouteButton;
+@synthesize findScaleLabel = _findScaleLabel;
 
 @synthesize routeResult = _routeResult;
+
+@synthesize findScale = _findScale;
 
 - (void)initUI
 {
@@ -129,6 +142,8 @@ EDNVCState;
     self.infoImageView.layer.masksToBounds = YES;
     self.infoImageView.layer.cornerRadius = 8;
     self.routingPanel.layer.cornerRadius = 8;
+    
+    self.findScale = 13;
 
     // And show the UI by default.
     self.uiControlsVisible = YES;
@@ -187,6 +202,10 @@ EDNVCState;
         [self.currentPortalItem fetchData];
         [self.currentPortalItem fetchThumbnail];
     }
+    
+    self.infoButton.userInteractionEnabled = YES;
+    self.infoSwipeLeftRecognizer.enabled = YES;
+    self.infoSwipeRightRecognizer.enabled = YES;
 }
 
 - (void)portalItem:(AGSPortalItem *)portalItem operation:(NSOperation *)op didFetchData:(NSData *)data
@@ -240,6 +259,9 @@ EDNVCState;
     [self setRouteStartLabel:nil];
     [self setRouteStopLabel:nil];
     [self setSolveRouteButton:nil];
+    [self setFindScaleLabel:nil];
+    [self setInfoSwipeRightRecognizer:nil];
+    [self setInfoSwipeLeftRecognizer:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -260,6 +282,28 @@ EDNVCState;
     else {
         self.currentBasemapType += 1;
     }
+
+    self.infoButton.userInteractionEnabled = NO;
+    self.infoSwipeLeftRecognizer.enabled = NO;
+    self.infoSwipeRightRecognizer.enabled = NO;
+
+    [self.mapView setBasemap:self.currentBasemapType];
+}
+
+- (IBAction)previousMap:(id)sender {
+    // When the user clicks for the next map, we'll cycle through each map type and
+    // update the map.
+    if (self.currentBasemapType == EDNLiteBasemapFirst)
+    {
+        self.currentBasemapType = EDNLiteBasemapLast;
+    }
+    else {
+        self.currentBasemapType -= 1;
+    }
+    
+    self.infoButton.userInteractionEnabled = NO;
+    self.infoSwipeLeftRecognizer.enabled = NO;
+    self.infoSwipeRightRecognizer.enabled = NO;
     
     [self.mapView setBasemap:self.currentBasemapType];
 }
@@ -271,6 +315,12 @@ EDNVCState;
     [self.mapView addPolygonWithLatsAndLngs:[NSNumber numberWithFloat:40.7302], [NSNumber numberWithFloat:-73.9958], 
      [NSNumber numberWithFloat:40.85], [NSNumber numberWithFloat:-73.65],
      [NSNumber numberWithFloat:41.0], [NSNumber numberWithFloat:-73.7],nil];
+}
+
+- (void)setFindScale:(NSUInteger)findScale
+{
+    _findScale = findScale;
+    self.findScaleLabel.text = [NSString stringWithFormat:@"%d", _findScale];
 }
 
 - (void)setUIVisibility:(BOOL)visibility
@@ -342,7 +392,9 @@ EDNVCState;
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
     // Make sure the gesture handler doesn't trap the button press too.
-    if (gestureRecognizer == self.infoTapRecognizer &&
+    if ((gestureRecognizer == self.infoTapRecognizer ||
+         gestureRecognizer == self.infoSwipeLeftRecognizer ||
+         gestureRecognizer == self.infoSwipeRightRecognizer) &&
         touch.view == self.infoButton)
     {
         return NO;
@@ -522,6 +574,15 @@ EDNVCState;
 }
 
 - (IBAction)findMe:(id)sender {
-	[self.mapView centerAtMyLocation];
+	[self.mapView centerAtMyLocationWithScaleLevel:self.findScale];
+}
+
+- (IBAction)findScaleChanged:(id)sender {
+    UISlider *slider = sender;
+    self.findScale = (NSUInteger)roundf(slider.value);
+}
+
+- (IBAction)zoomToLevel:(id)sender {
+    [self.mapView zoomToLevel:self.findScale];
 }
 @end

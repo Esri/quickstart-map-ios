@@ -15,6 +15,7 @@
 + (double) getScaleForLevel:(NSUInteger)level;
 + (AGSWebMap *) getBasemapWebMap:(EDNLiteBasemapType)basemapType;
 + (AGSTiledLayer *) getBasemapTiledLayer:(EDNLiteBasemapType)basemapType;
++ (NSArray *) getBasemapSupplementalTiledLayers:(EDNLiteBasemapType)basemapType;
 
 // Convenience functions for translating to Web Mercator Auxiliary Sphere spatial reference
 + (AGSPoint *) getWebMercatorAuxSpherePointFromLat:(double) latitude Long:(double) longitude;

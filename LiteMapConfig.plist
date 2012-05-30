@@ -79,7 +79,10 @@
 		<key>OpenStreetMap</key>
 		<string>N/A</string>
 		<key>Hybrid</key>
-		<string>http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer</string>
+		<array>
+			<string>http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer</string>
+			<string>http://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer</string>
+		</array>
 	</dict>
 </dict>
 </plist>

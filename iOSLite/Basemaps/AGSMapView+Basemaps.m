@@ -7,6 +7,7 @@
 //
 
 #import "AGSMapView+Basemaps.h"
+#import "AGSLayer+Basemap.h"
 #import "EDNLiteHelper.h"
 
 @interface AGSMapView()<AGSWebMapDelegate>
@@ -40,10 +41,44 @@ NSString *EDN_LITE_BASEMAP_LAYER_NAME = @"ednLiteBasemap";
         [currentWebMap openIntoMapView:self];
     }
     else {
+        // Get the new basemap layer and supplemental layers.
         AGSTiledLayer *newBasemapLayer = [EDNLiteHelper getBasemapTiledLayer:basemapType];
+        [newBasemapLayer setIsEDNLiteBasemapLayer:YES];
+
+        NSArray *supplementalBasemapLayers = [EDNLiteHelper getBasemapSupplementalTiledLayers:basemapType];
+
+        // Remove current basemap layers.
+        NSMutableArray *layerNamesToRemove = [NSMutableArray array];
+        for (AGSLayer *layer in self.mapLayers) {
+            if ([layer isEDNLiteBasemapLayer])
+            {
+                [layerNamesToRemove addObject:layer.name];
+            }
+        }
         
-        [self removeMapLayerWithName:EDN_LITE_BASEMAP_LAYER_NAME];
+        for (NSString *layerNameToRemove in layerNamesToRemove) {
+            NSLog(@"Removing basemap layer: %@", layerNameToRemove);
+            [self removeMapLayerWithName:layerNameToRemove];
+        }
+
+        // Add the new basemap layer
+        NSLog(@"Adding basemap layer: %@", EDN_LITE_BASEMAP_LAYER_NAME);
         [self insertMapLayer:newBasemapLayer withName:EDN_LITE_BASEMAP_LAYER_NAME atIndex:0];
+
+        // Add any supplemental layers.
+        if (supplementalBasemapLayers)
+        {
+            for (int i=0; i < supplementalBasemapLayers.count; i++)
+            {
+                AGSTiledLayer *supplementalLayer = [supplementalBasemapLayers objectAtIndex:i];
+                [supplementalLayer setIsEDNLiteBasemapLayer:YES];
+                NSString *layerName = [NSString stringWithFormat:@"%@_%d", EDN_LITE_BASEMAP_LAYER_NAME, i];
+                NSLog(@"Adding basemap supplemental layer: %@", layerName);
+                [self insertMapLayer:supplementalLayer withName:layerName atIndex:1+i];
+            }
+        }
+        
+        // Notify any listeners.
         [self postNewBasemapNotification:basemapType forPortalItem:nil];
     }
 }
@@ -62,6 +97,11 @@ NSString *EDN_LITE_BASEMAP_LAYER_NAME = @"ednLiteBasemap";
             AGSTiledLayer *roadLayer = [AGSTiledMapServiceLayer tiledMapServiceLayerWithURL:layerInfo.URL];
             [mapView addMapLayer:roadLayer withName:@"roads"];
         }
+    }
+
+    // All the layers right now are basemap layers from whichever WebMap we loaded.
+    for (AGSLayer *basemapLayer in mapView.mapLayers) {
+        [basemapLayer setIsEDNLiteBasemapLayer:YES];
     }
     
     AGSPortalItem *pi = webMap.portalItem;

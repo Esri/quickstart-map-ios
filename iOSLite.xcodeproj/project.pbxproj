@@ -11,6 +11,7 @@
 		D94431A5156BE1FC00982D5C /* EDNLiteHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D94431A4156BE1FC00982D5C /* EDNLiteHelper.m */; };
 		D950069F156E0C9C00BA872A /* EDNTiledAppleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D950069C156E0C9C00BA872A /* EDNTiledAppleLayer.m */; };
 		D95006A0156E0C9C00BA872A /* EDNAppleTileOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = D950069E156E0C9C00BA872A /* EDNAppleTileOperation.m */; };
+		D99A58D01576B22A00AB05EE /* AGSLayer+Basemap.m in Sources */ = {isa = PBXBuildFile; fileRef = D99A58CF1576B22A00AB05EE /* AGSLayer+Basemap.m */; };
 		D9B1044D156D98B900DF6287 /* UILabel+EDNAutoSizeMutliline.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DCB32E156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.m */; };
 		D9E27C9E155ABDC5008F8CCB /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */; };
 		D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */; };
@@ -50,6 +51,8 @@
 		D950069C156E0C9C00BA872A /* EDNTiledAppleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNTiledAppleLayer.m; sourceTree = "<group>"; };
 		D950069D156E0C9C00BA872A /* EDNAppleTileOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNAppleTileOperation.h; sourceTree = "<group>"; };
 		D950069E156E0C9C00BA872A /* EDNAppleTileOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNAppleTileOperation.m; sourceTree = "<group>"; };
+		D99A58CE1576B22A00AB05EE /* AGSLayer+Basemap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSLayer+Basemap.h"; sourceTree = "<group>"; };
+		D99A58CF1576B22A00AB05EE /* AGSLayer+Basemap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSLayer+Basemap.m"; sourceTree = "<group>"; };
 		D9CCC618156FECBE00EA4353 /* EDNLiteBasemaps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EDNLiteBasemaps.h; sourceTree = "<group>"; };
 		D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = ../../../Library/SDKs/ArcGIS/ArcGIS.framework; sourceTree = "<group>"; };
 		D9E27CB2155AEA6E008F8CCB /* AGSMapView+Basemaps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AGSMapView+Basemaps.h"; path = "Basemaps/AGSMapView+Basemaps.h"; sourceTree = "<group>"; };
@@ -154,6 +157,8 @@
 			children = (
 				D9E27CB2155AEA6E008F8CCB /* AGSMapView+Basemaps.h */,
 				D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */,
+				D99A58CE1576B22A00AB05EE /* AGSLayer+Basemap.h */,
+				D99A58CF1576B22A00AB05EE /* AGSLayer+Basemap.m */,
 			);
 			name = Basemaps;
 			sourceTree = "<group>";
@@ -357,6 +362,7 @@
 				D95006A0156E0C9C00BA872A /* EDNAppleTileOperation.m in Sources */,
 				D9EAB292156FD1EF008BCE8F /* AGSMapView+Routing.m in Sources */,
 				D9EAB295156FE0AF008BCE8F /* EDNLitRouteTaskHelper.m in Sources */,
+				D99A58D01576B22A00AB05EE /* AGSLayer+Basemap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
