@@ -41,7 +41,7 @@ NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
         __ednLitePolylineGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
         __ednLitePolygonGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
 		[[NSNotificationCenter defaultCenter] addObserver:self 
-                                                 selector:@selector(__ednLiteRouteBasemapDidChange:) 
+                                                 selector:@selector(__ednLiteGraphicsBasemapDidChange:) 
                                                      name:@"BasemapDidChange"
                                                    object:self];
 
@@ -86,7 +86,7 @@ NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
     [self getGraphicsLayer:EDNLiteGraphicsLayerTypePoint];
 }
 
-- (void) __ednLiteRouteBasemapDidChange:(NSNotification *)notification
+- (void) __ednLiteGraphicsBasemapDidChange:(NSNotification *)notification
 {
 	[self __ensureEdnLiteGraphicsLayerAdded];
 }
