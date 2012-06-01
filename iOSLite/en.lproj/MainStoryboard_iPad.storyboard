@@ -10,7 +10,7 @@
         <scene sceneID="4">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3" sceneMemberID="firstResponder"/>
-                <viewController id="2" customClass="EDNViewController" sceneMemberID="viewController">
+                <viewController wantsFullScreenLayout="YES" id="2" customClass="EDNViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5">
                         <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -21,12 +21,37 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                 <gestureRecognizers/>
                                 <connections>
-                                    <outletCollection property="gestureRecognizers" destination="6is-f3-MpZ" appends="YES" id="PRE-90-DYA"/>
                                     <outletCollection property="gestureRecognizers" destination="qzV-Mp-XVc" appends="YES" id="PZv-cT-rQs"/>
+                                    <outletCollection property="gestureRecognizers" destination="6is-f3-MpZ" appends="YES" id="PRE-90-DYA"/>
                                 </connections>
                             </view>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackTranslucent" id="ea8-sr-7to">
+                                <rect key="frame" x="0.0" y="20" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="zNV-Jb-paT"/>
+                                    <barButtonItem style="plain" id="8N0-0O-Xqh">
+                                        <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="w40-5S-jjW">
+                                            <rect key="frame" x="45" y="8" width="678" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                            <segments>
+                                                <segment title="Basemaps"/>
+                                                <segment title="Geolocation"/>
+                                                <segment title="Add Graphics"/>
+                                                <segment title="Find Place"/>
+                                                <segment title="Find Address"/>
+                                                <segment title="Directions"/>
+                                            </segments>
+                                            <connections>
+                                                <action selector="functionChanged:" destination="2" eventType="valueChanged" id="qfR-S8-PnG"/>
+                                            </connections>
+                                        </segmentedControl>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="a1V-LR-rWz"/>
+                                </items>
+                            </toolbar>
                             <view alpha="0.0" contentMode="scaleToFill" id="wwH-wK-NIP" userLabel="Info View">
-                                <rect key="frame" x="508" y="20" width="240" height="265"/>
+                                <rect key="frame" x="508" y="119" width="240" height="265"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="Gse-27-8iH" userLabel="Info Image">
@@ -188,23 +213,8 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                             </view>
-                            <view alpha="0.0" contentMode="scaleToFill" id="zLG-ll-aqV" userLabel="Status View">
-                                <rect key="frame" x="404" y="915" width="334" height="69"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="ZD3-oI-fMA" userLabel="Status Label">
-                                        <rect key="frame" x="20" y="8" width="294" height="53"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="36"/>
-                                        <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
-                                <gestureRecognizers/>
-                            </view>
-                            <button hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="phz-y9-cDK" userLabel="Load Graphics Button">
-                                <rect key="frame" x="20" y="20" width="121" height="37"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="phz-y9-cDK" userLabel="Load Graphics Button">
+                                <rect key="frame" x="20" y="254" width="121" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Load Graphic">
@@ -218,8 +228,8 @@
                                     <action selector="addGraphic:" destination="2" eventType="touchUpInside" id="0tZ-P7-Sod"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="87Z-Xw-kbS" userLabel="Clear Points Button">
-                                <rect key="frame" x="20" y="99" width="121" height="37"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="87Z-Xw-kbS" userLabel="Clear Points Button">
+                                <rect key="frame" x="20" y="119" width="121" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Clear Points">
@@ -233,8 +243,8 @@
                                     <action selector="clearPoints:" destination="2" eventType="touchUpInside" id="llE-t6-zWZ"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bB5-aq-ZRt" userLabel="Clear Lines Button">
-                                <rect key="frame" x="20" y="144" width="121" height="37"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bB5-aq-ZRt" userLabel="Clear Lines Button">
+                                <rect key="frame" x="20" y="164" width="121" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Clear Lines">
@@ -248,8 +258,8 @@
                                     <action selector="clearLines:" destination="2" eventType="touchUpInside" id="BA6-bT-dBO"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lGD-Q1-aDN" userLabel="Clear Polys Button">
-                                <rect key="frame" x="20" y="189" width="121" height="37"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lGD-Q1-aDN" userLabel="Clear Polys Button">
+                                <rect key="frame" x="20" y="209" width="121" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Clear Polygons">
@@ -272,6 +282,7 @@
                         <outlet property="clearPointsButton" destination="87Z-Xw-kbS" id="uIx-Mu-anO"/>
                         <outlet property="clearPolysButton" destination="lGD-Q1-aDN" id="64f-Jt-JJU"/>
                         <outlet property="findScaleLabel" destination="HsG-tn-8xE" id="Qcz-FZ-fDI"/>
+                        <outlet property="functionToolBar" destination="ea8-sr-7to" id="Jx0-a3-jVy"/>
                         <outlet property="graphicButton" destination="phz-y9-cDK" id="kZg-l1-Y6D"/>
                         <outlet property="infoButton" destination="2Bx-g9-fnj" id="T4I-uS-qdl"/>
                         <outlet property="infoImageView" destination="Gse-27-8iH" id="bED-M0-PMt"/>
@@ -285,8 +296,6 @@
                         <outlet property="routeStopLabel" destination="bY0-AZ-alK" id="uC2-a1-Sx5"/>
                         <outlet property="routingPanel" destination="jM8-Ve-X6c" id="spB-a7-HeB"/>
                         <outlet property="solveRouteButton" destination="cEs-BL-yKN" id="jQk-fD-bX1"/>
-                        <outlet property="statusLabel" destination="ZD3-oI-fMA" id="M1Z-a3-4mW"/>
-                        <outlet property="statusView" destination="zLG-ll-aqV" id="UcA-dI-9KB"/>
                         <outlet property="uiDoubleTapRecognizer" destination="qzV-Mp-XVc" id="L4T-GO-Wfg"/>
                         <outlet property="uiTapRecognizer" destination="6is-f3-MpZ" id="T4J-hl-SO1"/>
                         <segue destination="DIO-Lv-QQc" kind="modal" identifier="showBasemapInfo" modalPresentationStyle="pageSheet" modalTransitionStyle="coverVertical" id="XFF-PA-Izn"/>
@@ -323,6 +332,7 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
+            <point key="canvasLocation" x="90" y="24"/>
         </scene>
         <!--Basemap Details View Controller-->
         <scene sceneID="TXU-qZ-wos">
@@ -387,6 +397,7 @@
                 <relationship kind="action" name="clearPolygons:"/>
                 <relationship kind="action" name="findMe:"/>
                 <relationship kind="action" name="findScaleChanged:"/>
+                <relationship kind="action" name="functionChanged:"/>
                 <relationship kind="action" name="infoRequested:"/>
                 <relationship kind="action" name="nextMap:"/>
                 <relationship kind="action" name="openBasemapSelector:"/>
@@ -401,6 +412,7 @@
                 <relationship kind="outlet" name="clearPointsButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="clearPolysButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="findScaleLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="functionToolBar" candidateClass="UIToolbar"/>
                 <relationship kind="outlet" name="graphicButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="infoButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="infoImageView" candidateClass="UIImageView"/>
@@ -410,13 +422,10 @@
                 <relationship kind="outlet" name="infoTapRecognizer" candidateClass="UITapGestureRecognizer"/>
                 <relationship kind="outlet" name="infoView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="mapView" candidateClass="AGSMapView"/>
-                <relationship kind="outlet" name="nextBasemapButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="routeStartLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="routeStopLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="routingPanel" candidateClass="UIView"/>
                 <relationship kind="outlet" name="solveRouteButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="statusLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="statusView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="uiDoubleTapRecognizer" candidateClass="UITapGestureRecognizer"/>
                 <relationship kind="outlet" name="uiTapRecognizer" candidateClass="UITapGestureRecognizer"/>
             </relationships>

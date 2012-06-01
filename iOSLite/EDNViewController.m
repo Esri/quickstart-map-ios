@@ -19,23 +19,23 @@
 
 typedef enum 
 {
-    EDNVCStateNormal,
-    EDNVCStateWaitingForRouteStart,
-    EDNVCStateWaitingForRouteStop
+    EDNVCStateBasemaps,
+    EDNVCStateGeolocation,
+    EDNVCStateGraphics,
+    EDNVCStateFindPlace,
+    EDNVCStateFindAddress,
+    EDNVCStateDirections_WaitingForRouteStart,
+    EDNVCStateDirections_WaitingForRouteStop
 }
 EDNVCState;
 
 @interface EDNViewController () <AGSPortalItemDelegate, UIGestureRecognizerDelegate, AGSMapViewTouchDelegate, AGSRouteTaskDelegate>
 // UI Properties
-@property (weak, nonatomic) IBOutlet UIButton *nextBasemapButton;
 @property (weak, nonatomic) IBOutlet UIView *infoView;
 @property (weak, nonatomic) IBOutlet UIImageView *infoImageView;
 @property (weak, nonatomic) IBOutlet UILabel *infoLabel;
 @property (weak, nonatomic) IBOutlet UIButton *infoButton;
 @property (weak, nonatomic) IBOutlet UIButton *graphicButton;
-
-@property (weak, nonatomic) IBOutlet UIView *statusView;
-@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 
 @property (weak, nonatomic) IBOutlet UIButton *clearPointsButton;
 @property (weak, nonatomic) IBOutlet UIButton *clearLinesButton;
@@ -48,6 +48,7 @@ EDNVCState;
 @property (nonatomic, strong) AGSPoint *routeStopPoint;
 @property (weak, nonatomic) IBOutlet UIButton *solveRouteButton;
 @property (weak, nonatomic) IBOutlet UILabel *findScaleLabel;
+@property (weak, nonatomic) IBOutlet UIToolbar *functionToolBar;
 
 // Recognizers
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *infoTapRecognizer;
@@ -87,17 +88,16 @@ EDNVCState;
 - (IBAction)findScaleChanged:(id)sender;
 - (IBAction)zoomToLevel:(id)sender;
 
+- (IBAction)functionChanged:(id)sender;
+
 @end
 
 @implementation EDNViewController
-@synthesize nextBasemapButton = _nextBasemapButton;
 @synthesize infoView = _infoView;
 @synthesize infoImageView = _infoImageView;
 @synthesize infoLabel = _infoLabel;
 @synthesize infoButton = _infoButton;
 @synthesize graphicButton = _graphicButton;
-@synthesize statusView = _statusView;
-@synthesize statusLabel = _statusLabel;
 @synthesize clearPointsButton = _clearPointsButton;
 @synthesize clearLinesButton = _clearLinesButton;
 @synthesize clearPolysButton = _clearPolysButton;
@@ -123,6 +123,7 @@ EDNVCState;
 @synthesize routeStopPoint = _routeStopPoint;
 @synthesize solveRouteButton = _solveRouteButton;
 @synthesize findScaleLabel = _findScaleLabel;
+@synthesize functionToolBar = _functionToolBar;
 
 @synthesize routeResult = _routeResult;
 
@@ -131,17 +132,18 @@ EDNVCState;
 - (void)initUI
 {
 	// Track the application state (for now, used for routing input)
-    self.currentState = EDNVCStateNormal;
+    self.currentState = EDNVCStateBasemaps;
 
     // We only want taps to be handled if the user doesn't double(ormore)-tap
     [self.uiTapRecognizer requireGestureRecognizerToFail:self.uiDoubleTapRecognizer];
     
     // Make some of the UI nice and comfy and round.
     self.infoView.layer.cornerRadius = 13;
-    self.statusView.layer.cornerRadius = 13;
     self.infoImageView.layer.masksToBounds = YES;
     self.infoImageView.layer.cornerRadius = 8;
     self.routingPanel.layer.cornerRadius = 8;
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
     
     self.findScale = 13;
 
@@ -175,11 +177,11 @@ EDNVCState;
 {
     NSLog(@"Clicked on map!");
     switch (self.currentState) {
-        case EDNVCStateWaitingForRouteStart:
+        case EDNVCStateDirections_WaitingForRouteStart:
             self.routeStartPoint = mappoint;
             break;
             
-        case EDNVCStateWaitingForRouteStop:
+        case EDNVCStateDirections_WaitingForRouteStop:
             self.routeStopPoint = mappoint;
             break;
             
@@ -241,7 +243,6 @@ EDNVCState;
 - (void)viewDidUnload
 {
     [self setMapView:nil];
-    [self setNextBasemapButton:nil];
     [self setInfoView:nil];
     [self setInfoImageView:nil];
     [self setInfoLabel:nil];
@@ -250,8 +251,6 @@ EDNVCState;
     [self setInfoTapRecognizer:nil];
     [self setGraphicButton:nil];
     [self setUiDoubleTapRecognizer:nil];
-    [self setStatusView:nil];
-    [self setStatusLabel:nil];
     [self setClearPointsButton:nil];
     [self setClearLinesButton:nil];
     [self setClearPolysButton:nil];
@@ -262,6 +261,7 @@ EDNVCState;
     [self setFindScaleLabel:nil];
     [self setInfoSwipeRightRecognizer:nil];
     [self setInfoSwipeLeftRecognizer:nil];
+    [self setFunctionToolBar:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -331,7 +331,8 @@ EDNVCState;
     self.clearPointsButton.hidden = !visibility;
     self.clearLinesButton.hidden = !visibility;
     self.clearPolysButton.hidden = !visibility;
-    self.routingPanel.hidden = !visibility;    
+    self.routingPanel.hidden = !visibility;  
+    self.functionToolBar.hidden = !visibility;
 }
 
 - (void)setUIAlpha:(double)targetAlpha
@@ -343,23 +344,36 @@ EDNVCState;
     self.clearLinesButton.alpha = targetAlpha;
     self.clearPolysButton.alpha = targetAlpha;
     self.routingPanel.alpha = targetAlpha;
+    self.functionToolBar.alpha = targetAlpha;
 }
 
 - (void)updateUIDisplayState
 {
-    [UIView animateWithDuration:0.85
-                     animations:^{
-                         float targetAlpha = self.uiControlsVisible?1:0;
-
-                         if (self.uiControlsVisible)
-                         {
-                             [self setUIVisibility:YES];
+    float targetAlpha = self.uiControlsVisible?1:0;
+    NSTimeInterval animationDuration = 0.85;
+    
+    if (self.uiControlsVisible)
+    {
+        // Unhide the controls and fade them into view.
+        [self setUIVisibility:YES];
+        [UIView animateWithDuration:animationDuration
+                         animations:^{
+                             [self setUIAlpha:targetAlpha];
+                             [[UIApplication sharedApplication] setStatusBarHidden:NO];
+                         }];
+    }
+    else 
+    {
+        // Fade the controls out of view and hide them when done.
+        [UIView animateWithDuration:animationDuration
+                         animations:^{
+                             [self setUIAlpha:targetAlpha];
+                             [[UIApplication sharedApplication] setStatusBarHidden:YES];
                          }
-                         [self setUIAlpha:targetAlpha];
-                     }
-                     completion:^(BOOL finished) {
-                         [self setUIVisibility:self.uiControlsVisible];
-                     }];
+                         completion:^(BOOL finished) {
+                             [self setUIVisibility:NO];
+                         }];
+    }
 }
 
 - (BOOL)uiControlsVisible
@@ -430,12 +444,12 @@ EDNVCState;
     _currentState = currentState;
     
     switch (_currentState) {
-        case EDNVCStateWaitingForRouteStart:
+        case EDNVCStateDirections_WaitingForRouteStart:
             self.routeStartLabel.text = @"Tap a point on the map…";
             self.uiTapRecognizer.enabled = NO;
             self.uiDoubleTapRecognizer.enabled = NO;
             break;
-        case EDNVCStateWaitingForRouteStop:
+        case EDNVCStateDirections_WaitingForRouteStop:
             self.routeStopLabel.text = @"Tap a point on the map…";
             self.uiTapRecognizer.enabled = NO;
             self.uiDoubleTapRecognizer.enabled = NO;
@@ -486,14 +500,14 @@ EDNVCState;
         self.routeStartLabel.text = [NSString stringWithFormat:@"(%.4f,%.4f)", wgs84Pt.y, wgs84Pt.x];
         if ([self doAutoRoute])
         {
-            self.currentState = EDNVCStateNormal;
+            self.currentState = EDNVCStateBasemaps;
         }
         else if (!self.solveRouteButton.enabled)
         {
-            self.currentState = EDNVCStateWaitingForRouteStop;
+            self.currentState = EDNVCStateDirections_WaitingForRouteStart;
         }
         else {
-            self.currentState = EDNVCStateNormal;
+            self.currentState = EDNVCStateBasemaps;
         }
     }
     else {
@@ -504,21 +518,21 @@ EDNVCState;
 - (void) setRouteStopPoint:(AGSPoint *)routeStopPoint
 {
     _routeStopPoint = routeStopPoint;
-    self.currentState = EDNVCStateNormal;
+    self.currentState = EDNVCStateBasemaps;
     if (_routeStopPoint)
     {
         AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromWebMercatorAuxSpherePoint:_routeStopPoint];
         self.routeStopLabel.text = [NSString stringWithFormat:@"(%.4f,%.4f)", wgs84Pt.y, wgs84Pt.x];
         if ([self doAutoRoute])
         {
-            self.currentState = EDNVCStateNormal;
+            self.currentState = EDNVCStateBasemaps;
         }
         else if (!self.solveRouteButton.enabled)
         {
-            self.currentState = EDNVCStateWaitingForRouteStart;
+            self.currentState = EDNVCStateDirections_WaitingForRouteStart;
         }
         else {
-            self.currentState = EDNVCStateNormal;
+            self.currentState = EDNVCStateBasemaps;
         }
     }
     else {
@@ -537,7 +551,7 @@ EDNVCState;
         self.solveRouteButton.enabled = NO;
         self.routeStartPoint = nil;
         self.routeStopPoint = nil;
-        self.currentState = EDNVCStateWaitingForRouteStart;
+        self.currentState = EDNVCStateDirections_WaitingForRouteStart;
     }
 }
 
@@ -549,27 +563,27 @@ EDNVCState;
         self.solveRouteButton.enabled = NO;
         self.routeStartPoint = nil;
         self.routeStopPoint = nil;
-        self.currentState = EDNVCStateWaitingForRouteStart;
+        self.currentState = EDNVCStateDirections_WaitingForRouteStart;
     }
 }
 
 - (IBAction)selectRouteStart:(id)sender {
-    if (self.currentState != EDNVCStateWaitingForRouteStart)
+    if (self.currentState != EDNVCStateDirections_WaitingForRouteStart)
     {
-        self.currentState = EDNVCStateWaitingForRouteStart;
+        self.currentState = EDNVCStateDirections_WaitingForRouteStart;
     }
     else {
-        self.currentState = EDNVCStateNormal;
+        self.currentState = EDNVCStateBasemaps;
     }
 }
 
 - (IBAction)selectRouteStop:(id)sender {
-    if (self.currentState != EDNVCStateWaitingForRouteStop)
+    if (self.currentState != EDNVCStateDirections_WaitingForRouteStop)
     {
-        self.currentState = EDNVCStateWaitingForRouteStop;
+        self.currentState = EDNVCStateDirections_WaitingForRouteStop;
     }
     else {
-        self.currentState = EDNVCStateNormal;
+        self.currentState = EDNVCStateBasemaps;
     }
 }
 
@@ -584,5 +598,8 @@ EDNVCState;
 
 - (IBAction)zoomToLevel:(id)sender {
     [self.mapView zoomToLevel:self.findScale];
+}
+
+- (IBAction)functionChanged:(id)sender {
 }
 @end
