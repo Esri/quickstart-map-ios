@@ -9,7 +9,7 @@
 #import "AGSMapView+Routing.h"
 #import "AGSMapView+GeneralUtilities.h"
 #import "EDNLiteHelper.h"
-#import "EDNLitRouteTaskHelper.h"
+#import "EDNLiteRouteTaskHelper.h"
 
 @implementation AGSMapView (Routing)
 EDNLiteRouteTaskHelper *__ednLiteRouteHelper = nil;
@@ -19,29 +19,29 @@ EDNLiteRouteTaskHelper *__ednLiteRouteHelper = nil;
 #pragma mark - Public Methods
 - (void)getDirectionsFromPoint:(AGSPoint*)startPoint ToPoint:(AGSPoint *)stopPoint
 {
-    [self getDirectionsFromPoint:startPoint ToPoint:stopPoint WithHandler:nil];
+    [self getDirectionsFromPoint:startPoint ToPoint:stopPoint WithDelegate:nil];
 }
 
 - (void)getDirectionsFromLat:(double)startLat Lng:(double)startLng ToLat:(double)stopLat Lng:(double)stopLng
 {    
-    [self getDirectionsFromPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:startLat Long:startLng]
-                         ToPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:stopLat Long:stopLng]];
+    [self getDirectionsFromPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:startLat Lon:startLng]
+                         ToPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:stopLat Lon:stopLng]];
 }
 
-- (void)getDirectionsFromPoint:(AGSPoint*)startPoint ToPoint:(AGSPoint *)stopPoint WithHandler:(id<AGSRouteTaskDelegate>)handler
+- (void)getDirectionsFromPoint:(AGSPoint*)startPoint ToPoint:(AGSPoint *)stopPoint WithDelegate:(id<AGSRouteTaskDelegate>)delegate
 {
     // Set up the route task to respond to the handler we're specifying here.
     // The route task will ask for its default parameters, and when they're returned,
     // the EDNLiteRouteTaskHelperLoaded notification will fire, causing the
     // routeTaskReadyForRouting method below to be called.
-    [self __ednLiteInitRoutingWithStartPoint:startPoint stopPoint:stopPoint AndHandler:handler];
+    [self __ednLiteInitRoutingWithStartPoint:startPoint stopPoint:stopPoint AndDelegate:delegate];
 }
 
-- (void) getDirectionsFromLat:(double)startLat Lng:(double)startLng ToLat:(double)stopLat Lng:(double)stopLng WithHandler:(id<AGSRouteTaskDelegate>)handler
+- (void) getDirectionsFromLat:(double)startLat Lng:(double)startLng ToLat:(double)stopLat Lng:(double)stopLng WithDelegate:(id<AGSRouteTaskDelegate>)delegate
 {    
-    [self getDirectionsFromPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:startLat Long:startLng]
-                         ToPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:stopLat Long:stopLng]
-                     WithHandler:handler];
+    [self getDirectionsFromPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:startLat Lon:startLng]
+                         ToPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:stopLat Lon:stopLng]
+                     WithDelegate:delegate];
 }
 
  - (void) clearRoute
@@ -51,7 +51,7 @@ EDNLiteRouteTaskHelper *__ednLiteRouteHelper = nil;
 }
 
 #pragma mark - Internals
-- (void) __ednLiteInitRoutingWithStartPoint:(AGSPoint *)startPoint stopPoint:(AGSPoint *)stopPoint AndHandler:(id<AGSRouteTaskDelegate>)handler
+- (void) __ednLiteInitRoutingWithStartPoint:(AGSPoint *)startPoint stopPoint:(AGSPoint *)stopPoint AndDelegate:(id<AGSRouteTaskDelegate>)delegate
 {
     if (!__ednLiteRouteHelper)
     {
@@ -77,7 +77,7 @@ EDNLiteRouteTaskHelper *__ednLiteRouteHelper = nil;
     }
 
     // Set me up as the delegate handler for the helper.
-    __ednLiteRouteHelper.handler = handler;
+    __ednLiteRouteHelper.delegate = delegate;
 
     // Set the start and end points
     [__ednLiteRouteHelper setStart:startPoint AndStop:stopPoint];    

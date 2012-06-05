@@ -6,13 +6,14 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "EDNLitRouteTaskHelper.h"
-
-NSString * const EDNLITE_ROUTE_TASK_URL = @"http://tasks.arcgisonline.com/ArcGIS/rest/services/NetworkAnalysis/ESRI_Route_NA/NAServer/Route";
-NSString * const EDNLITE_ROUTE_TASK_HELPER_NOTIFICATION_LOADED = @"EDNLiteRouteTaskHelperLoaded";
-NSString * const EDNLITE_ROUTE_TASK_ROUTE_SOLVED = @"EDNLiteRouteTaskHelperRouteSolved";
+#import "EDNLiteRouteTaskHelper.h"
 
 @interface EDNLiteRouteTaskHelper ()<AGSRouteTaskDelegate>
+
+#define kEdnLiteRouteTaskUrl @"http://tasks.arcgisonline.com/ArcGIS/rest/services/NetworkAnalysis/ESRI_Route_NA/NAServer/Route"
+#define kEdnLiteRouteTaskHelperNotificationLoaded @"EDNLiteRouteTaskHelperLoaded"
+#define kEdnLiteRouteTaskHelperNotificationRouteSolved @"EDNLiteRouteTaskHelperRouteSolved"
+
 @property (nonatomic, retain) AGSRouteTask *routeTaskForParameters;
 @property (nonatomic, retain) AGSPoint *startPoint;
 @property (nonatomic, retain) AGSPoint *stopPoint;
@@ -25,7 +26,7 @@ NSString * const EDNLITE_ROUTE_TASK_ROUTE_SOLVED = @"EDNLiteRouteTaskHelperRoute
 @synthesize defaultParameters = _defaultParameters;
 
 @synthesize loaded = _loaded;
-@synthesize handler = _handler;
+@synthesize delegate = _delegate;
 
 @synthesize resultsGraphicsLayer = _resultsGraphicsLayer;
 
@@ -46,7 +47,7 @@ NSString * const EDNLITE_ROUTE_TASK_ROUTE_SOLVED = @"EDNLiteRouteTaskHelperRoute
         // that temporary AGSRouteTask and shift focus to this.
         //
         // This is the problem with the single delegate model. Notifications FTW!
-        self.routeTask = [AGSRouteTask routeTaskWithURL:[NSURL URLWithString:EDNLITE_ROUTE_TASK_URL]];
+        self.routeTask = [AGSRouteTask routeTaskWithURL:[NSURL URLWithString:kEdnLiteRouteTaskUrl]];
     }    
     
     return self;
@@ -58,7 +59,7 @@ NSString * const EDNLITE_ROUTE_TASK_ROUTE_SOLVED = @"EDNLiteRouteTaskHelperRoute
     self.routeTaskForParameters = nil;
     self.defaultParameters = nil;
 
-    self.handler = nil;
+    self.delegate = nil;
 
     self.resultsGraphicsLayer = nil;
 
@@ -126,7 +127,7 @@ NSString * const EDNLITE_ROUTE_TASK_ROUTE_SOLVED = @"EDNLiteRouteTaskHelperRoute
     _loaded = loaded;
     if (_loaded && self.waitingToStart)
     {
-        [[NSNotificationCenter defaultCenter] postNotificationName:EDNLITE_ROUTE_TASK_HELPER_NOTIFICATION_LOADED object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kEdnLiteRouteTaskHelperNotificationLoaded object:self];
         self.waitingToStart = NO;
     }
 }
@@ -141,14 +142,14 @@ NSString * const EDNLITE_ROUTE_TASK_ROUTE_SOLVED = @"EDNLiteRouteTaskHelperRoute
     }
 }
 
-- (id<AGSRouteTaskDelegate>) handler
+- (id<AGSRouteTaskDelegate>) delegate
 {
-    return _handler;
+    return _delegate;
 }
 
-- (void) setHandler:(id<AGSRouteTaskDelegate>)handler
+- (void) setDelegate:(id<AGSRouteTaskDelegate>)delegate
 {
-    _handler = handler;
+    _delegate = delegate;
     [self markLoadedIfPossible];
 }
 
@@ -221,7 +222,7 @@ NSString * const EDNLITE_ROUTE_TASK_ROUTE_SOLVED = @"EDNLiteRouteTaskHelperRoute
         // Watch for notification and do it when we *are* ready.
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(routeTaskReadyForRouting:) 
-                                                     name:EDNLITE_ROUTE_TASK_HELPER_NOTIFICATION_LOADED 
+                                                     name:kEdnLiteRouteTaskHelperNotificationLoaded 
                                                    object:self];
         self.waitingToStart = YES;
     }
@@ -273,13 +274,13 @@ NSString * const EDNLITE_ROUTE_TASK_ROUTE_SOLVED = @"EDNLiteRouteTaskHelperRoute
         [self.resultsGraphicsLayer dataChanged];
         
         NSDictionary *userInfo = [NSDictionary dictionaryWithObject:result forKey:@"routeResult"];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"EDNLiteRouteTaskHelperRouteSolved" object:self userInfo:userInfo];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kEdnLiteRouteTaskHelperNotificationRouteSolved object:self userInfo:userInfo];
         
-        if (self.handler)
+        if (self.delegate)
         {
-            if ([self.handler respondsToSelector:@selector(routeTask:operation:didSolveWithResult:)])
+            if ([self.delegate respondsToSelector:@selector(routeTask:operation:didSolveWithResult:)])
             {
-                [self.handler routeTask:routeTask operation:op didSolveWithResult:routeTaskResult];
+                [self.delegate routeTask:routeTask operation:op didSolveWithResult:routeTaskResult];
             }
         }
     }
@@ -289,12 +290,12 @@ NSString * const EDNLITE_ROUTE_TASK_ROUTE_SOLVED = @"EDNLiteRouteTaskHelperRoute
 {
     NSLog(@"Failed to get route: %@", error);
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:error forKey:@"error"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"EDNLiteRouteTaskHelperRouteSolved" object:self userInfo:userInfo];
-    if (self.handler)
+    [[NSNotificationCenter defaultCenter] postNotificationName:kEdnLiteRouteTaskHelperNotificationRouteSolved object:self userInfo:userInfo];
+    if (self.delegate)
     {
-        if ([self.handler respondsToSelector:@selector(routeTask:operation:didFailSolveWithError:)])
+        if ([self.delegate respondsToSelector:@selector(routeTask:operation:didFailSolveWithError:)])
         {
-            [self.handler routeTask:routeTask operation:op didFailSolveWithError:error];
+            [self.delegate routeTask:routeTask operation:op didFailSolveWithError:error];
         }
     }
 

@@ -21,7 +21,7 @@ NSInteger __ednLiteScaleForGeolocation = -1;
 // PUBLIC
 - (void) centerAtLat:(CGFloat) latitude Lng:(CGFloat) longitude withScaleLevel:(NSInteger)scaleLevel
 {
-    AGSPoint *webMercatorCenterPt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
+    AGSPoint *webMercatorCenterPt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Lon:longitude];
     double scale = [EDNLiteHelper getScaleForLevel:scaleLevel];
     if (self.loaded)
     {
@@ -39,7 +39,7 @@ NSInteger __ednLiteScaleForGeolocation = -1;
 
 - (void) centerAtLat:(CGFloat) latitude Lng:(CGFloat) longitude
 {
-    AGSPoint *p = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
+    AGSPoint *p = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Lon:longitude];
     [self centerAtPoint:p animated:YES];
 }
 

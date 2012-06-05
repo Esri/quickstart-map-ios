@@ -10,10 +10,10 @@
 
 @interface AGSMapView (Routing)
 - (void)getDirectionsFromLat:(double)startLat Lng:(double)startLng ToLat:(double)stopLat Lng:(double)stopLng;
-- (void)getDirectionsFromLat:(double)startLat Lng:(double)startLon ToLat:(double)stopLat Lng:(double)stopLng WithHandler:(id<AGSRouteTaskDelegate>)handler;
+- (void)getDirectionsFromLat:(double)startLat Lng:(double)startLon ToLat:(double)stopLat Lng:(double)stopLng WithDelegate:(id<AGSRouteTaskDelegate>)delegate;
 
 - (void)getDirectionsFromPoint:(AGSPoint*)startPoint ToPoint:(AGSPoint *)stopPoint;
-- (void)getDirectionsFromPoint:(AGSPoint*)startPoint ToPoint:(AGSPoint *)stopPoint WithHandler:(id<AGSRouteTaskDelegate>)handler;
+- (void)getDirectionsFromPoint:(AGSPoint*)startPoint ToPoint:(AGSPoint *)stopPoint WithDelegate:(id<AGSRouteTaskDelegate>)delegate;
 
 - (void) clearRoute;
 @end

@@ -13,6 +13,7 @@
 #import "AGSMapView+Basemaps.h"
 #import "AGSMapView+Graphics.h"
 #import "AGSMapView+Routing.h"
+#import "AGSMapView+Geocoding.h"
 
 #import "EDNBasemapDetailsViewController.h"
 #import "UILabel+EDNAutoSizeMutliline.h"
@@ -24,12 +25,13 @@ typedef enum
     EDNVCStateGraphics,
     EDNVCStateFindPlace,
     EDNVCStateFindAddress,
+	EDNVCStateDirections,
     EDNVCStateDirections_WaitingForRouteStart,
     EDNVCStateDirections_WaitingForRouteStop
 }
 EDNVCState;
 
-@interface EDNViewController () <AGSPortalItemDelegate, UIGestureRecognizerDelegate, AGSMapViewTouchDelegate, AGSRouteTaskDelegate>
+@interface EDNViewController () <AGSPortalItemDelegate, UIGestureRecognizerDelegate, AGSMapViewTouchDelegate, AGSRouteTaskDelegate, UISearchBarDelegate>
 // UI Properties
 @property (weak, nonatomic) IBOutlet UIView *infoView;
 @property (weak, nonatomic) IBOutlet UIImageView *infoImageView;
@@ -46,7 +48,7 @@ EDNVCState;
 @property (weak, nonatomic) IBOutlet UILabel *routeStopLabel;
 @property (nonatomic, strong) AGSPoint *routeStartPoint;
 @property (nonatomic, strong) AGSPoint *routeStopPoint;
-@property (weak, nonatomic) IBOutlet UIButton *solveRouteButton;
+@property (weak, nonatomic) IBOutlet UIButton *clearRouteButton;
 @property (weak, nonatomic) IBOutlet UILabel *findScaleLabel;
 @property (weak, nonatomic) IBOutlet UIToolbar *functionToolBar;
 
@@ -56,6 +58,7 @@ EDNVCState;
 @property (strong, nonatomic) IBOutlet UISwipeGestureRecognizer *infoSwipeRightRecognizer;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *uiTapRecognizer;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *uiDoubleTapRecognizer;
+@property (weak, nonatomic) IBOutlet UISwitch *routingEnabledSwitch;
 
 // Non UI Properties
 @property (assign) EDNLiteBasemapType currentBasemapType;
@@ -80,9 +83,7 @@ EDNVCState;
 - (IBAction)clearPolygons:(id)sender;
 
 - (IBAction)toggleAutoRouting:(id)sender;
-- (IBAction)solveRoute:(id)sender;
-- (IBAction)selectRouteStart:(id)sender;
-- (IBAction)selectRouteStop:(id)sender;
+- (IBAction)clearRoute:(id)sender;
 
 - (IBAction)findMe:(id)sender;
 - (IBAction)findScaleChanged:(id)sender;
@@ -110,6 +111,7 @@ EDNVCState;
 @synthesize infoSwipeRightRecognizer = _infoSwipeRightRecognizer;
 @synthesize uiTapRecognizer = _uiTapRecognizer;
 @synthesize uiDoubleTapRecognizer = _uiDoubleTapRecognizer;
+@synthesize routingEnabledSwitch = _routingEnabledSwitch;
 
 @synthesize mapView = _mapView;
 
@@ -122,7 +124,7 @@ EDNVCState;
 
 @synthesize routeStartPoint = _routeStartPoint;
 @synthesize routeStopPoint = _routeStopPoint;
-@synthesize solveRouteButton = _solveRouteButton;
+@synthesize clearRouteButton = _clearRouteButton;
 @synthesize findScaleLabel = _findScaleLabel;
 @synthesize functionToolBar = _functionToolBar;
 
@@ -258,11 +260,12 @@ EDNVCState;
     [self setRoutingPanel:nil];
     [self setRouteStartLabel:nil];
     [self setRouteStopLabel:nil];
-    [self setSolveRouteButton:nil];
+    [self setClearRouteButton:nil];
     [self setFindScaleLabel:nil];
     [self setInfoSwipeRightRecognizer:nil];
     [self setInfoSwipeLeftRecognizer:nil];
     [self setFunctionToolBar:nil];
+	[self setRoutingEnabledSwitch:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -479,7 +482,7 @@ EDNVCState;
 
 - (BOOL) doAutoRoute
 {
-    if (!self.solveRouteButton.enabled)
+    if (!self.clearRouteButton.enabled)
     {
         NSLog(@"Automatically solving route");
         return [self doRouteIfPossible];
@@ -493,7 +496,7 @@ EDNVCState;
         self.routeStopPoint)
     {
         NSLog(@"Start and stop points set...");
-        [self.mapView getDirectionsFromPoint:self.routeStartPoint ToPoint:self.routeStopPoint WithHandler:self];
+        [self.mapView getDirectionsFromPoint:self.routeStartPoint ToPoint:self.routeStopPoint WithDelegate:self];
         self.uiControlsVisible = NO;
         return YES;
     }
@@ -503,7 +506,7 @@ EDNVCState;
 - (void) routeTask:(AGSRouteTask *)routeTask operation:(NSOperation *)op didSolveWithResult:(AGSRouteTaskResult *)routeTaskResult
 {
     self.routeResult = routeTaskResult;
-    self.solveRouteButton.enabled = YES;
+    self.clearRouteButton.enabled = YES;
 }
 
 - (void) setRouteStartPoint:(AGSPoint *)routeStartPoint
@@ -513,20 +516,7 @@ EDNVCState;
     {
         AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromWebMercatorAuxSpherePoint:_routeStartPoint];
         self.routeStartLabel.text = [NSString stringWithFormat:@"(%.4f,%.4f)", wgs84Pt.y, wgs84Pt.x];
-        if ([self doAutoRoute])
-        {
-            self.currentState = EDNVCStateBasemaps;
-        }
-        else if (!self.solveRouteButton.enabled)
-        {
-            self.currentState = EDNVCStateDirections_WaitingForRouteStart;
-        }
-        else {
-            self.currentState = EDNVCStateBasemaps;
-        }
-    }
-    else {
-        self.routeStartLabel.text = @"Tap to the right…";
+		self.currentState = EDNVCStateDirections_WaitingForRouteStop;
     }
 }
 
@@ -538,67 +528,32 @@ EDNVCState;
     {
         AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromWebMercatorAuxSpherePoint:_routeStopPoint];
         self.routeStopLabel.text = [NSString stringWithFormat:@"(%.4f,%.4f)", wgs84Pt.y, wgs84Pt.x];
-        if ([self doAutoRoute])
-        {
-            self.currentState = EDNVCStateBasemaps;
-        }
-        else if (!self.solveRouteButton.enabled)
-        {
-            self.currentState = EDNVCStateDirections_WaitingForRouteStart;
-        }
-        else {
-            self.currentState = EDNVCStateBasemaps;
-        }
-    }
-    else {
-        self.routeStopLabel.text = @"Tap to the right…";
-    }
+		self.currentState = EDNVCStateDirections_WaitingForRouteStart;
+		[self doRouteIfPossible];
+	}
 }
 
 - (IBAction)toggleAutoRouting:(id)sender {
-    UISegmentedControl *autoRouting = sender;
-    if (autoRouting.selectedSegmentIndex == 0) {
-        // Manual
-        self.solveRouteButton.enabled = YES;
-    }
-    else {
-        // Auto
-        self.solveRouteButton.enabled = NO;
+    UISwitch *autoRouting = sender;
+    if (autoRouting.on) {
         self.routeStartPoint = nil;
         self.routeStopPoint = nil;
         self.currentState = EDNVCStateDirections_WaitingForRouteStart;
     }
+	else {
+		self.currentState = EDNVCStateDirections;
+	}
 }
 
-- (IBAction)solveRoute:(id)sender {
+- (IBAction)clearRoute:(id)sender {
     if (self.routeResult)
     {
         self.routeResult = nil;
         [self.mapView clearRoute];
-        self.solveRouteButton.enabled = NO;
+        self.clearRouteButton.enabled = NO;
         self.routeStartPoint = nil;
         self.routeStopPoint = nil;
         self.currentState = EDNVCStateDirections_WaitingForRouteStart;
-    }
-}
-
-- (IBAction)selectRouteStart:(id)sender {
-    if (self.currentState != EDNVCStateDirections_WaitingForRouteStart)
-    {
-        self.currentState = EDNVCStateDirections_WaitingForRouteStart;
-    }
-    else {
-        self.currentState = EDNVCStateBasemaps;
-    }
-}
-
-- (IBAction)selectRouteStop:(id)sender {
-    if (self.currentState != EDNVCStateDirections_WaitingForRouteStop)
-    {
-        self.currentState = EDNVCStateDirections_WaitingForRouteStop;
-    }
-    else {
-        self.currentState = EDNVCStateBasemaps;
     }
 }
 
@@ -619,5 +574,12 @@ EDNVCState;
 }
 
 - (IBAction)basemapItemChanged:(id)sender {
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+	NSString *searchString = searchBar.text;
+	NSLog(@"Searching for: %@", searchString);
+	[self.mapView findAddress:searchString];
 }
 @end

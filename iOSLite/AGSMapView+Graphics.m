@@ -83,7 +83,7 @@ NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
 
 - (AGSGraphic *) addPointAtLat:(double)latitude Lng:(double)longitude
 {
-    AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
+    AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Lon:longitude];
     
     AGSGraphic *g = [AGSGraphic graphicWithGeometry:pt
                                              symbol:[AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor redColor]]
@@ -123,7 +123,7 @@ NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
     {
         NSNumber *lat = [nums objectAtIndex:i];
         NSNumber *lon = [nums objectAtIndex:i+1];
-        AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:[lat doubleValue] Long:[lon doubleValue]];
+        AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:[lat doubleValue] Lon:[lon doubleValue]];
         [line addPointToPath:pt];
     }
 
@@ -154,7 +154,7 @@ NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
     {
         NSNumber *lat = [nums objectAtIndex:i];
         NSNumber *lon = [nums objectAtIndex:i+1];
-        AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:[lat doubleValue] Long:[lon doubleValue]];
+        AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:[lat doubleValue] Lon:[lon doubleValue]];
         [poly addPointToRing:pt];
     }
 

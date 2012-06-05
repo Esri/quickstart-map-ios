@@ -11,4 +11,5 @@
 @interface AGSMapView (Geocoding)
 - (void) findAddress:(NSString *)singleLineAddress;
 - (void) getAddressForLat:(double)latitude Lon:(double)longitude;
+- (void) getAddressForMapPoint:(AGSPoint *)mapPoint;
 @end

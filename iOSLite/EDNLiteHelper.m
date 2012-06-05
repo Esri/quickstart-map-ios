@@ -344,7 +344,7 @@ NSDictionary * __ednBasemapURLs = nil;
     }
 }
 
-+ (AGSPoint *) getWebMercatorAuxSpherePointFromLat:(double) latitude Long:(double) longitude
++ (AGSPoint *) getWebMercatorAuxSpherePointFromLat:(double) latitude Lon:(double) longitude
 {
     // Ensure we're passed sensible values for lat and long
     NSAssert1((-90 <= latitude) && (latitude <= 90), @"Latitude %f must be between -90 and 90 degrees", latitude);

@@ -25,6 +25,25 @@
                                     <outletCollection property="gestureRecognizers" destination="6is-f3-MpZ" appends="YES" id="PRE-90-DYA"/>
                                 </connections>
                             </view>
+                            <view contentMode="scaleToFill" id="iAZ-ik-vkL">
+                                <rect key="frame" x="23" y="480" width="374" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <searchBar contentMode="redraw" barStyle="blackTranslucent" text="6 Stuyvesant Oval, New York" placeholder="Enter an address" showsScopeBar="YES" id="ehD-4C-jip">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="88"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                                        <scopeButtonTitles>
+                                            <string>Globally</string>
+                                            <string>Current extent</string>
+                                        </scopeButtonTitles>
+                                        <connections>
+                                            <outlet property="delegate" destination="2" id="IGd-bW-r6Y"/>
+                                        </connections>
+                                    </searchBar>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackTranslucent" id="ea8-sr-7to">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -153,60 +172,19 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="Start Location" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="krd-T4-cwH">
-                                        <rect key="frame" x="9" y="26" width="274" height="14"/>
+                                        <rect key="frame" x="9" y="26" width="137" height="14"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                         <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="Stop Location" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="bY0-AZ-alK">
-                                        <rect key="frame" x="9" y="65" width="274" height="14"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="Stop Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="bY0-AZ-alK">
+                                        <rect key="frame" x="172" y="26" width="130" height="14"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                         <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" id="3aF-Ey-LoK" userLabel="Start Pt Button">
-                                        <rect key="frame" x="288" y="6" width="29" height="29"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal">
-                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="selectRouteStart:" destination="2" eventType="touchUpInside" id="Lbq-zp-5rK"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" id="C0X-yE-ajG" userLabel="Stop Pt Button">
-                                        <rect key="frame" x="288" y="45" width="29" height="29"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal">
-                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="selectRouteStop:" destination="2" eventType="touchUpInside" id="gdt-hv-0jX"/>
-                                        </connections>
-                                    </button>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="VIF-ZT-L3Y">
-                                        <rect key="frame" x="9" y="115" width="110" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <segments>
-                                            <segment title="Manual"/>
-                                            <segment title="Auto"/>
-                                        </segments>
-                                        <connections>
-                                            <action selector="toggleAutoRouting:" destination="2" eventType="valueChanged" id="vO9-q6-8sL"/>
-                                        </connections>
-                                    </segmentedControl>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cEs-BL-yKN">
                                         <rect key="frame" x="199" y="111" width="115" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -219,9 +197,16 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="solveRoute:" destination="2" eventType="touchUpInside" id="Jb5-Hb-TJm"/>
+                                            <action selector="clearRoute:" destination="2" eventType="touchUpInside" id="Ub5-sS-uhb"/>
                                         </connections>
                                     </button>
+                                    <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="Nr1-qQ-drY">
+                                        <rect key="frame" x="20" y="115" width="79" height="27"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="toggleAutoRouting:" destination="2" eventType="valueChanged" id="6vE-rW-KVC"/>
+                                        </connections>
+                                    </switch>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                             </view>
@@ -293,6 +278,7 @@
                         <outlet property="clearLinesButton" destination="bB5-aq-ZRt" id="qqj-xh-ZPE"/>
                         <outlet property="clearPointsButton" destination="87Z-Xw-kbS" id="uIx-Mu-anO"/>
                         <outlet property="clearPolysButton" destination="lGD-Q1-aDN" id="64f-Jt-JJU"/>
+                        <outlet property="clearRouteButton" destination="cEs-BL-yKN" id="72f-q1-SKu"/>
                         <outlet property="findScaleLabel" destination="HsG-tn-8xE" id="Qcz-FZ-fDI"/>
                         <outlet property="functionToolBar" destination="ea8-sr-7to" id="Jx0-a3-jVy"/>
                         <outlet property="graphicButton" destination="phz-y9-cDK" id="kZg-l1-Y6D"/>
@@ -306,8 +292,8 @@
                         <outlet property="mapView" destination="jAh-IA-P6U" id="WTH-5S-YRJ"/>
                         <outlet property="routeStartLabel" destination="krd-T4-cwH" id="CuD-KN-vs4"/>
                         <outlet property="routeStopLabel" destination="bY0-AZ-alK" id="uC2-a1-Sx5"/>
+                        <outlet property="routingEnabledSwitch" destination="Nr1-qQ-drY" id="w5C-AR-KsZ"/>
                         <outlet property="routingPanel" destination="jM8-Ve-X6c" id="spB-a7-HeB"/>
-                        <outlet property="solveRouteButton" destination="cEs-BL-yKN" id="jQk-fD-bX1"/>
                         <outlet property="uiDoubleTapRecognizer" destination="qzV-Mp-XVc" id="L4T-GO-Wfg"/>
                         <outlet property="uiTapRecognizer" destination="6is-f3-MpZ" id="T4J-hl-SO1"/>
                         <segue destination="DIO-Lv-QQc" kind="modal" identifier="showBasemapInfo" modalPresentationStyle="pageSheet" modalTransitionStyle="coverVertical" id="XFF-PA-Izn"/>
@@ -344,7 +330,7 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="90" y="24"/>
+            <point key="canvasLocation" x="-250" y="-124"/>
         </scene>
         <!--Basemap Details View Controller-->
         <scene sceneID="TXU-qZ-wos">
@@ -385,7 +371,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1078" y="148"/>
+            <point key="canvasLocation" x="634" y="2"/>
         </scene>
     </scenes>
     <classes>
@@ -408,6 +394,7 @@
                 <relationship kind="action" name="clearLines:"/>
                 <relationship kind="action" name="clearPoints:"/>
                 <relationship kind="action" name="clearPolygons:"/>
+                <relationship kind="action" name="clearRoute:"/>
                 <relationship kind="action" name="findMe:"/>
                 <relationship kind="action" name="findScaleChanged:"/>
                 <relationship kind="action" name="functionChanged:"/>
@@ -424,6 +411,7 @@
                 <relationship kind="outlet" name="clearLinesButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="clearPointsButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="clearPolysButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="clearRouteButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="findScaleLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="functionToolBar" candidateClass="UIToolbar"/>
                 <relationship kind="outlet" name="graphicButton" candidateClass="UIButton"/>
@@ -437,8 +425,8 @@
                 <relationship kind="outlet" name="mapView" candidateClass="AGSMapView"/>
                 <relationship kind="outlet" name="routeStartLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="routeStopLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="routingEnabledSwitch" candidateClass="UISwitch"/>
                 <relationship kind="outlet" name="routingPanel" candidateClass="UIView"/>
-                <relationship kind="outlet" name="solveRouteButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="uiDoubleTapRecognizer" candidateClass="UITapGestureRecognizer"/>
                 <relationship kind="outlet" name="uiTapRecognizer" candidateClass="UITapGestureRecognizer"/>
             </relationships>

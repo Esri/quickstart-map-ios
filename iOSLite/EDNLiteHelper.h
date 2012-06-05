@@ -18,7 +18,7 @@
 + (NSArray *) getBasemapSupplementalTiledLayers:(EDNLiteBasemapType)basemapType;
 
 // Convenience functions for translating to Web Mercator Auxiliary Sphere spatial reference
-+ (AGSPoint *) getWebMercatorAuxSpherePointFromLat:(double) latitude Long:(double) longitude;
++ (AGSPoint *) getWebMercatorAuxSpherePointFromLat:(double) latitude Lon:(double) longitude;
 + (AGSPoint *) getWebMercatorAuxSpherePointFromWGS84Point:(AGSPoint *)wgs84Point;
 + (AGSPoint *) getWGS84PointFromWebMercatorAuxSpherePoint:(AGSPoint *)webMercatorPoint;
 

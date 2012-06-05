@@ -22,7 +22,7 @@
 
 - (void) solveRouteWhenReady;
 
-@property (nonatomic, assign) id<AGSRouteTaskDelegate> handler;
+@property (nonatomic, assign) id<AGSRouteTaskDelegate> delegate;
 
 @property (nonatomic, retain) AGSRouteTask *routeTask;
 @property (nonatomic, retain) AGSRouteTaskParameters *defaultParameters;

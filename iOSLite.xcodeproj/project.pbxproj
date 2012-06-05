@@ -17,7 +17,7 @@
 		D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */; };
 		D9E27CB8155B1EDB008F8CCB /* LiteMapConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */; };
 		D9EAB292156FD1EF008BCE8F /* AGSMapView+Routing.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EAB291156FD1EE008BCE8F /* AGSMapView+Routing.m */; };
-		D9EAB295156FE0AF008BCE8F /* EDNLitRouteTaskHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EAB294156FE0AF008BCE8F /* EDNLitRouteTaskHelper.m */; };
+		D9EAB295156FE0AF008BCE8F /* EDNLiteRouteTaskHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EAB294156FE0AF008BCE8F /* EDNLiteRouteTaskHelper.m */; };
 		D9F9AE95157D6352004CFAA8 /* AGSMapView+Geocoding.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9AE94157D6352004CFAA8 /* AGSMapView+Geocoding.m */; };
 		D9F9AE99157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9AE98157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m */; };
 		D9F9EE68156DE2D200C2A15F /* EDNBasemapSelector_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9F9EE67156DE2D200C2A15F /* EDNBasemapSelector_iPad.xib */; };
@@ -62,8 +62,8 @@
 		D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = LiteMapConfig.plist; path = ../LiteMapConfig.plist; sourceTree = "<group>"; };
 		D9EAB290156FD1EE008BCE8F /* AGSMapView+Routing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+Routing.h"; sourceTree = "<group>"; };
 		D9EAB291156FD1EE008BCE8F /* AGSMapView+Routing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+Routing.m"; sourceTree = "<group>"; };
-		D9EAB293156FE0AF008BCE8F /* EDNLitRouteTaskHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNLitRouteTaskHelper.h; sourceTree = "<group>"; };
-		D9EAB294156FE0AF008BCE8F /* EDNLitRouteTaskHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNLitRouteTaskHelper.m; sourceTree = "<group>"; };
+		D9EAB293156FE0AF008BCE8F /* EDNLiteRouteTaskHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNLiteRouteTaskHelper.h; sourceTree = "<group>"; };
+		D9EAB294156FE0AF008BCE8F /* EDNLiteRouteTaskHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNLiteRouteTaskHelper.m; sourceTree = "<group>"; };
 		D9F9AE93157D6352004CFAA8 /* AGSMapView+Geocoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+Geocoding.h"; sourceTree = "<group>"; };
 		D9F9AE94157D6352004CFAA8 /* AGSMapView+Geocoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+Geocoding.m"; sourceTree = "<group>"; };
 		D9F9AE97157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+GeneralUtilities.h"; sourceTree = "<group>"; };
@@ -218,8 +218,8 @@
 		E15369E1157547BC0027EB47 /* Private */ = {
 			isa = PBXGroup;
 			children = (
-				D9EAB293156FE0AF008BCE8F /* EDNLitRouteTaskHelper.h */,
-				D9EAB294156FE0AF008BCE8F /* EDNLitRouteTaskHelper.m */,
+				D9EAB293156FE0AF008BCE8F /* EDNLiteRouteTaskHelper.h */,
+				D9EAB294156FE0AF008BCE8F /* EDNLiteRouteTaskHelper.m */,
 			);
 			name = Private;
 			sourceTree = "<group>";
@@ -387,7 +387,7 @@
 				D950069F156E0C9C00BA872A /* EDNTiledAppleLayer.m in Sources */,
 				D95006A0156E0C9C00BA872A /* EDNAppleTileOperation.m in Sources */,
 				D9EAB292156FD1EF008BCE8F /* AGSMapView+Routing.m in Sources */,
-				D9EAB295156FE0AF008BCE8F /* EDNLitRouteTaskHelper.m in Sources */,
+				D9EAB295156FE0AF008BCE8F /* EDNLiteRouteTaskHelper.m in Sources */,
 				D99A58D01576B22A00AB05EE /* AGSLayer+Basemap.m in Sources */,
 				D9F9AE95157D6352004CFAA8 /* AGSMapView+Geocoding.m in Sources */,
 				D9F9AE99157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m in Sources */,
