@@ -7,11 +7,14 @@
 //
 
 #import "AGSMapView+Routing.h"
+#import "AGSMapView+GeneralUtilities.h"
 #import "EDNLiteHelper.h"
 #import "EDNLitRouteTaskHelper.h"
 
 @implementation AGSMapView (Routing)
 EDNLiteRouteTaskHelper *__ednLiteRouteHelper = nil;
+
+#define kEDNLiteRouteResultsLayerName @"EDNLiteRouteResults"
 
 #pragma mark - Public Methods
 - (void)getDirectionsFromPoint:(AGSPoint*)startPoint ToPoint:(AGSPoint *)stopPoint
@@ -52,32 +55,50 @@ EDNLiteRouteTaskHelper *__ednLiteRouteHelper = nil;
 {
     if (!__ednLiteRouteHelper)
     {
+        // Get an instance of the route helper class.
         __ednLiteRouteHelper = [EDNLiteRouteTaskHelper ednLiteRouteTaskHelper];
-        [self addMapLayer:[__ednLiteRouteHelper resultsGraphicsLayer] withName:@"EDNLiteRouteResults"];
+        
+        // Add a layer to hold the route results.
+        [self addMapLayer:[__ednLiteRouteHelper resultsGraphicsLayer] withName:kEDNLiteRouteResultsLayerName];
+        
+        // Register myself as being interested in knowing when the route is solved, so that I can draw it
+        // in the graphics layer.
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(__ednLiteRouteSolved:) 
                                                      name:@"EDNLiteRouteTaskHelperRouteSolved" 
                                                    object:__ednLiteRouteHelper];
+        
+        // And also tell me when the baselayer of the map is changed so that I can re-add the layer if
+        // necessary.
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(__ednLiteRouteBasemapDidChange:) 
                                                      name:@"BasemapDidChange"
                                                    object:self];
     }
 
+    // Set me up as the delegate handler for the helper.
     __ednLiteRouteHelper.handler = handler;
 
+    // Set the start and end points
     [__ednLiteRouteHelper setStart:startPoint AndStop:stopPoint];    
+    
+    // And solve the route
     [__ednLiteRouteHelper solveRouteWhenReady];
 }
 
 - (void) __ednLiteDeallocRouting
 {
+    // Release the handler instance we've got
     __ednLiteRouteHelper = nil;
 }
 
 - (void) __ednLiteRouteBasemapDidChange:(NSNotification *)notification
 {
-    [self addMapLayer:[__ednLiteRouteHelper resultsGraphicsLayer] withName:@"EDNLiteRouteResults"];
+    // The basemap changed, which means we need to re-add the basemap layer
+    if (![self getLayerForName:kEDNLiteRouteResultsLayerName])
+    {
+        [self addMapLayer:[__ednLiteRouteHelper resultsGraphicsLayer] withName:kEDNLiteRouteResultsLayerName];
+    }
 }
 
 - (void)__ednLiteRouteSolved:(NSNotification *)notification

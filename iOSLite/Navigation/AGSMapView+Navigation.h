@@ -16,4 +16,7 @@
 - (void) centerAtMyLocationWithScaleLevel:(NSInteger)scaleLevel;
 
 - (void) zoomToLevel:(NSInteger)level;
+
+- (AGSPoint *) getCenterPoint;
+- (AGSPoint *) getCenterPointWebMercator;
 @end

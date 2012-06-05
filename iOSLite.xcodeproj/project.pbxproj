@@ -18,6 +18,8 @@
 		D9E27CB8155B1EDB008F8CCB /* LiteMapConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */; };
 		D9EAB292156FD1EF008BCE8F /* AGSMapView+Routing.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EAB291156FD1EE008BCE8F /* AGSMapView+Routing.m */; };
 		D9EAB295156FE0AF008BCE8F /* EDNLitRouteTaskHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EAB294156FE0AF008BCE8F /* EDNLitRouteTaskHelper.m */; };
+		D9F9AE95157D6352004CFAA8 /* AGSMapView+Geocoding.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9AE94157D6352004CFAA8 /* AGSMapView+Geocoding.m */; };
+		D9F9AE99157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9AE98157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m */; };
 		D9F9EE68156DE2D200C2A15F /* EDNBasemapSelector_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9F9EE67156DE2D200C2A15F /* EDNBasemapSelector_iPad.xib */; };
 		D9F9EE6D156DE75E00C2A15F /* EDNBasemapSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9EE6B156DE75E00C2A15F /* EDNBasemapSelectorViewController.m */; };
 		D9F9EE72156DE7FA00C2A15F /* AGSMapView+Graphics.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9EE71156DE7FA00C2A15F /* AGSMapView+Graphics.m */; };
@@ -62,6 +64,10 @@
 		D9EAB291156FD1EE008BCE8F /* AGSMapView+Routing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+Routing.m"; sourceTree = "<group>"; };
 		D9EAB293156FE0AF008BCE8F /* EDNLitRouteTaskHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNLitRouteTaskHelper.h; sourceTree = "<group>"; };
 		D9EAB294156FE0AF008BCE8F /* EDNLitRouteTaskHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNLitRouteTaskHelper.m; sourceTree = "<group>"; };
+		D9F9AE93157D6352004CFAA8 /* AGSMapView+Geocoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+Geocoding.h"; sourceTree = "<group>"; };
+		D9F9AE94157D6352004CFAA8 /* AGSMapView+Geocoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+Geocoding.m"; sourceTree = "<group>"; };
+		D9F9AE97157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+GeneralUtilities.h"; sourceTree = "<group>"; };
+		D9F9AE98157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+GeneralUtilities.m"; sourceTree = "<group>"; };
 		D9F9EE67156DE2D200C2A15F /* EDNBasemapSelector_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EDNBasemapSelector_iPad.xib; sourceTree = "<group>"; };
 		D9F9EE6A156DE75E00C2A15F /* EDNBasemapSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNBasemapSelectorViewController.h; sourceTree = "<group>"; };
 		D9F9EE6B156DE75E00C2A15F /* EDNBasemapSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNBasemapSelectorViewController.m; sourceTree = "<group>"; };
@@ -144,6 +150,8 @@
 		D9E27CAF155AE891008F8CCB /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				D9F9AE96157D6A76004CFAA8 /* General */,
+				D9F9AE91157D61CB004CFAA8 /* Geocoding */,
 				D9FB2CD5156EF6ED0052E2AC /* Routing */,
 				D9F9EE6F156DE7DA00C2A15F /* Graphics */,
 				D9E27CB1155AEA4D008F8CCB /* Basemaps */,
@@ -161,6 +169,24 @@
 				D99A58CF1576B22A00AB05EE /* AGSLayer+Basemap.m */,
 			);
 			name = Basemaps;
+			sourceTree = "<group>";
+		};
+		D9F9AE91157D61CB004CFAA8 /* Geocoding */ = {
+			isa = PBXGroup;
+			children = (
+				D9F9AE93157D6352004CFAA8 /* AGSMapView+Geocoding.h */,
+				D9F9AE94157D6352004CFAA8 /* AGSMapView+Geocoding.m */,
+			);
+			name = Geocoding;
+			sourceTree = "<group>";
+		};
+		D9F9AE96157D6A76004CFAA8 /* General */ = {
+			isa = PBXGroup;
+			children = (
+				D9F9AE97157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.h */,
+				D9F9AE98157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m */,
+			);
+			name = General;
 			sourceTree = "<group>";
 		};
 		D9F9EE6F156DE7DA00C2A15F /* Graphics */ = {
@@ -363,6 +389,8 @@
 				D9EAB292156FD1EF008BCE8F /* AGSMapView+Routing.m in Sources */,
 				D9EAB295156FE0AF008BCE8F /* EDNLitRouteTaskHelper.m in Sources */,
 				D99A58D01576B22A00AB05EE /* AGSLayer+Basemap.m in Sources */,
+				D9F9AE95157D6352004CFAA8 /* AGSMapView+Geocoding.m in Sources */,
+				D9F9AE99157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

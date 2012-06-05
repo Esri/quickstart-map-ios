@@ -102,4 +102,14 @@ NSInteger __ednLiteScaleForGeolocation = -1;
     __ednLiteScaleForGeolocation = scaleLevel;
     [self centerAtMyLocation];
 }
+
+- (AGSPoint *) getCenterPointWebMercator
+{
+    return self.visibleArea.envelope.center;    
+}
+
+- (AGSPoint *) getCenterPoint
+{
+    return [EDNLiteHelper getWGS84PointFromWebMercatorAuxSpherePoint:[self getCenterPointWebMercator]];
+}
 @end

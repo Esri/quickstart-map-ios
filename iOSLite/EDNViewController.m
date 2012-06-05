@@ -89,6 +89,7 @@ EDNVCState;
 - (IBAction)zoomToLevel:(id)sender;
 
 - (IBAction)functionChanged:(id)sender;
+- (IBAction)basemapItemChanged:(id)sender;
 
 @end
 
@@ -351,7 +352,7 @@ EDNVCState;
 {
     float targetAlpha = self.uiControlsVisible?1:0;
     NSTimeInterval animationDuration = 0.85;
-    
+    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     if (self.uiControlsVisible)
     {
         // Unhide the controls and fade them into view.
@@ -359,7 +360,15 @@ EDNVCState;
         [UIView animateWithDuration:animationDuration
                          animations:^{
                              [self setUIAlpha:targetAlpha];
+                             self.wantsFullScreenLayout = NO;
                              [[UIApplication sharedApplication] setStatusBarHidden:NO];
+                             UIScreen *mainScreen = [UIScreen mainScreen];
+                             CGRect appFrame = mainScreen.applicationFrame;
+                             NSLog(@"Dims: %f,%f %fx%f", appFrame.origin.x, appFrame.origin.y, appFrame.size.width, appFrame.size.height);
+                             self.view.frame = appFrame;
+                         }
+                         completion:^(BOOL finished) {
+                             [[UIApplication sharedApplication] endIgnoringInteractionEvents];
                          }];
     }
     else 
@@ -368,10 +377,16 @@ EDNVCState;
         [UIView animateWithDuration:animationDuration
                          animations:^{
                              [self setUIAlpha:targetAlpha];
+                             self.wantsFullScreenLayout = YES;
                              [[UIApplication sharedApplication] setStatusBarHidden:YES];
+                             UIScreen *mainScreen = [UIScreen mainScreen];
+                             CGRect appFrame = mainScreen.applicationFrame;
+                             NSLog(@"Dims: %f,%f %fx%f", appFrame.origin.x, appFrame.origin.y, appFrame.size.width, appFrame.size.height);
+                             self.view.frame = appFrame;
                          }
                          completion:^(BOOL finished) {
                              [self setUIVisibility:NO];
+                             [[UIApplication sharedApplication] endIgnoringInteractionEvents];
                          }];
     }
 }
@@ -601,5 +616,8 @@ EDNVCState;
 }
 
 - (IBAction)functionChanged:(id)sender {
+}
+
+- (IBAction)basemapItemChanged:(id)sender {
 }
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "AGSMapView+Graphics.h"
+#import "AGSMapView+GeneralUtilities.h"
 #import "EDNLiteHelper.h"
 
 @implementation AGSMapView (Graphics)
@@ -20,17 +21,6 @@ NSString * EDNLITE_GRAPHICS_LAYER_NAME_PG = @"ednLitePolygonGraphicsLayer";
 
 NSString * EDNLITE_GRAPHIC_TAG = @"iOSLiteAPI";
 NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
-
-- (AGSLayer *) getLayerForName:(NSString *)layerName
-{
-    for (AGSLayer *l in self.mapLayers) {
-        if (l.name == layerName)
-        {
-            return l;
-        }
-    }
-    return nil;
-}
 
 - (AGSGraphicsLayer *) getGraphicsLayer:(EDNLiteGraphicsLayerType)layerType
 {
