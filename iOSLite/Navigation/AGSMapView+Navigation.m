@@ -50,6 +50,12 @@ NSInteger __ednLiteScaleForGeolocation = -1;
     [self zoomToScale:scaleForLevel withCenterPoint:currentCenterPoint animated:YES];
 }
 
+- (void) centerAtPoint:(AGSPoint *)point withScaleLevel:(NSInteger)scaleLevel
+{
+    double scaleForLevel = [EDNLiteHelper getScaleForLevel:scaleLevel];
+    [self zoomToScale:scaleForLevel withCenterPoint:point animated:YES];
+}
+
 - (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
 	[__ednLiteLocationManager stopUpdatingHeading];

@@ -26,12 +26,12 @@
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" id="iAZ-ik-vkL">
-                                <rect key="frame" x="23" y="480" width="374" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <rect key="frame" x="0.0" y="44" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <searchBar contentMode="redraw" barStyle="blackTranslucent" text="6 Stuyvesant Oval, New York" placeholder="Enter an address" showsScopeBar="YES" id="ehD-4C-jip">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="88"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <searchBar contentMode="redraw" barStyle="blackTranslucent" text="6 Stuyvesant Oval, New York" placeholder="Enter an address" showsCancelButton="YES" id="ehD-4C-jip">
+                                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                         <scopeButtonTitles>
                                             <string>Globally</string>
@@ -168,7 +168,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" id="jM8-Ve-X6c" userLabel="Routing View">
-                                <rect key="frame" x="20" y="629" width="322" height="155"/>
+                                <rect key="frame" x="20" y="671" width="322" height="155"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="Start Location" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="krd-T4-cwH">
@@ -402,9 +402,6 @@
                 <relationship kind="action" name="nextMap:"/>
                 <relationship kind="action" name="openBasemapSelector:"/>
                 <relationship kind="action" name="previousMap:"/>
-                <relationship kind="action" name="selectRouteStart:"/>
-                <relationship kind="action" name="selectRouteStop:"/>
-                <relationship kind="action" name="solveRoute:"/>
                 <relationship kind="action" name="toggleAutoRouting:"/>
                 <relationship kind="action" name="uiTapped:"/>
                 <relationship kind="action" name="zoomToLevel:"/>

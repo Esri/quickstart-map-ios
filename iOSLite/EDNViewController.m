@@ -188,6 +188,10 @@ EDNVCState;
             self.routeStopPoint = mappoint;
             break;
             
+        case EDNVCStateFindAddress:
+            [self.mapView getAddressForMapPoint:mappoint];
+            break;
+            
         default:
             NSLog(@"Click on %d graphics", graphics.count);
             for (id key in graphics.allKeys) {
@@ -571,6 +575,17 @@ EDNVCState;
 }
 
 - (IBAction)functionChanged:(id)sender {
+    UISegmentedControl *seg = sender;
+    NSLog(@"Set state to %d", seg.selectedSegmentIndex);
+    switch (seg.selectedSegmentIndex) {
+        case 4:
+            self.currentState = EDNVCStateFindAddress;
+            break;
+            
+        default:
+            self.currentState = EDNVCStateBasemaps;
+            break;
+    }
 }
 
 - (IBAction)basemapItemChanged:(id)sender {
@@ -581,5 +596,11 @@ EDNVCState;
 	NSString *searchString = searchBar.text;
 	NSLog(@"Searching for: %@", searchString);
 	[self.mapView findAddress:searchString];
+    [searchBar resignFirstResponder];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
 }
 @end
