@@ -13,6 +13,9 @@
 @interface EDNLiteHelper : NSObject
 // Translate a Google/Bing/ArcGIS Online tiling scheme scale number (1-20) to an actual scale value.
 + (double) getScaleForLevel:(NSUInteger)level;
+
+// Basemap Helpers
++ (NSString *) getBasemapName:(EDNLiteBasemapType)basemapType;
 + (AGSWebMap *) getBasemapWebMap:(EDNLiteBasemapType)basemapType;
 + (AGSTiledLayer *) getBasemapTiledLayer:(EDNLiteBasemapType)basemapType;
 + (NSArray *) getBasemapSupplementalTiledLayers:(EDNLiteBasemapType)basemapType;
@@ -21,9 +24,6 @@
 + (AGSPoint *) getWebMercatorAuxSpherePointFromLat:(double) latitude Lon:(double) longitude;
 + (AGSPoint *) getWebMercatorAuxSpherePointFromWGS84Point:(AGSPoint *)wgs84Point;
 + (AGSPoint *) getWGS84PointFromWebMercatorAuxSpherePoint:(AGSPoint *)webMercatorPoint;
-
-// Helpers
-+ (NSString *) getBasemapName:(EDNLiteBasemapType)basemapType;
 
 // Queuing...
 + (void) queueBlock:(void (^)(void))block untilMapViewLoaded:(AGSMapView *)mapView;

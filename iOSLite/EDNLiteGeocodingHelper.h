@@ -11,6 +11,9 @@
 #define kEDNLiteGeocodingNotification_AddressSearchOK @"EDNLiteGeocodingAddressSearchOK"
 #define kEDNLiteGeocodingNotification_AddressSearchError @"EDNLiteGeocodingAddressSearchError"
 
+#define kEDNLiteGeocodingNotification_AddressForPointOK @"EDNLiteGeocodingGetAddressOK"
+#define kEDNLiteGeocodingNotification_AddressForPointError @"EDNLiteGeocodingGetAddressError"
+
 #define kEDNLiteGeocodingResultAddressCandidates @"addressCandidates"
 #define kEDNLiteGeocodingResultAddressQuery @"addressQuery"
 #define kEDNLiteGeocodingResultError @"error"

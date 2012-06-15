@@ -10,13 +10,13 @@
 #define iOSLite_EDNLiteBasemaps_h
 
 typedef enum {
-    EDNLiteBasemapStreet,
-    EDNLiteBasemapSatellite,
-    EDNLiteBasemapHybrid,
-    EDNLiteBasemapCanvas,
-    EDNLiteBasemapNationalGeographic,
-    EDNLiteBasemapTopographic,
-    EDNLiteBasemapOpenStreetMap,
+    EDNLiteBasemapStreet = 1,
+    EDNLiteBasemapSatellite = 2,
+    EDNLiteBasemapHybrid = 3,
+    EDNLiteBasemapCanvas = 4,
+    EDNLiteBasemapNationalGeographic = 5,
+    EDNLiteBasemapTopographic = 6,
+    EDNLiteBasemapOpenStreetMap = 7,
     
     EDNLiteBasemapFirst = EDNLiteBasemapStreet,
     EDNLiteBasemapLast = EDNLiteBasemapOpenStreetMap

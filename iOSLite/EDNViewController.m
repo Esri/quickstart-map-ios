@@ -7,6 +7,8 @@
 //
 
 #import "EDNViewController.h"
+#import "EDNBasemapsListView.h"
+#import "EDNBasemapItemViewController.h"
 
 #import "EDNLiteHelper.h"
 #import	"AGSMapView+Navigation.h"
@@ -17,6 +19,7 @@
 
 #import "EDNBasemapDetailsViewController.h"
 #import "UILabel+EDNAutoSizeMutliline.h"
+#import "/usr/include/objc/runtime.h"
 
 typedef enum 
 {
@@ -31,26 +34,46 @@ typedef enum
 }
 EDNVCState;
 
-@interface EDNViewController () <AGSPortalItemDelegate, UIGestureRecognizerDelegate, AGSMapViewTouchDelegate, AGSRouteTaskDelegate, UISearchBarDelegate>
-// UI Properties
-@property (weak, nonatomic) IBOutlet UIView *infoView;
-@property (weak, nonatomic) IBOutlet UIImageView *infoImageView;
-@property (weak, nonatomic) IBOutlet UILabel *infoLabel;
-@property (weak, nonatomic) IBOutlet UIButton *infoButton;
+@interface EDNViewController () <AGSPortalItemDelegate, UIGestureRecognizerDelegate, AGSMapViewTouchDelegate, AGSRouteTaskDelegate, UISearchBarDelegate, AGSLocatorDelegate, UIWebViewDelegate>
+
+// General UI
+@property (weak, nonatomic) IBOutlet UIToolbar *functionToolBar;
+@property (weak, nonatomic) IBOutlet UIView *routingPanel;
+@property (weak, nonatomic) IBOutlet UIView *findAddressPanel;
+@property (weak, nonatomic) IBOutlet UIView *findPlacePanel;
+@property (weak, nonatomic) IBOutlet UIView *basemapInfoPanel;
+@property (weak, nonatomic) IBOutlet UIView *geolocationPanel;
+@property (weak, nonatomic) IBOutlet UIView *graphicsPanel;
+
+// Basemaps
+@property (weak, nonatomic) IBOutlet UIImageView *currentBasemapImageView;
+@property (weak, nonatomic) IBOutlet UILabel *currentBasemapNameLabel;
+@property (weak, nonatomic) IBOutlet UIButton *currentBasemapMoreInfoButton;
+@property (weak, nonatomic) IBOutlet EDNBasemapsListView *basemapListDisplay;
+@property (weak, nonatomic) IBOutlet UITextView *currentBasemapDescriptionTextView;
+@property (weak, nonatomic) IBOutlet UIWebView *currentBasemapDescriptionWebView;
+
+@property (strong, nonatomic) NSMutableArray *basemapVCs;
+
 @property (weak, nonatomic) IBOutlet UIButton *graphicButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *clearPointsButton;
 @property (weak, nonatomic) IBOutlet UIButton *clearLinesButton;
 @property (weak, nonatomic) IBOutlet UIButton *clearPolysButton;
 
-@property (weak, nonatomic) IBOutlet UIView *routingPanel;
+// Routing UI
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *fromLocationButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *toLocationButton;
 @property (weak, nonatomic) IBOutlet UILabel *routeStartLabel;
 @property (weak, nonatomic) IBOutlet UILabel *routeStopLabel;
+@property (weak, nonatomic) IBOutlet UISearchBar *routeStartSearchBar;
+@property (weak, nonatomic) IBOutlet UISearchBar *routeStopSearchBar;
+// Routing Properties
 @property (nonatomic, strong) AGSPoint *routeStartPoint;
 @property (nonatomic, strong) AGSPoint *routeStopPoint;
-@property (weak, nonatomic) IBOutlet UIButton *clearRouteButton;
+
+// Geolocation UI
 @property (weak, nonatomic) IBOutlet UILabel *findScaleLabel;
-@property (weak, nonatomic) IBOutlet UIToolbar *functionToolBar;
 
 // Recognizers
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *infoTapRecognizer;
@@ -58,7 +81,6 @@ EDNVCState;
 @property (strong, nonatomic) IBOutlet UISwipeGestureRecognizer *infoSwipeRightRecognizer;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *uiTapRecognizer;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *uiDoubleTapRecognizer;
-@property (weak, nonatomic) IBOutlet UISwitch *routingEnabledSwitch;
 
 // Non UI Properties
 @property (assign) EDNLiteBasemapType currentBasemapType;
@@ -82,7 +104,6 @@ EDNVCState;
 - (IBAction)clearLines:(id)sender;
 - (IBAction)clearPolygons:(id)sender;
 
-- (IBAction)toggleAutoRouting:(id)sender;
 - (IBAction)clearRoute:(id)sender;
 
 - (IBAction)findMe:(id)sender;
@@ -90,28 +111,36 @@ EDNVCState;
 - (IBAction)zoomToLevel:(id)sender;
 
 - (IBAction)functionChanged:(id)sender;
-- (IBAction)basemapItemChanged:(id)sender;
 
+- (IBAction)toFromTapped:(id)sender;
 @end
 
 @implementation EDNViewController
-@synthesize infoView = _infoView;
-@synthesize infoImageView = _infoImageView;
-@synthesize infoLabel = _infoLabel;
-@synthesize infoButton = _infoButton;
+@synthesize basemapInfoPanel = _infoView;
+@synthesize geolocationPanel = _geolocationPanel;
+@synthesize graphicsPanel = _graphicsPanel;
+@synthesize currentBasemapImageView = _infoImageView;
+@synthesize currentBasemapNameLabel = _infoLabel;
+@synthesize currentBasemapMoreInfoButton = _infoButton;
+@synthesize basemapListDisplay = _basemapListDisplay;
+@synthesize currentBasemapDescriptionTextView = _currentBasemapDescriptionTextView;
+@synthesize currentBasemapDescriptionWebView = _currentBasemapDescriptionWebView;
 @synthesize graphicButton = _graphicButton;
 @synthesize clearPointsButton = _clearPointsButton;
 @synthesize clearLinesButton = _clearLinesButton;
 @synthesize clearPolysButton = _clearPolysButton;
 @synthesize routingPanel = _routingPanel;
+@synthesize findAddressPanel = _findAddressPanel;
+@synthesize findPlacePanel = _findPlacePanel;
 @synthesize routeStartLabel = _routeStartLabel;
 @synthesize routeStopLabel = _routeStopLabel;
+@synthesize routeStartSearchBar = _routeStartSearchBar;
+@synthesize routeStopSearchBar = _routeStopSearchBar;
 @synthesize infoTapRecognizer = _infoTapRecognizer;
 @synthesize infoSwipeLeftRecognizer = _infoSwipeLeftRecognizer;
 @synthesize infoSwipeRightRecognizer = _infoSwipeRightRecognizer;
 @synthesize uiTapRecognizer = _uiTapRecognizer;
 @synthesize uiDoubleTapRecognizer = _uiDoubleTapRecognizer;
-@synthesize routingEnabledSwitch = _routingEnabledSwitch;
 
 @synthesize mapView = _mapView;
 
@@ -124,13 +153,18 @@ EDNVCState;
 
 @synthesize routeStartPoint = _routeStartPoint;
 @synthesize routeStopPoint = _routeStopPoint;
-@synthesize clearRouteButton = _clearRouteButton;
 @synthesize findScaleLabel = _findScaleLabel;
 @synthesize functionToolBar = _functionToolBar;
+@synthesize fromLocationButton = _fromLocationButton;
+@synthesize toLocationButton = _toLocationButton;
 
 @synthesize routeResult = _routeResult;
 
 @synthesize findScale = _findScale;
+
+@synthesize basemapVCs = _basemapVCs;
+
+#define kEDNLiteApplicationLocFromState @"ButtonState"
 
 - (void)initUI
 {
@@ -141,25 +175,62 @@ EDNVCState;
     [self.uiTapRecognizer requireGestureRecognizerToFail:self.uiDoubleTapRecognizer];
     
     // Make some of the UI nice and comfy and round.
-    self.infoView.layer.cornerRadius = 13;
-    self.infoImageView.layer.masksToBounds = YES;
-    self.infoImageView.layer.cornerRadius = 8;
-    self.routingPanel.layer.cornerRadius = 8;
-    
+//    self.basemapInfoPanel.layer.cornerRadius = 13;
+//    self.infoImageView.layer.masksToBounds = YES;
+//    self.infoImageView.layer.cornerRadius = 8;
+//    self.routingPanel.layer.cornerRadius = 8;
+
+    objc_setAssociatedObject(self.fromLocationButton, kEDNLiteApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self.toLocationButton, kEDNLiteApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
-    
+
     self.findScale = 13;
+    
+    for (UIView *v in [self allUIViews]) {
+        v.alpha = 0;
+        v.hidden = YES;
+        v.frame = [self getUIFrameWhenHidden:v];
+    }
 
     // And show the UI by default.
     self.uiControlsVisible = YES;
 
-
     // We want to update the UI when the basemap is changed.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(basemapDidChange:) name:@"BasemapDidChange" object:self.mapView];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(basemapSelected:) name:@"BasemapSelected" object:nil];
+
     // Set up the map UI a little.
     self.mapView.wrapAround = YES;
     self.mapView.touchDelegate = self;
+}
+
+- (void) loadBasemaps
+{
+}
+
+- (CGPoint) getUIComponentOrigin
+{
+    CGRect topFrame = self.functionToolBar.frame;
+    CGPoint newOrigin = CGPointMake(topFrame.origin.x, topFrame.origin.y + topFrame.size.height);
+    return newOrigin;
+}
+
+- (CGRect) getUIFrame:(UIView *)viewToDisplay
+{
+    CGPoint origin = [self getUIComponentOrigin];
+    CGRect viewFrame = viewToDisplay.frame;
+    CGRect newFrame = CGRectMake(origin.x, origin.y, viewFrame.size.width, viewFrame.size.height);
+    return newFrame;
+}
+
+- (CGRect) getUIFrameWhenHidden:(UIView *)viewToHide
+{
+    CGPoint origin = [self getUIComponentOrigin];
+    CGSize viewSize = viewToHide.frame.size;
+    // Position it to the left of the screen.
+    CGRect newFrame = CGRectMake(origin.x, origin.y - viewSize.height, viewSize.width, viewSize.height);
+    return newFrame;
 }
 
 - (void)viewDidLoad
@@ -174,6 +245,8 @@ EDNVCState;
 	// Set up our map with a basemap, and jump to a location and scale level.
     [self.mapView setBasemap: self.currentBasemapType];
     [self.mapView centerAtLat:40.7302 Lng:-73.9958 withScaleLevel:13];
+    
+    [self loadBasemaps];
 }
 
 - (void)mapView:(AGSMapView *)mapView didClickAtPoint:(CGPoint)screen mapPoint:(AGSPoint *)mappoint graphics:(NSDictionary *)graphics
@@ -201,59 +274,78 @@ EDNVCState;
     }
 }
 
-- (void)basemapDidChange:(NSNotification *)notification
+- (void)basemapSelected:(NSNotification *)notification
 {
-    AGSPortalItem *pi = [notification.userInfo objectForKey:@"PortalItem"];
-    if (pi != nil)
+    EDNBasemapItemViewController *bvc = notification.object;
+    if (bvc)
     {
-        self.currentPortalItem = pi;
-        self.currentPortalItem.delegate = self;
-        [self.currentPortalItem fetchData];
-        [self.currentPortalItem fetchThumbnail];
+        [self.mapView setBasemap:bvc.basemapType];
     }
-    
-    self.infoButton.userInteractionEnabled = YES;
-    self.infoSwipeLeftRecognizer.enabled = YES;
-    self.infoSwipeRightRecognizer.enabled = YES;
 }
 
-- (void)portalItem:(AGSPortalItem *)portalItem operation:(NSOperation *)op didFetchData:(NSData *)data
+- (void)setCurrentPortalItem:(AGSPortalItem *)currentPortalItem
 {
-    self.infoLabel.text = portalItem.title;
-	NSString *infoText = portalItem.title;
-	
-	if ([infoText componentsSeparatedByString:@" "].count == 1)
-	{
-		// If there's a single word, make sure we don't try to break it over two lines
-		self.infoLabel.numberOfLines = 1;
-	}
-	else 
-	{
-		// Otherwise, we can drift over two lines if we want.
-		self.infoLabel.numberOfLines = 2;
-	}
+    _currentPortalItem = currentPortalItem;
     
-	self.infoLabel.text = portalItem.title;
-	[self.infoLabel setFontSizeToFit];
+    self.currentBasemapNameLabel.text = _currentPortalItem.title;
+    //self.currentBasemapDescriptionTextView.text = _currentPortalItem.itemDescription;
+    NSString *filePath = [[NSBundle mainBundle] resourcePath];
+    NSLog(@"FilePath: %@", filePath);
+    NSURL *baseURL = [NSURL fileURLWithPath:filePath isDirectory:YES];
+    NSString *htmlToShow = [NSString stringWithFormat:@"<html><head><base target=\"_blank\" /><link rel=\"stylesheet\" type=\"text/css\" href=\"description.css\" /></head><body>%@</body></html>", _currentPortalItem.itemDescription];
+    [self.currentBasemapDescriptionWebView loadHTMLString:htmlToShow baseURL:baseURL];
+
+    _currentPortalItem.delegate = self;
+//    [_currentPortalItem fetchData];
+    [_currentPortalItem fetchThumbnail];
+}
+
+- (EDNLiteBasemapType)currentBasemapType
+{
+    return _currentBasemapType;
+}
+
+- (void)setCurrentBasemapType:(EDNLiteBasemapType)currentBasemapType
+{
+    _currentBasemapType = currentBasemapType;
+    [self.basemapListDisplay ensureItemVisible:_currentBasemapType];
+}
+
+- (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    if (navigationType == UIWebViewNavigationTypeLinkClicked)
+    {
+        [[UIApplication sharedApplication] openURL:request.URL];
+        return NO;
+    }
+    return YES;
 }
 
 - (void)portalItem:(AGSPortalItem *)portalItem operation:(NSOperation *)op didFetchThumbnail:(UIImage *)thumbnail
 {
-    self.infoImageView.image = thumbnail;
+    self.currentBasemapImageView.image = thumbnail;
 }
 
-- (void)portalItem:(AGSPortalItem *)portalItem operation:(NSOperation *)op didFailToFetchThumbnailWithError:(NSError *)error
+- (void)basemapDidChange:(NSNotification *)notification
 {
-    NSLog(@"Failed to load thumbnail! %@", error.debugDescription);
+    AGSPortalItem *pi = [notification.userInfo objectForKey:@"PortalItem"];
+    EDNLiteBasemapType basemapType = [(NSNumber *)[notification.userInfo objectForKey:@"BasemapType"] intValue];
+    self.currentBasemapType = basemapType;
+    if (pi)
+    {
+        self.currentPortalItem = pi;
+    }
+    
+    self.currentBasemapMoreInfoButton.userInteractionEnabled = YES;
 }
 
 - (void)viewDidUnload
 {
     [self setMapView:nil];
-    [self setInfoView:nil];
-    [self setInfoImageView:nil];
-    [self setInfoLabel:nil];
-    [self setInfoButton:nil];
+    [self setBasemapInfoPanel:nil];
+    [self setCurrentBasemapImageView:nil];
+    [self setCurrentBasemapNameLabel:nil];
+    [self setCurrentBasemapMoreInfoButton:nil];
     [self setUiTapRecognizer:nil];
     [self setInfoTapRecognizer:nil];
     [self setGraphicButton:nil];
@@ -264,12 +356,21 @@ EDNVCState;
     [self setRoutingPanel:nil];
     [self setRouteStartLabel:nil];
     [self setRouteStopLabel:nil];
-    [self setClearRouteButton:nil];
     [self setFindScaleLabel:nil];
     [self setInfoSwipeRightRecognizer:nil];
     [self setInfoSwipeLeftRecognizer:nil];
     [self setFunctionToolBar:nil];
-	[self setRoutingEnabledSwitch:nil];
+    [self setFromLocationButton:nil];
+    [self setToLocationButton:nil];
+    [self setFindAddressPanel:nil];
+    [self setFindPlacePanel:nil];
+    [self setGeolocationPanel:nil];
+    [self setGraphicsPanel:nil];
+    [self setRouteStartSearchBar:nil];
+    [self setRouteStopSearchBar:nil];
+    [self setBasemapListDisplay:nil];
+    [self setCurrentBasemapDescriptionTextView:nil];
+    [self setCurrentBasemapDescriptionWebView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -291,7 +392,7 @@ EDNVCState;
         self.currentBasemapType += 1;
     }
 
-    self.infoButton.userInteractionEnabled = NO;
+    self.currentBasemapMoreInfoButton.userInteractionEnabled = NO;
     self.infoSwipeLeftRecognizer.enabled = NO;
     self.infoSwipeRightRecognizer.enabled = NO;
 
@@ -309,7 +410,7 @@ EDNVCState;
         self.currentBasemapType -= 1;
     }
     
-    self.infoButton.userInteractionEnabled = NO;
+    self.currentBasemapMoreInfoButton.userInteractionEnabled = NO;
     self.infoSwipeLeftRecognizer.enabled = NO;
     self.infoSwipeRightRecognizer.enabled = NO;
     
@@ -331,68 +432,117 @@ EDNVCState;
     self.findScaleLabel.text = [NSString stringWithFormat:@"%d", _findScale];
 }
 
+- (NSMutableArray *)allUIViews
+{
+    NSMutableArray *uiViews = [NSMutableArray arrayWithObjects:self.routingPanel,
+                               self.basemapInfoPanel,
+                               self.geolocationPanel,
+                               self.findAddressPanel,
+                               self.findPlacePanel,
+                               self.graphicsPanel, nil];
+    return uiViews;
+}
+
+- (UIView *) getViewToShow
+{
+    UIView *viewToShow = nil;
+    
+    switch (self.currentState) {
+        case EDNVCStateBasemaps:
+            viewToShow = self.basemapInfoPanel;
+            break;
+        case EDNVCStateDirections:
+        case EDNVCStateDirections_WaitingForRouteStart:
+        case EDNVCStateDirections_WaitingForRouteStop:
+            viewToShow = self.routingPanel;
+            break;
+        case EDNVCStateFindAddress:
+            viewToShow = self.findAddressPanel;
+            break;
+        case EDNVCStateFindPlace:
+            viewToShow = self.findPlacePanel;
+            break;
+        case EDNVCStateGeolocation:
+            viewToShow = self.geolocationPanel;
+            break;
+        case EDNVCStateGraphics:
+            viewToShow = self.graphicsPanel;
+            break;
+    }
+    
+    return viewToShow;
+}
+
+- (NSArray *) getViewsToHide
+{
+    NSMutableArray *views = [self allUIViews];
+    UIView *viewToDisplay = [self getViewToShow];
+    [views removeObject:viewToDisplay];
+    return views;
+}
+
 - (void)setUIVisibility:(BOOL)visibility
 {
-    self.infoView.hidden = !visibility;
-    self.graphicButton.hidden = !visibility;
-//    self.statusView.hidden = !visibility;
-    self.clearPointsButton.hidden = !visibility;
-    self.clearLinesButton.hidden = !visibility;
-    self.clearPolysButton.hidden = !visibility;
-    self.routingPanel.hidden = !visibility;  
-    self.functionToolBar.hidden = !visibility;
+    // Always deal with the function toolbar.
+//    self.functionToolBar.hidden = !visibility;
+    
+    // Then what's visible depends on the current application state.
+    for (UIView *viewToHide in [self getViewsToHide]) {
+        viewToHide.hidden = YES;
+        viewToHide.frame = [self getUIFrameWhenHidden:viewToHide];
+    }
+ 
+    UIView *viewToShow = [self getViewToShow];
+    viewToShow.frame = [self getUIFrame:viewToShow];
+    viewToShow.hidden = !visibility;
 }
 
 - (void)setUIAlpha:(double)targetAlpha
 {
-    self.infoView.alpha = targetAlpha;
+    // Always deal with the function toolbar.
+    self.functionToolBar.alpha = targetAlpha;
+
+    self.basemapInfoPanel.alpha = targetAlpha;
     self.graphicButton.alpha = targetAlpha;
-//    self.statusView.alpha = targetAlpha;
     self.clearPointsButton.alpha = targetAlpha;
     self.clearLinesButton.alpha = targetAlpha;
     self.clearPolysButton.alpha = targetAlpha;
     self.routingPanel.alpha = targetAlpha;
-    self.functionToolBar.alpha = targetAlpha;
 }
 
 - (void)updateUIDisplayState
 {
-    float targetAlpha = self.uiControlsVisible?1:0;
-    NSTimeInterval animationDuration = 0.85;
-    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
-    if (self.uiControlsVisible)
+    NSTimeInterval animationDuration = 0.4;
+    UIView *viewToShow = [self getViewToShow];
+    NSArray *viewsToHide = [self getViewsToHide];
+
+    // If the view is already visible, then we don't need to update...
+    BOOL needToChange = YES;//viewToShow.hidden == NO;
+    
+    if (needToChange)
     {
-        // Unhide the controls and fade them into view.
-        [self setUIVisibility:YES];
+        // Animate out the old views and animate in the new view
+        UIView *viewToAnimateOut = nil;
+        
+        for (UIView *viewCandidate in viewsToHide) {
+            if (!viewCandidate.hidden)
+            {
+                viewToAnimateOut = viewCandidate;
+                break;
+            }
+        }
+        
+        [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+        viewToShow.hidden = NO;
         [UIView animateWithDuration:animationDuration
                          animations:^{
-                             [self setUIAlpha:targetAlpha];
-                             self.wantsFullScreenLayout = NO;
-                             [[UIApplication sharedApplication] setStatusBarHidden:NO];
-                             UIScreen *mainScreen = [UIScreen mainScreen];
-                             CGRect appFrame = mainScreen.applicationFrame;
-                             NSLog(@"Dims: %f,%f %fx%f", appFrame.origin.x, appFrame.origin.y, appFrame.size.width, appFrame.size.height);
-                             self.view.frame = appFrame;
+                             viewToShow.alpha = 1;
+                             viewToAnimateOut.alpha = 0;
+                             viewToShow.frame = [self getUIFrame:viewToShow];
+                             viewToAnimateOut.frame = [self getUIFrameWhenHidden:viewToAnimateOut];
                          }
                          completion:^(BOOL finished) {
-                             [[UIApplication sharedApplication] endIgnoringInteractionEvents];
-                         }];
-    }
-    else 
-    {
-        // Fade the controls out of view and hide them when done.
-        [UIView animateWithDuration:animationDuration
-                         animations:^{
-                             [self setUIAlpha:targetAlpha];
-                             self.wantsFullScreenLayout = YES;
-                             [[UIApplication sharedApplication] setStatusBarHidden:YES];
-                             UIScreen *mainScreen = [UIScreen mainScreen];
-                             CGRect appFrame = mainScreen.applicationFrame;
-                             NSLog(@"Dims: %f,%f %fx%f", appFrame.origin.x, appFrame.origin.y, appFrame.size.width, appFrame.size.height);
-                             self.view.frame = appFrame;
-                         }
-                         completion:^(BOOL finished) {
-                             [self setUIVisibility:NO];
+                             viewToAnimateOut.hidden = YES;
                              [[UIApplication sharedApplication] endIgnoringInteractionEvents];
                          }];
     }
@@ -431,7 +581,7 @@ EDNVCState;
     if ((gestureRecognizer == self.infoTapRecognizer ||
          gestureRecognizer == self.infoSwipeLeftRecognizer ||
          gestureRecognizer == self.infoSwipeRightRecognizer) &&
-        touch.view == self.infoButton)
+        touch.view == self.currentBasemapMoreInfoButton)
     {
         return NO;
     }
@@ -482,16 +632,8 @@ EDNVCState;
             self.uiDoubleTapRecognizer.enabled = YES;
             break;
     }
-}
-
-- (BOOL) doAutoRoute
-{
-    if (!self.clearRouteButton.enabled)
-    {
-        NSLog(@"Automatically solving route");
-        return [self doRouteIfPossible];
-    }
-    return NO;
+    
+    [self updateUIDisplayState];
 }
 
 - (BOOL) doRouteIfPossible
@@ -501,7 +643,7 @@ EDNVCState;
     {
         NSLog(@"Start and stop points set...");
         [self.mapView getDirectionsFromPoint:self.routeStartPoint ToPoint:self.routeStopPoint WithDelegate:self];
-        self.uiControlsVisible = NO;
+//        self.uiControlsVisible = NO;
         return YES;
     }
     return NO;
@@ -510,7 +652,33 @@ EDNVCState;
 - (void) routeTask:(AGSRouteTask *)routeTask operation:(NSOperation *)op didSolveWithResult:(AGSRouteTaskResult *)routeTaskResult
 {
     self.routeResult = routeTaskResult;
-    self.clearRouteButton.enabled = YES;
+}
+
+- (void) locator:(AGSLocator *)locator operation:(NSOperation *)op didFindAddressForLocation:(AGSAddressCandidate *)candidate
+{
+    NSDictionary *ad = candidate.address;
+    NSString *address = [NSString stringWithFormat:@"%@, %@, %@ %@",
+                         [ad objectForKey:@"Address"],
+                         [ad objectForKey:@"City"],
+                         [ad objectForKey:@"State"],
+                         [ad objectForKey:@"Zip"]];
+    NSString *source = objc_getAssociatedObject(op, @"SOURCE");
+    if (source)
+    {
+        if ([source isEqualToString:@"START"])
+        {
+            self.routeStartSearchBar.text = address;
+        }
+        else if ([source isEqualToString:@"STOP"])
+        {
+            self.routeStopSearchBar.text = address;
+        }
+    }
+}
+
+- (void) locator:(AGSLocator *)locator operation:(NSOperation *)op didFailAddressForLocation:(NSError *)error
+{
+    NSLog(@"Failed to get address for location: %@", error);
 }
 
 - (void) setRouteStartPoint:(AGSPoint *)routeStartPoint
@@ -520,7 +688,11 @@ EDNVCState;
     {
         AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromWebMercatorAuxSpherePoint:_routeStartPoint];
         self.routeStartLabel.text = [NSString stringWithFormat:@"(%.4f,%.4f)", wgs84Pt.y, wgs84Pt.x];
-		self.currentState = EDNVCStateDirections_WaitingForRouteStop;
+		self.currentState = EDNVCStateDirections;
+        [self setToFromButton:self.fromLocationButton selectedState:NO];
+        NSOperation *op = [self.mapView getAddressForMapPoint:wgs84Pt withDelegate:self];
+        objc_setAssociatedObject(op, @"SOURCE", @"START", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        [self doRouteIfPossible];
     }
 }
 
@@ -532,20 +704,11 @@ EDNVCState;
     {
         AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromWebMercatorAuxSpherePoint:_routeStopPoint];
         self.routeStopLabel.text = [NSString stringWithFormat:@"(%.4f,%.4f)", wgs84Pt.y, wgs84Pt.x];
-		self.currentState = EDNVCStateDirections_WaitingForRouteStart;
-		[self doRouteIfPossible];
-	}
-}
-
-- (IBAction)toggleAutoRouting:(id)sender {
-    UISwitch *autoRouting = sender;
-    if (autoRouting.on) {
-        self.routeStartPoint = nil;
-        self.routeStopPoint = nil;
-        self.currentState = EDNVCStateDirections_WaitingForRouteStart;
-    }
-	else {
 		self.currentState = EDNVCStateDirections;
+        [self setToFromButton:self.toLocationButton selectedState:NO];
+        NSOperation *op = [self.mapView getAddressForMapPoint:wgs84Pt withDelegate:self];
+        objc_setAssociatedObject(op, @"SOURCE", @"STOP", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        [self doRouteIfPossible];
 	}
 }
 
@@ -554,7 +717,6 @@ EDNVCState;
     {
         self.routeResult = nil;
         [self.mapView clearRoute];
-        self.clearRouteButton.enabled = NO;
         self.routeStartPoint = nil;
         self.routeStopPoint = nil;
         self.currentState = EDNVCStateDirections_WaitingForRouteStart;
@@ -576,19 +738,56 @@ EDNVCState;
 
 - (IBAction)functionChanged:(id)sender {
     UISegmentedControl *seg = sender;
-    NSLog(@"Set state to %d", seg.selectedSegmentIndex);
     switch (seg.selectedSegmentIndex) {
+        case 0:
+            self.currentState = EDNVCStateBasemaps;
+            break;
+        case 1:
+            self.currentState = EDNVCStateGeolocation;
+            break;
+        case 2:
+            self.currentState = EDNVCStateGraphics;
+            break;
+        case 3:
+            self.currentState = EDNVCStateFindPlace;
+            break;
         case 4:
             self.currentState = EDNVCStateFindAddress;
             break;
-            
+        case 5:
+            self.currentState = EDNVCStateDirections;
+            break;
         default:
-            self.currentState = EDNVCStateBasemaps;
+            NSLog(@"Set state to %d", seg.selectedSegmentIndex);
             break;
     }
 }
 
-- (IBAction)basemapItemChanged:(id)sender {
+- (void)setToFromButton:(UIBarButtonItem *)bi selectedState:(BOOL)selected
+{
+    // Clear the other button regardless of the new state for this one.
+    UIBarButtonItem *otherBi = (bi == self.fromLocationButton)?self.toLocationButton:self.fromLocationButton;
+    otherBi.tintColor = nil;
+    objc_setAssociatedObject(otherBi, kEDNLiteApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    
+    // Set the new state for this one, and set our app state too.
+    NSLog(@"Selected: %@", selected?@"YES":@"NO");
+    if (selected)
+    {
+        bi.tintColor = [UIColor colorWithWhite:0.6 alpha:1];
+        self.currentState = (bi == self.fromLocationButton)?EDNVCStateDirections_WaitingForRouteStart:EDNVCStateDirections_WaitingForRouteStop;
+    }
+    else
+    {
+        bi.tintColor = nil;
+        self.currentState = EDNVCStateDirections;
+    }
+    objc_setAssociatedObject(bi, kEDNLiteApplicationLocFromState, [NSNumber numberWithBool:selected], OBJC_ASSOCIATION_RETAIN_NONATOMIC);    
+}
+
+- (IBAction)toFromTapped:(id)sender {
+    BOOL selected = [(NSNumber *)objc_getAssociatedObject(sender, kEDNLiteApplicationLocFromState) boolValue];
+    [self setToFromButton:sender selectedState:!selected];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar

@@ -17,21 +17,39 @@
 EDNLiteGeocodingHelper *__ednLiteGeocodingHelper = nil;
 
 #pragma mark - Public Functions
-- (void) findAddress:(NSString *)singleLineAddress
+- (NSOperation *) findAddress:(NSString *)singleLineAddress withDelegate:(id<AGSLocatorDelegate>)delegate
 {
     [self __ednLiteLocatorInit];
-    [__ednLiteGeocodingHelper findAddress:singleLineAddress];
+    __ednLiteGeocodingHelper.delegate = delegate;
+    return [__ednLiteGeocodingHelper findAddress:singleLineAddress];
 }
 
-- (void) getAddressForLat:(double)latitude Lon:(double)longitude
+- (NSOperation *) findAddress:(NSString *)singleLineAddress
 {
-    [self getAddressForMapPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Lon:longitude]];
+    return [self findAddress:singleLineAddress withDelegate:nil];
 }
 
-- (void) getAddressForMapPoint:(AGSPoint *)mapPoint
+- (NSOperation *) getAddressForLat:(double)latitude Lon:(double)longitude withDelegate:(id<AGSLocatorDelegate>)delegate
+{
+    return [self getAddressForMapPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Lon:longitude]
+                   withDelegate:delegate];
+}
+
+- (NSOperation *) getAddressForLat:(double)latitude Lon:(double)longitude
+{
+    return [self getAddressForLat:latitude Lon:longitude withDelegate:nil];
+}
+
+- (NSOperation *) getAddressForMapPoint:(AGSPoint *)mapPoint withDelegate:(id<AGSLocatorDelegate>)delegate
 {
     [self __ednLiteLocatorInit];
-    [__ednLiteGeocodingHelper getAddressForLocation:mapPoint WithSearchDistance:100];
+    __ednLiteGeocodingHelper.delegate = delegate;
+    return [__ednLiteGeocodingHelper getAddressForLocation:mapPoint WithSearchDistance:100];
+}
+
+- (NSOperation *) getAddressForMapPoint:(AGSPoint *)mapPoint
+{
+    return [self getAddressForMapPoint:mapPoint withDelegate:nil];
 }
 
 #pragma mark - Initialization

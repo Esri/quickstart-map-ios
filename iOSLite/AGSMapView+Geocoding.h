@@ -9,7 +9,12 @@
 #import <ArcGIS/ArcGIS.h>
 
 @interface AGSMapView (Geocoding)
-- (void) findAddress:(NSString *)singleLineAddress;
-- (void) getAddressForLat:(double)latitude Lon:(double)longitude;
-- (void) getAddressForMapPoint:(AGSPoint *)mapPoint;
+- (NSOperation *) findAddress:(NSString *)singleLineAddress;
+- (NSOperation *) findAddress:(NSString *)singleLineAddress withDelegate:(id<AGSLocatorDelegate>)delegate;
+
+- (NSOperation *) getAddressForLat:(double)latitude Lon:(double)longitude;
+- (NSOperation *) getAddressForLat:(double)latitude Lon:(double)longitude withDelegate:(id<AGSLocatorDelegate>)delegate;
+
+- (NSOperation *) getAddressForMapPoint:(AGSPoint *)mapPoint;
+- (NSOperation *) getAddressForMapPoint:(AGSPoint *)mapPoint withDelegate:(id<AGSLocatorDelegate>)delegate;
 @end

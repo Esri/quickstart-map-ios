@@ -120,7 +120,20 @@
         AGSPoint *location = objc_getAssociatedObject(op, kEDNLiteAssociatedLocationKey);
         NSNumber *distance = objc_getAssociatedObject(op, kEDNLiteAssociatedDistanceKey);
         NSLog(@"Found address at %@ within %@ units of %@: %@", candidate.location, distance, 
-              [EDNLiteHelper getWGS84PointFromWebMercatorAuxSpherePoint:location], candidate.address); 
+              [EDNLiteHelper getWGS84PointFromWebMercatorAuxSpherePoint:location], candidate.address);
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  candidate, @"candidate",
+                                  location, @"mapPoint", nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteGeocodingNotification_AddressForPointOK
+                                                            object:self
+                                                          userInfo:userInfo];
+
+        // Also pass on the delegate call in the old style, in case anyone wants it.
+        if (self.delegate &&
+            [self.delegate respondsToSelector:@selector(locator:operation:didFindAddressForLocation:)])
+        {
+            [self.delegate locator:locator operation:op didFindAddressForLocation:candidate];
+        }
     }
     @finally {
         objc_setAssociatedObject(op, kEDNLiteAssociatedLocationKey, nil, OBJC_ASSOCIATION_ASSIGN);
