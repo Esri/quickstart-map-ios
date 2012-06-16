@@ -12,6 +12,7 @@
 @interface EDNBasemapItemViewController : UIViewController
 @property (nonatomic, strong, readonly) AGSPortalItem *portalItem;
 @property (nonatomic, assign, readonly) EDNLiteBasemapType basemapType;
+@property (nonatomic, assign) BOOL highlighted;
 
 - (id)initWithPortalItemID:(NSString *)portalItemID forBasemapType:(EDNLiteBasemapType)basemapType;
 @end

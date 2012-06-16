@@ -26,6 +26,7 @@ typedef enum
     EDNVCStateBasemaps,
     EDNVCStateGeolocation,
     EDNVCStateGraphics,
+    EDNVCStateGraphics_Editing,
     EDNVCStateFindPlace,
     EDNVCStateFindAddress,
 	EDNVCStateDirections,
@@ -34,7 +35,7 @@ typedef enum
 }
 EDNVCState;
 
-@interface EDNViewController () <AGSPortalItemDelegate, UIGestureRecognizerDelegate, AGSMapViewTouchDelegate, AGSRouteTaskDelegate, UISearchBarDelegate, AGSLocatorDelegate, UIWebViewDelegate>
+@interface EDNViewController () <AGSPortalItemDelegate, AGSMapViewTouchDelegate, AGSRouteTaskDelegate, UISearchBarDelegate, AGSLocatorDelegate, UIWebViewDelegate>
 
 // General UI
 @property (weak, nonatomic) IBOutlet UIToolbar *functionToolBar;
@@ -50,16 +51,25 @@ EDNVCState;
 @property (weak, nonatomic) IBOutlet UILabel *currentBasemapNameLabel;
 @property (weak, nonatomic) IBOutlet UIButton *currentBasemapMoreInfoButton;
 @property (weak, nonatomic) IBOutlet EDNBasemapsListView *basemapListDisplay;
-@property (weak, nonatomic) IBOutlet UITextView *currentBasemapDescriptionTextView;
 @property (weak, nonatomic) IBOutlet UIWebView *currentBasemapDescriptionWebView;
 
 @property (strong, nonatomic) NSMutableArray *basemapVCs;
 
+//Graphics UI
 @property (weak, nonatomic) IBOutlet UIButton *graphicButton;
-
 @property (weak, nonatomic) IBOutlet UIButton *clearPointsButton;
 @property (weak, nonatomic) IBOutlet UIButton *clearLinesButton;
 @property (weak, nonatomic) IBOutlet UIButton *clearPolysButton;
+// Edit Graphics UI
+@property (weak, nonatomic) IBOutlet UIToolbar *editGraphicsToolbar;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *undoEditGraphicsButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *redoEditGraphicsButton;
+- (IBAction)doneEditingGraphic:(id)sender;
+- (IBAction)cancelEditingGraphic:(id)sender;
+- (IBAction)undoEditingGraphic:(id)sender;
+- (IBAction)redoEditingGraphic:(id)sender;
+- (IBAction)zoomToEditingGeometry:(id)sender;
+
 
 // Routing UI
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *fromLocationButton;
@@ -75,13 +85,6 @@ EDNVCState;
 // Geolocation UI
 @property (weak, nonatomic) IBOutlet UILabel *findScaleLabel;
 
-// Recognizers
-@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *infoTapRecognizer;
-@property (strong, nonatomic) IBOutlet UISwipeGestureRecognizer *infoSwipeLeftRecognizer;
-@property (strong, nonatomic) IBOutlet UISwipeGestureRecognizer *infoSwipeRightRecognizer;
-@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *uiTapRecognizer;
-@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *uiDoubleTapRecognizer;
-
 // Non UI Properties
 @property (assign) EDNLiteBasemapType currentBasemapType;
 @property (assign) BOOL uiControlsVisible;
@@ -94,11 +97,7 @@ EDNVCState;
 
 // Actions
 - (IBAction)infoRequested:(id)sender;
-- (IBAction)openBasemapSelector:(id)sender;
-- (IBAction)previousMap:(id)sender;
-- (IBAction)nextMap:(id)sender;
 - (IBAction)addGraphic:(id)sender;
-- (IBAction)uiTapped:(id)sender;
 
 - (IBAction)clearPoints:(id)sender;
 - (IBAction)clearLines:(id)sender;
@@ -116,6 +115,9 @@ EDNVCState;
 @end
 
 @implementation EDNViewController
+@synthesize editGraphicsToolbar = _editGraphicsToolbar;
+@synthesize undoEditGraphicsButton = _undoEditGraphicsButton;
+@synthesize redoEditGraphicsButton = _redoEditGraphicsButton;
 @synthesize basemapInfoPanel = _infoView;
 @synthesize geolocationPanel = _geolocationPanel;
 @synthesize graphicsPanel = _graphicsPanel;
@@ -123,7 +125,6 @@ EDNVCState;
 @synthesize currentBasemapNameLabel = _infoLabel;
 @synthesize currentBasemapMoreInfoButton = _infoButton;
 @synthesize basemapListDisplay = _basemapListDisplay;
-@synthesize currentBasemapDescriptionTextView = _currentBasemapDescriptionTextView;
 @synthesize currentBasemapDescriptionWebView = _currentBasemapDescriptionWebView;
 @synthesize graphicButton = _graphicButton;
 @synthesize clearPointsButton = _clearPointsButton;
@@ -136,11 +137,6 @@ EDNVCState;
 @synthesize routeStopLabel = _routeStopLabel;
 @synthesize routeStartSearchBar = _routeStartSearchBar;
 @synthesize routeStopSearchBar = _routeStopSearchBar;
-@synthesize infoTapRecognizer = _infoTapRecognizer;
-@synthesize infoSwipeLeftRecognizer = _infoSwipeLeftRecognizer;
-@synthesize infoSwipeRightRecognizer = _infoSwipeRightRecognizer;
-@synthesize uiTapRecognizer = _uiTapRecognizer;
-@synthesize uiDoubleTapRecognizer = _uiDoubleTapRecognizer;
 
 @synthesize mapView = _mapView;
 
@@ -171,15 +167,6 @@ EDNVCState;
 	// Track the application state (for now, used for routing input)
     self.currentState = EDNVCStateBasemaps;
 
-    // We only want taps to be handled if the user doesn't double(ormore)-tap
-    [self.uiTapRecognizer requireGestureRecognizerToFail:self.uiDoubleTapRecognizer];
-    
-    // Make some of the UI nice and comfy and round.
-//    self.basemapInfoPanel.layer.cornerRadius = 13;
-//    self.infoImageView.layer.masksToBounds = YES;
-//    self.infoImageView.layer.cornerRadius = 8;
-//    self.routingPanel.layer.cornerRadius = 8;
-
     objc_setAssociatedObject(self.fromLocationButton, kEDNLiteApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     objc_setAssociatedObject(self.toLocationButton, kEDNLiteApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
@@ -203,10 +190,6 @@ EDNVCState;
     // Set up the map UI a little.
     self.mapView.wrapAround = YES;
     self.mapView.touchDelegate = self;
-}
-
-- (void) loadBasemaps
-{
 }
 
 - (CGPoint) getUIComponentOrigin
@@ -245,14 +228,58 @@ EDNVCState;
 	// Set up our map with a basemap, and jump to a location and scale level.
     [self.mapView setBasemap: self.currentBasemapType];
     [self.mapView centerAtLat:40.7302 Lng:-73.9958 withScaleLevel:13];
-    
-    [self loadBasemaps];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    NSLog(@"KeyPath: %@", keyPath);
+}
+
+- (void) setUndoRedoButtonStatesForUndoManager:(NSUndoManager *)um
+{
+    if (um)
+    {
+        self.undoEditGraphicsButton.enabled = um.canUndo;
+        self.redoEditGraphicsButton.enabled = um.canRedo;
+    }
+}
+
+- (void) setUndoRedoButtonStates
+{
+    [self setUndoRedoButtonStatesForUndoManager:[self.mapView getUndoManagerForGraphicsEdits]];
+}
+
+- (void) editUndoRedoChanged:(NSNotification *)notification
+{
+    NSUndoManager *um = notification.object;
+    [self setUndoRedoButtonStatesForUndoManager:um];
 }
 
 - (void)mapView:(AGSMapView *)mapView didClickAtPoint:(CGPoint)screen mapPoint:(AGSPoint *)mappoint graphics:(NSDictionary *)graphics
 {
     NSLog(@"Clicked on map!");
     switch (self.currentState) {
+        case EDNVCStateGraphics:
+            if (graphics.count > 0)
+            {
+                // The user selected a graphic. Let's edit it.
+                [self.mapView editGraphicFromDidClickAtPointEvent:graphics];
+                NSUndoManager *um = [self.mapView getUndoManagerForGraphicsEdits];
+                [[NSNotificationCenter defaultCenter] addObserver:self
+                                                         selector:@selector(editUndoRedoChanged:)
+                                                             name:@"NSUndoManagerDidCloseUndoGroupNotification"
+                                                           object:um];
+                [[NSNotificationCenter defaultCenter] addObserver:self
+                                                         selector:@selector(editUndoRedoChanged:)
+                                                             name:@"NSUndoManagerDidUndoChangeNotification"
+                                                           object:um];
+                [[NSNotificationCenter defaultCenter] addObserver:self
+                                                         selector:@selector(editUndoRedoChanged:)
+                                                             name:@"NSUndoManagerDidRedoChangeNotification"
+                                                           object:um];
+                self.currentState = EDNVCStateGraphics_Editing;
+            }
+            break;
         case EDNVCStateDirections_WaitingForRouteStart:
             self.routeStartPoint = mappoint;
             break;
@@ -279,7 +306,10 @@ EDNVCState;
     EDNBasemapItemViewController *bvc = notification.object;
     if (bvc)
     {
-        [self.mapView setBasemap:bvc.basemapType];
+        if (bvc.basemapType != self.currentBasemapType)
+        {
+            [self.mapView setBasemap:bvc.basemapType];
+        }
     }
 }
 
@@ -292,7 +322,7 @@ EDNVCState;
     NSString *filePath = [[NSBundle mainBundle] resourcePath];
     NSLog(@"FilePath: %@", filePath);
     NSURL *baseURL = [NSURL fileURLWithPath:filePath isDirectory:YES];
-    NSString *htmlToShow = [NSString stringWithFormat:@"<html><head><base target=\"_blank\" /><link rel=\"stylesheet\" type=\"text/css\" href=\"description.css\" /></head><body>%@</body></html>", _currentPortalItem.itemDescription];
+    NSString *htmlToShow = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"description.css\" /></head><body>%@</body></html>", _currentPortalItem.snippet];
     [self.currentBasemapDescriptionWebView loadHTMLString:htmlToShow baseURL:baseURL];
 
     _currentPortalItem.delegate = self;
@@ -308,7 +338,7 @@ EDNVCState;
 - (void)setCurrentBasemapType:(EDNLiteBasemapType)currentBasemapType
 {
     _currentBasemapType = currentBasemapType;
-    [self.basemapListDisplay ensureItemVisible:_currentBasemapType];
+    [self.basemapListDisplay ensureItemVisible:_currentBasemapType Highlighted:YES];
 }
 
 - (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
@@ -346,10 +376,7 @@ EDNVCState;
     [self setCurrentBasemapImageView:nil];
     [self setCurrentBasemapNameLabel:nil];
     [self setCurrentBasemapMoreInfoButton:nil];
-    [self setUiTapRecognizer:nil];
-    [self setInfoTapRecognizer:nil];
     [self setGraphicButton:nil];
-    [self setUiDoubleTapRecognizer:nil];
     [self setClearPointsButton:nil];
     [self setClearLinesButton:nil];
     [self setClearPolysButton:nil];
@@ -357,8 +384,6 @@ EDNVCState;
     [self setRouteStartLabel:nil];
     [self setRouteStopLabel:nil];
     [self setFindScaleLabel:nil];
-    [self setInfoSwipeRightRecognizer:nil];
-    [self setInfoSwipeLeftRecognizer:nil];
     [self setFunctionToolBar:nil];
     [self setFromLocationButton:nil];
     [self setToLocationButton:nil];
@@ -369,8 +394,10 @@ EDNVCState;
     [self setRouteStartSearchBar:nil];
     [self setRouteStopSearchBar:nil];
     [self setBasemapListDisplay:nil];
-    [self setCurrentBasemapDescriptionTextView:nil];
     [self setCurrentBasemapDescriptionWebView:nil];
+    [self setEditGraphicsToolbar:nil];
+    [self setUndoEditGraphicsButton:nil];
+    [self setRedoEditGraphicsButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -378,43 +405,6 @@ EDNVCState;
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return YES;
-}
-
-- (IBAction)nextMap:(id)sender
-{
-    // When the user clicks for the next map, we'll cycle through each map type and
-    // update the map.
-    if (self.currentBasemapType == EDNLiteBasemapLast)
-    {
-        self.currentBasemapType = EDNLiteBasemapFirst;
-    }
-    else {
-        self.currentBasemapType += 1;
-    }
-
-    self.currentBasemapMoreInfoButton.userInteractionEnabled = NO;
-    self.infoSwipeLeftRecognizer.enabled = NO;
-    self.infoSwipeRightRecognizer.enabled = NO;
-
-    [self.mapView setBasemap:self.currentBasemapType];
-}
-
-- (IBAction)previousMap:(id)sender {
-    // When the user clicks for the next map, we'll cycle through each map type and
-    // update the map.
-    if (self.currentBasemapType == EDNLiteBasemapFirst)
-    {
-        self.currentBasemapType = EDNLiteBasemapLast;
-    }
-    else {
-        self.currentBasemapType -= 1;
-    }
-    
-    self.currentBasemapMoreInfoButton.userInteractionEnabled = NO;
-    self.infoSwipeLeftRecognizer.enabled = NO;
-    self.infoSwipeRightRecognizer.enabled = NO;
-    
-    [self.mapView setBasemap:self.currentBasemapType];
 }
 
 - (IBAction)addGraphic:(id)sender {
@@ -466,6 +456,7 @@ EDNVCState;
             viewToShow = self.geolocationPanel;
             break;
         case EDNVCStateGraphics:
+        case EDNVCStateGraphics_Editing:
             viewToShow = self.graphicsPanel;
             break;
     }
@@ -559,10 +550,6 @@ EDNVCState;
     [self updateUIDisplayState];
 }
 
-- (IBAction)uiTapped:(id)sender {
-    self.uiControlsVisible = !self.uiControlsVisible;
-}
-
 - (IBAction)clearPoints:(id)sender {
     [self.mapView clearGraphics:EDNLiteGraphicsLayerTypePoint];
 }
@@ -575,25 +562,9 @@ EDNVCState;
     [self.mapView clearGraphics:EDNLiteGraphicsLayerTypePolygon];
 }
 
--(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-{
-    // Make sure the gesture handler doesn't trap the button press too.
-    if ((gestureRecognizer == self.infoTapRecognizer ||
-         gestureRecognizer == self.infoSwipeLeftRecognizer ||
-         gestureRecognizer == self.infoSwipeRightRecognizer) &&
-        touch.view == self.currentBasemapMoreInfoButton)
-    {
-        return NO;
-    }
-    return YES;
-}
-
 - (IBAction)infoRequested:(id)sender {
     // Seque to the Info Modal View.
     [self performSegueWithIdentifier:@"showBasemapInfo" sender:self];
-}
-
-- (IBAction)openBasemapSelector:(id)sender {
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -618,18 +589,26 @@ EDNVCState;
     switch (_currentState) {
         case EDNVCStateDirections_WaitingForRouteStart:
             self.routeStartLabel.text = @"Tap a point on the map…";
-            self.uiTapRecognizer.enabled = NO;
-            self.uiDoubleTapRecognizer.enabled = NO;
             break;
         case EDNVCStateDirections_WaitingForRouteStop:
             self.routeStopLabel.text = @"Tap a point on the map…";
-            self.uiTapRecognizer.enabled = NO;
-            self.uiDoubleTapRecognizer.enabled = NO;
+            break;
+            
+        case EDNVCStateGraphics_Editing:
+            for (UIBarButtonItem *buttonItem in self.editGraphicsToolbar.items) {
+                buttonItem.enabled = YES;
+            }
+            [self setUndoRedoButtonStates];
+            self.mapView.showMagnifierOnTapAndHold = YES;
+            break;
+        case EDNVCStateGraphics:
+            for (UIBarButtonItem *buttonItem in self.editGraphicsToolbar.items) {
+                buttonItem.enabled = NO;
+            }
+            self.mapView.showMagnifierOnTapAndHold = NO;
             break;
             
         default:
-            self.uiTapRecognizer.enabled = YES;
-            self.uiDoubleTapRecognizer.enabled = YES;
             break;
     }
     
@@ -699,7 +678,7 @@ EDNVCState;
 - (void) setRouteStopPoint:(AGSPoint *)routeStopPoint
 {
     _routeStopPoint = routeStopPoint;
-    self.currentState = EDNVCStateBasemaps;
+//    self.currentState = EDNVCStateBasemaps;
     if (_routeStopPoint)
     {
         AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromWebMercatorAuxSpherePoint:_routeStopPoint];
@@ -801,5 +780,30 @@ EDNVCState;
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
+}
+- (IBAction)doneEditingGraphic:(id)sender {
+    [self.mapView saveCurrentEdit];
+    self.currentState = EDNVCStateGraphics;
+}
+
+- (IBAction)cancelEditingGraphic:(id)sender {
+    [self.mapView cancelCurrentEdit];
+    self.currentState = EDNVCStateGraphics;
+}
+
+- (IBAction)undoEditingGraphic:(id)sender {
+    [[self.mapView getUndoManagerForGraphicsEdits] undo];
+}
+
+- (IBAction)redoEditingGraphic:(id)sender {
+    [[self.mapView getUndoManagerForGraphicsEdits] redo];
+}
+
+- (IBAction)zoomToEditingGeometry:(id)sender {
+    AGSGeometry *editGeom = [self.mapView getCurrentEditGeometry];
+    if (editGeom)
+    {
+        [self.mapView zoomToGeometry:editGeom withPadding:25 animated:YES];
+    }
 }
 @end

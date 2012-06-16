@@ -14,13 +14,122 @@
 AGSGraphicsLayer * __ednLitePointGraphicsLayer = nil;
 AGSGraphicsLayer * __ednLitePolylineGraphicsLayer = nil;
 AGSGraphicsLayer * __ednLitePolygonGraphicsLayer = nil;
+AGSSketchGraphicsLayer * __ednLiteSketchGraphicsLayer = nil;
+id<AGSMapViewTouchDelegate> __ednLiteTempTouchDelegate = nil;
 
-NSString * EDNLITE_GRAPHICS_LAYER_NAME_PT = @"ednLitePointGraphicsLayer";
-NSString * EDNLITE_GRAPHICS_LAYER_NAME_PL = @"ednLitePolylineGraphicsLayer";
-NSString * EDNLITE_GRAPHICS_LAYER_NAME_PG = @"ednLitePolygonGraphicsLayer";
+AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
+
+#define kEDNLiteGraphicsLayerName_Point @"ednLitePointGraphicsLayer"
+#define kEDNLiteGraphicsLayerName_Polyline @"ednLitePolylineGraphicsLayer"
+#define kEDNLiteGraphicsLayerName_Polygon @"ednLitePolygonGraphicsLayer"
 
 NSString * EDNLITE_GRAPHIC_TAG = @"iOSLiteAPI";
 NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
+
+#define kEDNLiteSketchGraphicsLayerName @"ednLiteSketchGraphcisLayer"
+
+- (AGSGraphic *) editGraphicFromDidClickAtPointEvent:(NSDictionary *)graphics
+{
+    AGSGraphic *graphicToEdit = nil;
+    
+    for (NSString *layerName in graphics.allKeys)
+    {
+        if (layerName == kEDNLiteGraphicsLayerName_Point ||
+            layerName == kEDNLiteGraphicsLayerName_Polyline ||
+            layerName == kEDNLiteGraphicsLayerName_Polygon)
+        {
+            NSArray *graphicsToEditFromLayer = [graphics objectForKey:layerName];
+            if (graphicsToEditFromLayer.count > 0)
+            {
+                graphicToEdit = [graphicsToEditFromLayer objectAtIndex:0];
+                break;
+            }
+        }
+    }
+    
+    if (graphicToEdit)
+    {
+        if (!__ednLiteSketchGraphicsLayer)
+        {
+            __ednLiteSketchGraphicsLayer = [AGSSketchGraphicsLayer graphicsLayer];
+        }
+        
+        if ([self getLayerForName:kEDNLiteSketchGraphicsLayerName])
+        {
+            [self removeMapLayerWithName:kEDNLiteSketchGraphicsLayerName];
+        }
+        
+        [self addMapLayer:__ednLiteSketchGraphicsLayer withName:kEDNLiteSketchGraphicsLayerName];
+        
+        // Store the real touch delegate
+        if (!__ednLiteTempTouchDelegate &&
+            self.touchDelegate != __ednLiteSketchGraphicsLayer)
+        {
+            __ednLiteTempTouchDelegate = self.touchDelegate;
+        }
+        
+        // Set the sketch layer to be the touch delegate.
+        self.touchDelegate = __ednLiteSketchGraphicsLayer;
+
+        AGSGeometry *geom = graphicToEdit.geometry;
+        AGSGeometry *editGeom = nil;
+        editGeom = [geom mutableCopy];
+        __ednLiteSketchGraphicsLayer.geometry = editGeom;
+        __ednLiteCurrentEditingGraphic = graphicToEdit;
+    }
+    
+    return graphicToEdit;
+}
+
+- (void) saveCurrentEdit
+{
+    if (__ednLiteSketchGraphicsLayer)
+    {
+        // Update the graphics geometry
+        AGSGeometry *editedGeometry = __ednLiteSketchGraphicsLayer.geometry;
+        __ednLiteCurrentEditingGraphic.geometry = editedGeometry;
+        
+        // Get the owning layer and refresh it.
+        AGSGraphicsLayer *owningLayer = __ednLiteCurrentEditingGraphic.layer;
+        [owningLayer dataChanged];
+        
+        // Set the UI interaction back to how it was before.
+        __ednLiteSketchGraphicsLayer.geometry = nil;
+        __ednLiteCurrentEditingGraphic = nil;
+        self.touchDelegate = __ednLiteTempTouchDelegate;
+        __ednLiteTempTouchDelegate = nil;
+    }
+}
+
+- (void) cancelCurrentEdit
+{
+    if (__ednLiteSketchGraphicsLayer)
+    {
+        // Set the UI interaction back to how it was before.
+        __ednLiteSketchGraphicsLayer.geometry = nil;
+        __ednLiteCurrentEditingGraphic = nil;
+        self.touchDelegate = __ednLiteTempTouchDelegate;
+        __ednLiteTempTouchDelegate = nil;
+    }
+}
+
+- (NSUndoManager *) getUndoManagerForGraphicsEdits
+{
+    if (__ednLiteSketchGraphicsLayer)
+    {
+        return __ednLiteSketchGraphicsLayer.undoManager;
+    }
+    return nil;
+}
+
+- (AGSGeometry *) getCurrentEditGeometry
+{
+    if (__ednLiteSketchGraphicsLayer)
+    {
+        return __ednLiteSketchGraphicsLayer.geometry;
+    }
+    return nil;
+}
 
 - (AGSGraphicsLayer *) getGraphicsLayer:(EDNLiteGraphicsLayerType)layerType
 {
@@ -55,19 +164,19 @@ NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
 
 - (void) __ensureEdnLiteGraphicsLayerAdded
 {
-	if (![self getLayerForName:EDNLITE_GRAPHICS_LAYER_NAME_PG])
+	if (![self getLayerForName:kEDNLiteGraphicsLayerName_Polygon])
     {
-        [self addMapLayer:__ednLitePolygonGraphicsLayer withName:EDNLITE_GRAPHICS_LAYER_NAME_PG];
+        [self addMapLayer:__ednLitePolygonGraphicsLayer withName:kEDNLiteGraphicsLayerName_Polygon];
     }
 	
-    if (![self getLayerForName:EDNLITE_GRAPHICS_LAYER_NAME_PL])
+    if (![self getLayerForName:kEDNLiteGraphicsLayerName_Polyline])
     {
-        [self addMapLayer:__ednLitePolylineGraphicsLayer withName:EDNLITE_GRAPHICS_LAYER_NAME_PL];
+        [self addMapLayer:__ednLitePolylineGraphicsLayer withName:kEDNLiteGraphicsLayerName_Polyline];
     }
     
-    if (![self getLayerForName:EDNLITE_GRAPHICS_LAYER_NAME_PT])
+    if (![self getLayerForName:kEDNLiteGraphicsLayerName_Point])
     {
-        [self addMapLayer:__ednLitePointGraphicsLayer withName:EDNLITE_GRAPHICS_LAYER_NAME_PT];
+        [self addMapLayer:__ednLitePointGraphicsLayer withName:kEDNLiteGraphicsLayerName_Point];
     }
 }
 

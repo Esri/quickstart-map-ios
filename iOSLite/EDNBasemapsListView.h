@@ -11,5 +11,5 @@
 
 @interface EDNBasemapsListView : UIView
 - (void)addBasemapItem:(EDNBasemapItemViewController *)item;
-- (void)ensureItemVisible:(EDNLiteBasemapType)basemapType;
+- (void)ensureItemVisible:(EDNLiteBasemapType)basemapType Highlighted:(BOOL)highlight;
 @end

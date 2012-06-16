@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *label;
 - (IBAction)basemapTapped:(id)sender;
+@property (nonatomic, retain) UIColor *defaultBackgroundColor;
 @end
 
 @implementation EDNBasemapItemViewController
@@ -28,6 +29,32 @@
 @synthesize imageView = _portalImageView;
 @synthesize label = _portalLabel;
 @synthesize basemapType = _basemapType;
+@synthesize highlighted = _highlighted;
+@synthesize defaultBackgroundColor;
+
+- (BOOL)highlighted
+{
+    return _highlighted;
+}
+
+- (void)setHighlighted:(BOOL)highlighted
+{
+    CGFloat defaultAlpha = CGColorGetAlpha(self.defaultBackgroundColor.CGColor);
+    
+    _highlighted = highlighted;
+    [UIView animateWithDuration:0.25 animations:^{
+        if (_highlighted)
+        {
+            self.view.backgroundColor = [UIColor colorWithWhite:0.35 alpha:defaultAlpha];
+            self.view.alpha = 1;
+        }
+        else
+        {
+            self.view.backgroundColor = self.defaultBackgroundColor;
+            self.view.alpha = 0.5;
+        }
+    }];
+}
 
 - (id)initWithPortalItemID:(NSString *)portalItemID forBasemapType:(EDNLiteBasemapType)basemapType
 {
@@ -60,6 +87,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     // Load the portal.
+    self.defaultBackgroundColor = self.view.backgroundColor;
+
     NSLog(@"Creating Portal");
     self.view.layer.cornerRadius = 10;
     AGSPortal *p = [[AGSPortal alloc] initWithURL:[NSURL URLWithString:@"http://www.arcgis.com"] credential:nil];

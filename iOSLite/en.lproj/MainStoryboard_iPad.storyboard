@@ -20,10 +20,6 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                 <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="qzV-Mp-XVc" appends="YES" id="PZv-cT-rQs"/>
-                                    <outletCollection property="gestureRecognizers" destination="6is-f3-MpZ" appends="YES" id="PRE-90-DYA"/>
-                                </connections>
                             </view>
                             <view contentMode="scaleToFill" id="jM8-Ve-X6c" userLabel="View - Routing">
                                 <rect key="frame" x="0.0" y="151" width="768" height="63"/>
@@ -166,9 +162,10 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <webView opaque="NO" contentMode="scaleToFill" id="A0l-le-Kp8">
-                                        <rect key="frame" x="10" y="98" width="340" height="63"/>
+                                        <rect key="frame" x="10" y="92" width="340" height="69"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <dataDetectorType key="dataDetectorTypes"/>
                                         <connections>
                                             <outlet property="delegate" destination="2" id="pll-Az-snd"/>
                                         </connections>
@@ -262,11 +259,11 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="jDE-Vd-KbV" userLabel="View - Graphics">
-                                <rect key="frame" x="0.0" y="451" width="768" height="43"/>
+                                <rect key="frame" x="0.0" y="451" width="768" height="109"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="87Z-Xw-kbS" userLabel="Clear Points Button">
-                                        <rect key="frame" x="20" y="3" width="121" height="37"/>
+                                        <rect key="frame" x="20" y="58" width="121" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="Clear Points">
@@ -281,7 +278,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bB5-aq-ZRt" userLabel="Clear Lines Button">
-                                        <rect key="frame" x="149" y="3" width="121" height="37"/>
+                                        <rect key="frame" x="149" y="58" width="121" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="Clear Lines">
@@ -296,7 +293,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lGD-Q1-aDN" userLabel="Clear Polys Button">
-                                        <rect key="frame" x="278" y="3" width="121" height="37"/>
+                                        <rect key="frame" x="278" y="58" width="121" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="Clear Polygons">
@@ -311,7 +308,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="phz-y9-cDK" userLabel="Load Graphics Button">
-                                        <rect key="frame" x="407" y="3" width="121" height="37"/>
+                                        <rect key="frame" x="407" y="58" width="121" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="Load Graphic">
@@ -325,6 +322,39 @@
                                             <action selector="addGraphic:" destination="2" eventType="touchUpInside" id="0tZ-P7-Sod"/>
                                         </connections>
                                     </button>
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackOpaque" id="vEH-b5-gEY" userLabel="Toolbar - Edit Graphics">
+                                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <items>
+                                            <barButtonItem systemItem="undo" id="icv-c4-iuE">
+                                                <connections>
+                                                    <action selector="undoEditingGraphic:" destination="2" id="51n-va-O8c"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem systemItem="redo" id="Gvk-jZ-oLg">
+                                                <connections>
+                                                    <action selector="redoEditingGraphic:" destination="2" id="tRy-xv-2Cy"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="gZI-gi-8Bb"/>
+                                            <barButtonItem title="Zoom To Graphic" id="EFh-Rm-eAI">
+                                                <connections>
+                                                    <action selector="zoomToEditingGeometry:" destination="2" id="1aK-TX-wWC"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="1rk-tn-6FP"/>
+                                            <barButtonItem systemItem="cancel" id="n0Q-km-JJJ">
+                                                <connections>
+                                                    <action selector="cancelEditingGraphic:" destination="2" id="JmN-L8-LSq"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem style="done" systemItem="save" id="tYR-hi-QaC">
+                                                <connections>
+                                                    <action selector="doneEditingGraphic:" destination="2" id="F3p-uj-rss"/>
+                                                </connections>
+                                            </barButtonItem>
+                                        </items>
+                                    </toolbar>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                             </view>
@@ -367,6 +397,7 @@
                         <outlet property="currentBasemapImageView" destination="Gse-27-8iH" id="r5D-j9-vXM"/>
                         <outlet property="currentBasemapMoreInfoButton" destination="2Bx-g9-fnj" id="cJD-2L-Aao"/>
                         <outlet property="currentBasemapNameLabel" destination="oou-L1-NmX" id="weF-qO-0fY"/>
+                        <outlet property="editGraphicsToolbar" destination="vEH-b5-gEY" id="gZr-fA-FNz"/>
                         <outlet property="findAddressPanel" destination="iAZ-ik-vkL" id="gWZ-mh-gKv"/>
                         <outlet property="findPlacePanel" destination="TRm-6g-wOm" id="SYZ-A2-uNZ"/>
                         <outlet property="findScaleLabel" destination="HsG-tn-8xE" id="Qcz-FZ-fDI"/>
@@ -375,37 +406,18 @@
                         <outlet property="geolocationPanel" destination="BNi-3I-6yY" id="rec-3r-oFB"/>
                         <outlet property="graphicButton" destination="phz-y9-cDK" id="kZg-l1-Y6D"/>
                         <outlet property="graphicsPanel" destination="jDE-Vd-KbV" id="7R9-VG-urD"/>
-                        <outlet property="infoTapRecognizer" destination="dHD-wi-55S" id="rYe-y8-8WJ"/>
                         <outlet property="mapView" destination="jAh-IA-P6U" id="WTH-5S-YRJ"/>
+                        <outlet property="redoEditGraphicsButton" destination="Gvk-jZ-oLg" id="DfC-v9-Hip"/>
                         <outlet property="routeStartLabel" destination="krd-T4-cwH" id="CuD-KN-vs4"/>
                         <outlet property="routeStartSearchBar" destination="wUT-yy-PAF" id="7z6-gt-HQN"/>
                         <outlet property="routeStopLabel" destination="bY0-AZ-alK" id="uC2-a1-Sx5"/>
                         <outlet property="routeStopSearchBar" destination="hbl-1B-JmL" id="JJz-Q5-Pgf"/>
                         <outlet property="routingPanel" destination="jM8-Ve-X6c" id="spB-a7-HeB"/>
                         <outlet property="toLocationButton" destination="ptk-XU-cIa" id="ReJ-sj-B1s"/>
-                        <outlet property="uiDoubleTapRecognizer" destination="qzV-Mp-XVc" id="L4T-GO-Wfg"/>
-                        <outlet property="uiTapRecognizer" destination="6is-f3-MpZ" id="T4J-hl-SO1"/>
+                        <outlet property="undoEditGraphicsButton" destination="icv-c4-iuE" id="CGu-LW-ihf"/>
                         <segue destination="DIO-Lv-QQc" kind="modal" identifier="showBasemapInfo" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="XFF-PA-Izn"/>
                     </connections>
                 </viewController>
-                <tapGestureRecognizer enabled="NO" id="dHD-wi-55S" userLabel="Info Taps">
-                    <connections>
-                        <action selector="nextMap:" destination="2" id="C8d-H0-Qob"/>
-                        <outlet property="delegate" destination="2" id="TCK-F8-aNu"/>
-                    </connections>
-                </tapGestureRecognizer>
-                <pongPressGestureRecognizer enabled="NO" allowableMovement="10" minimumPressDuration="0.5" id="ZU0-A3-826" userLabel="Info Long Press">
-                    <connections>
-                        <action selector="openBasemapSelector:" destination="2" id="9no-rl-xp1"/>
-                        <outlet property="delegate" destination="2" id="92V-lb-SO7"/>
-                    </connections>
-                </pongPressGestureRecognizer>
-                <tapGestureRecognizer delaysTouchesEnded="NO" id="6is-f3-MpZ" userLabel="UI Tap">
-                    <connections>
-                        <action selector="uiTapped:" destination="2" id="H5U-sX-BXA"/>
-                    </connections>
-                </tapGestureRecognizer>
-                <tapGestureRecognizer cancelsTouchesInView="NO" delaysTouchesEnded="NO" numberOfTapsRequired="2" id="qzV-Mp-XVc" userLabel="UI Tap Double-tap-fixer"/>
             </objects>
             <point key="canvasLocation" x="-250" y="-124"/>
         </scene>
@@ -483,30 +495,31 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EDNViewController.h"/>
             <relationships>
                 <relationship kind="action" name="addGraphic:"/>
+                <relationship kind="action" name="cancelEditingGraphic:"/>
                 <relationship kind="action" name="clearLines:"/>
                 <relationship kind="action" name="clearPoints:"/>
                 <relationship kind="action" name="clearPolygons:"/>
                 <relationship kind="action" name="clearRoute:"/>
+                <relationship kind="action" name="doneEditingGraphic:"/>
                 <relationship kind="action" name="findMe:"/>
                 <relationship kind="action" name="findScaleChanged:"/>
                 <relationship kind="action" name="functionChanged:"/>
                 <relationship kind="action" name="infoRequested:"/>
-                <relationship kind="action" name="nextMap:"/>
-                <relationship kind="action" name="openBasemapSelector:"/>
-                <relationship kind="action" name="previousMap:"/>
+                <relationship kind="action" name="redoEditingGraphic:"/>
                 <relationship kind="action" name="toFromTapped:"/>
-                <relationship kind="action" name="uiTapped:"/>
+                <relationship kind="action" name="undoEditingGraphic:"/>
+                <relationship kind="action" name="zoomToEditingGeometry:"/>
                 <relationship kind="action" name="zoomToLevel:"/>
                 <relationship kind="outlet" name="basemapInfoPanel" candidateClass="UIView"/>
-                <relationship kind="outlet" name="basemapListDisplay" candidateClass="UIView"/>
+                <relationship kind="outlet" name="basemapListDisplay" candidateClass="EDNBasemapsListView"/>
                 <relationship kind="outlet" name="clearLinesButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="clearPointsButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="clearPolysButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="currentBasemapDescriptionTextView" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="currentBasemapDescriptionWebView" candidateClass="UIWebView"/>
                 <relationship kind="outlet" name="currentBasemapImageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="currentBasemapMoreInfoButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="currentBasemapNameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="editGraphicsToolbar" candidateClass="UIToolbar"/>
                 <relationship kind="outlet" name="findAddressPanel" candidateClass="UIView"/>
                 <relationship kind="outlet" name="findPlacePanel" candidateClass="UIView"/>
                 <relationship kind="outlet" name="findScaleLabel" candidateClass="UILabel"/>
@@ -515,18 +528,15 @@
                 <relationship kind="outlet" name="geolocationPanel" candidateClass="UIView"/>
                 <relationship kind="outlet" name="graphicButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="graphicsPanel" candidateClass="UIView"/>
-                <relationship kind="outlet" name="infoSwipeLeftRecognizer" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="infoSwipeRightRecognizer" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="infoTapRecognizer" candidateClass="UITapGestureRecognizer"/>
                 <relationship kind="outlet" name="mapView" candidateClass="AGSMapView"/>
+                <relationship kind="outlet" name="redoEditGraphicsButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="routeStartLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="routeStartSearchBar" candidateClass="UISearchBar"/>
                 <relationship kind="outlet" name="routeStopLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="routeStopSearchBar" candidateClass="UISearchBar"/>
                 <relationship kind="outlet" name="routingPanel" candidateClass="UIView"/>
                 <relationship kind="outlet" name="toLocationButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="uiDoubleTapRecognizer" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="outlet" name="uiTapRecognizer" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="undoEditGraphicsButton" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>
     </classes>

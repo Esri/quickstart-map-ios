@@ -44,15 +44,22 @@
     [self.topLevelView addSubview:item.view];
 }
 
-- (void)ensureItemVisible:(EDNLiteBasemapType)basemapType
+- (void)ensureItemVisible:(EDNLiteBasemapType)basemapType Highlighted:(BOOL)highlight
 {
     UIScrollView *sView = self.topLevelView;
+    CGFloat w = CGRectGetWidth(sView.frame);
+    CGFloat h = CGRectGetHeight(sView.frame);
     for (EDNBasemapItemViewController *bvc in self.viewController.basemapVCs) {
         if (bvc.basemapType == basemapType)
         {
-            CGRect frameToScrollTo = bvc.view.frame;
+            CGFloat targetMidX = CGRectGetMidX(bvc.view.frame);
+            CGFloat targetMidY = CGRectGetMidY(bvc.view.frame);
+            CGRect frameToScrollTo = CGRectMake(targetMidX - w/2, targetMidY - h/2, w, h);
             [sView scrollRectToVisible:frameToScrollTo animated:YES];
-            break;
+            bvc.highlighted = YES;
+        }
+        else {
+            bvc.highlighted = NO;
         }
     }
 }
