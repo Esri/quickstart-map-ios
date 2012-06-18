@@ -225,7 +225,7 @@ NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
     
     NSAssert1((nums.count % 2) == 0, @"Must provide an even number of NSNumbers!", nums.count);
 
-    AGSMutablePolyline *line = [[AGSMutablePolyline alloc] initWithSpatialReference:[AGSSpatialReference wgs84SpatialReference]];
+    AGSMutablePolyline *line = [[AGSMutablePolyline alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]];
     [line addPathToPolyline];
     
     for (int i=0; i < nums.count; i = i + 2)
@@ -256,7 +256,7 @@ NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
 
     NSAssert1((nums.count % 2) == 0, @"Must provide an even number of NSNumbers!", nums.count);
 
-    AGSMutablePolygon *poly = [[AGSMutablePolygon alloc] initWithSpatialReference:[AGSSpatialReference wgs84SpatialReference]];
+    AGSMutablePolygon *poly = [[AGSMutablePolygon alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]];
     [poly addRingToPolygon];
     
     for (int i=0; i < nums.count; i = i + 2)

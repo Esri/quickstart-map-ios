@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "EDNBasemapItemViewController.h"
 
-@interface EDNBasemapsListView : UIView
+@interface EDNBasemapsListView : UIScrollView
 - (void)addBasemapItem:(EDNBasemapItemViewController *)item;
 - (void)ensureItemVisible:(EDNLiteBasemapType)basemapType Highlighted:(BOOL)highlight;
 @end

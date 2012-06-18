@@ -18,45 +18,33 @@
 @synthesize topLevelView;
 @synthesize viewController;
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self)
-    {
-        NSLog(@"BasemapListView InitWithFrame");
-    }
-    return self;
-}
-
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        NSLog(@"BasemapListView InitWithCoder");
         [[NSBundle mainBundle] loadNibNamed:@"EDNBasemapsListView" owner:self options:nil];
-        [self addSubview:self.topLevelView];
     }
     return self;
 }
 
 - (void)addBasemapItem:(EDNBasemapItemViewController *)item
 {
-    [self.topLevelView addSubview:item.view];
+    [self addSubview:item.view];
 }
 
 - (void)ensureItemVisible:(EDNLiteBasemapType)basemapType Highlighted:(BOOL)highlight
 {
-    UIScrollView *sView = self.topLevelView;
-    CGFloat w = CGRectGetWidth(sView.frame);
-    CGFloat h = CGRectGetHeight(sView.frame);
+    // We'll scroll to put the selected item in the middle of the view.
+    CGFloat w = CGRectGetWidth(self.frame);
+    CGFloat h = CGRectGetHeight(self.frame);
     for (EDNBasemapItemViewController *bvc in self.viewController.basemapVCs) {
         if (bvc.basemapType == basemapType)
         {
             CGFloat targetMidX = CGRectGetMidX(bvc.view.frame);
             CGFloat targetMidY = CGRectGetMidY(bvc.view.frame);
             CGRect frameToScrollTo = CGRectMake(targetMidX - w/2, targetMidY - h/2, w, h);
-            [sView scrollRectToVisible:frameToScrollTo animated:YES];
-            bvc.highlighted = YES;
+            [self scrollRectToVisible:frameToScrollTo animated:YES];
+            bvc.highlighted = highlight;
         }
         else {
             bvc.highlighted = NO;
@@ -67,8 +55,6 @@
 - (void) layoutSubviews
 {
     [super layoutSubviews];
-    NSLog(@"Layout Subviews");
-    self.topLevelView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     [self positionItemsInView];
 }
 
@@ -79,14 +65,15 @@
     NSInteger x = spacing;
     NSInteger maxX = 0;
     
-    UIView *containerView = self.topLevelView;
+    UIView *containerView = self;
     CGRect tlvFrame = containerView.frame;
     
+    // Go over each subview I have. There are some which I don't put in here,
+    // and which I think might be the scroll-bars, so I check for the class type.
     for (UIView *subView in containerView.subviews) 
     {
         if (![subView isKindOfClass:[UIImageView class]])
         {
-            NSLog(@"Subview: %@", subView);
             CGRect oldFrame = subView.frame;
             NSInteger newHeight = oldFrame.size.height;
             NSInteger newWidth = oldFrame.size.width;
@@ -102,12 +89,12 @@
             maxX = maxX + newWidth;
             CGRect newFrame = CGRectMake(x, (tlvFrame.size.height - newHeight)/2, newWidth, newHeight);
             subView.frame = newFrame;
-            NSLog(@"Basemap View: %@", NSStringFromCGRect(subView.frame));
             x = x + newFrame.size.width + spacing;
             maxX = x;
         }
     }
-    
+
+    // Set the total content area to a space large enough to include everything.
     UIScrollView *tv = (UIScrollView *)containerView;
     tv.contentSize = CGSizeMake(maxX, tlvFrame.size.height);
 }
