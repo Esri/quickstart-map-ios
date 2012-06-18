@@ -22,8 +22,13 @@ typedef enum {
 - (void) clearGraphics:(EDNLiteGraphicsLayerType)layerType;
 - (void) clearGraphics;
 
+- (void) editNewPoint;
+- (void) editNewMultipoint;
+- (void) editNewLine;
+- (void) editNewPolygon;
+
 - (AGSGraphic *) editGraphicFromDidClickAtPointEvent:(NSDictionary *)graphics;
-- (void) saveCurrentEdit;
+- (AGSGraphic *) saveCurrentEdit;
 - (void) cancelCurrentEdit;
 - (NSUndoManager *) getUndoManagerForGraphicsEdits;
 - (AGSGeometry *) getCurrentEditGeometry;

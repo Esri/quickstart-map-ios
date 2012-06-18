@@ -70,6 +70,12 @@ EDNVCState;
 - (IBAction)redoEditingGraphic:(id)sender;
 - (IBAction)zoomToEditingGeometry:(id)sender;
 
+- (IBAction)newPtGraphic:(id)sender;
+- (IBAction)newLnGraphic:(id)sender;
+- (IBAction)newPgGraphic:(id)sender;
+- (IBAction)newMultiPtGraphic:(id)sender;
+
+
 
 // Routing UI
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *fromLocationButton;
@@ -255,6 +261,36 @@ EDNVCState;
     [self setUndoRedoButtonStatesForUndoManager:um];
 }
 
+- (void)listenToEditingUndoManager
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                    name:@"NSUndoManagerDidCloseUndoGroupNotification" 
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                    name:@"NSUndoManagerDidUndoChangeNotification" 
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                    name:@"NSUndoManagerDidRedoChangeNotification" 
+                                                  object:nil];
+    
+    NSUndoManager *um = [self.mapView getUndoManagerForGraphicsEdits];
+    if (um)
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(editUndoRedoChanged:)
+                                                     name:@"NSUndoManagerDidCloseUndoGroupNotification"
+                                                   object:um];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(editUndoRedoChanged:)
+                                                     name:@"NSUndoManagerDidUndoChangeNotification"
+                                                   object:um];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(editUndoRedoChanged:)
+                                                     name:@"NSUndoManagerDidRedoChangeNotification"
+                                                   object:um];
+    }
+}
+
 - (void)mapView:(AGSMapView *)mapView didClickAtPoint:(CGPoint)screen mapPoint:(AGSPoint *)mappoint graphics:(NSDictionary *)graphics
 {
     NSLog(@"Clicked on map!");
@@ -264,19 +300,6 @@ EDNVCState;
             {
                 // The user selected a graphic. Let's edit it.
                 [self.mapView editGraphicFromDidClickAtPointEvent:graphics];
-                NSUndoManager *um = [self.mapView getUndoManagerForGraphicsEdits];
-                [[NSNotificationCenter defaultCenter] addObserver:self
-                                                         selector:@selector(editUndoRedoChanged:)
-                                                             name:@"NSUndoManagerDidCloseUndoGroupNotification"
-                                                           object:um];
-                [[NSNotificationCenter defaultCenter] addObserver:self
-                                                         selector:@selector(editUndoRedoChanged:)
-                                                             name:@"NSUndoManagerDidUndoChangeNotification"
-                                                           object:um];
-                [[NSNotificationCenter defaultCenter] addObserver:self
-                                                         selector:@selector(editUndoRedoChanged:)
-                                                             name:@"NSUndoManagerDidRedoChangeNotification"
-                                                           object:um];
                 self.currentState = EDNVCStateGraphics_Editing;
             }
             break;
@@ -599,6 +622,7 @@ EDNVCState;
                 buttonItem.enabled = YES;
             }
             [self setUndoRedoButtonStates];
+            [self listenToEditingUndoManager];
             self.mapView.showMagnifierOnTapAndHold = YES;
             break;
         case EDNVCStateGraphics:
@@ -805,5 +829,25 @@ EDNVCState;
     {
         [self.mapView zoomToGeometry:editGeom withPadding:25 animated:YES];
     }
+}
+
+- (IBAction)newPtGraphic:(id)sender {
+    [self.mapView editNewPoint];
+    self.currentState = EDNVCStateGraphics_Editing;
+}
+
+- (IBAction)newLnGraphic:(id)sender {
+    [self.mapView editNewLine];
+    self.currentState = EDNVCStateGraphics_Editing;
+}
+
+- (IBAction)newPgGraphic:(id)sender {
+    [self.mapView editNewPolygon];
+    self.currentState = EDNVCStateGraphics_Editing;
+}
+
+- (IBAction)newMultiPtGraphic:(id)sender {
+    [self.mapView editNewMultipoint];
+    self.currentState = EDNVCStateGraphics_Editing;
 }
 @end
