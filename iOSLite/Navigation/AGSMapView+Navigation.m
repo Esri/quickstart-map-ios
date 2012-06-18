@@ -19,9 +19,9 @@ CLLocationManager * __ednLiteLocationManager = nil;
 NSInteger __ednLiteScaleForGeolocation = -1;
 
 // PUBLIC
-- (void) centerAtLat:(CGFloat) latitude Lng:(CGFloat) longitude withScaleLevel:(NSInteger)scaleLevel
+- (void) centerAtLat:(CGFloat) latitude Long:(CGFloat) longitude withScaleLevel:(NSInteger)scaleLevel
 {
-    AGSPoint *webMercatorCenterPt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Lon:longitude];
+    AGSPoint *webMercatorCenterPt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
     double scale = [EDNLiteHelper getScaleForLevel:scaleLevel];
     if (self.loaded)
     {
@@ -37,10 +37,16 @@ NSInteger __ednLiteScaleForGeolocation = -1;
     }
 }
 
-- (void) centerAtLat:(CGFloat) latitude Lng:(CGFloat) longitude
+- (void) centerAtLat:(CGFloat) latitude Long:(CGFloat) longitude
 {
-    AGSPoint *p = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Lon:longitude];
+    AGSPoint *p = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
     [self centerAtPoint:p animated:YES];
+}
+
+- (void) centerAtPoint:(AGSPoint *)point withScaleLevel:(NSInteger)scaleLevel
+{
+    double scaleForLevel = [EDNLiteHelper getScaleForLevel:scaleLevel];
+    [self zoomToScale:scaleForLevel withCenterPoint:point animated:YES];
 }
 
 - (void) zoomToLevel:(NSInteger)level
@@ -48,12 +54,6 @@ NSInteger __ednLiteScaleForGeolocation = -1;
     AGSPoint *currentCenterPoint = self.visibleArea.envelope.center;
     double scaleForLevel = [EDNLiteHelper getScaleForLevel:level];
     [self zoomToScale:scaleForLevel withCenterPoint:currentCenterPoint animated:YES];
-}
-
-- (void) centerAtPoint:(AGSPoint *)point withScaleLevel:(NSInteger)scaleLevel
-{
-    double scaleForLevel = [EDNLiteHelper getScaleForLevel:scaleLevel];
-    [self zoomToScale:scaleForLevel withCenterPoint:point animated:YES];
 }
 
 - (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
@@ -64,12 +64,12 @@ NSInteger __ednLiteScaleForGeolocation = -1;
     if (__ednLiteScaleForGeolocation == -1)
     {
 	[self centerAtLat:newLocation.coordinate.latitude
-				  Lng:newLocation.coordinate.longitude];
+                 Long:newLocation.coordinate.longitude];
     }
     else
     {
         [self centerAtLat:newLocation.coordinate.latitude
-                      Lng:newLocation.coordinate.longitude
+                     Long:newLocation.coordinate.longitude
            withScaleLevel:__ednLiteScaleForGeolocation];
     }
 	__ednLiteLocationManager = nil;
@@ -109,13 +109,13 @@ NSInteger __ednLiteScaleForGeolocation = -1;
     [self centerAtMyLocation];
 }
 
-- (AGSPoint *) getCenterPointWebMercator
+- (AGSPoint *) getWebMercatorCenterPoint
 {
     return self.visibleArea.envelope.center;    
 }
 
-- (AGSPoint *) getCenterPoint
+- (AGSPoint *) getLatLongCenterPoint
 {
-    return [EDNLiteHelper getWGS84PointFromWebMercatorAuxSpherePoint:[self getCenterPointWebMercator]];
+    return [EDNLiteHelper getWGS84PointFromPoint:[self getWebMercatorCenterPoint]];
 }
 @end

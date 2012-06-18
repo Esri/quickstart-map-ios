@@ -23,12 +23,112 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
 #define kEDNLiteGraphicsLayerName_Polyline @"ednLitePolylineGraphicsLayer"
 #define kEDNLiteGraphicsLayerName_Polygon @"ednLitePolygonGraphicsLayer"
 
-NSString * EDNLITE_GRAPHIC_TAG = @"iOSLiteAPI";
-NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
+#define kEdnLiteGraphicTag @"iOSLiteAPI"
+#define kEdnLiteGraphicTagKey @"createdBy"
 
 #define kEDNLiteSketchGraphicsLayerName @"ednLiteSketchGraphcisLayer"
 
-- (AGSGraphic *) editGraphicFromDidClickAtPointEvent:(NSDictionary *)graphics
+#pragma mark - Add Graphics Programatically
+- (AGSGraphic *) addPointAtLat:(double)latitude Lng:(double)longitude
+{
+    AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
+    
+    AGSGraphic *g = [self __ednLiteGetDefaultGraphicForGeometry:pt];
+    
+    [self __ednLiteAddGraphicToAppropriateGraphicsLayer:g];
+    
+    return g;
+}
+
+- (AGSGraphic *) addLineWithLatsAndLngs:(NSNumber *)firstLatitude, ... NS_REQUIRES_NIL_TERMINATION
+{
+    va_list args;
+    va_start(args, firstLatitude);
+    NSArray *nums = [self __ednLiteGetArrayFromArguments:firstLatitude arguments:args];
+    va_end(args);
+
+    NSAssert1((nums.count % 2) == 0, @"Must provide an even number of NSNumbers!", nums.count);
+
+    AGSMutablePolyline *line = [[AGSMutablePolyline alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]];
+    [line addPathToPolyline];
+
+    for (int i=0; i < nums.count; i = i + 2)
+    {
+        NSNumber *lat = [nums objectAtIndex:i];
+        NSNumber *lon = [nums objectAtIndex:i+1];
+        AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:[lat doubleValue] Long:[lon doubleValue]];
+        [line addPointToPath:pt];
+    }
+
+    AGSGraphic *g = [self __ednLiteGetDefaultGraphicForGeometry:line];
+
+    [self __ednLiteAddGraphicToAppropriateGraphicsLayer:g];
+
+    return g;
+}
+
+- (AGSGraphic *) addPolygonWithLatsAndLngs:(NSNumber *) firstLatitude, ... NS_REQUIRES_NIL_TERMINATION
+{
+    va_list args;
+    va_start(args, firstLatitude);
+    NSArray *nums = [self __ednLiteGetArrayFromArguments:firstLatitude arguments:args];
+    va_end(args);
+
+    NSAssert1((nums.count % 2) == 0, @"Must provide an even number of NSNumbers!", nums.count);
+
+    AGSMutablePolygon *poly = [[AGSMutablePolygon alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]];
+    [poly addRingToPolygon];
+
+    for (int i=0; i < nums.count; i = i + 2)
+    {
+        NSNumber *lat = [nums objectAtIndex:i];
+        NSNumber *lon = [nums objectAtIndex:i+1];
+        AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:[lat doubleValue] Long:[lon doubleValue]];
+        [poly addPointToRing:pt];
+    }
+
+    AGSGraphic *g = [self __ednLiteGetDefaultGraphicForGeometry:poly];
+
+    [self __ednLiteAddGraphicToAppropriateGraphicsLayer:g];
+
+    return g;
+}
+
+#pragma mark - Clear graphics from the map
+- (void) clearGraphics:(EDNLiteGraphicsLayerType)layerType
+{
+    AGSGraphicsLayer *gl = nil;
+    if (layerType & EDNLiteGraphicsLayerTypePoint)
+    {
+        gl = [self getGraphicsLayer:EDNLiteGraphicsLayerTypePoint];
+        [gl removeAllGraphics];
+        [gl dataChanged];
+    }
+    
+    if (layerType & EDNLiteGraphicsLayerTypePolyline)
+    {
+        gl = [self getGraphicsLayer:EDNLiteGraphicsLayerTypePolyline];
+        [gl removeAllGraphics];
+        [gl dataChanged];
+    }
+    
+    if (layerType & EDNLiteGraphicsLayerTypePolygon)
+    {
+        gl = [self getGraphicsLayer:EDNLiteGraphicsLayerTypePolygon];
+        [gl removeAllGraphics];
+        [gl dataChanged];
+    }
+}
+
+- (void) clearGraphics
+{
+    [self clearGraphics:(EDNLiteGraphicsLayerTypePoint + 
+                         EDNLiteGraphicsLayerTypePolyline +
+                         EDNLiteGraphicsLayerTypePolygon)];
+}
+
+#pragma mark - Edit graphic selected from the map
+- (AGSGraphic *) editGraphicFromMapViewDidClickAtPoint:(NSDictionary *)graphics
 {
     AGSGraphic *graphicToEdit = nil;
     
@@ -51,6 +151,131 @@ NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
     
     return graphicToEdit;
 }
+
+#pragma mark - Create and Edit new graphics
+- (void) editNewPoint
+{
+    [self __ednLiteEditGeometry:[[AGSMutablePoint alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
+}
+
+- (void) editNewMultipoint
+{
+    [self __ednLiteEditGeometry:[[AGSMutableMultipoint alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
+}
+
+- (void) editNewLine
+{
+    [self __ednLiteEditGeometry:[[AGSMutablePolyline alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
+}
+
+- (void) editNewPolygon
+{
+    [self __ednLiteEditGeometry:[[AGSMutablePolygon alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
+}
+
+#pragma mark - Save edit/create
+- (AGSGraphic *) saveCurrentEdit
+{
+    if (__ednLiteSketchGraphicsLayer)
+    {
+        // Update the graphics geometry
+        AGSGeometry *editedGeometry = __ednLiteSketchGraphicsLayer.geometry;
+        AGSGraphic *editedGraphic = nil;
+        if (__ednLiteCurrentEditingGraphic)
+        {
+            // Editing an existing graphic
+            __ednLiteCurrentEditingGraphic.geometry = editedGeometry;
+            AGSGraphicsLayer *owningLayer = __ednLiteCurrentEditingGraphic.layer;
+            // Get the owning layer and refresh it.
+            [owningLayer dataChanged];
+            
+            editedGraphic = __ednLiteCurrentEditingGraphic;
+        }
+        else
+        {
+            // Creating a new graphic
+            AGSGraphic *g = [self __ednLiteGetDefaultGraphicForGeometry:editedGeometry];
+            [self __ednLiteAddGraphicToAppropriateGraphicsLayer:g];
+            
+            editedGraphic = g;
+        }
+        
+        // Set the UI interaction back to how it was before.
+        __ednLiteSketchGraphicsLayer.geometry = nil;
+        __ednLiteCurrentEditingGraphic = nil;
+        self.touchDelegate = __ednLiteTempTouchDelegate;
+        __ednLiteTempTouchDelegate = nil;
+        
+        return editedGraphic;
+    }
+    
+    return nil;
+}
+
+#pragma mark - Cancel edit/create
+- (void) cancelCurrentEdit
+{
+    if (__ednLiteSketchGraphicsLayer)
+    {
+        // Set the UI interaction back to how it was before.
+        __ednLiteSketchGraphicsLayer.geometry = nil;
+        __ednLiteCurrentEditingGraphic = nil;
+        self.touchDelegate = __ednLiteTempTouchDelegate;
+        __ednLiteTempTouchDelegate = nil;
+    }
+}
+
+#pragma mark - Accessors to useful objects for UI feedback during editing
+- (NSUndoManager *) getUndoManagerForGraphicsEdits
+{
+    if (__ednLiteSketchGraphicsLayer)
+    {
+        return __ednLiteSketchGraphicsLayer.undoManager;
+    }
+    return nil;
+}
+
+- (AGSGeometry *) getCurrentEditGeometry
+{
+    if (__ednLiteSketchGraphicsLayer)
+    {
+        return __ednLiteSketchGraphicsLayer.geometry;
+    }
+    return nil;
+}
+
+- (AGSGraphicsLayer *) getGraphicsLayer:(EDNLiteGraphicsLayerType)layerType
+{
+    if (!__ednLitePointGraphicsLayer)
+    {
+        // Create three graphics layers and add them to the map.
+        __ednLitePointGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
+        __ednLitePolylineGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
+        __ednLitePolygonGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
+		[[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(__ednLiteGraphicsBasemapDidChange:) 
+                                                     name:@"BasemapDidChange"
+                                                   object:self];
+        
+    }
+    
+    [self __ensureEdnLiteGraphicsLayersAdded];
+    
+    switch (layerType) {
+        case EDNLiteGraphicsLayerTypePoint:
+            return __ednLitePointGraphicsLayer;
+            
+        case EDNLiteGraphicsLayerTypePolyline:
+            return __ednLitePolylineGraphicsLayer;
+            
+        case EDNLiteGraphicsLayerTypePolygon:
+            return __ednLitePolygonGraphicsLayer;
+    }
+    
+    return nil;
+}
+
+#pragma mark - Internal/Private
 
 - (void) __ednLiteEditGraphic:(AGSGraphic *)graphicToEdit
 {
@@ -95,125 +320,6 @@ NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
     }
 }
 
-- (void) editNewPoint
-{
-    [self __ednLiteEditGeometry:[[AGSMutablePoint alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
-}
-
-- (void) editNewMultipoint
-{
-    [self __ednLiteEditGeometry:[[AGSMutableMultipoint alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
-}
-
-- (void) editNewLine
-{
-    [self __ednLiteEditGeometry:[[AGSMutablePolyline alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
-}
-
-- (void) editNewPolygon
-{
-    [self __ednLiteEditGeometry:[[AGSMutablePolygon alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
-}
-
-- (AGSGraphic *) saveCurrentEdit
-{
-    if (__ednLiteSketchGraphicsLayer)
-    {
-        // Update the graphics geometry
-        AGSGeometry *editedGeometry = __ednLiteSketchGraphicsLayer.geometry;
-        AGSGraphic *editedGraphic = nil;
-        if (__ednLiteCurrentEditingGraphic)
-        {
-            // Editing an existing graphic
-            __ednLiteCurrentEditingGraphic.geometry = editedGeometry;
-            AGSGraphicsLayer *owningLayer = __ednLiteCurrentEditingGraphic.layer;
-            // Get the owning layer and refresh it.
-            [owningLayer dataChanged];
-            
-            editedGraphic = __ednLiteCurrentEditingGraphic;
-        }
-        else
-        {
-            // Creating a new graphic
-            AGSGraphic *g = [self __ednLiteGetDefaultGraphicForGeometry:editedGeometry];
-            [self __ednLiteAddGraphicToAppropriateGraphicsLayer:g];
-            
-            editedGraphic = g;
-        }
-
-        // Set the UI interaction back to how it was before.
-        __ednLiteSketchGraphicsLayer.geometry = nil;
-        __ednLiteCurrentEditingGraphic = nil;
-        self.touchDelegate = __ednLiteTempTouchDelegate;
-        __ednLiteTempTouchDelegate = nil;
-        
-        return editedGraphic;
-    }
-    
-    return nil;
-}
-
-- (void) cancelCurrentEdit
-{
-    if (__ednLiteSketchGraphicsLayer)
-    {
-        // Set the UI interaction back to how it was before.
-        __ednLiteSketchGraphicsLayer.geometry = nil;
-        __ednLiteCurrentEditingGraphic = nil;
-        self.touchDelegate = __ednLiteTempTouchDelegate;
-        __ednLiteTempTouchDelegate = nil;
-    }
-}
-
-- (NSUndoManager *) getUndoManagerForGraphicsEdits
-{
-    if (__ednLiteSketchGraphicsLayer)
-    {
-        return __ednLiteSketchGraphicsLayer.undoManager;
-    }
-    return nil;
-}
-
-- (AGSGeometry *) getCurrentEditGeometry
-{
-    if (__ednLiteSketchGraphicsLayer)
-    {
-        return __ednLiteSketchGraphicsLayer.geometry;
-    }
-    return nil;
-}
-
-- (AGSGraphicsLayer *) getGraphicsLayer:(EDNLiteGraphicsLayerType)layerType
-{
-    if (!__ednLitePointGraphicsLayer)
-    {
-        // Create three graphics layers and add them to the map.
-        __ednLitePointGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
-        __ednLitePolylineGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
-        __ednLitePolygonGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
-		[[NSNotificationCenter defaultCenter] addObserver:self 
-                                                 selector:@selector(__ednLiteGraphicsBasemapDidChange:) 
-                                                     name:@"BasemapDidChange"
-                                                   object:self];
-
-    }
-
-    [self __ensureEdnLiteGraphicsLayersAdded];
-
-    switch (layerType) {
-        case EDNLiteGraphicsLayerTypePoint:
-            return __ednLitePointGraphicsLayer;
-            
-        case EDNLiteGraphicsLayerTypePolyline:
-            return __ednLitePolylineGraphicsLayer;
-            
-        case EDNLiteGraphicsLayerTypePolygon:
-            return __ednLitePolygonGraphicsLayer;
-    }
-    
-    return nil;
-}
-
 - (void) __ensureEdnLiteGraphicsLayersAdded
 {
 	if (![self getLayerForName:kEDNLiteGraphicsLayerName_Polygon])
@@ -245,6 +351,7 @@ NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
 
 - (AGSSymbol *) __ednLiteGetDefaultSymbolForGeometry:(AGSGeometry *)geom
 {
+    // Return a symbol depending on the type of geometry that was passed in.
     AGSSymbol *symbol = nil;
     if ([geom isKindOfClass:[AGSPoint class]] ||
         [geom isKindOfClass:[AGSMultipoint class]])
@@ -266,16 +373,18 @@ NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
 }
 
 - (AGSGraphic *) __ednLiteGetDefaultGraphicForGeometry:(AGSGeometry *)geom
-{   
+{  
+    // Create a graphic with an appropriate symbol and attributes, given a geometry.
     AGSGraphic *g = [AGSGraphic graphicWithGeometry:geom
                                              symbol:[self __ednLiteGetDefaultSymbolForGeometry:geom]
-                                         attributes:[NSDictionary dictionaryWithObject:EDNLITE_GRAPHIC_TAG forKey:EDNLITE_GRAPHIC_TAG_KEY]
+                                         attributes:[NSDictionary dictionaryWithObject:kEdnLiteGraphicTag forKey:kEdnLiteGraphicTagKey]
                                infoTemplateDelegate:nil];
     return g;
 }
 
 - (void) __ednLiteAddGraphicToAppropriateGraphicsLayer:(AGSGraphic *)graphic
 {
+    // Figure out what type of geometry the graphic is, and add the graphic to the appropriate layer.
     if (graphic)
     {
         AGSGeometry *geom = graphic.geometry;
@@ -307,6 +416,7 @@ NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
 
 - (NSArray *) __ednLiteGetArrayFromArguments:(NSNumber *)first arguments:(va_list)otherArgs
 {
+    // Just a helper function.
     NSMutableArray *result = [NSMutableArray array];
     for (NSNumber *nextNumber = first; nextNumber != nil; nextNumber = va_arg(otherArgs, NSNumber *))
     {
@@ -314,102 +424,5 @@ NSString * EDNLITE_GRAPHIC_TAG_KEY = @"createdBy";
     }
 
     return result;
-}
-
-- (AGSGraphic *) addPointAtLat:(double)latitude Lng:(double)longitude
-{
-    AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Lon:longitude];
-    
-    AGSGraphic *g = [self __ednLiteGetDefaultGraphicForGeometry:pt];
-
-    [self __ednLiteAddGraphicToAppropriateGraphicsLayer:g];
-    
-    return g;
-}
-
-- (AGSGraphic *) addLineWithLatsAndLngs:(NSNumber *)firstLatitude, ... NS_REQUIRES_NIL_TERMINATION
-{
-    va_list args;
-    va_start(args, firstLatitude);
-    NSArray *nums = [self __ednLiteGetArrayFromArguments:firstLatitude arguments:args];
-    va_end(args);
-    
-    NSAssert1((nums.count % 2) == 0, @"Must provide an even number of NSNumbers!", nums.count);
-
-    AGSMutablePolyline *line = [[AGSMutablePolyline alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]];
-    [line addPathToPolyline];
-    
-    for (int i=0; i < nums.count; i = i + 2)
-    {
-        NSNumber *lat = [nums objectAtIndex:i];
-        NSNumber *lon = [nums objectAtIndex:i+1];
-        AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:[lat doubleValue] Lon:[lon doubleValue]];
-        [line addPointToPath:pt];
-    }
-
-    AGSGraphic *g = [self __ednLiteGetDefaultGraphicForGeometry:line];
-
-    [self __ednLiteAddGraphicToAppropriateGraphicsLayer:g];
-
-    return g;
-}
-
-- (AGSGraphic *) addPolygonWithLatsAndLngs:(NSNumber *) firstLatitude, ... NS_REQUIRES_NIL_TERMINATION
-{
-    va_list args;
-    va_start(args, firstLatitude);
-    NSArray *nums = [self __ednLiteGetArrayFromArguments:firstLatitude arguments:args];
-    va_end(args);
-
-    NSAssert1((nums.count % 2) == 0, @"Must provide an even number of NSNumbers!", nums.count);
-
-    AGSMutablePolygon *poly = [[AGSMutablePolygon alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]];
-    [poly addRingToPolygon];
-    
-    for (int i=0; i < nums.count; i = i + 2)
-    {
-        NSNumber *lat = [nums objectAtIndex:i];
-        NSNumber *lon = [nums objectAtIndex:i+1];
-        AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:[lat doubleValue] Lon:[lon doubleValue]];
-        [poly addPointToRing:pt];
-    }
-
-    AGSGraphic *g = [self __ednLiteGetDefaultGraphicForGeometry:poly];
-
-    [self __ednLiteAddGraphicToAppropriateGraphicsLayer:g];
-
-    return g;
-}
-
-- (void) clearGraphics:(EDNLiteGraphicsLayerType)layerType
-{
-    AGSGraphicsLayer *gl = nil;
-    if (layerType & EDNLiteGraphicsLayerTypePoint)
-    {
-        gl = [self getGraphicsLayer:EDNLiteGraphicsLayerTypePoint];
-        [gl removeAllGraphics];
-        [gl dataChanged];
-    }
-
-    if (layerType & EDNLiteGraphicsLayerTypePolyline)
-    {
-        gl = [self getGraphicsLayer:EDNLiteGraphicsLayerTypePolyline];
-        [gl removeAllGraphics];
-        [gl dataChanged];
-    }
-
-    if (layerType & EDNLiteGraphicsLayerTypePolygon)
-    {
-        gl = [self getGraphicsLayer:EDNLiteGraphicsLayerTypePolygon];
-        [gl removeAllGraphics];
-        [gl dataChanged];
-    }
-}
-
-- (void) clearGraphics
-{
-    [self clearGraphics:(EDNLiteGraphicsLayerTypePoint + 
-                        EDNLiteGraphicsLayerTypePolyline +
-                         EDNLiteGraphicsLayerTypePolygon)];
 }
 @end

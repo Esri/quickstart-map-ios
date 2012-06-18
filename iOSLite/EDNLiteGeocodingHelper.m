@@ -120,7 +120,7 @@
         AGSPoint *location = objc_getAssociatedObject(op, kEDNLiteAssociatedLocationKey);
         NSNumber *distance = objc_getAssociatedObject(op, kEDNLiteAssociatedDistanceKey);
         NSLog(@"Found address at %@ within %@ units of %@: %@", candidate.location, distance, 
-              [EDNLiteHelper getWGS84PointFromWebMercatorAuxSpherePoint:location], candidate.address);
+              [EDNLiteHelper getWGS84PointFromPoint:location], candidate.address);
         NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                                   candidate, @"candidate",
                                   location, @"mapPoint", nil];

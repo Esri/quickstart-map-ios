@@ -24,8 +24,8 @@ EDNLiteRouteTaskHelper *__ednLiteRouteHelper = nil;
 
 - (void)getDirectionsFromLat:(double)startLat Lng:(double)startLng ToLat:(double)stopLat Lng:(double)stopLng
 {    
-    [self getDirectionsFromPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:startLat Lon:startLng]
-                         ToPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:stopLat Lon:stopLng]];
+    [self getDirectionsFromPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:startLat Long:startLng]
+                         ToPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:stopLat Long:stopLng]];
 }
 
 - (void)getDirectionsFromPoint:(AGSPoint*)startPoint ToPoint:(AGSPoint *)stopPoint WithDelegate:(id<AGSRouteTaskDelegate>)delegate
@@ -39,8 +39,8 @@ EDNLiteRouteTaskHelper *__ednLiteRouteHelper = nil;
 
 - (void) getDirectionsFromLat:(double)startLat Lng:(double)startLng ToLat:(double)stopLat Lng:(double)stopLng WithDelegate:(id<AGSRouteTaskDelegate>)delegate
 {    
-    [self getDirectionsFromPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:startLat Lon:startLng]
-                         ToPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:stopLat Lon:stopLng]
+    [self getDirectionsFromPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:startLat Long:startLng]
+                         ToPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:stopLat Long:stopLng]
                      WithDelegate:delegate];
 }
 

@@ -31,7 +31,7 @@ EDNLiteGeocodingHelper *__ednLiteGeocodingHelper = nil;
 
 - (NSOperation *) getAddressForLat:(double)latitude Lon:(double)longitude withDelegate:(id<AGSLocatorDelegate>)delegate
 {
-    return [self getAddressForMapPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Lon:longitude]
+    return [self getAddressForMapPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude]
                    withDelegate:delegate];
 }
 
@@ -122,7 +122,7 @@ EDNLiteGeocodingHelper *__ednLiteGeocodingHelper = nil;
 		if (candidate.score >= threshold)
 		{
             // Get the result location.
-			AGSPoint *loc = [EDNLiteHelper getWebMercatorAuxSpherePointFromWGS84Point:candidate.location];
+			AGSPoint *loc = [EDNLiteHelper getWebMercatorAuxSpherePointFromPoint:candidate.location];
             
             // Merge or create the extent we're going to zoom to eventually.
             if (!totalEnvelope)

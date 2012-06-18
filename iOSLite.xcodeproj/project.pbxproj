@@ -21,6 +21,7 @@
 		D99A58D01576B22A00AB05EE /* AGSLayer+Basemap.m in Sources */ = {isa = PBXBuildFile; fileRef = D99A58CF1576B22A00AB05EE /* AGSLayer+Basemap.m */; };
 		D99D987F158950F800F9D36B /* EDNBasemapsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D99D987D158950F800F9D36B /* EDNBasemapsListViewController.m */; };
 		D99D9880158950F800F9D36B /* EDNBasemapsListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D99D987E158950F800F9D36B /* EDNBasemapsListView.xib */; };
+		D9A7B3A4158FE80400A00A73 /* EDNLiteNavigationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A7B3A3158FE80400A00A73 /* EDNLiteNavigationHelper.m */; };
 		D9A985B715890C3D00A0DE40 /* EDNBasemapItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A985B515890C3D00A0DE40 /* EDNBasemapItemViewController.m */; };
 		D9A985B815890C3D00A0DE40 /* EDNBasemapItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9A985B615890C3D00A0DE40 /* EDNBasemapItemView.xib */; };
 		D9B1044D156D98B900DF6287 /* UILabel+EDNAutoSizeMutliline.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DCB32E156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.m */; };
@@ -79,6 +80,8 @@
 		D99D987C158950F800F9D36B /* EDNBasemapsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNBasemapsListViewController.h; sourceTree = "<group>"; };
 		D99D987D158950F800F9D36B /* EDNBasemapsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNBasemapsListViewController.m; sourceTree = "<group>"; };
 		D99D987E158950F800F9D36B /* EDNBasemapsListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EDNBasemapsListView.xib; sourceTree = "<group>"; };
+		D9A7B3A2158FE80400A00A73 /* EDNLiteNavigationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNLiteNavigationHelper.h; sourceTree = "<group>"; };
+		D9A7B3A3158FE80400A00A73 /* EDNLiteNavigationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNLiteNavigationHelper.m; sourceTree = "<group>"; };
 		D9A985B415890C3D00A0DE40 /* EDNBasemapItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNBasemapItemViewController.h; sourceTree = "<group>"; };
 		D9A985B515890C3D00A0DE40 /* EDNBasemapItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNBasemapItemViewController.m; sourceTree = "<group>"; };
 		D9A985B615890C3D00A0DE40 /* EDNBasemapItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EDNBasemapItemView.xib; sourceTree = "<group>"; };
@@ -162,13 +165,13 @@
 			name = html;
 			sourceTree = "<group>";
 		};
-		D92F5D69157FDD5A003294F4 /* Private */ = {
+		D92F5D69157FDD5A003294F4 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
 				D92F5D6A157FDD83003294F4 /* EDNLiteGeocodingHelper.h */,
 				D92F5D6B157FDD83003294F4 /* EDNLiteGeocodingHelper.m */,
 			);
-			name = Private;
+			name = Helper;
 			sourceTree = "<group>";
 		};
 		D94431A7156C1EEC00982D5C /* Helper */ = {
@@ -191,6 +194,15 @@
 				D950069E156E0C9C00BA872A /* EDNAppleTileOperation.m */,
 			);
 			name = AppleOSMLayer;
+			sourceTree = "<group>";
+		};
+		D9A7B3A1158FE7C000A00A73 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				D9A7B3A2158FE80400A00A73 /* EDNLiteNavigationHelper.h */,
+				D9A7B3A3158FE80400A00A73 /* EDNLiteNavigationHelper.m */,
+			);
+			name = Helper;
 			sourceTree = "<group>";
 		};
 		D9E27CAF155AE891008F8CCB /* Categories */ = {
@@ -222,7 +234,7 @@
 			children = (
 				D9F9AE93157D6352004CFAA8 /* AGSMapView+Geocoding.h */,
 				D9F9AE94157D6352004CFAA8 /* AGSMapView+Geocoding.m */,
-				D92F5D69157FDD5A003294F4 /* Private */,
+				D92F5D69157FDD5A003294F4 /* Helper */,
 			);
 			name = Geocoding;
 			sourceTree = "<group>";
@@ -263,18 +275,18 @@
 			children = (
 				D9EAB290156FD1EE008BCE8F /* AGSMapView+Routing.h */,
 				D9EAB291156FD1EE008BCE8F /* AGSMapView+Routing.m */,
-				E15369E1157547BC0027EB47 /* Private */,
+				E15369E1157547BC0027EB47 /* Helper */,
 			);
 			name = Routing;
 			sourceTree = "<group>";
 		};
-		E15369E1157547BC0027EB47 /* Private */ = {
+		E15369E1157547BC0027EB47 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
 				D9EAB293156FE0AF008BCE8F /* EDNLiteRouteTaskHelper.h */,
 				D9EAB294156FE0AF008BCE8F /* EDNLiteRouteTaskHelper.m */,
 			);
-			name = Private;
+			name = Helper;
 			sourceTree = "<group>";
 		};
 		E16C07CD1559B96900776F3E /* Navigation */ = {
@@ -282,6 +294,7 @@
 			children = (
 				E16C07CE1559B9AA00776F3E /* AGSMapView+Navigation.h */,
 				E16C07CF1559B9AA00776F3E /* AGSMapView+Navigation.m */,
+				D9A7B3A1158FE7C000A00A73 /* Helper */,
 			);
 			name = Navigation;
 			sourceTree = "<group>";
@@ -465,6 +478,7 @@
 				D9A985B715890C3D00A0DE40 /* EDNBasemapItemViewController.m in Sources */,
 				D99D987F158950F800F9D36B /* EDNBasemapsListViewController.m in Sources */,
 				D9E01457158A45A4005DD7D8 /* EDNBasemapsListView.m in Sources */,
+				D9A7B3A4158FE80400A00A73 /* EDNLiteNavigationHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

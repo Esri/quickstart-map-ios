@@ -320,7 +320,7 @@ NSDictionary * __ednBasemapURLs = nil;
     return [[EDNLiteHelper defaultHelper] getBasemapKeyForEnum:basemapType];
 }
 
-+ (AGSPoint *) getWebMercatorAuxSpherePointFromWGS84Point:(AGSPoint *)wgs84Point
++ (AGSPoint *) getWebMercatorAuxSpherePointFromPoint:(AGSPoint *)wgs84Point
 {
     @try
     {
@@ -332,7 +332,7 @@ NSDictionary * __ednBasemapURLs = nil;
     }
 }
 
-+ (AGSPoint *) getWGS84PointFromWebMercatorAuxSpherePoint:(AGSPoint *)webMercatorPoint;
++ (AGSPoint *) getWGS84PointFromPoint:(AGSPoint *)webMercatorPoint;
 {
     @try
     {
@@ -344,12 +344,12 @@ NSDictionary * __ednBasemapURLs = nil;
     }
 }
 
-+ (AGSPoint *) getWebMercatorAuxSpherePointFromLat:(double) latitude Lon:(double) longitude
++ (AGSPoint *) getWebMercatorAuxSpherePointFromLat:(double) latitude Long:(double) longitude
 {
     // Ensure we're passed sensible values for lat and long
     NSAssert1((-90 <= latitude) && (latitude <= 90), @"Latitude %f must be between -90 and 90 degrees", latitude);
     
     AGSPoint *wgs84CenterPt = [AGSPoint pointWithX:longitude y:latitude spatialReference:[AGSSpatialReference wgs84SpatialReference]];
-    return [self getWebMercatorAuxSpherePointFromWGS84Point:wgs84CenterPt];
+    return [self getWebMercatorAuxSpherePointFromPoint:wgs84CenterPt];
 }
 @end

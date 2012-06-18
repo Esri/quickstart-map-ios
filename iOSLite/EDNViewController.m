@@ -170,26 +170,29 @@ EDNVCState;
 
 - (void)initUI
 {
-	// Track the application state (for now, used for routing input)
+	// Track the application state
     self.currentState = EDNVCStateBasemaps;
 
+    // Store some state on the UI so that we can track when the user is placing points for routing.
     objc_setAssociatedObject(self.fromLocationButton, kEDNLiteApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     objc_setAssociatedObject(self.toLocationButton, kEDNLiteApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
-
+    // When we geolocate, what scale level to zoom the map to?
     self.findScale = 13;
     
+    // Go through all the various UI component views, hide them and then place them properly
+    // in the UI window so that they'll fade in and out properly.
     for (UIView *v in [self allUIViews]) {
         v.alpha = 0;
         v.hidden = YES;
         v.frame = [self getUIFrameWhenHidden:v];
     }
 
-    // And show the UI by default.
+    // And show the UI by default. Note, at present the UI is always visible.
     self.uiControlsVisible = YES;
 
-    // We want to update the UI when the basemap is changed.
+    // We want to update the UI when the basemap is changed, so register our interest in a couple
+    // of events.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(basemapDidChange:) name:@"BasemapDidChange" object:self.mapView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(basemapSelected:) name:@"BasemapSelected" object:nil];
 
@@ -233,7 +236,7 @@ EDNVCState;
     
 	// Set up our map with a basemap, and jump to a location and scale level.
     [self.mapView setBasemap: self.currentBasemapType];
-    [self.mapView centerAtLat:40.7302 Lng:-73.9958 withScaleLevel:13];
+    [self.mapView centerAtLat:40.7302 Long:-73.9958 withScaleLevel:13];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -299,7 +302,7 @@ EDNVCState;
             if (graphics.count > 0)
             {
                 // The user selected a graphic. Let's edit it.
-                [self.mapView editGraphicFromDidClickAtPointEvent:graphics];
+                [self.mapView editGraphicFromMapViewDidClickAtPoint:graphics];
                 self.currentState = EDNVCStateGraphics_Editing;
             }
             break;
@@ -689,7 +692,7 @@ EDNVCState;
     _routeStartPoint = routeStartPoint;
     if (_routeStartPoint)
     {
-        AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromWebMercatorAuxSpherePoint:_routeStartPoint];
+        AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromPoint:_routeStartPoint];
         self.routeStartLabel.text = [NSString stringWithFormat:@"(%.4f,%.4f)", wgs84Pt.y, wgs84Pt.x];
 		self.currentState = EDNVCStateDirections;
         [self setToFromButton:self.fromLocationButton selectedState:NO];
@@ -705,7 +708,7 @@ EDNVCState;
 //    self.currentState = EDNVCStateBasemaps;
     if (_routeStopPoint)
     {
-        AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromWebMercatorAuxSpherePoint:_routeStopPoint];
+        AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromPoint:_routeStopPoint];
         self.routeStopLabel.text = [NSString stringWithFormat:@"(%.4f,%.4f)", wgs84Pt.y, wgs84Pt.x];
 		self.currentState = EDNVCStateDirections;
         [self setToFromButton:self.toLocationButton selectedState:NO];
