@@ -40,14 +40,11 @@ NSDictionary * __ednBasemapURLs = nil;
 #pragma mark - Queued Operations
 + (void) queueBlock:(void (^)(void))block untilMapViewLoaded:(AGSMapView *)mapView
 {
+    // This little bit of code does some magic to queue up code blocks for execution
+    // until such time as the AGSMapView is loaded. An NSOperationQueue is populated
+    // with code blocks, but is not processed until the AGSMapView is observer to have
+    // loaded (using KVO).
     [[EDNLiteHelper defaultHelper] queueBlock:block untilMapViewLoaded:mapView];
-}
-
-- (NSNumber *) getHashForMapView:(AGSMapView *)mapView
-{
-    NSNumber *hashKey = [NSNumber numberWithInteger:[mapView hash]];
-    NSLog(@"Hash key = %@", hashKey);
-    return hashKey;
 }
 
 - (void) queueBlock:(void (^)(void))block untilMapViewLoaded:(AGSMapView *)mapView
@@ -73,24 +70,36 @@ NSDictionary * __ednBasemapURLs = nil;
     [ops addObject:[NSBlockOperation blockOperationWithBlock:block]];
 }
 
+- (NSNumber *) getHashForMapView:(AGSMapView *)mapView
+{
+    NSNumber *hashKey = [NSNumber numberWithInteger:[mapView hash]];
+    return hashKey;
+}
+
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (keyPath == @"loaded" && 
         self.mapViewQueues != nil)
     {
+        // Get the map view whose loaded value just changed.
         AGSMapView *theMapView = (AGSMapView *)object;
-        NSLog(@"Loaded? %@", theMapView.loaded?@"YES":@"NO");
+
         if (theMapView.loaded)
         {
+            // It just changed to Loaded. We can now run the queued operations
+            // that rely on the MapView being loaded.
+            //
+            // First, take the hashcode and dig out the list of code blocks that's specific to the loaded AGSMapView
             NSNumber *key = (__bridge_transfer NSNumber *)context;
             NSMutableArray *ops = [self.mapViewQueues objectForKey:key];
             if (ops)
             {
-                NSLog(@"Starting queue with %d blocks waiting...", ops.count);
                 // Don't need the queue of operations any more
                 [self.mapViewQueues removeObjectForKey:key];
                 // Don't need to watch any more.
                 [theMapView removeObserver:self forKeyPath:@"loaded"];
+                // Add all the code blocks to the mainQueue. This is the thread we want UI stuff to run on, and these will
+                // be UI operations.
                 for (NSBlockOperation *op in ops) 
                 {
                     // Add each queued operation to the Main OperationQueue...

@@ -13,8 +13,6 @@
 #define kEDNLiteGeolocationSucceededLocationKey @"newLocation"
 
 @interface EDNLiteNavigationHelper : NSObject
-- (id) init;
-- (void) start;
-- (void) stop;
+- (void) getLocation;
 - (BOOL) isEnabled;
 @end

@@ -26,7 +26,6 @@
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-        NSLog(@"BasemapVC InitWithCoder");
         self.basemapVCs = [NSMutableArray array];
     }
     return self;
@@ -35,8 +34,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"BVC VIEW: %@", NSStringFromCGRect(self.view.frame));
-    NSLog(@"%d",self.view.subviews.count);
 
     // Do any additional setup after loading the view from its nib.
     for (EDNLiteBasemapType type = EDNLiteBasemapFirst; type <= EDNLiteBasemapLast; type++)

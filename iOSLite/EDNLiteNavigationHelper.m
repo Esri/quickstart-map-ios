@@ -10,35 +10,23 @@
 #import <CoreLocation/CoreLocation.h>
 
 @interface EDNLiteNavigationHelper () <CLLocationManagerDelegate>
-@property (nonatomic, retain) CLLocationManager *locationManager;
+@property (nonatomic, strong) CLLocationManager *locationManager;
 @end
 
 @implementation EDNLiteNavigationHelper
 
 @synthesize locationManager = _locationManager;
 
-- (id) init
+- (void) getLocation
 {
-    self = [super init];
-    if (self)
+    if (!self.locationManager)
     {
-        // Do additional init in here.
+        self.locationManager = [[CLLocationManager alloc] init];
+        self.locationManager.delegate = self;
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        self.locationManager.distanceFilter = 20;
     }
-    return self;
-}
-
-- (void) start
-{
-    self.locationManager = [[CLLocationManager alloc] init];
-    self.locationManager.delegate = self;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    [self.locationManager startUpdatingHeading];
-}
-
-- (void) stop
-{
-    [self.locationManager stopUpdatingHeading];
-    self.locationManager = nil;
+    [self.locationManager startUpdatingLocation];
 }
 
 - (BOOL) isEnabled
@@ -48,23 +36,24 @@
 
 - (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-    [self stop];
+    [self.locationManager stopUpdatingLocation];
 	NSLog(@"Located me at %.4f,%.4f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteGeolocationSucceeded
                                                         object:self
                                                       userInfo:[NSDictionary dictionaryWithObject:newLocation forKey:@"newLocation"]];
-	
+	self.locationManager = nil;
 }
 
 - (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    [self stop];
+    [self.locationManager stopUpdatingLocation];
     [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteGeolocationError
                                                         object:self
                                                       userInfo:[NSDictionary dictionaryWithObject:error
                                                                                            forKey:@"error"]];
 	NSLog(@"Error getting location: %@", error);
+    self.locationManager = nil;
 }
 
 @end

@@ -65,7 +65,6 @@
         // Store the portal Item ID for later loading
         self.portalItemID = portalItemID;
         self.basemapType = basemapType;
-        NSLog(@"Portal Item: %@", self.portalItemID);
     }
 
     return self;
@@ -73,7 +72,6 @@
 
 - (void) portalDidLoad:(AGSPortal *)portal
 {
-    NSLog(@"Portal Loaded");
     self.portalItem = [[AGSPortalItem alloc] initWithPortal:portal itemId:self.portalItemID];
 }
 
@@ -89,7 +87,6 @@
     // Load the portal.
     self.defaultBackgroundColor = self.view.backgroundColor;
 
-    NSLog(@"Creating Portal");
     self.view.layer.cornerRadius = 10;
     AGSPortal *p = [[AGSPortal alloc] initWithURL:[NSURL URLWithString:@"http://www.arcgis.com"] credential:nil];
     p.delegate = self;
@@ -128,7 +125,6 @@
 
 - (void)portalItem:(AGSPortalItem *)portalItem operation:(NSOperation *)op didFetchData:(NSData *)data
 {
-    NSLog(@"Loaded Portal Data");
     self.label.text = portalItem.title;
 	NSString *infoText = portalItem.title;
 	

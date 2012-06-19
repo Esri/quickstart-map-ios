@@ -346,7 +346,7 @@ EDNVCState;
     self.currentBasemapNameLabel.text = _currentPortalItem.title;
     //self.currentBasemapDescriptionTextView.text = _currentPortalItem.itemDescription;
     NSString *filePath = [[NSBundle mainBundle] resourcePath];
-    NSLog(@"FilePath: %@", filePath);
+//    NSLog(@"FilePath: %@", filePath);
     NSURL *baseURL = [NSURL fileURLWithPath:filePath isDirectory:YES];
     NSString *htmlToShow = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"description.css\" /></head><body>%@</body></html>", _currentPortalItem.snippet];
     [self.currentBasemapDescriptionWebView loadHTMLString:htmlToShow baseURL:baseURL];
