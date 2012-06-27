@@ -17,18 +17,22 @@ EDNLiteRouteTaskHelper *__ednLiteRouteHelper = nil;
 #define kEDNLiteRouteResultsLayerName @"EDNLiteRouteResults"
 
 #pragma mark - Public Methods
-- (void)getDirectionsFromPoint:(AGSPoint*)startPoint ToPoint:(AGSPoint *)stopPoint
+- (void)getDirectionsFromPoint:(AGSPoint *)startPoint
+					   ToPoint:(AGSPoint *)stopPoint
 {
     [self getDirectionsFromPoint:startPoint ToPoint:stopPoint WithDelegate:nil];
 }
 
-- (void)getDirectionsFromLat:(double)startLat Lng:(double)startLng ToLat:(double)stopLat Lng:(double)stopLng
+- (void)getDirectionsFromLat:(double)startLat Long:(double)startLng 
+					   ToLat:(double)stopLat Long:(double)stopLng
 {    
     [self getDirectionsFromPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:startLat Long:startLng]
                          ToPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:stopLat Long:stopLng]];
 }
 
-- (void)getDirectionsFromPoint:(AGSPoint*)startPoint ToPoint:(AGSPoint *)stopPoint WithDelegate:(id<AGSRouteTaskDelegate>)delegate
+- (void)getDirectionsFromPoint:(AGSPoint *)startPoint 
+					   ToPoint:(AGSPoint *)stopPoint 
+				  WithDelegate:(id<AGSRouteTaskDelegate>)delegate
 {
     // Set up the route task to respond to the handler we're specifying here.
     // The route task will ask for its default parameters, and when they're returned,
@@ -37,7 +41,9 @@ EDNLiteRouteTaskHelper *__ednLiteRouteHelper = nil;
     [self __ednLiteInitRoutingWithStartPoint:startPoint stopPoint:stopPoint AndDelegate:delegate];
 }
 
-- (void) getDirectionsFromLat:(double)startLat Lng:(double)startLng ToLat:(double)stopLat Lng:(double)stopLng WithDelegate:(id<AGSRouteTaskDelegate>)delegate
+- (void) getDirectionsFromLat:(double)startLat Long:(double)startLng 
+						ToLat:(double)stopLat Long:(double)stopLng 
+				 WithDelegate:(id<AGSRouteTaskDelegate>)delegate
 {    
     [self getDirectionsFromPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:startLat Long:startLng]
                          ToPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:stopLat Long:stopLng]
@@ -51,7 +57,9 @@ EDNLiteRouteTaskHelper *__ednLiteRouteHelper = nil;
 }
 
 #pragma mark - Internals
-- (void) __ednLiteInitRoutingWithStartPoint:(AGSPoint *)startPoint stopPoint:(AGSPoint *)stopPoint AndDelegate:(id<AGSRouteTaskDelegate>)delegate
+- (void) __ednLiteInitRoutingWithStartPoint:(AGSPoint *)startPoint 
+								  stopPoint:(AGSPoint *)stopPoint 
+								AndDelegate:(id<AGSRouteTaskDelegate>)delegate
 {
     if (!__ednLiteRouteHelper)
     {

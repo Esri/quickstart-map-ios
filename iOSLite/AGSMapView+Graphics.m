@@ -29,34 +29,31 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
 #define kEDNLiteSketchGraphicsLayerName @"ednLiteSketchGraphcisLayer"
 
 #pragma mark - Add Graphics Programatically
-- (AGSGraphic *) addPointAtLat:(double)latitude Lng:(double)longitude
+- (AGSGraphic *) addPointAtLat:(double)latitude Long:(double)longitude
 {
     AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
     
-    AGSGraphic *g = [self __ednLiteGetDefaultGraphicForGeometry:pt];
+	return [self addPoint:pt];
+}
+
+- (AGSGraphic *) addPoint:(AGSPoint *)point
+{    
+    AGSGraphic *g = [self __ednLiteGetDefaultGraphicForGeometry:point];
     
     [self __ednLiteAddGraphicToAppropriateGraphicsLayer:g];
     
     return g;
 }
 
-- (AGSGraphic *) addLineWithLatsAndLngs:(NSNumber *)firstLatitude, ... NS_REQUIRES_NIL_TERMINATION
+- (AGSGraphic *) addLineFromPoints:(NSArray *) points
 {
-    va_list args;
-    va_start(args, firstLatitude);
-    NSArray *nums = [self __ednLiteGetArrayFromArguments:firstLatitude arguments:args];
-    va_end(args);
-
-    NSAssert1((nums.count % 2) == 0, @"Must provide an even number of NSNumbers!", nums.count);
+	NSAssert1(points.count > 1, @"Must provide at least 2 points!", points.count);
 
     AGSMutablePolyline *line = [[AGSMutablePolyline alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]];
     [line addPathToPolyline];
 
-    for (int i=0; i < nums.count; i = i + 2)
+    for (AGSPoint *pt in points)
     {
-        NSNumber *lat = [nums objectAtIndex:i];
-        NSNumber *lon = [nums objectAtIndex:i+1];
-        AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:[lat doubleValue] Long:[lon doubleValue]];
         [line addPointToPath:pt];
     }
 
@@ -67,23 +64,15 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
     return g;
 }
 
-- (AGSGraphic *) addPolygonWithLatsAndLngs:(NSNumber *) firstLatitude, ... NS_REQUIRES_NIL_TERMINATION
+- (AGSGraphic *) addPolygonFromPoints:(NSArray *) points
 {
-    va_list args;
-    va_start(args, firstLatitude);
-    NSArray *nums = [self __ednLiteGetArrayFromArguments:firstLatitude arguments:args];
-    va_end(args);
-
-    NSAssert1((nums.count % 2) == 0, @"Must provide an even number of NSNumbers!", nums.count);
+    NSAssert1(points.count > 2, @"Must provide at least 3 points for a polygon!", points.count);
 
     AGSMutablePolygon *poly = [[AGSMutablePolygon alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]];
     [poly addRingToPolygon];
 
-    for (int i=0; i < nums.count; i = i + 2)
+    for (AGSPoint *pt in points)
     {
-        NSNumber *lat = [nums objectAtIndex:i];
-        NSNumber *lon = [nums objectAtIndex:i+1];
-        AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:[lat doubleValue] Long:[lon doubleValue]];
         [poly addPointToRing:pt];
     }
 
@@ -125,6 +114,18 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
     [self clearGraphics:(EDNLiteGraphicsLayerTypePoint + 
                          EDNLiteGraphicsLayerTypePolyline +
                          EDNLiteGraphicsLayerTypePolygon)];
+}
+
+#pragma marl - Remove graphic
+- (void) removeGraphic:(AGSGraphic *)graphic
+{
+	if (graphic)
+	{
+		if (graphic.layer)
+		{
+			[graphic.layer removeGraphic:graphic];
+		}
+	}
 }
 
 #pragma mark - Edit graphic selected from the map

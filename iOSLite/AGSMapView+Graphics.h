@@ -17,9 +17,17 @@ typedef enum {
 @interface AGSMapView (Graphics)
 
 // Create graphics using sequences of lat/long coordinates.
-- (AGSGraphic *) addPointAtLat:(double)latitude Lng:(double)longitude;
-- (AGSGraphic *) addLineWithLatsAndLngs:(NSNumber *) firstLatitude, ... NS_REQUIRES_NIL_TERMINATION;
-- (AGSGraphic *) addPolygonWithLatsAndLngs:(NSNumber *) firstLatitude, ... NS_REQUIRES_NIL_TERMINATION;
+- (AGSGraphic *) addPointAtLat:(double)latitude Long:(double)longitude;
+- (AGSGraphic *) addPoint:(AGSPoint *)point;
+- (AGSGraphic *) addLineFromPoints:(NSArray *) points;
+- (AGSGraphic *) addPolygonFromPoints:(NSArray *) points;
+
+// Remove individual graphics
+- (void) removeGraphic:(AGSGraphic *)graphic;
+
+// Clear graphics from the map. Optionally specify what type or types of graphics to clear.
+- (void) clearGraphics:(EDNLiteGraphicsLayerType)layerType;
+- (void) clearGraphics;
 
 // Start editing a graphic/shape
 // Call this from the mapView:DidClickAtPoint:mapPoint:graphics handled of AGSMapViewTouchDelegate
@@ -49,8 +57,4 @@ typedef enum {
 - (NSUndoManager *) getUndoManagerForGraphicsEdits;
 - (AGSGeometry *) getCurrentEditGeometry;
 - (AGSGraphicsLayer *) getGraphicsLayer:(EDNLiteGraphicsLayerType)layerType;
-
-// Clear graphics from the map. Optionally specify what type or types of graphics to clear.
-- (void) clearGraphics:(EDNLiteGraphicsLayerType)layerType;
-- (void) clearGraphics;
 @end

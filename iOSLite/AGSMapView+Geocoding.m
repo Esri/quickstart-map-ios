@@ -8,7 +8,6 @@
 
 #import "AGSMapView+Geocoding.h"
 #import	"AGSMapView+GeneralUtilities.h"
-#import "AGSMutableEnvelope+GeneralUtilities.h"
 #import "AGSMapView+Navigation.h"
 #import "EDNLiteGeocodingHelper.h"
 #import "EDNLiteHelper.h"
@@ -16,35 +15,16 @@
 @implementation AGSMapView (Geocoding)
 EDNLiteGeocodingHelper *__ednLiteGeocodingHelper = nil;
 
-#pragma mark - Public Functions
-- (NSOperation *) findAddress:(NSString *)singleLineAddress withDelegate:(id<AGSLocatorDelegate>)delegate
-{
-    [self __ednLiteLocatorInit];
-    __ednLiteGeocodingHelper.delegate = delegate;
-    return [__ednLiteGeocodingHelper findAddress:singleLineAddress];
-}
-
+#pragma mark - Simple functions that just update the map
 - (NSOperation *) findAddress:(NSString *)singleLineAddress
 {
     return [self findAddress:singleLineAddress withDelegate:nil];
 }
 
-- (NSOperation *) getAddressForLat:(double)latitude Lon:(double)longitude withDelegate:(id<AGSLocatorDelegate>)delegate
-{
-    return [self getAddressForMapPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude]
-                   withDelegate:delegate];
-}
-
-- (NSOperation *) getAddressForLat:(double)latitude Lon:(double)longitude
+- (NSOperation *) getAddressForLat:(double)latitude 
+							   Lon:(double)longitude
 {
     return [self getAddressForLat:latitude Lon:longitude withDelegate:nil];
-}
-
-- (NSOperation *) getAddressForMapPoint:(AGSPoint *)mapPoint withDelegate:(id<AGSLocatorDelegate>)delegate
-{
-    [self __ednLiteLocatorInit];
-    __ednLiteGeocodingHelper.delegate = delegate;
-    return [__ednLiteGeocodingHelper getAddressForLocation:mapPoint WithSearchDistance:100];
 }
 
 - (NSOperation *) getAddressForMapPoint:(AGSPoint *)mapPoint
@@ -52,9 +32,36 @@ EDNLiteGeocodingHelper *__ednLiteGeocodingHelper = nil;
     return [self getAddressForMapPoint:mapPoint withDelegate:nil];
 }
 
+
+#pragma mark - Delegate Functions that allow the caller to take further action.
+- (NSOperation *) findAddress:(NSString *)singleLineAddress 
+				 withDelegate:(id<AGSLocatorDelegate>)delegate
+{
+    [self __ednLiteLocatorLazyInit];
+    __ednLiteGeocodingHelper.delegate = delegate;
+    return [__ednLiteGeocodingHelper findAddress:singleLineAddress];
+}
+
+- (NSOperation *) getAddressForLat:(double)latitude 
+							   Lon:(double)longitude 
+					  withDelegate:(id<AGSLocatorDelegate>)delegate
+{
+    return [self getAddressForMapPoint:[EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude]
+						  withDelegate:delegate];
+}
+
+- (NSOperation *) getAddressForMapPoint:(AGSPoint *)mapPoint 
+						   withDelegate:(id<AGSLocatorDelegate>)delegate
+{
+    [self __ednLiteLocatorLazyInit];
+    __ednLiteGeocodingHelper.delegate = delegate;
+    return [__ednLiteGeocodingHelper getAddressForLocation:mapPoint WithSearchDistance:100];
+}
+
+
 #pragma mark - Initialization
 
-- (void) __ednLiteLocatorInit
+- (void) __ednLiteLocatorLazyInit
 {
     if (!__ednLiteGeocodingHelper)
     {
@@ -67,7 +74,7 @@ EDNLiteGeocodingHelper *__ednLiteGeocodingHelper = nil;
                                                      name:kEDNLiteGeocodingNotification_AddressSearchOK
                                                    object:__ednLiteGeocodingHelper];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(__ednLiteErrorFindingAddressLocations::)
+                                                 selector:@selector(__ednLiteErrorFindingAddressLocations:)
                                                      name:kEDNLiteGeocodingNotification_AddressSearchError
                                                    object:__ednLiteGeocodingHelper];
     }
@@ -105,7 +112,7 @@ EDNLiteGeocodingHelper *__ednLiteGeocodingHelper = nil;
     // 100% matches but that aren't...
     double threshold = topScore * 0.98; // Get candidates within 2% of the top score, just to be safe.
     
-//    NSLog(@"Top Score = %f, Threshold = %f", topScore, threshold);
+    NSLog(@"Top Score = %f, Threshold = %f", topScore, threshold);
 
     // Clear the graphics layer.
     [__ednLiteGeocodingHelper.resultsGraphicsLayer removeAllGraphics];
@@ -117,8 +124,8 @@ EDNLiteGeocodingHelper *__ednLiteGeocodingHelper = nil;
     // Keep track of the extent of all the suitable results. We'll zoom to this extent.
     AGSMutableEnvelope *totalEnvelope = nil;
 	for (AGSAddressCandidate *candidate in sortedResults) {
-//		NSLog(@"Got address candidate (score %f, location %@): %@", 
-//              candidate.score, candidate.location, candidate.addressString);
+		NSLog(@"Got address candidate (score %f, location %@): %@", 
+              candidate.score, candidate.location, candidate.addressString);
 		if (candidate.score >= threshold)
 		{
             // Get the result location.
@@ -128,7 +135,7 @@ EDNLiteGeocodingHelper *__ednLiteGeocodingHelper = nil;
             if (!totalEnvelope)
             {
                 // This is the first cnadidate. Create a new envelope.
-                totalEnvelope = [AGSMutableEnvelope envelopeFromEnvelope:loc.envelope];
+				totalEnvelope = [loc.envelope mutableCopy];
             }
             else 
             {

@@ -17,6 +17,6 @@
 - (void) centerAtMyLocation;
 - (void) centerAtMyLocationWithScaleLevel:(NSInteger)scaleLevel;
 
-- (AGSPoint *) getLatLongCenterPoint;
-- (AGSPoint *) getWebMercatorCenterPoint;
+// This will return a "Lat Long" centerpoint. That is, one in WGS84 Spatial reference.
+- (AGSPoint *) getCenterPoint;
 @end

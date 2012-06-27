@@ -80,14 +80,9 @@ NSInteger __ednLiteScaleForGeolocation = -1;
 }
 
 #pragma mark - Centerpoint of map
-- (AGSPoint *) getWebMercatorCenterPoint
+- (AGSPoint *) getCenterPoint
 {
-    return self.visibleArea.envelope.center;    
-}
-
-- (AGSPoint *) getLatLongCenterPoint
-{
-    return [EDNLiteHelper getWGS84PointFromPoint:[self getWebMercatorCenterPoint]];
+    return [EDNLiteHelper getWGS84PointFromPoint:self.visibleArea.envelope.center];
 }
 
 #pragma mark - Internal

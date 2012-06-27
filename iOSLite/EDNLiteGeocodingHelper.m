@@ -13,6 +13,7 @@
 #import "/usr/include/objc/runtime.h"
 
 #define kEDNLiteNALocatorURL @"http://tasks.arcgisonline.com/ArcGIS/rest/services/Locators/TA_Address_NA_10/GeocodeServer"
+// #define kEDNLiteNALocatorURL @"http://tasks.arcgis.com/ArcGIS/rest/services/WorldLocator/GeocodeServer"
 #define kEDNLiteGeocodingResultsLayerName @"EDNLiteGeocodeResults"
 #define kEDNLiteAssociatedAddressKey "address"
 #define kEDNLiteAssociatedLocationKey "location"

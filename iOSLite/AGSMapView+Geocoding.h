@@ -10,11 +10,15 @@
 
 @interface AGSMapView (Geocoding)
 - (NSOperation *) findAddress:(NSString *)singleLineAddress;
-- (NSOperation *) findAddress:(NSString *)singleLineAddress withDelegate:(id<AGSLocatorDelegate>)delegate;
-
 - (NSOperation *) getAddressForLat:(double)latitude Lon:(double)longitude;
-- (NSOperation *) getAddressForLat:(double)latitude Lon:(double)longitude withDelegate:(id<AGSLocatorDelegate>)delegate;
-
 - (NSOperation *) getAddressForMapPoint:(AGSPoint *)mapPoint;
-- (NSOperation *) getAddressForMapPoint:(AGSPoint *)mapPoint withDelegate:(id<AGSLocatorDelegate>)delegate;
+
+
+- (NSOperation *) findAddress:(NSString *)singleLineAddress 
+				 withDelegate:(id<AGSLocatorDelegate>)delegate;
+- (NSOperation *) getAddressForLat:(double)latitude 
+							   Lon:(double)longitude 
+					  withDelegate:(id<AGSLocatorDelegate>)delegate;
+- (NSOperation *) getAddressForMapPoint:(AGSPoint *)mapPoint 
+						   withDelegate:(id<AGSLocatorDelegate>)delegate;
 @end

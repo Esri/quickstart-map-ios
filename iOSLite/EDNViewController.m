@@ -17,6 +17,8 @@
 #import "AGSMapView+Routing.h"
 #import "AGSMapView+Geocoding.h"
 
+#import "AGSPoint+GeneralUtilities.h"
+
 #import "EDNBasemapDetailsViewController.h"
 #import "UILabel+EDNAutoSizeMutliline.h"
 #import "/usr/include/objc/runtime.h"
@@ -434,12 +436,12 @@ EDNVCState;
 }
 
 - (IBAction)addGraphic:(id)sender {
-    [self.mapView addPointAtLat:40.7302 Lng:-73.9958];
-    [self.mapView addLineWithLatsAndLngs:[NSNumber numberWithFloat:40.7302], [NSNumber numberWithFloat:-73.9958], 
-                                          [NSNumber numberWithFloat:41.0], [NSNumber numberWithFloat:-73.9], nil];
-    [self.mapView addPolygonWithLatsAndLngs:[NSNumber numberWithFloat:40.7302], [NSNumber numberWithFloat:-73.9958], 
-     [NSNumber numberWithFloat:40.85], [NSNumber numberWithFloat:-73.65],
-     [NSNumber numberWithFloat:41.0], [NSNumber numberWithFloat:-73.7],nil];
+    [self.mapView addPointAtLat:40.7302 Long:-73.9958];
+    [self.mapView addLineFromPoints:[NSArray arrayWithObjects:[AGSPoint pointFromLat:40.7302 Long:-73.9958], 
+									                          [AGSPoint pointFromLat:41.0 Long:-73.9], nil]];
+    [self.mapView addPolygonFromPoints:[NSArray arrayWithObjects:[AGSPoint pointFromLat:40.7302 Long:-73.9958], 
+																 [AGSPoint pointFromLat:40.85 Long:-73.65],
+																 [AGSPoint pointFromLat:41.0 Long:-73.7],nil]];
 }
 
 - (void)setFindScale:(NSUInteger)findScale
@@ -664,7 +666,7 @@ EDNVCState;
 {
     NSDictionary *ad = candidate.address;
     NSString *address = [NSString stringWithFormat:@"%@, %@, %@ %@",
-                         [ad objectForKey:@"Address"],
+                         [ad objectForKey:@"Address"]?[ad objectForKey:@"Address"]:@"",
                          [ad objectForKey:@"City"],
                          [ad objectForKey:@"State"],
                          [ad objectForKey:@"Zip"]];
