@@ -29,4 +29,8 @@
 @property (assign) BOOL loaded;
 
 @property (nonatomic, retain) AGSGraphicsLayer *resultsGraphicsLayer;
+
+@property (nonatomic, retain) AGSMarkerSymbol *startSymbol;
+@property (nonatomic, retain) AGSMarkerSymbol *stopSymbol;
+@property (nonatomic, retain) AGSSimpleLineSymbol *routeSymbol;
 @end

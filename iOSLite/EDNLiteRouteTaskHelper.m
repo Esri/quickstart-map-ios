@@ -14,6 +14,15 @@
 #define kEdnLiteRouteTaskHelperNotificationLoaded @"EDNLiteRouteTaskHelperLoaded"
 #define kEdnLiteRouteTaskHelperNotificationRouteSolved @"EDNLiteRouteTaskHelperRouteSolved"
 
+#define kEDNLiteRoutingStartPointName @"Start Point"
+#define kEDNLiteRoutingStopPointName @"Stop Point"
+
+#define kEDNLiteGreenPinURL @"http://static.arcgis.com/images/Symbols/Shapes/GreenPin1LargeB.png"
+#define kEDNLiteRedPinURL @"http://static.arcgis.com/images/Symbols/Shapes/RedPin1LargeB.png"
+#define kEDNLitePinXOffset 0
+#define kEDNLitePinYOffset 11
+#define kEDNLitePinSize CGSizeMake(28,28)
+
 @property (nonatomic, retain) AGSRouteTask *routeTaskForParameters;
 @property (nonatomic, retain) AGSPoint *startPoint;
 @property (nonatomic, retain) AGSPoint *stopPoint;
@@ -35,6 +44,10 @@
 
 @synthesize waitingToStart = _waitingToStart;
 
+@synthesize startSymbol = _startSymbol;
+@synthesize stopSymbol = _stopSymbol;
+@synthesize routeSymbol = _routeSymbol;
+
 #pragma mark - Init/Dealloc
 - (id) initWithDefaultRouteTask
 {
@@ -48,6 +61,19 @@
         //
         // This is the problem with the single delegate model. Notifications FTW!
         self.routeTask = [AGSRouteTask routeTaskWithURL:[NSURL URLWithString:kEdnLiteRouteTaskUrl]];
+        
+        self.startSymbol = [AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor greenColor]];
+        AGSPictureMarkerSymbol *pms = [AGSPictureMarkerSymbol pictureMarkerSymbolWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:kEDNLiteGreenPinURL]]]];
+        pms.xoffset = kEDNLitePinXOffset;
+        pms.yoffset = kEDNLitePinYOffset;
+        pms.size = kEDNLitePinSize;
+        self.startSymbol = pms;
+        pms = [AGSPictureMarkerSymbol pictureMarkerSymbolWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:kEDNLiteRedPinURL]]]];
+        pms.xoffset = kEDNLitePinXOffset;
+        pms.yoffset = kEDNLitePinYOffset;
+        pms.size = kEDNLitePinSize;
+        self.stopSymbol = pms;
+        self.routeSymbol = [AGSSimpleLineSymbol simpleLineSymbolWithColor:[[UIColor orangeColor] colorWithAlphaComponent:0.7f] width:8.0f];
     }    
     
     return self;
@@ -89,22 +115,19 @@
 
 - (AGSRouteTaskParameters *) getParametersToRouteFromStart:(AGSPoint *)startPoint ToStop:(AGSPoint *)stopPoint
 {
-    AGSSimpleMarkerSymbol *startSymbol = [AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor greenColor]];
-    AGSSimpleMarkerSymbol *endSymbol = [AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor redColor]];
-    
     // Set up and name a couple of stops.
     AGSStopGraphic *firstStop = [AGSStopGraphic graphicWithGeometry:startPoint
-                                                             symbol:startSymbol
+                                                             symbol:self.startSymbol
                                                          attributes:nil
                                                infoTemplateDelegate:nil];
     
     AGSStopGraphic *lastStop = [AGSStopGraphic graphicWithGeometry:stopPoint
-                                                            symbol:endSymbol
+                                                            symbol:self.stopSymbol
                                                         attributes:nil
                                               infoTemplateDelegate:nil];
     
-    firstStop.name = @"Start Point";
-    lastStop.name = @"End Point";
+    firstStop.name = kEDNLiteRoutingStartPointName;
+    lastStop.name = kEDNLiteRoutingStopPointName;
     
     // Add them to the parameters.
     NSArray *routeStops = [NSArray arrayWithObjects:firstStop, lastStop, nil];
@@ -262,12 +285,21 @@
         AGSRouteResult *result = [routeTaskResult.routeResults objectAtIndex:0];
         AGSGraphic *routeGraphic = result.routeGraphic;
         
-        AGSSimpleLineSymbol *routeSymbol = [AGSSimpleLineSymbol simpleLineSymbolWithColor:[[UIColor orangeColor] colorWithAlphaComponent:0.7f] width:8.0f];
+        AGSSimpleLineSymbol *routeSymbol = self.routeSymbol;
         
         routeGraphic.symbol = routeSymbol;
         
         [self.resultsGraphicsLayer addGraphic:routeGraphic];
-        for (AGSGraphic *stopGraphic in result.stopGraphics) {
+        for (AGSStopGraphic *stopGraphic in result.stopGraphics) {
+            NSLog(@"Route Stop Point: \"%@\"", stopGraphic.name);
+            if ([stopGraphic.name isEqualToString:kEDNLiteRoutingStartPointName])
+            {
+                stopGraphic.symbol = self.startSymbol;
+            }
+            else if ([stopGraphic.name isEqualToString:kEDNLiteRoutingStopPointName])
+            {
+                stopGraphic.symbol = self.stopSymbol;
+            }
             [self.resultsGraphicsLayer addGraphic:stopGraphic];
         }
         

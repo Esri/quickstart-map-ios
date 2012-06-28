@@ -103,6 +103,8 @@ EDNVCState;
 
 @property (nonatomic, assign) NSUInteger findScale;
 
+@property (nonatomic, assign) CGSize keyboardSize;
+
 // Actions
 - (IBAction)infoRequested:(id)sender;
 - (IBAction)addGraphic:(id)sender;
@@ -168,6 +170,8 @@ EDNVCState;
 
 @synthesize basemapVCs = _basemapVCs;
 
+@synthesize keyboardSize = _keyboardSize;
+
 #define kEDNLiteApplicationLocFromState @"ButtonState"
 
 - (void)initUI
@@ -197,10 +201,27 @@ EDNVCState;
     // of events.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(basemapDidChange:) name:@"BasemapDidChange" object:self.mapView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(basemapSelected:) name:@"BasemapSelected" object:nil];
+    
+    self.keyboardSize = CGSizeZero;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
     // Set up the map UI a little.
     self.mapView.wrapAround = YES;
     self.mapView.touchDelegate = self;
+}
+
+- (void)keyboardWillShow:(NSNotification *)notification
+{
+    self.keyboardSize = [[notification.userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    [self updateUIDisplayState:notification];
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification
+{
+    self.keyboardSize = CGSizeZero;
+    [self updateUIDisplayState:notification];
 }
 
 - (CGPoint) getUIComponentOrigin
@@ -212,18 +233,22 @@ EDNVCState;
 
 - (CGRect) getUIFrame:(UIView *)viewToDisplay
 {
-    CGPoint origin = [self getUIComponentOrigin];
+    CGRect screenFrame = [[UIScreen mainScreen] applicationFrame];
+//    CGPoint origin = [self getUIComponentOrigin];
     CGRect viewFrame = viewToDisplay.frame;
+    CGPoint origin = CGPointMake(screenFrame.origin.x, screenFrame.size.height - viewFrame.size.height - self.keyboardSize.height);
     CGRect newFrame = CGRectMake(origin.x, origin.y, viewFrame.size.width, viewFrame.size.height);
     return newFrame;
 }
 
 - (CGRect) getUIFrameWhenHidden:(UIView *)viewToHide
 {
-    CGPoint origin = [self getUIComponentOrigin];
+    CGRect screenFrame = [[UIScreen mainScreen] applicationFrame];
+//    CGPoint origin = [self getUIComponentOrigin];
+    CGPoint origin = CGPointMake(screenFrame.origin.x, screenFrame.size.height);
     CGSize viewSize = viewToHide.frame.size;
     // Position it to the left of the screen.
-    CGRect newFrame = CGRectMake(origin.x, origin.y - viewSize.height, viewSize.width, viewSize.height);
+    CGRect newFrame = CGRectMake(origin.x, origin.y, viewSize.width, viewSize.height);
     return newFrame;
 }
 
@@ -531,9 +556,20 @@ EDNVCState;
 
 - (void)updateUIDisplayState
 {
+    [self updateUIDisplayState:nil];
+}
+
+- (void)updateUIDisplayState:(NSNotification *)keyboardNotification
+{
     NSTimeInterval animationDuration = 0.4;
     UIView *viewToShow = [self getViewToShow];
     NSArray *viewsToHide = [self getViewsToHide];
+    
+    if (keyboardNotification)
+    {
+        NSValue *value = [keyboardNotification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+        [value getValue:&animationDuration];
+    }
 
     // If the view is already visible, then we don't need to update...
     BOOL needToChange = YES;//viewToShow.hidden == NO;
@@ -641,6 +677,7 @@ EDNVCState;
             break;
     }
     
+    [self.view endEditing:YES];
     [self updateUIDisplayState];
 }
 
@@ -776,13 +813,15 @@ EDNVCState;
     // Clear the other button regardless of the new state for this one.
     UIBarButtonItem *otherBi = (bi == self.fromLocationButton)?self.toLocationButton:self.fromLocationButton;
     otherBi.tintColor = nil;
+    UIColor *tintColor = (bi == self.fromLocationButton)?[UIColor greenColor]:[UIColor redColor];
     objc_setAssociatedObject(otherBi, kEDNLiteApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     // Set the new state for this one, and set our app state too.
     NSLog(@"Selected: %@", selected?@"YES":@"NO");
     if (selected)
     {
-        bi.tintColor = [UIColor colorWithWhite:0.6 alpha:1];
+//        bi.tintColor = [UIColor colorWithWhite:0.6 alpha:1];
+        bi.tintColor = tintColor;
         self.currentState = (bi == self.fromLocationButton)?EDNVCStateDirections_WaitingForRouteStart:EDNVCStateDirections_WaitingForRouteStop;
     }
     else
