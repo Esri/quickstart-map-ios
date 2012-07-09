@@ -109,7 +109,7 @@ EDNLiteRouteTaskHelper *__ednLiteRouteHelper = nil;
     }
 }
 
-- (void)__ednLiteRouteSolved:(NSNotification *)notification
+- (void) __ednLiteRouteSolved:(NSNotification *)notification
 {
     AGSRouteResult *result = [notification.userInfo objectForKey:@"routeResult"];
     if (result)

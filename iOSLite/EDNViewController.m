@@ -80,12 +80,11 @@ EDNVCState;
 
 
 // Routing UI
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *fromLocationButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *toLocationButton;
+@property (weak, nonatomic) IBOutlet UIButton *routeStartButton;
+@property (weak, nonatomic) IBOutlet UIButton *routeStopButton;
 @property (weak, nonatomic) IBOutlet UILabel *routeStartLabel;
 @property (weak, nonatomic) IBOutlet UILabel *routeStopLabel;
-@property (weak, nonatomic) IBOutlet UISearchBar *routeStartSearchBar;
-@property (weak, nonatomic) IBOutlet UISearchBar *routeStopSearchBar;
+@property (weak, nonatomic) IBOutlet UIButton *clearRouteButton;
 // Routing Properties
 @property (nonatomic, strong) AGSPoint *routeStartPoint;
 @property (nonatomic, strong) AGSPoint *routeStopPoint;
@@ -100,6 +99,8 @@ EDNVCState;
 @property (assign) EDNVCState currentState;
 
 @property (nonatomic, retain) AGSRouteTaskResult *routeResult;
+@property (nonatomic, retain) NSString *routeStartAddress;
+@property (nonatomic, retain) NSString *routeStopAddress;
 
 @property (nonatomic, assign) NSUInteger findScale;
 
@@ -145,8 +146,7 @@ EDNVCState;
 @synthesize findPlacePanel = _findPlacePanel;
 @synthesize routeStartLabel = _routeStartLabel;
 @synthesize routeStopLabel = _routeStopLabel;
-@synthesize routeStartSearchBar = _routeStartSearchBar;
-@synthesize routeStopSearchBar = _routeStopSearchBar;
+@synthesize clearRouteButton = _clearRouteButton;
 
 @synthesize mapView = _mapView;
 
@@ -161,8 +161,8 @@ EDNVCState;
 @synthesize routeStopPoint = _routeStopPoint;
 @synthesize findScaleLabel = _findScaleLabel;
 @synthesize functionToolBar = _functionToolBar;
-@synthesize fromLocationButton = _fromLocationButton;
-@synthesize toLocationButton = _toLocationButton;
+@synthesize routeStartButton = _routeStartButton;
+@synthesize routeStopButton = _routeStopButton;
 
 @synthesize routeResult = _routeResult;
 
@@ -172,6 +172,9 @@ EDNVCState;
 
 @synthesize keyboardSize = _keyboardSize;
 
+@synthesize routeStartAddress = _routeStartAddress;
+@synthesize routeStopAddress = _routeStopAddress;
+
 #define kEDNLiteApplicationLocFromState @"ButtonState"
 
 - (void)initUI
@@ -180,8 +183,8 @@ EDNVCState;
     self.currentState = EDNVCStateBasemaps;
 
     // Store some state on the UI so that we can track when the user is placing points for routing.
-    objc_setAssociatedObject(self.fromLocationButton, kEDNLiteApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    objc_setAssociatedObject(self.toLocationButton, kEDNLiteApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self.routeStartButton, kEDNLiteApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self.routeStopButton, kEDNLiteApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
     // When we geolocate, what scale level to zoom the map to?
     self.findScale = 13;
@@ -210,6 +213,10 @@ EDNVCState;
     // Set up the map UI a little.
     self.mapView.wrapAround = YES;
     self.mapView.touchDelegate = self;
+    
+    self.routeStartButton.layer.cornerRadius = 5;
+    self.routeStopButton.layer.cornerRadius = 5;
+    self.clearRouteButton.layer.cornerRadius = 4;
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification
@@ -438,19 +445,18 @@ EDNVCState;
     [self setRouteStopLabel:nil];
     [self setFindScaleLabel:nil];
     [self setFunctionToolBar:nil];
-    [self setFromLocationButton:nil];
-    [self setToLocationButton:nil];
     [self setFindAddressPanel:nil];
     [self setFindPlacePanel:nil];
     [self setGeolocationPanel:nil];
     [self setGraphicsPanel:nil];
-    [self setRouteStartSearchBar:nil];
-    [self setRouteStopSearchBar:nil];
     [self setBasemapListDisplay:nil];
     [self setCurrentBasemapDescriptionWebView:nil];
     [self setEditGraphicsToolbar:nil];
     [self setUndoEditGraphicsButton:nil];
     [self setRedoEditGraphicsButton:nil];
+    [self setRouteStartButton:nil];
+    [self setRouteStopButton:nil];
+    [self setClearRouteButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -699,11 +705,31 @@ EDNVCState;
     self.routeResult = routeTaskResult;
 }
 
+- (void) setRouteStartAddress:(NSString *)routeStartAddress
+{
+    _routeStartAddress = routeStartAddress;
+    [self setStartText];
+}
+
+- (void) setRouteStopAddress:(NSString *)routeStopAddress
+{
+    _routeStopAddress = routeStopAddress;
+    [self setStopText];
+}
+
 - (void) locator:(AGSLocator *)locator operation:(NSOperation *)op didFindAddressForLocation:(AGSAddressCandidate *)candidate
 {
     NSDictionary *ad = candidate.address;
-    NSString *address = [NSString stringWithFormat:@"%@, %@, %@ %@",
-                         [ad objectForKey:@"Address"]?[ad objectForKey:@"Address"]:@"",
+    NSString *street = [ad objectForKey:@"Address"];
+    if (street != (id)[NSNull null])
+    {
+        street = [NSString stringWithFormat:@"%@, ", street];
+    }
+    else {
+        street = @"";
+    }
+    NSString *address = [NSString stringWithFormat:@"%@%@, %@ %@",
+                         street,
                          [ad objectForKey:@"City"],
                          [ad objectForKey:@"State"],
                          [ad objectForKey:@"Zip"]];
@@ -712,11 +738,11 @@ EDNVCState;
     {
         if ([source isEqualToString:@"START"])
         {
-            self.routeStartSearchBar.text = address;
+            self.routeStartAddress = address;
         }
         else if ([source isEqualToString:@"STOP"])
         {
-            self.routeStopSearchBar.text = address;
+            self.routeStopAddress = address;
         }
     }
 }
@@ -726,35 +752,78 @@ EDNVCState;
     NSLog(@"Failed to get address for location: %@", error);
 }
 
+- (void) setStartText
+{
+    NSString *latLongText = nil;
+    if (self.routeStartPoint)
+    {
+        AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromPoint:self.routeStartPoint];
+        latLongText = [NSString stringWithFormat:@"%.4f,%.4f", wgs84Pt.y, wgs84Pt.x];
+    }
+    NSString *address = self.routeStartAddress;
+    if (latLongText && address)
+    {
+        self.routeStartLabel.text = [NSString stringWithFormat:@"%@ (%@)", address, latLongText];
+    }
+    else if (latLongText)
+    {
+        self.routeStartLabel.text = latLongText;
+    }
+    else {
+        self.routeStartLabel.text = address;
+    }
+}
+
+- (void) setStopText
+{
+    NSString *latLongText = nil;
+    if (self.routeStopPoint)
+    {
+        AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromPoint:self.routeStopPoint];
+        latLongText = [NSString stringWithFormat:@"%.4f,%.4f", wgs84Pt.y, wgs84Pt.x];
+    }
+    NSString *address = self.routeStopAddress;
+    if (latLongText && address)
+    {
+        self.routeStopLabel.text = [NSString stringWithFormat:@"%@ (%@)", address, latLongText];
+    }
+    else if (latLongText)
+    {
+        self.routeStopLabel.text = latLongText;
+    }
+    else {
+        self.routeStopLabel.text = address;
+    }
+}
+
 - (void) setRouteStartPoint:(AGSPoint *)routeStartPoint
 {
     _routeStartPoint = routeStartPoint;
     if (_routeStartPoint)
     {
-        AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromPoint:_routeStartPoint];
-        self.routeStartLabel.text = [NSString stringWithFormat:@"(%.4f,%.4f)", wgs84Pt.y, wgs84Pt.x];
 		self.currentState = EDNVCStateDirections;
-        [self setToFromButton:self.fromLocationButton selectedState:NO];
+        [self setToFromButton:self.routeStartButton selectedState:NO];
+        AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromPoint:_routeStartPoint];
         NSOperation *op = [self.mapView getAddressForMapPoint:wgs84Pt withDelegate:self];
         objc_setAssociatedObject(op, @"SOURCE", @"START", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         [self doRouteIfPossible];
     }
+    [self setStartText];
 }
 
 - (void) setRouteStopPoint:(AGSPoint *)routeStopPoint
 {
     _routeStopPoint = routeStopPoint;
-//    self.currentState = EDNVCStateBasemaps;
     if (_routeStopPoint)
     {
-        AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromPoint:_routeStopPoint];
-        self.routeStopLabel.text = [NSString stringWithFormat:@"(%.4f,%.4f)", wgs84Pt.y, wgs84Pt.x];
 		self.currentState = EDNVCStateDirections;
-        [self setToFromButton:self.toLocationButton selectedState:NO];
+        [self setToFromButton:self.routeStopButton selectedState:NO];
+        AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromPoint:_routeStopPoint];
         NSOperation *op = [self.mapView getAddressForMapPoint:wgs84Pt withDelegate:self];
         objc_setAssociatedObject(op, @"SOURCE", @"STOP", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         [self doRouteIfPossible];
 	}
+    [self setStopText];
 }
 
 - (IBAction)clearRoute:(id)sender {
@@ -808,25 +877,27 @@ EDNVCState;
     }
 }
 
-- (void)setToFromButton:(UIBarButtonItem *)bi selectedState:(BOOL)selected
+- (void)setToFromButton:(UIButton *)bi selectedState:(BOOL)selected
 {
     // Clear the other button regardless of the new state for this one.
-    UIBarButtonItem *otherBi = (bi == self.fromLocationButton)?self.toLocationButton:self.fromLocationButton;
-    otherBi.tintColor = nil;
-    UIColor *tintColor = (bi == self.fromLocationButton)?[UIColor greenColor]:[UIColor redColor];
+    UIButton *otherBi = (bi == self.routeStartButton)?self.routeStopButton:self.routeStartButton;
+//    otherBi.tintColor = nil;
+    otherBi.selected = NO;
+//    UIColor *tintColor = (bi == self.routeStartButton)?[UIColor greenColor]:[UIColor redColor];
     objc_setAssociatedObject(otherBi, kEDNLiteApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     // Set the new state for this one, and set our app state too.
     NSLog(@"Selected: %@", selected?@"YES":@"NO");
+    bi.selected = selected;
     if (selected)
     {
 //        bi.tintColor = [UIColor colorWithWhite:0.6 alpha:1];
-        bi.tintColor = tintColor;
-        self.currentState = (bi == self.fromLocationButton)?EDNVCStateDirections_WaitingForRouteStart:EDNVCStateDirections_WaitingForRouteStop;
+//        bi.tintColor = tintColor;
+        self.currentState = (bi == self.routeStartButton)?EDNVCStateDirections_WaitingForRouteStart:EDNVCStateDirections_WaitingForRouteStop;
     }
     else
     {
-        bi.tintColor = nil;
+//        bi.tintColor = nil;
         self.currentState = EDNVCStateDirections;
     }
     objc_setAssociatedObject(bi, kEDNLiteApplicationLocFromState, [NSNumber numberWithBool:selected], OBJC_ASSOCIATION_RETAIN_NONATOMIC);    

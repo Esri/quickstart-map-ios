@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D9086DA0158B90D800FC1D43 /* description.css in Resources */ = {isa = PBXBuildFile; fileRef = D9086D9F158B90D800FC1D43 /* description.css */; };
+		D927EBEA15A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D927EBE915A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.m */; };
 		D92F5D6C157FDD83003294F4 /* EDNLiteGeocodingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D92F5D6B157FDD83003294F4 /* EDNLiteGeocodingHelper.m */; };
 		D93C98A5156D8CC000A5F339 /* EDNBasemapDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D93C98A4156D8CC000A5F339 /* EDNBasemapDetailsViewController.m */; };
 		D94431A5156BE1FC00982D5C /* EDNLiteHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D94431A4156BE1FC00982D5C /* EDNLiteHelper.m */; };
@@ -59,6 +60,8 @@
 
 /* Begin PBXFileReference section */
 		D9086D9F158B90D800FC1D43 /* description.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = description.css; sourceTree = "<group>"; };
+		D927EBE815A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSGraphicsLayer+GeneralUtilities.h"; sourceTree = "<group>"; };
+		D927EBE915A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSGraphicsLayer+GeneralUtilities.m"; sourceTree = "<group>"; };
 		D92F5D6A157FDD83003294F4 /* EDNLiteGeocodingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNLiteGeocodingHelper.h; sourceTree = "<group>"; };
 		D92F5D6B157FDD83003294F4 /* EDNLiteGeocodingHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNLiteGeocodingHelper.m; sourceTree = "<group>"; };
 		D93C98A3156D8CC000A5F339 /* EDNBasemapDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNBasemapDetailsViewController.h; sourceTree = "<group>"; };
@@ -248,6 +251,8 @@
 				D9F9AE98157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m */,
 				E11C2FB21593AC830004EBB6 /* AGSPoint+GeneralUtilities.h */,
 				E11C2FB31593AC830004EBB6 /* AGSPoint+GeneralUtilities.m */,
+				D927EBE815A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.h */,
+				D927EBE915A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.m */,
 			);
 			name = General;
 			sourceTree = "<group>";
@@ -479,6 +484,7 @@
 				D9E01457158A45A4005DD7D8 /* EDNBasemapsListView.m in Sources */,
 				D9A7B3A4158FE80400A00A73 /* EDNLiteNavigationHelper.m in Sources */,
 				E11C2FB41593AC830004EBB6 /* AGSPoint+GeneralUtilities.m in Sources */,
+				D927EBEA15A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

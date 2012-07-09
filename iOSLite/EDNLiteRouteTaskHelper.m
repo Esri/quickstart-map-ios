@@ -7,6 +7,7 @@
 //
 
 #import "EDNLiteRouteTaskHelper.h"
+#import "AGSGraphicsLayer+GeneralUtilities.h"
 
 @interface EDNLiteRouteTaskHelper ()<AGSRouteTaskDelegate>
 
@@ -14,6 +15,7 @@
 #define kEdnLiteRouteTaskHelperNotificationLoaded @"EDNLiteRouteTaskHelperLoaded"
 #define kEdnLiteRouteTaskHelperNotificationRouteSolved @"EDNLiteRouteTaskHelperRouteSolved"
 
+#define kEDNLiteRoutingIDAttribute @"RouteGraphicID"
 #define kEDNLiteRoutingStartPointName @"Start Point"
 #define kEDNLiteRoutingStopPointName @"Stop Point"
 
@@ -99,6 +101,43 @@
     return [[EDNLiteRouteTaskHelper alloc] initWithDefaultRouteTask];
 }
 
+- (void) setStartPoint:(AGSPoint *)startPoint
+{
+    _startPoint = startPoint;
+    AGSGraphic *g = [self.resultsGraphicsLayer getGraphicForID:kEDNLiteRoutingStartPointName];
+    if (g)
+    {
+        [self.resultsGraphicsLayer removeGraphic:g];
+    }
+    if (_startPoint)
+    {
+        AGSGraphic *newG = [AGSGraphic graphicWithGeometry:_startPoint 
+                                                    symbol:self.startSymbol
+                                                attributes:nil
+                                      infoTemplateDelegate:nil];
+        [self.resultsGraphicsLayer addGraphic:newG withID:kEDNLiteRoutingStartPointName];
+        [self.resultsGraphicsLayer dataChanged];
+    }
+}
+
+- (void) setStopPoint:(AGSPoint *)stopPoint
+{
+    _stopPoint = stopPoint;
+    AGSGraphic *g = [self.resultsGraphicsLayer getGraphicForID:kEDNLiteRoutingStopPointName];
+    if (g)
+    {
+        [self.resultsGraphicsLayer removeGraphic:g];
+    }
+    if (_stopPoint)
+    {
+        AGSGraphic *newG = [AGSGraphic graphicWithGeometry:_stopPoint 
+                                                    symbol:self.stopSymbol
+                                                attributes:nil
+                                      infoTemplateDelegate:nil];
+        [self.resultsGraphicsLayer addGraphic:newG withID:kEDNLiteRoutingStopPointName];
+        [self.resultsGraphicsLayer dataChanged];
+    }
+}
 
 #pragma mark - Public Functions
 - (void) setStart:(AGSPoint *)startPoint AndStop:(AGSPoint *)stopPoint
