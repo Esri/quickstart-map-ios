@@ -108,7 +108,24 @@ EDNLiteRouteTaskHelper *__ednLiteRouteHelper = nil;
         __ednLiteRouteHelper = [EDNLiteRouteTaskHelper ednLiteRouteTaskHelper];
         
         // Add a layer to hold the route results.
-        [self addMapLayer:[__ednLiteRouteHelper resultsGraphicsLayer] withName:kEDNLiteRouteResultsLayerName];
+		void (^addLayerCode)() = ^void
+		{
+			[self addMapLayer:[__ednLiteRouteHelper resultsGraphicsLayer] withName:kEDNLiteRouteResultsLayerName];
+		};
+		
+		if (self.loaded)
+		{
+			// If the mapView is already loaded, just run this code.
+			addLayerCode();
+		}
+		else 
+		{
+			// Otherwise we queue this block up to be run when self (an AGSMapView) *has* loaded
+			// since the behaviour doesn't work before then. This is because the map will not yet 
+			// be fully initialized for UI interaction until then.
+			[EDNLiteHelper queueBlock:addLayerCode untilMapViewLoaded:self];
+		}
+
         
         // Register myself as being interested in knowing when the route is solved, so that I can draw it
         // in the graphics layer.
