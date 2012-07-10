@@ -9,6 +9,18 @@
 #import "AGSMapView+GeneralUtilities.h"
 
 @implementation AGSMapView (GeneralUtilities)
+AGSStarterGeoServices *__agsStarterGeoServices = nil;
+
+- (AGSStarterGeoServices *) geoServices
+{
+	if (!__agsStarterGeoServices)
+	{
+		__agsStarterGeoServices = [[AGSStarterGeoServices alloc] init];
+	}
+	return __agsStarterGeoServices;
+}
+
+
 - (AGSLayer *) getLayerForName:(NSString *)layerName
 {
     for (AGSLayer *l in self.mapLayers) {

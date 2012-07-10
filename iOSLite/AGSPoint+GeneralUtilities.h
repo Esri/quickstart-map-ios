@@ -10,4 +10,6 @@
 
 @interface AGSPoint (GeneralUtilities)
 + (AGSPoint *) pointFromLat:(double)latitude Long:(double)longitude;
+- (double) latitude;
+- (double) longitude;
 @end

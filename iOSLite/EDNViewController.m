@@ -17,6 +17,9 @@
 #import "AGSMapView+Routing.h"
 #import "AGSMapView+Geocoding.h"
 
+#import "AGSStarterGeoServices.h"
+
+#import "AGSMapView+GeneralUtilities.h"
 #import "AGSPoint+GeneralUtilities.h"
 
 #import "EDNBasemapDetailsViewController.h"
@@ -217,6 +220,9 @@ EDNVCState;
     self.routeStartButton.layer.cornerRadius = 5;
     self.routeStopButton.layer.cornerRadius = 5;
     self.clearRouteButton.layer.cornerRadius = 4;
+	
+	
+	self.mapView.defaultRouteStartSymbol = nil;
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification
@@ -271,6 +277,12 @@ EDNVCState;
 	// Set up our map with a basemap, and jump to a location and scale level.
     [self.mapView setBasemap: self.currentBasemapType];
     [self.mapView centerAtLat:40.7302 Long:-73.9958 withScaleLevel:13];
+	
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(gotAddressFromPoint:)
+												 name:kEDNLiteGeocodingNotification_AddressFromPointOK
+											   object:self.mapView.geoServices];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -717,39 +729,52 @@ EDNVCState;
     [self setStopText];
 }
 
-- (void) locator:(AGSLocator *)locator operation:(NSOperation *)op didFindAddressForLocation:(AGSAddressCandidate *)candidate
-{
-    NSDictionary *ad = candidate.address;
-    NSString *street = [ad objectForKey:@"Address"];
-    if (street != (id)[NSNull null])
-    {
-        street = [NSString stringWithFormat:@"%@, ", street];
-    }
-    else {
-        street = @"";
-    }
-    NSString *address = [NSString stringWithFormat:@"%@%@, %@ %@",
-                         street,
-                         [ad objectForKey:@"City"],
-                         [ad objectForKey:@"State"],
-                         [ad objectForKey:@"Zip"]];
-    NSString *source = objc_getAssociatedObject(op, @"SOURCE");
-    if (source)
-    {
-        if ([source isEqualToString:@"START"])
-        {
-            self.routeStartAddress = address;
-        }
-        else if ([source isEqualToString:@"STOP"])
-        {
-            self.routeStopAddress = address;
-        }
-    }
+- (void) gotAddressFromPoint:(NSNotification *)notification
+{	
+	NSDictionary *userInfo = notification.userInfo;
+	
+	NSOperation *op = [userInfo objectForKey:kEDNLiteGeocodingNotification_AddressFromPoint_WorkerOperationKey];
+	
+	if (op)
+	{
+		NSString *source = objc_getAssociatedObject(op, @"SOURCE");
+		if (source)
+		{
+			// OK, this is something we requested and so we should be able to work
+			// out what to do with it.
+			
+			AGSAddressCandidate *candidate = [userInfo objectForKey:kEDNLiteGeocodingNotification_AddressFromPoint_AddressCandidateKey];
+			
+			NSDictionary *ad = candidate.address;
+			NSString *street = [ad objectForKey:@"Address"];
+			if (street != (id)[NSNull null])
+			{
+				street = [NSString stringWithFormat:@"%@, ", street];
+			}
+			else {
+				street = @"";
+			}
+			NSString *address = [NSString stringWithFormat:@"%@%@, %@ %@",
+								 street,
+								 [ad objectForKey:@"City"],
+								 [ad objectForKey:@"State"],
+								 [ad objectForKey:@"Zip"]];
+			
+			if ([source isEqualToString:@"START"])
+			{
+				self.routeStartAddress = address;
+			}
+			else if ([source isEqualToString:@"STOP"])
+			{
+				self.routeStopAddress = address;
+			}
+		}
+	}
 }
 
 - (void) locator:(AGSLocator *)locator operation:(NSOperation *)op didFailAddressForLocation:(NSError *)error
 {
-    NSLog(@"Failed to get address for location: %@", error);
+	NSLog(@"Failed to get address for location: %@", error);
 }
 
 - (void) setStartText

@@ -26,4 +26,13 @@
 
 // Clear the route from the map.
 - (void) clearRoute;
+
+// Properties
+- (AGSSymbol *) defaultRouteStartSymbol;
+- (AGSSymbol *) defaultRouteStopSymbol;
+- (AGSSymbol *) defaultRouteSymbol;
+
+- (void) setDefaultRouteStartSymbol:(AGSMarkerSymbol *)defaultRouteStartSymbol;
+- (void) setDefaultRouteStopSymbol:(AGSMarkerSymbol *)defaultRouteStopSymbol;
+- (void) setDefaultRouteSymbol:(AGSSimpleLineSymbol *)defaultRouteSymbol;
 @end

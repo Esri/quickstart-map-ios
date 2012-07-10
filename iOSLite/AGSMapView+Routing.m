@@ -11,10 +11,10 @@
 #import "EDNLiteHelper.h"
 #import "EDNLiteRouteTaskHelper.h"
 
+#define kEDNLiteRouteResultsLayerName @"EDNLiteRouteResults"
+
 @implementation AGSMapView (Routing)
 EDNLiteRouteTaskHelper *__ednLiteRouteHelper = nil;
-
-#define kEDNLiteRouteResultsLayerName @"EDNLiteRouteResults"
 
 #pragma mark - Public Methods
 - (void)getDirectionsFromPoint:(AGSPoint *)startPoint
@@ -56,10 +56,51 @@ EDNLiteRouteTaskHelper *__ednLiteRouteHelper = nil;
     [[__ednLiteRouteHelper resultsGraphicsLayer] dataChanged];
 }
 
+#pragma mark - Properties
+- (AGSSymbol *) defaultRouteStartSymbol
+{
+	[self __ednLiteInitRouting];
+	
+	return __ednLiteRouteHelper.startSymbol;
+}
+
+- (AGSSymbol *) defaultRouteStopSymbol
+{
+	[self __ednLiteInitRouting];
+	
+	return __ednLiteRouteHelper.stopSymbol;
+}
+
+- (AGSSymbol *) defaultRouteSymbol
+{
+	[self __ednLiteInitRouting];
+	
+	return __ednLiteRouteHelper.routeSymbol;
+}
+
+- (void) setDefaultRouteStartSymbol:(AGSMarkerSymbol *)defaultRouteStartSymbol
+{
+	[self __ednLiteInitRouting];
+	
+	__ednLiteRouteHelper.startSymbol = defaultRouteStartSymbol;
+}
+
+- (void) setDefaultRouteStopSymbol:(AGSMarkerSymbol *)defaultRouteStopSymbol
+{
+	[self __ednLiteInitRouting];
+
+	__ednLiteRouteHelper.stopSymbol = defaultRouteStopSymbol;
+}
+
+- (void) setDefaultRouteSymbol:(AGSSimpleLineSymbol *)defaultRouteSymbol
+{
+	[self __ednLiteInitRouting];
+
+	__ednLiteRouteHelper.routeSymbol = defaultRouteSymbol;
+}
+
 #pragma mark - Internals
-- (void) __ednLiteInitRoutingWithStartPoint:(AGSPoint *)startPoint 
-								  stopPoint:(AGSPoint *)stopPoint 
-								AndDelegate:(id<AGSRouteTaskDelegate>)delegate
+- (void) __ednLiteInitRouting
 {
     if (!__ednLiteRouteHelper)
     {
@@ -83,7 +124,14 @@ EDNLiteRouteTaskHelper *__ednLiteRouteHelper = nil;
                                                      name:@"BasemapDidChange"
                                                    object:self];
     }
+}
 
+- (void) __ednLiteInitRoutingWithStartPoint:(AGSPoint *)startPoint 
+								  stopPoint:(AGSPoint *)stopPoint 
+								AndDelegate:(id<AGSRouteTaskDelegate>)delegate
+{
+	[self __ednLiteInitRouting];
+	
     // Set me up as the delegate handler for the helper.
     __ednLiteRouteHelper.delegate = delegate;
 

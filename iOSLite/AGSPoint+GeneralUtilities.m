@@ -14,4 +14,16 @@
 {
 	return [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
 }
+
+- (double) latitude
+{
+	AGSPoint *geoPt = [EDNLiteHelper getWGS84PointFromPoint:self];
+	return geoPt.y;
+}
+
+- (double) longitude
+{
+	AGSPoint *geoPt = [EDNLiteHelper getWGS84PointFromPoint:self];
+	return geoPt.x;
+}
 @end

@@ -7,7 +7,9 @@
 //
 
 #import <ArcGIS/ArcGIS.h>
+#import "AGSStarterGeoServices.h"
 
 @interface AGSMapView (GeneralUtilities)
 - (AGSLayer *) getLayerForName:(NSString *)layerName;
+- (AGSStarterGeoServices *) geoServices;
 @end
