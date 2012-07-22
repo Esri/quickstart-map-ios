@@ -12,8 +12,9 @@
 #import "EDNLiteHelper.h"
 #import "/usr/include/objc/runtime.h"
 
-#define kEDNLiteNALocatorURL @"http://tasks.arcgisonline.com/ArcGIS/rest/services/Locators/TA_Address_NA_10/GeocodeServer"
+//#define kEDNLiteNALocatorURL @"http://tasks.arcgisonline.com/ArcGIS/rest/services/Locators/TA_Address_NA_10/GeocodeServer"
 // #define kEDNLiteNALocatorURL @"http://tasks.arcgis.com/ArcGIS/rest/services/WorldLocator/GeocodeServer"
+#define kEDNLiteNALocatorURL @"http://geocodedev.arcgis.com/arcgis/rest/services/World/GeocodeServer"
 #define kEDNLiteGeocodingResultsLayerName @"EDNLiteGeocodeResults"
 #define kEDNLiteAssociatedAddressKey "address"
 #define kEDNLiteAssociatedLocationKey "location"
@@ -88,8 +89,14 @@
     }
 }
 
-- (NSOperation *) findAddress:(NSString *)address
+- (NSOperation *) findAddress:(NSString *)address forEnvelope:(AGSEnvelope *)envelope
 {
+    if (envelope)
+    {
+        NSString *envStr = [envelope AGSJSONRepresentation];
+        NSLog(@"Envelope is: %@", envStr);
+    }
+    
     // Tell the service we are providing a single line address.
     NSDictionary *params = [NSDictionary dictionaryWithObject:address forKey:@"SingleLine"];
     // List the fields we want back.

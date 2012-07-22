@@ -39,7 +39,8 @@ EDNLiteGeocodingHelper *__ednLiteGeocodingHelper = nil;
 {
     [self __ednLiteLocatorLazyInit];
     __ednLiteGeocodingHelper.delegate = delegate;
-    return [__ednLiteGeocodingHelper findAddress:singleLineAddress];
+    AGSEnvelope *envelope = self.visibleArea.envelope;
+    return [__ednLiteGeocodingHelper findAddress:singleLineAddress forEnvelope:envelope];
 }
 
 - (NSOperation *) getAddressForLat:(double)latitude 
@@ -134,7 +135,7 @@ EDNLiteGeocodingHelper *__ednLiteGeocodingHelper = nil;
             // Merge or create the extent we're going to zoom to eventually.
             if (!totalEnvelope)
             {
-                // This is the first cnadidate. Create a new envelope.
+                // This is the first candidate. Create a new envelope.
 				totalEnvelope = [loc.envelope mutableCopy];
             }
             else 

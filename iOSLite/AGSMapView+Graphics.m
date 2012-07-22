@@ -128,6 +128,37 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
 	}
 }
 
+- (void) removeGraphicsMatchingCriteria:(BOOL (^)(AGSGraphic *))checkBlock
+{
+    NSArray *layersToCheck = [NSArray arrayWithObjects:__ednLitePointGraphicsLayer,
+                                                       __ednLitePolylineGraphicsLayer, 
+                                                       __ednLitePolygonGraphicsLayer, nil];
+    
+    // Get the graphics to remove from all layers
+    NSMutableArray *graphicsToRemove = [NSMutableArray array];
+    for (AGSGraphicsLayer *gl in layersToCheck) {
+        for (AGSGraphic *g in gl.graphics) {
+            if (checkBlock(g))
+            {
+                [graphicsToRemove addObject:g];
+            }
+        }
+    }
+    
+    // Remove each graphic from its layer, and remember the set of layers affected
+    NSMutableSet *layersToUpdate = [NSMutableSet set];
+    for (AGSGraphic *g in graphicsToRemove) {
+        [layersToUpdate addObject:g.layer];
+        [self removeGraphic:g];
+    }
+    
+    // Flag the affected layers for redraw
+    for (AGSGraphicsLayer *gl in layersToUpdate)
+    {
+        [gl dataChanged];
+    }
+}
+
 #pragma mark - Edit graphic selected from the map
 - (AGSGraphic *) editGraphicFromMapViewDidClickAtPoint:(NSDictionary *)graphics
 {
@@ -378,7 +409,7 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
     // Create a graphic with an appropriate symbol and attributes, given a geometry.
     AGSGraphic *g = [AGSGraphic graphicWithGeometry:geom
                                              symbol:[self __ednLiteGetDefaultSymbolForGeometry:geom]
-                                         attributes:[NSDictionary dictionaryWithObject:kEdnLiteGraphicTag forKey:kEdnLiteGraphicTagKey]
+                                         attributes:[NSMutableDictionary dictionaryWithObject:kEdnLiteGraphicTag forKey:kEdnLiteGraphicTagKey]
                                infoTemplateDelegate:nil];
     return g;
 }

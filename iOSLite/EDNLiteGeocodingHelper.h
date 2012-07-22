@@ -22,7 +22,7 @@
 + (EDNLiteGeocodingHelper *) ednLiteGeocodingHelper;
 + (EDNLiteGeocodingHelper *) ednLiteGeocodingHelperForMapView:(AGSMapView *)mapView;
 
-- (NSOperation *) findAddress:(NSString *)address;
+- (NSOperation *) findAddress:(NSString *)address forEnvelope:(AGSEnvelope *)envelope;
 - (NSOperation *) getAddressForLocation:(AGSPoint *)location WithSearchDistance:(double)searchDistance;
 
 @property (nonatomic, retain, readonly) AGSGraphicsLayer *resultsGraphicsLayer;

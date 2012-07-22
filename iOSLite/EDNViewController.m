@@ -22,6 +22,8 @@
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSPoint+GeneralUtilities.h"
 
+#import "UIApplication+AppDimensions.h"
+
 #import "EDNBasemapDetailsViewController.h"
 #import "UILabel+EDNAutoSizeMutliline.h"
 #import "/usr/include/objc/runtime.h"
@@ -228,6 +230,7 @@ EDNVCState;
 - (void)keyboardWillShow:(NSNotification *)notification
 {
     self.keyboardSize = [[notification.userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    NSLog(@"Keyboard will show: %@", NSStringFromCGSize(self.keyboardSize));
     [self updateUIDisplayState:notification];
 }
 
@@ -246,18 +249,38 @@ EDNVCState;
 
 - (CGRect) getUIFrame:(UIView *)viewToDisplay
 {
-    CGRect screenFrame = [[UIScreen mainScreen] applicationFrame];
-//    CGPoint origin = [self getUIComponentOrigin];
+    return [self getUIFrameWhenHidden:viewToDisplay
+                       forOrientation:[UIApplication sharedApplication].statusBarOrientation];
+}
+
+- (CGRect) getUIFrame:(UIView *)viewToDisplay forOrientation:(UIInterfaceOrientation)orientation
+{
+    CGRect screenFrame = [UIApplication frameInOrientation:orientation];
     CGRect viewFrame = viewToDisplay.frame;
-    CGPoint origin = CGPointMake(screenFrame.origin.x, screenFrame.size.height - viewFrame.size.height - self.keyboardSize.height);
+
+    double keyboardHeight = self.keyboardSize.height;
+    if (UIInterfaceOrientationIsLandscape(orientation))
+    {
+        // Why? WHY!!!? But OK. If I have to.
+        keyboardHeight = self.keyboardSize.width;
+    }
+//    NSLog(@"Screen Height: %f, view Height: %f, keyboard Height: %f", screenFrame.size.height, viewFrame.size.height, keyboardHeight);
+    CGPoint origin = CGPointMake(screenFrame.origin.x, screenFrame.size.height - viewFrame.size.height - keyboardHeight);
+//    NSLog(@"Screen: %@", NSStringFromCGRect(screenFrame));
     CGRect newFrame = CGRectMake(origin.x, origin.y, viewFrame.size.width, viewFrame.size.height);
+//    NSLog(@"   New: %@", NSStringFromCGRect(newFrame));
     return newFrame;
 }
 
 - (CGRect) getUIFrameWhenHidden:(UIView *)viewToHide
 {
-    CGRect screenFrame = [[UIScreen mainScreen] applicationFrame];
-//    CGPoint origin = [self getUIComponentOrigin];
+    return [self getUIFrameWhenHidden:viewToHide 
+                       forOrientation:[UIApplication sharedApplication].statusBarOrientation];
+}
+
+- (CGRect) getUIFrameWhenHidden:(UIView *)viewToHide forOrientation:(UIInterfaceOrientation)orientation
+{
+    CGRect screenFrame = [UIApplication frameInOrientation:orientation];
     CGPoint origin = CGPointMake(screenFrame.origin.x, screenFrame.size.height);
     CGSize viewSize = viewToHide.frame.size;
     // Position it to the left of the screen.
@@ -277,12 +300,21 @@ EDNVCState;
 	// Set up our map with a basemap, and jump to a location and scale level.
     [self.mapView setBasemap: self.currentBasemapType];
     [self.mapView centerAtLat:40.7302 Long:-73.9958 withScaleLevel:13];
-	
-	
+//    AGSPoint *nyc = [AGSPoint pointFromLat:40.7302 Long:-73.9958];
+//    [self.mapView centerAtPoint:nyc withScaleLevel:0];
+//    [self.mapView centerAtLat:40.7302 Long:-73.9958];
+//    [self.mapView zoomToLevel:7];
+//    [self.mapView centerAtMyLocation];
+//    [self.mapView centerAtMyLocationWithScaleLevel:15];
+
 	[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(gotAddressFromPoint:)
-												 name:kEDNLiteGeocodingNotification_AddressFromPointOK
+												 name:kEDNLiteGeocodingNotification_AddressFromPoint_OK
 											   object:self.mapView.geoServices];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(gotCandidatesForAddress:)
+                                                 name:kEDNLiteGeocodingNotification_PointsFromAddress_OK
+                                               object:self.mapView.geoServices];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -353,11 +385,17 @@ EDNVCState;
             }
             break;
         case EDNVCStateDirections_WaitingForRouteStart:
-            self.routeStartPoint = mappoint;
+        {
+            NSOperation *op = [self.mapView.geoServices pointToAddress:mappoint];
+            objc_setAssociatedObject(op, @"SOURCE", @"START", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        }
             break;
             
         case EDNVCStateDirections_WaitingForRouteStop:
-            self.routeStopPoint = mappoint;
+        {
+            NSOperation *op = [self.mapView.geoServices pointToAddress:mappoint];
+            objc_setAssociatedObject(op, @"SOURCE", @"STOP", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        }
             break;
             
         case EDNVCStateFindAddress:
@@ -572,23 +610,47 @@ EDNVCState;
     self.routingPanel.alpha = targetAlpha;
 }
 
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self updateUIDisplayStateOverDuration:0];
+}
+
+- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self updateUIDisplayStateOverDuration:duration forOrientation:toInterfaceOrientation];
+}
+
 - (void)updateUIDisplayState
 {
-    [self updateUIDisplayState:nil];
+    [self updateUIDisplayStateOverDuration:0.4];
 }
 
 - (void)updateUIDisplayState:(NSNotification *)keyboardNotification
 {
-    NSTimeInterval animationDuration = 0.4;
+    if (keyboardNotification)
+    {
+        NSTimeInterval animationDuration;
+        NSValue *value = [keyboardNotification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+        [value getValue:&animationDuration];
+        [self updateUIDisplayStateOverDuration:animationDuration];
+    }
+    else
+    {
+        [self updateUIDisplayState];
+    }
+}
+
+- (void)updateUIDisplayStateOverDuration:(NSTimeInterval)animationDuration
+{
+    [self updateUIDisplayStateOverDuration:animationDuration
+                            forOrientation:[UIApplication sharedApplication].statusBarOrientation];
+}
+
+- (void)updateUIDisplayStateOverDuration:(NSTimeInterval)animationDuration forOrientation:(UIInterfaceOrientation)orientation
+{
     UIView *viewToShow = [self getViewToShow];
     NSArray *viewsToHide = [self getViewsToHide];
     
-    if (keyboardNotification)
-    {
-        NSValue *value = [keyboardNotification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-        [value getValue:&animationDuration];
-    }
-
     // If the view is already visible, then we don't need to update...
     BOOL needToChange = YES;//viewToShow.hidden == NO;
     
@@ -611,8 +673,8 @@ EDNVCState;
                          animations:^{
                              viewToShow.alpha = 1;
                              viewToAnimateOut.alpha = 0;
-                             viewToShow.frame = [self getUIFrame:viewToShow];
-                             viewToAnimateOut.frame = [self getUIFrameWhenHidden:viewToAnimateOut];
+                             viewToShow.frame = [self getUIFrame:viewToShow forOrientation:orientation];
+                             viewToAnimateOut.frame = [self getUIFrameWhenHidden:viewToAnimateOut ];
                          }
                          completion:^(BOOL finished) {
                              viewToAnimateOut.hidden = YES;
@@ -729,11 +791,74 @@ EDNVCState;
     [self setStopText];
 }
 
+- (void) gotCandidatesForAddress:(NSNotification *)notification
+{
+    NSDictionary *userInfo = notification.userInfo;
+    
+    NSOperation *op = [userInfo objectForKey:kEDNLiteGeocodingNotification_WorkerOperationKey];
+    
+    if (op)
+    {
+        // First, let's remove all the old items (if any)
+        [self.mapView removeGraphicsMatchingCriteria:^BOOL(AGSGraphic *g) {
+            if ([g.attributes objectForKey:@"Source"])
+            {
+                NSLog(@"Removing graphic!");
+                return YES;
+            }
+            return NO;
+        }];
+        
+        NSArray *candidates = [userInfo objectForKey:kEDNLiteGeocodingNotification_PointsFromAddress_LocationCandidatesKey];
+        if (candidates.count > 0)
+        {
+            NSArray *sortedCandidates = [candidates sortedArrayUsingComparator:^(id obj1, id obj2) {
+                AGSAddressCandidate *c1 = obj1;
+                AGSAddressCandidate *c2 = obj2;
+                return (c1.score==c2.score)?NSOrderedSame:(c1.score > c2.score)?NSOrderedAscending:NSOrderedDescending;
+            }];
+            double maxScore = ((AGSAddressCandidate *)[sortedCandidates objectAtIndex:0]).score;
+            AGSMutableEnvelope *totalEnv = nil;
+            NSUInteger count = 0;
+            for (AGSAddressCandidate *c in sortedCandidates) {
+                if (c.score == maxScore)
+                {
+                    count++;
+                    NSLog(@"Address found: %@", c.attributes);
+                    AGSPoint *p = [EDNLiteHelper getWebMercatorAuxSpherePointFromPoint:c.location];
+                    AGSGraphic *g = [self.mapView addPoint:p];
+                    [g.attributes setObject:@"Geocoded" forKey:@"Source"];
+                    if (!totalEnv)
+                    {
+                        totalEnv = [AGSMutableEnvelope envelopeWithXmin:p.x-1 ymin:p.y-1 xmax:p.x+1 ymax:p.y+1 spatialReference:p.spatialReference];
+                    }
+                    else 
+                    {
+                        [totalEnv unionWithPoint:p];
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+            if (count == 1)
+            {
+                [self.mapView centerAtPoint:[totalEnv center] withScaleLevel:17];
+            }
+            else if (totalEnv)
+            {
+                [self.mapView zoomToEnvelope:totalEnv animated:YES];
+            }
+        }
+    }
+}
+
 - (void) gotAddressFromPoint:(NSNotification *)notification
 {	
 	NSDictionary *userInfo = notification.userInfo;
 	
-	NSOperation *op = [userInfo objectForKey:kEDNLiteGeocodingNotification_AddressFromPoint_WorkerOperationKey];
+	NSOperation *op = [userInfo objectForKey:kEDNLiteGeocodingNotification_WorkerOperationKey];
 	
 	if (op)
 	{
@@ -762,10 +887,12 @@ EDNVCState;
 			
 			if ([source isEqualToString:@"START"])
 			{
+                self.routeStartPoint = candidate.location;
 				self.routeStartAddress = address;
 			}
 			else if ([source isEqualToString:@"STOP"])
 			{
+                self.routeStopPoint = candidate.location;
 				self.routeStopAddress = address;
 			}
 		}
@@ -828,9 +955,6 @@ EDNVCState;
     {
 		self.currentState = EDNVCStateDirections;
         [self setToFromButton:self.routeStartButton selectedState:NO];
-        AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromPoint:_routeStartPoint];
-        NSOperation *op = [self.mapView getAddressForMapPoint:wgs84Pt withDelegate:self];
-        objc_setAssociatedObject(op, @"SOURCE", @"START", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         [self doRouteIfPossible];
     }
     [self setStartText];
@@ -843,9 +967,6 @@ EDNVCState;
     {
 		self.currentState = EDNVCStateDirections;
         [self setToFromButton:self.routeStopButton selectedState:NO];
-        AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromPoint:_routeStopPoint];
-        NSOperation *op = [self.mapView getAddressForMapPoint:wgs84Pt withDelegate:self];
-        objc_setAssociatedObject(op, @"SOURCE", @"STOP", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         [self doRouteIfPossible];
 	}
     [self setStopText];
@@ -937,7 +1058,9 @@ EDNVCState;
 {
 	NSString *searchString = searchBar.text;
 	NSLog(@"Searching for: %@", searchString);
-	[self.mapView findAddress:searchString];
+    AGSPolygon *v = self.mapView.visibleArea;
+    AGSEnvelope *env = v.envelope;
+	[self.mapView.geoServices addressToPoint:searchString forEnvelope:env];
     [searchBar resignFirstResponder];
 }
 

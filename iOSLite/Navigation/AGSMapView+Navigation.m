@@ -20,40 +20,49 @@ NSInteger __ednLiteScaleForGeolocation = -1;
 {
     // Build an AGSPoint using the Lat and Long
     AGSPoint *webMercatorCenterPt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
-    // Get the map scale represented by the integer level
-    double scale = [EDNLiteHelper getScaleForLevel:scaleLevel];
+    
+    [self centerAtPoint:webMercatorCenterPt withScaleLevel:scaleLevel];
+}
 
+- (void) centerAtLat:(double) latitude Long:(double) longitude
+{
+    AGSPoint *p = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
+    
     // Here's the code to do the zoom, but we don't know whether we want to run it now, or
     // need to queue it up until the AGSMapView is loaded.
-    void (^zoomCode)() = ^void
-    {
-        [self zoomToScale:scale withCenterPoint:webMercatorCenterPt animated:YES];
-    };
     
+    [self doActionWhenReady:^void {
+        [self centerAtPoint:p animated:YES];
+    }];
+
+}
+
+- (void) doActionWhenReady:(void (^)(void))actionBlock
+{
+    // The Action Block needs to wait until the MapView is loaded.
+    // Let's see if we want to run it now, or need to queue it up until the AGSMapView is loaded.
     if (self.loaded)
     {
         // If the mapView is already loaded, just run this code.
-        zoomCode();
+        actionBlock();
     }
     else 
     {
         // Otherwise we queue this block up to be run when self (an AGSMapView) *has* loaded
         // since the behaviour doesn't work before then. This is because the map will not yet 
         // be fully initialized for UI interaction until then.
-        [EDNLiteHelper queueBlock:zoomCode untilMapViewLoaded:self];
+        [EDNLiteHelper queueBlock:actionBlock untilMapViewLoaded:self];
     }
-}
-
-- (void) centerAtLat:(double) latitude Long:(double) longitude
-{
-    AGSPoint *p = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
-    [self centerAtPoint:p animated:YES];
 }
 
 - (void) centerAtPoint:(AGSPoint *)point withScaleLevel:(NSInteger)scaleLevel
 {
+    // Get the map scale represented by the integer level
     double scaleForLevel = [EDNLiteHelper getScaleForLevel:scaleLevel];
-    [self zoomToScale:scaleForLevel withCenterPoint:point animated:YES];
+    
+    [self doActionWhenReady:^void {
+        [self zoomToScale:scaleForLevel withCenterPoint:point animated:YES];
+    }];
 }
 
 #pragma mark - Zoom
@@ -61,7 +70,9 @@ NSInteger __ednLiteScaleForGeolocation = -1;
 {
     AGSPoint *currentCenterPoint = self.visibleArea.envelope.center;
     double scaleForLevel = [EDNLiteHelper getScaleForLevel:level];
-    [self zoomToScale:scaleForLevel withCenterPoint:currentCenterPoint animated:YES];
+    [self doActionWhenReady:^void {
+        [self zoomToScale:scaleForLevel withCenterPoint:currentCenterPoint animated:YES];
+    }];
 }
 
 #pragma mark - Geolocation (GPS)
@@ -95,18 +106,20 @@ NSInteger __ednLiteScaleForGeolocation = -1;
 - (void) gotLocation:(NSNotification *)notification
 {
     CLLocation *newLocation = [notification.userInfo objectForKey:kEDNLiteGeolocationSucceededLocationKey];
-    if (__ednLiteScaleForGeolocation == -1)
-    {
-        [self centerAtLat:newLocation.coordinate.latitude
-                     Long:newLocation.coordinate.longitude];
-    }
-    else
-    {
-        [self centerAtLat:newLocation.coordinate.latitude
-                     Long:newLocation.coordinate.longitude
-           withScaleLevel:__ednLiteScaleForGeolocation];
-    }
-    __ednLiteScaleForGeolocation = -1;    
+    [self doActionWhenReady:^void {
+        if (__ednLiteScaleForGeolocation == -1)
+        {
+            [self centerAtLat:newLocation.coordinate.latitude
+                         Long:newLocation.coordinate.longitude];
+        }
+        else
+        {
+            [self centerAtLat:newLocation.coordinate.latitude
+                         Long:newLocation.coordinate.longitude
+               withScaleLevel:__ednLiteScaleForGeolocation];
+        }
+        __ednLiteScaleForGeolocation = -1;
+    }];
 }
 
 - (void) failedToGetLocation:(NSNotification *)notification

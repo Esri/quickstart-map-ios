@@ -14,6 +14,7 @@
 		D94431A5156BE1FC00982D5C /* EDNLiteHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D94431A4156BE1FC00982D5C /* EDNLiteHelper.m */; };
 		D950069F156E0C9C00BA872A /* EDNTiledAppleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D950069C156E0C9C00BA872A /* EDNTiledAppleLayer.m */; };
 		D95006A0156E0C9C00BA872A /* EDNAppleTileOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = D950069E156E0C9C00BA872A /* EDNAppleTileOperation.m */; };
+		D9754D7315ACAF840093BF1E /* UIApplication+AppDimensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */; };
 		D982215B1587C6EB00EF53CC /* 06-map-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D98221591587C6EB00EF53CC /* 06-map-pin.png */; };
 		D982215C1587C6EB00EF53CC /* 06-map-pin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D982215A1587C6EB00EF53CC /* 06-map-pin@2x.png */; };
 		D98221601587C8DD00EF53CC /* 07-map-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = D982215E1587C8DD00EF53CC /* 07-map-marker.png */; };
@@ -73,6 +74,8 @@
 		D950069C156E0C9C00BA872A /* EDNTiledAppleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNTiledAppleLayer.m; sourceTree = "<group>"; };
 		D950069D156E0C9C00BA872A /* EDNAppleTileOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNAppleTileOperation.h; sourceTree = "<group>"; };
 		D950069E156E0C9C00BA872A /* EDNAppleTileOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNAppleTileOperation.m; sourceTree = "<group>"; };
+		D9754D7115ACAF830093BF1E /* UIApplication+AppDimensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+AppDimensions.h"; sourceTree = "<group>"; };
+		D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+AppDimensions.m"; sourceTree = "<group>"; };
 		D98221591587C6EB00EF53CC /* 06-map-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "06-map-pin.png"; sourceTree = "<group>"; };
 		D982215A1587C6EB00EF53CC /* 06-map-pin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "06-map-pin@2x.png"; sourceTree = "<group>"; };
 		D982215E1587C8DD00EF53CC /* 07-map-marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "07-map-marker.png"; sourceTree = "<group>"; };
@@ -346,11 +349,11 @@
 		E16C28FF15598A5E00E2DB56 /* iOSLite */ = {
 			isa = PBXGroup;
 			children = (
-				E1A5682B15ABAC74004AA6C1 /* AGSStarterGeoServices.h */,
-				E1A5682C15ABAC74004AA6C1 /* AGSStarterGeoServices.m */,
 				D9086D9E158B90C500FC1D43 /* html */,
 				D94431A7156C1EEC00982D5C /* Helper */,
 				D9E27CAF155AE891008F8CCB /* Categories */,
+				E1A5682B15ABAC74004AA6C1 /* AGSStarterGeoServices.h */,
+				E1A5682C15ABAC74004AA6C1 /* AGSStarterGeoServices.m */,
 				E16C290815598A5E00E2DB56 /* EDNAppDelegate.h */,
 				E16C290915598A5E00E2DB56 /* EDNAppDelegate.m */,
 				E16C290B15598A5E00E2DB56 /* MainStoryboard_iPhone.storyboard */,
@@ -364,8 +367,6 @@
 				D9F9EE67156DE2D200C2A15F /* EDNBasemapSelector_iPad.xib */,
 				D9F9EE6A156DE75E00C2A15F /* EDNBasemapSelectorViewController.h */,
 				D9F9EE6B156DE75E00C2A15F /* EDNBasemapSelectorViewController.m */,
-				E16C290015598A5E00E2DB56 /* Supporting Files */,
-				D95006A2156E0CA100BA872A /* AppleOSMLayer */,
 				D9A985B615890C3D00A0DE40 /* EDNBasemapItemView.xib */,
 				D9A985B415890C3D00A0DE40 /* EDNBasemapItemViewController.h */,
 				D9A985B515890C3D00A0DE40 /* EDNBasemapItemViewController.m */,
@@ -374,6 +375,10 @@
 				D9E01456158A45A4005DD7D8 /* EDNBasemapsListView.m */,
 				D99D987C158950F800F9D36B /* EDNBasemapsListViewController.h */,
 				D99D987D158950F800F9D36B /* EDNBasemapsListViewController.m */,
+				E16C290015598A5E00E2DB56 /* Supporting Files */,
+				D95006A2156E0CA100BA872A /* AppleOSMLayer */,
+				D9754D7115ACAF830093BF1E /* UIApplication+AppDimensions.h */,
+				D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */,
 			);
 			path = iOSLite;
 			sourceTree = "<group>";
@@ -491,6 +496,7 @@
 				E11C2FB41593AC830004EBB6 /* AGSPoint+GeneralUtilities.m in Sources */,
 				D927EBEA15A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.m in Sources */,
 				E1A5682D15ABAC74004AA6C1 /* AGSStarterGeoServices.m in Sources */,
+				D9754D7315ACAF840093BF1E /* UIApplication+AppDimensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

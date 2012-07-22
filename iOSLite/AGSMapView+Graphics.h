@@ -24,6 +24,7 @@ typedef enum {
 
 // Remove individual graphics
 - (void) removeGraphic:(AGSGraphic *)graphic;
+- (void) removeGraphicsMatchingCriteria:(BOOL(^)(AGSGraphic *))checkBlock;
 
 // Clear graphics from the map. Optionally specify what type or types of graphics to clear.
 - (void) clearGraphics:(EDNLiteGraphicsLayerType)layerType;
