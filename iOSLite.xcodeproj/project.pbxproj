@@ -95,14 +95,14 @@
 		D9E01456158A45A4005DD7D8 /* EDNBasemapsListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNBasemapsListView.m; sourceTree = "<group>"; };
 		D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = ../../../Library/SDKs/ArcGIS/ArcGIS.framework; sourceTree = "<group>"; };
 		D9E27CB2155AEA6E008F8CCB /* AGSMapView+Basemaps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AGSMapView+Basemaps.h"; path = "Basemaps/AGSMapView+Basemaps.h"; sourceTree = "<group>"; };
-		D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AGSMapView+Basemaps.m"; path = "Basemaps/AGSMapView+Basemaps.m"; sourceTree = "<group>"; };
+		D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = "AGSMapView+Basemaps.m"; path = "Basemaps/AGSMapView+Basemaps.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = LiteMapConfig.plist; path = ../LiteMapConfig.plist; sourceTree = "<group>"; };
 		D9EAB290156FD1EE008BCE8F /* AGSMapView+Routing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+Routing.h"; sourceTree = "<group>"; };
 		D9EAB291156FD1EE008BCE8F /* AGSMapView+Routing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+Routing.m"; sourceTree = "<group>"; };
 		D9EAB293156FE0AF008BCE8F /* EDNLiteRouteTaskHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNLiteRouteTaskHelper.h; sourceTree = "<group>"; };
 		D9EAB294156FE0AF008BCE8F /* EDNLiteRouteTaskHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNLiteRouteTaskHelper.m; sourceTree = "<group>"; };
 		D9F9AE93157D6352004CFAA8 /* AGSMapView+Geocoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+Geocoding.h"; sourceTree = "<group>"; };
-		D9F9AE94157D6352004CFAA8 /* AGSMapView+Geocoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+Geocoding.m"; sourceTree = "<group>"; };
+		D9F9AE94157D6352004CFAA8 /* AGSMapView+Geocoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "AGSMapView+Geocoding.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D9F9AE97157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+GeneralUtilities.h"; sourceTree = "<group>"; };
 		D9F9AE98157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+GeneralUtilities.m"; sourceTree = "<group>"; };
 		D9F9EE67156DE2D200C2A15F /* EDNBasemapSelector_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EDNBasemapSelector_iPad.xib; sourceTree = "<group>"; };
@@ -226,6 +226,10 @@
 				D9F9EE6F156DE7DA00C2A15F /* Graphics */,
 				D9E27CB1155AEA4D008F8CCB /* Basemaps */,
 				E16C07CD1559B96900776F3E /* Navigation */,
+				E1DCB32D156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.h */,
+				E1DCB32E156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.m */,
+				D9754D7115ACAF830093BF1E /* UIApplication+AppDimensions.h */,
+				D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -356,29 +360,12 @@
 				E1A5682C15ABAC74004AA6C1 /* AGSStarterGeoServices.m */,
 				E16C290815598A5E00E2DB56 /* EDNAppDelegate.h */,
 				E16C290915598A5E00E2DB56 /* EDNAppDelegate.m */,
-				E16C290B15598A5E00E2DB56 /* MainStoryboard_iPhone.storyboard */,
-				E16C290E15598A5E00E2DB56 /* MainStoryboard_iPad.storyboard */,
 				E16C291115598A5E00E2DB56 /* EDNViewController.h */,
 				E16C291215598A5E00E2DB56 /* EDNViewController.m */,
-				E1DCB32D156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.h */,
-				E1DCB32E156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.m */,
-				D93C98A3156D8CC000A5F339 /* EDNBasemapDetailsViewController.h */,
-				D93C98A4156D8CC000A5F339 /* EDNBasemapDetailsViewController.m */,
-				D9F9EE67156DE2D200C2A15F /* EDNBasemapSelector_iPad.xib */,
-				D9F9EE6A156DE75E00C2A15F /* EDNBasemapSelectorViewController.h */,
-				D9F9EE6B156DE75E00C2A15F /* EDNBasemapSelectorViewController.m */,
-				D9A985B615890C3D00A0DE40 /* EDNBasemapItemView.xib */,
-				D9A985B415890C3D00A0DE40 /* EDNBasemapItemViewController.h */,
-				D9A985B515890C3D00A0DE40 /* EDNBasemapItemViewController.m */,
-				D99D987E158950F800F9D36B /* EDNBasemapsListView.xib */,
-				D9E01455158A45A4005DD7D8 /* EDNBasemapsListView.h */,
-				D9E01456158A45A4005DD7D8 /* EDNBasemapsListView.m */,
-				D99D987C158950F800F9D36B /* EDNBasemapsListViewController.h */,
-				D99D987D158950F800F9D36B /* EDNBasemapsListViewController.m */,
+				E1AC7B8615D2E8EA00E4E1BE /* UI */,
+				E1AC7B8815D2E91E00E4E1BE /* Basemap Selector */,
 				E16C290015598A5E00E2DB56 /* Supporting Files */,
 				D95006A2156E0CA100BA872A /* AppleOSMLayer */,
-				D9754D7115ACAF830093BF1E /* UIApplication+AppDimensions.h */,
-				D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */,
 			);
 			path = iOSLite;
 			sourceTree = "<group>";
@@ -394,6 +381,35 @@
 				E16C290715598A5E00E2DB56 /* iOSLite-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E1AC7B8615D2E8EA00E4E1BE /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				E16C290B15598A5E00E2DB56 /* MainStoryboard_iPhone.storyboard */,
+				E16C290E15598A5E00E2DB56 /* MainStoryboard_iPad.storyboard */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		E1AC7B8815D2E91E00E4E1BE /* Basemap Selector */ = {
+			isa = PBXGroup;
+			children = (
+				D93C98A3156D8CC000A5F339 /* EDNBasemapDetailsViewController.h */,
+				D93C98A4156D8CC000A5F339 /* EDNBasemapDetailsViewController.m */,
+				D9F9EE67156DE2D200C2A15F /* EDNBasemapSelector_iPad.xib */,
+				D9F9EE6A156DE75E00C2A15F /* EDNBasemapSelectorViewController.h */,
+				D9F9EE6B156DE75E00C2A15F /* EDNBasemapSelectorViewController.m */,
+				D9A985B615890C3D00A0DE40 /* EDNBasemapItemView.xib */,
+				D9A985B415890C3D00A0DE40 /* EDNBasemapItemViewController.h */,
+				D9A985B515890C3D00A0DE40 /* EDNBasemapItemViewController.m */,
+				D99D987E158950F800F9D36B /* EDNBasemapsListView.xib */,
+				D9E01455158A45A4005DD7D8 /* EDNBasemapsListView.h */,
+				D9E01456158A45A4005DD7D8 /* EDNBasemapsListView.m */,
+				D99D987C158950F800F9D36B /* EDNBasemapsListViewController.h */,
+				D99D987D158950F800F9D36B /* EDNBasemapsListViewController.m */,
+			);
+			name = "Basemap Selector";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

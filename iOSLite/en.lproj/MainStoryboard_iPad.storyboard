@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11E53" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2549" systemVersion="12A269" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="2">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
-        <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1498"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -87,6 +86,9 @@
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="clearRoute:" destination="2" eventType="touchUpInside" id="DKx-Eb-7JA"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
@@ -290,7 +292,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="addGraphic:" destination="2" eventType="touchUpInside" id="0tZ-P7-Sod"/>
+                                            <action selector="addGraphics:" destination="2" eventType="touchUpInside" id="mMc-lG-MSj"/>
                                         </connections>
                                     </button>
                                     <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackOpaque" id="vEH-b5-gEY" userLabel="Toolbar - Edit Graphics">
@@ -441,10 +443,10 @@
                         <outlet property="graphicsPanel" destination="jDE-Vd-KbV" id="7R9-VG-urD"/>
                         <outlet property="mapView" destination="jAh-IA-P6U" id="WTH-5S-YRJ"/>
                         <outlet property="redoEditGraphicsButton" destination="Gvk-jZ-oLg" id="DfC-v9-Hip"/>
+                        <outlet property="routeEndButton" destination="dHw-9u-cX9" id="Cxu-tf-cRh"/>
+                        <outlet property="routeEndLabel" destination="bY0-AZ-alK" id="3pt-6d-mGk"/>
                         <outlet property="routeStartButton" destination="XcW-rU-ziG" id="Unq-fE-V2P"/>
                         <outlet property="routeStartLabel" destination="krd-T4-cwH" id="CuD-KN-vs4"/>
-                        <outlet property="routeStopButton" destination="dHw-9u-cX9" id="VW8-kR-zyM"/>
-                        <outlet property="routeStopLabel" destination="bY0-AZ-alK" id="uC2-a1-Sx5"/>
                         <outlet property="routingPanel" destination="jM8-Ve-X6c" id="spB-a7-HeB"/>
                         <outlet property="undoEditGraphicsButton" destination="icv-c4-iuE" id="CGu-LW-ihf"/>
                         <segue destination="DIO-Lv-QQc" kind="modal" identifier="showBasemapInfo" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="XFF-PA-Izn"/>
@@ -526,7 +528,7 @@
         <class className="EDNViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EDNViewController.h"/>
             <relationships>
-                <relationship kind="action" name="addGraphic:"/>
+                <relationship kind="action" name="addGraphics:"/>
                 <relationship kind="action" name="cancelEditingGraphic:"/>
                 <relationship kind="action" name="clearLines:"/>
                 <relationship kind="action" name="clearPoints:"/>
@@ -566,10 +568,10 @@
                 <relationship kind="outlet" name="graphicsPanel" candidateClass="UIView"/>
                 <relationship kind="outlet" name="mapView" candidateClass="AGSMapView"/>
                 <relationship kind="outlet" name="redoEditGraphicsButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="routeEndButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="routeEndLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="routeStartButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="routeStartLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="routeStopButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="routeStopLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="routingPanel" candidateClass="UIView"/>
                 <relationship kind="outlet" name="undoEditGraphicsButton" candidateClass="UIBarButtonItem"/>
             </relationships>

@@ -9,28 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <ArcGIS/ArcGIS.h>
 
-@protocol EDNLiteRouteTaskDelegate
-- (void) routeTask:(AGSRouteTask *)routeTask operation:(NSOperation *)op didSolveWithResult:(AGSRouteTaskResult *)routeTaskResult;
-- (void) routeTask:(AGSRouteTask *)routeTask operation:(NSOperation *)op didFailSolveWithError:(NSError *)error;
-@end
+@interface EDNLiteRouteTaskHelper : NSObject
++ (EDNLiteRouteTaskHelper *) ednLiteRouteTaskHelperForMapView:(AGSMapView *)mapView;
 
-@interface EDNLiteRouteTaskHelper : NSObject<AGSRouteTaskDelegate>
-+ (EDNLiteRouteTaskHelper *) ednLiteRouteTaskHelper;
-- (void) setStart:(AGSPoint *)startPoint AndStop:(AGSPoint *)stopPoint;
-- (AGSRouteTaskParameters *) getParameters;
-- (AGSRouteTaskParameters *) getParametersToRouteFromStart:(AGSPoint *)startPoint ToStop:(AGSPoint *)stopPoint;
+- (id) initForMapView:(AGSMapView *)mapView;
 
-- (void) solveRouteWhenReady;
-
-@property (nonatomic, assign) id<AGSRouteTaskDelegate> delegate;
-
-@property (nonatomic, retain) AGSRouteTask *routeTask;
-@property (nonatomic, retain) AGSRouteTaskParameters *defaultParameters;
-@property (assign) BOOL loaded;
-
-@property (nonatomic, retain) AGSGraphicsLayer *resultsGraphicsLayer;
+@property (nonatomic, retain) AGSGraphicsLayer *routeGraphicsLayer;
 
 @property (nonatomic, retain) AGSMarkerSymbol *startSymbol;
-@property (nonatomic, retain) AGSMarkerSymbol *stopSymbol;
+@property (nonatomic, retain) AGSMarkerSymbol *endSymbol;
 @property (nonatomic, retain) AGSSimpleLineSymbol *routeSymbol;
 @end

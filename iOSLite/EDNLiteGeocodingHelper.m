@@ -10,7 +10,7 @@
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSMutableEnvelope+GeneralUtilities.h"
 #import "EDNLiteHelper.h"
-#import "/usr/include/objc/runtime.h"
+#import <objc/runtime.h>
 
 //#define kEDNLiteNALocatorURL @"http://tasks.arcgisonline.com/ArcGIS/rest/services/Locators/TA_Address_NA_10/GeocodeServer"
 // #define kEDNLiteNALocatorURL @"http://tasks.arcgis.com/ArcGIS/rest/services/WorldLocator/GeocodeServer"

@@ -8,6 +8,7 @@
 
 #import "AGSMapView+Graphics.h"
 #import "AGSMapView+GeneralUtilities.h"
+#import "AGSMapView+Basemaps.h"
 #import "EDNLiteHelper.h"
 
 @implementation AGSMapView (Graphics)
@@ -286,7 +287,7 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
         __ednLitePolygonGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
 		[[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(__ednLiteGraphicsBasemapDidChange:) 
-                                                     name:@"BasemapDidChange"
+                                                     name:kEDNLiteNotification_BasemapDidChange
                                                    object:self];
         
     }

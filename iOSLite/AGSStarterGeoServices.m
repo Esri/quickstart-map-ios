@@ -8,7 +8,7 @@
 
 #import "AGSStarterGeoServices.h"
 #import "EDNLiteHelper.h"
-#import "/usr/include/objc/runtime.h"
+#import <objc/runtime.h>
 
 //#define kEDNLiteNALocatorURL @"http://tasks.arcgisonline.com/ArcGIS/rest/services/Locators/TA_Address_NA_10/GeocodeServer"
 #define kEDNLiteNALocatorURL @"http://geocodedev.arcgis.com/arcgis/rest/services/World/GeocodeServer"
@@ -22,12 +22,29 @@
 
 #define kEDNLiteMaxDistanceForReverseGeocode 100
 
-@interface AGSStarterGeoServices () <AGSLocatorDelegate>
+#define kEDNLiteRoutingRouteTaskUrl @"http://tasks.arcgisonline.com/ArcGIS/rest/services/NetworkAnalysis/ESRI_Route_NA/NAServer/Route"
+
+
+@interface AGSStarterGeoServices () <AGSLocatorDelegate, AGSRouteTaskDelegate>
 @property (nonatomic, retain) AGSLocator *locator;
+
+@property (nonatomic, retain) AGSRouteTask *routeTask;
+@property (nonatomic, retain) AGSRouteTaskParameters *defaultParameters;
+
+@property (nonatomic, retain) AGSPoint *routeStartPoint;
+@property (nonatomic, retain) AGSPoint *routeEndPoint;
+
+@property (nonatomic, retain) NSNumber *propertyTest;
 @end
 
 @implementation AGSStarterGeoServices
 @synthesize locator = _locator;
+
+@synthesize routeTask = _routeTask;
+@synthesize defaultParameters = _defaultParameters;
+
+@synthesize routeStartPoint = _routeStartPoint;
+@synthesize routeEndPoint = _routeEndPoint;
 
 #pragma mark - Initialization
 - (id) init
@@ -36,6 +53,11 @@
 	{
 		self.locator = [AGSLocator locatorWithURL:[NSURL URLWithString:kEDNLiteNALocatorURL]];
         self.locator.delegate = self;
+		
+		self.routeTask = [AGSRouteTask routeTaskWithURL:[NSURL URLWithString:kEDNLiteRoutingRouteTaskUrl]];
+		self.routeTask.delegate = self;
+		
+		[self.routeTask retrieveDefaultRouteTaskParameters];
 	}
 	
 	return self;
@@ -44,15 +66,16 @@
 - (void) dealloc
 {
 	self.locator = nil;
+	self.routeTask = nil;
 }
 
 #pragma mark - Public Methods
 - (NSOperation *) addressToPoint:(NSString *)singleLineAddress 
 {
-    return [self addressToPoint:singleLineAddress forEnvelope:nil];
+    return [self addressToPoint:singleLineAddress withinEnvelope:nil];
 }
 
-- (NSOperation *) addressToPoint:(NSString *)singleLineAddress forEnvelope:(AGSEnvelope *)env
+- (NSOperation *) addressToPoint:(NSString *)singleLineAddress withinEnvelope:(AGSEnvelope *)env
 {
 	// Tell the service we are providing a single line address.
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:singleLineAddress forKey:kEDNLiteFindAddress_AddressKey];
@@ -61,7 +84,7 @@
     {
         NSDictionary *json = [env encodeToJSON];
         NSString *envStr = [json AGSJSONRepresentation];
-        NSLog(@"Envelope is: %@", envStr);    
+        NSLog(@"Envelope is: %@", envStr);
         [params setObject:envStr forKey:@"searchExtent"];
     }
     
@@ -94,9 +117,10 @@
     return op;
 }
 
-- (NSOperation *) directionsFrom:(AGSPoint *)startPoint To:(AGSPoint *)fromPoint
+- (NSOperation *) directionsFrom:(AGSPoint *)startPoint To:(AGSPoint *)endPoint
 {
-	return nil;
+	AGSRouteTaskParameters *routeTaskParams = [self getParametersToRouteFromStart:startPoint ToStop:endPoint];
+	return [self.routeTask solveWithParameters:routeTaskParams];
 }
 
 #pragma mark - AGSLocatorDelegate
@@ -114,14 +138,14 @@
         
         // Build the UserInfo package that goes on the NSNotification
         NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-								  op, kEDNLiteGeocodingNotification_WorkerOperationKey,
-                                  candidate, kEDNLiteGeocodingNotification_AddressFromPoint_AddressCandidateKey,
-                                  location, kEDNLiteGeocodingNotification_AddressFromPoint_MapPointKey,
-                                  distance, kEDNLiteGeocodingNotification_AddressFromPoint_DistanceKey,
+								  op, kEDNLiteGeoServicesNotification_WorkerOperationKey,
+                                  candidate, kEDNLiteGeoServicesNotification_AddressFromPoint_AddressCandidateKey,
+                                  location, kEDNLiteGeoServicesNotification_AddressFromPoint_MapPointKey,
+                                  distance, kEDNLiteGeoServicesNotification_AddressFromPoint_DistanceKey,
 								  nil];
         
         // And alert our listeners that the operation is complete.
-        [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteGeocodingNotification_AddressFromPoint_OK
+        [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteGeoServicesNotification_AddressFromPoint_OK
                                                             object:self
                                                           userInfo:userInfo];
 	}
@@ -145,14 +169,14 @@
         
         // Build the UserInfo package that goes on the NSNotification
         NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-								  op, kEDNLiteGeocodingNotification_WorkerOperationKey,
-                                  error, kEDNLiteGeocodingNotification_ErrorKey,
-                                  location, kEDNLiteGeocodingNotification_AddressFromPoint_MapPointKey,
-                                  distance, kEDNLiteGeocodingNotification_AddressFromPoint_DistanceKey,
+								  op, kEDNLiteGeoServicesNotification_WorkerOperationKey,
+                                  error, kEDNLiteGeoServicesNotification_ErrorKey,
+                                  location, kEDNLiteGeoServicesNotification_AddressFromPoint_MapPointKey,
+                                  distance, kEDNLiteGeoServicesNotification_AddressFromPoint_DistanceKey,
 								  nil];
         
         // And alert our listeners that there was an error.
-        [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteGeocodingNotification_AddressFromPoint_Error
+        [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteGeoServicesNotification_AddressFromPoint_Error
                                                             object:self
                                                           userInfo:userInfo];
     }
@@ -173,14 +197,14 @@
         
         // Build a dictionary of useful info which listeners to our notification might want.
         NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                                  op, kEDNLiteGeocodingNotification_WorkerOperationKey,
-                                  candidates, kEDNLiteGeocodingNotification_PointsFromAddress_LocationCandidatesKey,
-                                  address, kEDNLiteGeocodingNotification_PointsFromAddress_AddressKey,
-                                  env, kEDNLiteGeocodingNotification_PointsFromAddress_ExtentKey,
+                                  op, kEDNLiteGeoServicesNotification_WorkerOperationKey,
+                                  candidates, kEDNLiteGeoServicesNotification_PointsFromAddress_LocationCandidatesKey,
+                                  address, kEDNLiteGeoServicesNotification_PointsFromAddress_AddressKey,
+                                  env, kEDNLiteGeoServicesNotification_PointsFromAddress_ExtentKey,
                                   nil];
 
         // Post the notification.
-        [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteGeocodingNotification_PointsFromAddress_OK
+        [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteGeoServicesNotification_PointsFromAddress_OK
                                                             object:self
                                                           userInfo:userInfo];
         
@@ -208,14 +232,14 @@
         
         // Build the UserInfo package that goes on the NSNotification
         NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-								  op, kEDNLiteGeocodingNotification_WorkerOperationKey,
-                                  error, kEDNLiteGeocodingNotification_ErrorKey,
-                                  address, kEDNLiteGeocodingNotification_PointsFromAddress_AddressKey,
-                                  env, kEDNLiteGeocodingNotification_PointsFromAddress_ExtentKey,
+								  op, kEDNLiteGeoServicesNotification_WorkerOperationKey,
+                                  error, kEDNLiteGeoServicesNotification_ErrorKey,
+                                  address, kEDNLiteGeoServicesNotification_PointsFromAddress_AddressKey,
+                                  env, kEDNLiteGeoServicesNotification_PointsFromAddress_ExtentKey,
 								  nil];
 
         // And alert our listeners that there was an error.
-        [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteGeocodingNotification_PointsFromAddress_Error
+        [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteGeoServicesNotification_PointsFromAddress_Error
                                                             object:self
                                                           userInfo:userInfo];
     }
@@ -225,5 +249,77 @@
         objc_setAssociatedObject(op, kEDNLiteFindAddress_AddressKey, nil, OBJC_ASSOCIATION_ASSIGN);
         objc_setAssociatedObject(op, kEDNLiteFindAddress_AssociatedExtentKey , nil, OBJC_ASSOCIATION_ASSIGN);
     }
+}
+
+#pragma mark - RouteTask Deletegate
+- (void) routeTask:(AGSRouteTask *)routeTask operation:(NSOperation *)op didRetrieveDefaultRouteTaskParameters:(AGSRouteTaskParameters *)routeParams
+{
+	NSLog(@"Got Default Route Task Parameters");
+	self.defaultParameters = routeParams;
+}
+
+- (void) routeTask:(AGSRouteTask *)routeTask operation:(NSOperation *)op didFailToRetrieveDefaultRouteTaskParametersWithError:(NSError *)error
+{
+	NSLog(@"Error getting RouteTaskParameters for EDNLite, using default. Error: %@", error);
+	// Something went wrong loading parameters, let's just try with some of our own.
+	// They'll be blank, but will hopefully work with the route task.
+	self.defaultParameters = [AGSRouteTaskParameters routeTaskParameters];
+}
+
+- (void) routeTask:(AGSRouteTask *)routeTask operation:(NSOperation *)op didSolveWithResult:(AGSRouteTaskResult *)routeTaskResult
+{
+	NSLog(@"Got route results");
+	// Reset our internal status.
+
+//	AGSRouteResult *result = [routeTaskResult.routeResults objectAtIndex:0];
+        
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:routeTaskResult
+														 forKey:kEDNLiteGeoServicesNotification_FindRoute_RouteTaskResultsKey];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteGeoServicesNotification_FindRoute_OK
+														object:self
+													  userInfo:userInfo];
+}
+
+- (void) routeTask:(AGSRouteTask *)routeTask operation:(NSOperation *)op didFailSolveWithError:(NSError *)error
+{
+    NSLog(@"Failed to get route: %@", error);
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:error forKey:@"error"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteGeoServicesNotification_FindRoute_Error
+														object:self
+													  userInfo:userInfo];
+}
+
+
+#pragma mark - Routing General
+- (AGSRouteTaskParameters *) getParametersToRouteFromStart:(AGSPoint *)startPoint ToStop:(AGSPoint *)stopPoint
+{
+    // Set up and name a couple of stops.
+    AGSStopGraphic *firstStop = [AGSStopGraphic graphicWithGeometry:startPoint
+                                                             symbol:nil
+                                                         attributes:nil
+                                               infoTemplateDelegate:nil];
+    
+    AGSStopGraphic *lastStop = [AGSStopGraphic graphicWithGeometry:stopPoint
+                                                            symbol:nil
+                                                        attributes:nil
+                                              infoTemplateDelegate:nil];
+    
+    firstStop.name = kEDNLiteRoutingStartPointName;
+    lastStop.name = kEDNLiteRoutingEndPointName;
+    
+    // Add them to the parameters.
+    NSArray *routeStops = [NSArray arrayWithObjects:firstStop, lastStop, nil];
+    AGSRouteTaskParameters *params = self.defaultParameters;
+	if (!params)
+	{
+		NSLog(@"Couldn't get default Route Task Parameters - using blank");
+		params = [AGSRouteTaskParameters routeTaskParameters];
+	}
+    [params setStopsWithFeatures:routeStops];
+    params.returnStopGraphics = YES;
+    params.outSpatialReference = [AGSSpatialReference webMercatorSpatialReference];
+    
+    return params;
 }
 @end

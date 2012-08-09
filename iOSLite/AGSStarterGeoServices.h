@@ -8,26 +8,40 @@
 
 #import <ArcGIS/ArcGIS.h>
 
-#define kEDNLiteGeocodingNotification_AddressFromPoint_OK @"EDNLiteGeocodingGetAddressOK"
-#define kEDNLiteGeocodingNotification_AddressFromPoint_Error @"EDNLiteGeocodingGetAddressError"
+#define kEDNLiteGeoServicesNotification_AddressFromPoint_OK @"EDNLiteGeocodingGetAddressOK"
+#define kEDNLiteGeoServicesNotification_AddressFromPoint_Error @"EDNLiteGeocodingGetAddressError"
 
-#define kEDNLiteGeocodingNotification_PointsFromAddress_OK @"EDNLiteGeocodingAddressSearchOK"
-#define kEDNLiteGeocodingNotification_PointsFromAddress_Error @"EDNLiteGeocodingAddressSearchError"
+#define kEDNLiteGeoServicesNotification_PointsFromAddress_OK @"EDNLiteGeocodingAddressSearchOK"
+#define kEDNLiteGeoServicesNotification_PointsFromAddress_Error @"EDNLiteGeocodingAddressSearchError"
 
-#define kEDNLiteGeocodingNotification_WorkerOperationKey @"operation"
-#define kEDNLiteGeocodingNotification_ErrorKey "error"
+#define kEDNLiteGeoServicesNotification_FindRoute_OK @"EDNLiteGeoservicesFindRouteOK"
+#define kEDNLiteGeoServicesNotification_FindRoute_Error @"EDNLiteGeoservicesFindRouteError"
 
-#define kEDNLiteGeocodingNotification_AddressFromPoint_AddressCandidateKey @"candidate"
-#define kEDNLiteGeocodingNotification_AddressFromPoint_MapPointKey @"mapPoint"
-#define kEDNLiteGeocodingNotification_AddressFromPoint_DistanceKey @"distance"
+#define kEDNLiteGeoServicesNotification_WorkerOperationKey @"operation"
+#define kEDNLiteGeoServicesNotification_ErrorKey @"error"
 
-#define kEDNLiteGeocodingNotification_PointsFromAddress_LocationCandidatesKey @"candidates"
-#define kEDNLiteGeocodingNotification_PointsFromAddress_AddressKey @"address"
-#define kEDNLiteGeocodingNotification_PointsFromAddress_ExtentKey @"searchExtent"
+#define kEDNLiteGeoServicesNotification_AddressFromPoint_AddressCandidateKey @"candidate"
+#define kEDNLiteGeoServicesNotification_AddressFromPoint_MapPointKey @"mapPoint"
+#define kEDNLiteGeoServicesNotification_AddressFromPoint_DistanceKey @"distance"
+
+#define kEDNLiteGeoServicesNotification_PointsFromAddress_LocationCandidatesKey @"candidates"
+#define kEDNLiteGeoServicesNotification_PointsFromAddress_AddressKey @"address"
+#define kEDNLiteGeoServicesNotification_PointsFromAddress_ExtentKey @"searchExtent"
+
+#define kEDNLiteGeoServicesNotification_FindRoute_RouteTaskResultsKey @"routeResult"
+
+// Keys to determine properties of the Route Task results.
+#define kEDNLiteRoutingStartPointName @"Start Point"
+#define kEDNLiteRoutingEndPointName @"End Point"
+
+#define kEDNLiteAddressCandidateAddressField @"Address"
+#define kEDNLiteAddressCandidateCityField @"Admin1"
+#define kEDNLiteAddressCandidateStateField @"Admin2"
+#define kEDNLiteAddressCandidateZipField @"Postal"
 
 @interface AGSStarterGeoServices : NSObject
 - (NSOperation *) addressToPoint:(NSString *)singleLineAddress;
-- (NSOperation *) addressToPoint:(NSString *)singleLineAddress forEnvelope:(AGSEnvelope *)env;
+- (NSOperation *) addressToPoint:(NSString *)singleLineAddress withinEnvelope:(AGSEnvelope *)env;
 - (NSOperation *) pointToAddress:(AGSPoint *)mapPoint;
 - (NSOperation *) directionsFrom:(AGSPoint *)startPoint To:(AGSPoint *)fromPoint;
 @end

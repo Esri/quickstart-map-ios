@@ -9,30 +9,18 @@
 #import <ArcGIS/ArcGIS.h>
 
 @interface AGSMapView (Routing)
-// Get directions and put them on the map.
-- (void)getDirectionsFromLat:(double)startLat Long:(double)startLng 
-					   ToLat:(double)stopLat Long:(double)stopLng;
-- (void)getDirectionsFromPoint:(AGSPoint *)startPoint 
-					   ToPoint:(AGSPoint *)stopPoint;
-
-// Get directions, put them on the map, and be alerted with further information about them (pass in an object
-// that implements the AGSRouteTaskDelegate).
-- (void)getDirectionsFromLat:(double)startLat Long:(double)startLon 
-					   ToLat:(double)stopLat Long:(double)stopLng 
-				WithDelegate:(id<AGSRouteTaskDelegate>)delegate;
-- (void)getDirectionsFromPoint:(AGSPoint *)startPoint 
-					   ToPoint:(AGSPoint *)stopPoint 
-				  WithDelegate:(id<AGSRouteTaskDelegate>)delegate;
+// Show route task results on the map
+- (AGSGraphic *) showRouteResults:(AGSRouteTaskResult *)routeTaskResults;
 
 // Clear the route from the map.
 - (void) clearRoute;
 
 // Properties
-- (AGSSymbol *) defaultRouteStartSymbol;
-- (AGSSymbol *) defaultRouteStopSymbol;
-- (AGSSymbol *) defaultRouteSymbol;
+- (AGSSymbol *) routeStartSymbol;
+- (AGSSymbol *) routeStopSymbol;
+- (AGSSymbol *) routeSymbol;
 
-- (void) setDefaultRouteStartSymbol:(AGSMarkerSymbol *)defaultRouteStartSymbol;
-- (void) setDefaultRouteStopSymbol:(AGSMarkerSymbol *)defaultRouteStopSymbol;
-- (void) setDefaultRouteSymbol:(AGSSimpleLineSymbol *)defaultRouteSymbol;
+- (void) setRouteStartSymbol:(AGSMarkerSymbol *)routeStartSymbol;
+- (void) setRouteStopSymbol:(AGSMarkerSymbol *)routeStopSymbol;
+- (void) setRouteSymbol:(AGSSimpleLineSymbol *)routeSymbol;
 @end

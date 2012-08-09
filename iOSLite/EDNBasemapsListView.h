@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "EDNBasemapItemViewController.h"
 
+#define kEDNLiteNotification_BasemapSelected @"BasemapSelected"
+
 @interface EDNBasemapsListView : UIScrollView
 - (void)addBasemapItem:(EDNBasemapItemViewController *)item;
 - (void)ensureItemVisible:(EDNLiteBasemapType)basemapType Highlighted:(BOOL)highlight;

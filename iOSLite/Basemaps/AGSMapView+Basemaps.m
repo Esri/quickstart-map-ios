@@ -129,7 +129,7 @@ NSString *EDN_LITE_BASEMAP_LAYER_NAME = @"ednLiteBasemap";
         [userInfo setObject:portalItem forKey:@"PortalItem"];        
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"BasemapDidChange" 
+    [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteNotification_BasemapDidChange
                                                         object:self 
                                                       userInfo:userInfo];
 }
