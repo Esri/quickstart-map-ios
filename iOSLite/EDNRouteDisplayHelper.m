@@ -6,20 +6,17 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "EDNLiteRouteTaskHelper.h"
+#import "EDNRouteDisplayHelper.h"
 
 #import "EDNLiteHelper.h"
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSMapView+Basemaps.h"
 #import "AGSGraphicsLayer+GeneralUtilities.h"
+#import "AGSStarterGeoServices.h"
 
 #define kEdnLiteRouteTaskUrl @"http://tasks.arcgisonline.com/ArcGIS/rest/services/NetworkAnalysis/ESRI_Route_NA/NAServer/Route"
 #define kEdnLiteRouteTaskHelperNotificationLoaded @"EDNLiteRouteTaskHelperLoaded"
 #define kEdnLiteRouteTaskHelperNotificationRouteSolved @"EDNLiteRouteTaskHelperRouteSolved"
-
-#define kEDNLiteRoutingIDAttribute @"RouteGraphicID"
-#define kEDNLiteRoutingStartPointName @"Start Point"
-#define kEDNLiteRoutingStopPointName @"Stop Point"
 
 #define kEDNLiteGreenPinURL @"http://static.arcgis.com/images/Symbols/Shapes/GreenPin1LargeB.png"
 #define kEDNLiteRedPinURL @"http://static.arcgis.com/images/Symbols/Shapes/RedPin1LargeB.png"
@@ -29,11 +26,12 @@
 
 #define kEDNLiteRouteResultsLayerName @"EDNLiteRouteResults"
 
-@interface EDNLiteRouteTaskHelper ()
+@interface EDNRouteDisplayHelper ()
+- (id) initForMapView:(AGSMapView *)mapView;
 @property (nonatomic, retain) AGSMapView *mapView;
 @end
 
-@implementation EDNLiteRouteTaskHelper
+@implementation EDNRouteDisplayHelper
 @synthesize routeGraphicsLayer = _routeGraphicsLayer;
 
 @synthesize startSymbol = _startSymbol;
@@ -42,11 +40,59 @@
 
 @synthesize mapView = _mapView;
 
-#pragma mark - Init/Dealloc
+#pragma mark - Public static shortcut
++ (EDNRouteDisplayHelper *) ednLiteRouteDisplayHelperForMapView:(AGSMapView *)mapView
+{
+    return [[EDNRouteDisplayHelper alloc] initForMapView:mapView];
+}
+
+#pragma mark - Public methods
+- (void) showRouteResults:(AGSRouteTaskResult *)routeTaskResults;
+{
+	if (routeTaskResults.routeResults.count > 0)
+	{
+		[self.routeGraphicsLayer removeAllGraphics];
+		
+        AGSRouteResult *result = [routeTaskResults.routeResults objectAtIndex:0];
+        AGSGraphic *routeGraphic = result.routeGraphic;
+        AGSSimpleLineSymbol *routeSymbol = self.routeSymbol;
+        routeGraphic.symbol = routeSymbol;
+        
+        [self.routeGraphicsLayer addGraphic:routeGraphic];
+		
+        for (AGSStopGraphic *stopGraphic in result.stopGraphics) {
+            NSLog(@"Route Stop Point: \"%@\"", stopGraphic.name);
+            if ([stopGraphic.name isEqualToString:kEDNLiteRoutingStartPointName])
+            {
+                stopGraphic.symbol = self.startSymbol;
+            }
+            else if ([stopGraphic.name isEqualToString:kEDNLiteRoutingEndPointName])
+            {
+                stopGraphic.symbol = self.endSymbol;
+            }
+            [self.routeGraphicsLayer addGraphic:stopGraphic];
+        }
+        
+        [self.routeGraphicsLayer dataChanged];
+		
+        [self.mapView zoomToGeometry:result.routeGraphic.geometry withPadding:100 animated:YES];
+    }
+}
+
+- (void) clearRouteDisplay
+{
+    [self.routeGraphicsLayer removeAllGraphics];
+    [self.routeGraphicsLayer dataChanged];
+}
+
+
+
+#pragma mark - Internal init/dealloc, etc.
 - (id) initForMapView:(AGSMapView *)mapView
 {
     if ([self init])
     {
+		// Create a new Graphics Layer
         self.routeGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
 		[mapView addMapLayer:self.routeGraphicsLayer withName:kEDNLiteRouteResultsLayerName];
 		
@@ -56,8 +102,10 @@
                                                      name:kEDNLiteNotification_BasemapDidChange
                                                    object:mapView];
 
+		// Keep a handle onto our AGSMapView
 		self.mapView = mapView;
 
+		// Set up the default symbols.
         self.startSymbol = [AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor greenColor]];
         AGSPictureMarkerSymbol *pms = [AGSPictureMarkerSymbol pictureMarkerSymbolWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:kEDNLiteGreenPinURL]]]];
         pms.xoffset = kEDNLitePinXOffset;
@@ -88,24 +136,7 @@
 
 - (void) addRouteResultsLayer
 {
-	// Add a layer to hold the route results.
-	void (^addLayerCode)() = ^void
-	{
-		[self.mapView addMapLayer:self.routeGraphicsLayer withName:kEDNLiteRouteResultsLayerName];
-	};
-	
-	if (self.mapView.loaded)
-	{
-		// If the mapView is already loaded, just run this code.
-		addLayerCode();
-	}
-	else
-	{
-		// Otherwise we queue this block up to be run when self (an AGSMapView) *has* loaded
-		// since the behaviour doesn't work before then. This is because the map will not yet
-		// be fully initialized for UI interaction until then.
-		[EDNLiteHelper queueBlock:addLayerCode untilMapViewLoaded:self.mapView];
-	}
+	 [self.mapView addMapLayer:self.routeGraphicsLayer withName:kEDNLiteRouteResultsLayerName];
 }
 
 #pragma mark - Basemap Change Notification Handler
@@ -116,11 +147,5 @@
     {
 		[self addRouteResultsLayer];
     }
-}
-
-#pragma mark - Public static shortcut
-+ (EDNLiteRouteTaskHelper *) ednLiteRouteTaskHelperForMapView:(AGSMapView *)mapView
-{
-    return [[EDNLiteRouteTaskHelper alloc] initForMapView:mapView];
 }
 @end

@@ -11,11 +11,13 @@
 #import "EDNBasemapItemViewController.h"
 
 #import "EDNLiteHelper.h"
+
+#import "AGSMapView+GeoServices.h"
+
 #import	"AGSMapView+Navigation.h"
 #import "AGSMapView+Basemaps.h"
 #import "AGSMapView+Graphics.h"
-#import "AGSMapView+Routing.h"
-#import "AGSMapView+Geocoding.h"
+#import "AGSMapView+RouteDisplay.h"
 
 #import "AGSStarterGeoServices.h"
 
@@ -43,12 +45,18 @@ typedef enum
 }
 EDNVCState;
 
+#define kEDNLiteGetAddressReasonKey @"FindAddressReason"
+#define kEDNLiteGetAddressReasonRouteStart @"RouteStartPoint"
+#define kEDNLiteGetAddressReasonRouteEnd @"RouteEndPoint"
+#define kEDNLiteGetAddressReasonReverseGeocodeForPoint @"FindAddressFunction"
+
 @interface EDNViewController () <AGSPortalItemDelegate, AGSMapViewTouchDelegate, AGSRouteTaskDelegate, UISearchBarDelegate, AGSLocatorDelegate, UIWebViewDelegate>
 
 // General UI
 @property (weak, nonatomic) IBOutlet UIToolbar *functionToolBar;
 @property (weak, nonatomic) IBOutlet UIView *routingPanel;
 @property (weak, nonatomic) IBOutlet UIView *findAddressPanel;
+@property (weak, nonatomic) IBOutlet UISearchBar *findAddressSearchBar;
 @property (weak, nonatomic) IBOutlet UIView *findPlacePanel;
 @property (weak, nonatomic) IBOutlet UIView *basemapInfoPanel;
 @property (weak, nonatomic) IBOutlet UIView *geolocationPanel;
@@ -149,6 +157,7 @@ EDNVCState;
 @synthesize clearPolysButton = _clearPolysButton;
 @synthesize routingPanel = _routingPanel;
 @synthesize findAddressPanel = _findAddressPanel;
+@synthesize findAddressSearchBar = _findAddressSearchBar;
 @synthesize findPlacePanel = _findPlacePanel;
 @synthesize routeStartLabel = _routeStartLabel;
 @synthesize routeEndLabel = _routeStopLabel;
@@ -211,12 +220,17 @@ EDNVCState;
 
     // We want to update the UI when the basemap is changed, so register our interest in a couple
     // of events.
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(basemapDidChange:) name:kEDNLiteNotification_BasemapDidChange object:self.mapView];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(basemapSelected:) name:kEDNLiteNotification_BasemapSelected object:nil];
-    
-    self.keyboardSize = CGSizeZero;
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(basemapDidChange:)
+												 name:kEDNLiteNotification_BasemapDidChange
+											   object:self.mapView];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(basemapSelected:)
+												 name:kEDNLiteNotification_BasemapSelected
+											   object:nil];
+	
 	// We need to re-arrange the UI when the keyboard displays and hides, so let's find out when that happens.
+	self.keyboardSize = CGSizeZero;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
@@ -227,9 +241,6 @@ EDNVCState;
     self.routeStartButton.layer.cornerRadius = 5;
     self.routeEndButton.layer.cornerRadius = 5;
     self.clearRouteButton.layer.cornerRadius = 4;
-	
-	
-//	self.mapView.defaultRouteStartSymbol = nil;
 }
 
 #pragma mark - UIView Events
@@ -290,6 +301,7 @@ EDNVCState;
     [self setRouteStartButton:nil];
     [self setRouteEndButton:nil];
     [self setClearRouteButton:nil];
+	[self setFindAddressSearchBar:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -301,7 +313,7 @@ EDNVCState;
 
 #pragma mark - AGSMapView Events
 
-- (void)mapView:(AGSMapView *)mapView didClickAtPoint:(CGPoint)screen mapPoint:(AGSPoint *)mappoint graphics:(NSDictionary *)graphics
+- (void)mapView:(AGSMapView *)mapView didClickAtPoint:(CGPoint)screen mapPoint:(AGSPoint *)mapPoint graphics:(NSDictionary *)graphics
 {
     NSLog(@"Clicked on map!");
     switch (self.currentState) {
@@ -315,15 +327,15 @@ EDNVCState;
             break;
 
         case EDNVCStateDirections_WaitingForRouteStart:
-            [self didTapStartPoint:mappoint];
+            [self didTapStartPoint:mapPoint];
             break;
             
         case EDNVCStateDirections_WaitingForRouteEnd:
-            [self didTapStopPoint:mappoint];
+            [self didTapEndPoint:mapPoint];
             break;
             
         case EDNVCStateFindAddress:
-            [self.mapView getAddressForMapPoint:mappoint];
+            [self didTapToReverseGeocode:mapPoint];
             break;
             
         default:
@@ -768,22 +780,22 @@ EDNVCState;
 }
 
 - (IBAction)newPtGraphic:(id)sender {
-    [self.mapView editNewPoint];
+    [self.mapView createAndEditNewPoint];
     self.currentState = EDNVCStateGraphics_Editing;
 }
 
 - (IBAction)newLnGraphic:(id)sender {
-    [self.mapView editNewLine];
+    [self.mapView createAndEditNewLine];
     self.currentState = EDNVCStateGraphics_Editing;
 }
 
 - (IBAction)newPgGraphic:(id)sender {
-    [self.mapView editNewPolygon];
+    [self.mapView createAndEditNewPolygon];
     self.currentState = EDNVCStateGraphics_Editing;
 }
 
 - (IBAction)newMultiPtGraphic:(id)sender {
-    [self.mapView editNewMultipoint];
+    [self.mapView createAndEditNewMultipoint];
     self.currentState = EDNVCStateGraphics_Editing;
 }
 
@@ -825,22 +837,75 @@ EDNVCState;
     }
 }
 
-#pragma mark - Routing
+#pragma mark - Geocoding
+- (void) didGetAddressFromPoint:(NSNotification *)notification
+{
+	NSDictionary *userInfo = notification.userInfo;
+	NSOperation *op = [userInfo objectForKey:kEDNLiteGeoServicesNotification_WorkerOperationKey];
+	
+	if (op)
+	{
+		AGSAddressCandidate *candidate = [userInfo objectForKey:kEDNLiteGeoServicesNotification_AddressFromPoint_AddressCandidateKey];
+		
+		NSDictionary *ad = candidate.address;
+		NSString *street = [ad objectForKey:kEDNLiteAddressCandidateAddressField];
+		if (street != (id)[NSNull null])
+		{
+			street = [NSString stringWithFormat:@"%@, ", street];
+		}
+		else {
+			street = @"";
+		}
+		NSString *address = [NSString stringWithFormat:@"%@%@, %@ %@",
+							 street,
+							 [ad objectForKey:kEDNLiteAddressCandidateCityField],
+							 [ad objectForKey:kEDNLiteAddressCandidateStateField],
+							 [ad objectForKey:kEDNLiteAddressCandidateZipField]];
+		
+		// We're only interested in Reverse Geocodes that happened as a result of
+		// start or end points of the route being clicked...
+		NSString *source = objc_getAssociatedObject(op, kEDNLiteGetAddressReasonKey);
+		if (source)
+		{
+			// OK, this is something we requested and so we should be able to work
+			// out what to do with it.
+			
+			if ([source isEqualToString:kEDNLiteGetAddressReasonRouteStart])
+			{
+				self.routeStartPoint = candidate.location;
+				self.routeStartAddress = address;
+			}
+			else if ([source isEqualToString:kEDNLiteGetAddressReasonRouteEnd])
+			{
+				self.routeEndPoint = candidate.location;
+				self.routeEndAddress = address;
+			}
+			else if ([source isEqualToString:kEDNLiteGetAddressReasonReverseGeocodeForPoint])
+			{
+				self.findAddressSearchBar.text = address;
+			}
+		}
+	}
+}
 
-#define kEDNLiteRouteGeocodeTag @"ROUTE_GEOCODE_TAG"
-#define kEDNLiteRouteGeocodeTagStart @"START"
-#define kEDNLiteRouteGeocodeTagEnd @"END"
+- (void) didFailToGetAddressFromPoint:(NSNotification *)notification
+{
+	NSError *error = [notification.userInfo objectForKey:kEDNLiteGeoServicesNotification_ErrorKey];
+	NSLog(@"Failed to get address for location: %@", error);
+}
+
+#pragma mark - Routing
 
 - (void)initForRouting
 {
 	// Let me know when the Geoservices object finds an address for a point.
 	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(didGetAddressFromPointForRoute:)
+											 selector:@selector(didGetAddressFromPoint:)
 												 name:kEDNLiteGeoServicesNotification_AddressFromPoint_OK
 											   object:self.mapView.geoServices];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(didFailToGetAddressFromPointForRoute:)
+											 selector:@selector(didFailToGetAddressFromPoint:)
 												 name:kEDNLiteGeoServicesNotification_AddressFromPoint_Error
 											   object:self.mapView.geoServices];
 
@@ -855,69 +920,22 @@ EDNVCState;
 											   object:self.mapView.geoServices];
 }
 
-- (void)didTapStartPoint:(AGSPoint *)mappoint
+- (void)didTapStartPoint:(AGSPoint *)mapPoint
 {
-    NSOperation *op = [self.mapView.geoServices pointToAddress:mappoint];
-    objc_setAssociatedObject(op, kEDNLiteRouteGeocodeTag, kEDNLiteRouteGeocodeTagStart, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    NSOperation *op = [self.mapView.geoServices getAddressFromPoint:mapPoint];
+    objc_setAssociatedObject(op, kEDNLiteGetAddressReasonKey, kEDNLiteGetAddressReasonRouteStart, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (void)didTapStopPoint:(AGSPoint *)mappoint
+- (void)didTapEndPoint:(AGSPoint *)mapPoint
 {
-    NSOperation *op = [self.mapView.geoServices pointToAddress:mappoint];
-    objc_setAssociatedObject(op, kEDNLiteRouteGeocodeTag, kEDNLiteRouteGeocodeTagEnd, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    NSOperation *op = [self.mapView.geoServices getAddressFromPoint:mapPoint];
+    objc_setAssociatedObject(op, kEDNLiteGetAddressReasonKey, kEDNLiteGetAddressReasonRouteEnd, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (void) didGetAddressFromPointForRoute:(NSNotification *)notification
+- (void)didTapToReverseGeocode:(AGSPoint *)mapPoint
 {
-	NSDictionary *userInfo = notification.userInfo;
-	NSOperation *op = [userInfo objectForKey:kEDNLiteGeoServicesNotification_WorkerOperationKey];
-	
-	if (op)
-	{
-		// We're only interested in Reverse Geocodes that happened as a result of
-		// start or end points of the route being clicked...
-		NSString *source = objc_getAssociatedObject(op, kEDNLiteRouteGeocodeTag);
-		if ([source isEqualToString:kEDNLiteRouteGeocodeTagStart] ||
-			[source isEqualToString:kEDNLiteRouteGeocodeTagEnd])
-		{
-			// OK, this is something we requested and so we should be able to work
-			// out what to do with it.
-			
-			AGSAddressCandidate *candidate = [userInfo objectForKey:kEDNLiteGeoServicesNotification_AddressFromPoint_AddressCandidateKey];
-			
-			NSDictionary *ad = candidate.address;
-			NSString *street = [ad objectForKey:kEDNLiteAddressCandidateAddressField];
-			if (street != (id)[NSNull null])
-			{
-				street = [NSString stringWithFormat:@"%@, ", street];
-			}
-			else {
-				street = @"";
-			}
-			NSString *address = [NSString stringWithFormat:@"%@%@, %@ %@",
-								 street,
-								 [ad objectForKey:kEDNLiteAddressCandidateCityField],
-								 [ad objectForKey:kEDNLiteAddressCandidateStateField],
-								 [ad objectForKey:kEDNLiteAddressCandidateZipField]];
-
-			if ([source isEqualToString:kEDNLiteRouteGeocodeTagStart])
-			{
-                self.routeStartPoint = candidate.location;
-				self.routeStartAddress = address;
-			}
-			else if ([source isEqualToString:kEDNLiteRouteGeocodeTagEnd])
-			{
-                self.routeEndPoint = candidate.location;
-				self.routeEndAddress = address;
-			}
-		}
-	}
-}
-
-- (void) didFailToGetAddressFromPointForRoute:(NSNotification *)notification
-{
-	NSError *error = [notification.userInfo objectForKey:kEDNLiteGeoServicesNotification_ErrorKey];
-	NSLog(@"Failed to get address for location: %@", error);
+	NSOperation *op = [self.mapView.geoServices getAddressFromPoint:mapPoint];
+    objc_setAssociatedObject(op, kEDNLiteGetAddressReasonKey, kEDNLiteGetAddressReasonReverseGeocodeForPoint, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void) setRouteStartPoint:(AGSPoint *)routeStartPoint
@@ -968,7 +986,7 @@ EDNVCState;
         self.routeEndPoint)
     {
         NSLog(@"Start and end points set...");
-        [self.mapView.geoServices directionsFrom:self.routeStartPoint To:self.routeEndPoint];
+        [self.mapView.geoServices getDirectionsFrom:self.routeStartPoint To:self.routeEndPoint];
         return YES;
     }
     return NO;
@@ -980,7 +998,7 @@ EDNVCState;
 	if (results)
 	{
 		self.routeResult = [results.routeResults objectAtIndex:0];
-		[self.mapView showRouteResults:results];
+		[self.mapView.routeDisplayHelper showRouteResults:results];
 	}
 }
 
@@ -1052,7 +1070,7 @@ EDNVCState;
     if (self.routeResult)
     {
         self.routeResult = nil;
-        [self.mapView clearRoute];
+        [self.mapView.routeDisplayHelper clearRouteDisplay];
 		self.routeStartAddress = nil;
 		self.routeEndAddress = nil;
         self.routeStartPoint = nil;
@@ -1101,7 +1119,7 @@ EDNVCState;
 	NSLog(@"Searching for: %@", searchString);
     AGSPolygon *v = self.mapView.visibleArea;
     AGSEnvelope *env = v.envelope;
-	[self.mapView.geoServices addressToPoint:searchString withinEnvelope:env];
+	[self.mapView.geoServices getPointFromAddress:searchString withinEnvelope:env];
     [searchBar resignFirstResponder];
 }
 
@@ -1115,7 +1133,7 @@ EDNVCState;
     NSDictionary *userInfo = notification.userInfo;
     
     NSOperation *op = [userInfo objectForKey:kEDNLiteGeoServicesNotification_WorkerOperationKey];
-    
+	
     if (op)
     {
         // First, let's remove all the old items (if any)

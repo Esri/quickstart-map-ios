@@ -116,7 +116,7 @@
                                 <rect key="frame" x="0.0" y="105" width="768" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <searchBar contentMode="redraw" barStyle="blackTranslucent" text="6 Stuyvesant Oval, New York" showsCancelButton="YES" id="CGS-sj-XQo" userLabel="Search Bar - Place">
+                                    <searchBar contentMode="redraw" text="6 Stuyvesant Oval, New York" showsCancelButton="YES" id="CGS-sj-XQo" userLabel="Search Bar - Place">
                                         <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no"/>
@@ -435,6 +435,7 @@
                         <outlet property="currentBasemapNameLabel" destination="oou-L1-NmX" id="weF-qO-0fY"/>
                         <outlet property="editGraphicsToolbar" destination="vEH-b5-gEY" id="gZr-fA-FNz"/>
                         <outlet property="findAddressPanel" destination="iAZ-ik-vkL" id="gWZ-mh-gKv"/>
+                        <outlet property="findAddressSearchBar" destination="ehD-4C-jip" id="Xcj-UO-NC8"/>
                         <outlet property="findPlacePanel" destination="TRm-6g-wOm" id="SYZ-A2-uNZ"/>
                         <outlet property="findScaleLabel" destination="HsG-tn-8xE" id="Qcz-FZ-fDI"/>
                         <outlet property="functionToolBar" destination="ea8-sr-7to" id="Jx0-a3-jVy"/>
@@ -560,6 +561,7 @@
                 <relationship kind="outlet" name="currentBasemapNameLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="editGraphicsToolbar" candidateClass="UIToolbar"/>
                 <relationship kind="outlet" name="findAddressPanel" candidateClass="UIView"/>
+                <relationship kind="outlet" name="findAddressSearchBar" candidateClass="UISearchBar"/>
                 <relationship kind="outlet" name="findPlacePanel" candidateClass="UIView"/>
                 <relationship kind="outlet" name="findScaleLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="functionToolBar" candidateClass="UIToolbar"/>

@@ -7,9 +7,11 @@
 //
 
 #import <ArcGIS/ArcGIS.h>
-#import "AGSStarterGeoServices.h"
 
 @interface AGSMapView (GeneralUtilities)
+// Get layer based off the name.
 - (AGSLayer *) getLayerForName:(NSString *)layerName;
-- (AGSStarterGeoServices *) geoServices;
+
+// Perform an operation, but if it needs to wait until the AGSMapView has loaded, wait until then.
+- (void) doActionWhenLoaded:(void (^)(void))actionBlock;
 @end

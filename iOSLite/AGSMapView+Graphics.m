@@ -160,6 +160,12 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
     }
 }
 
+#pragma mark - Edit graphic
+- (void) editGraphic:(AGSGraphic *)graphic
+{
+	[self __ednLiteEditGraphic:graphic];
+}
+
 #pragma mark - Edit graphic selected from the map
 - (AGSGraphic *) editGraphicFromMapViewDidClickAtPoint:(NSDictionary *)graphics
 {
@@ -179,29 +185,29 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
             }
         }
     }
-
-    [self __ednLiteEditGraphic:graphicToEdit];
+	
+	[self editGraphic:graphicToEdit];
     
     return graphicToEdit;
 }
 
 #pragma mark - Create and Edit new graphics
-- (void) editNewPoint
+- (void) createAndEditNewPoint
 {
     [self __ednLiteEditGeometry:[[AGSMutablePoint alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
 }
 
-- (void) editNewMultipoint
+- (void) createAndEditNewMultipoint
 {
     [self __ednLiteEditGeometry:[[AGSMutableMultipoint alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
 }
 
-- (void) editNewLine
+- (void) createAndEditNewLine
 {
     [self __ednLiteEditGeometry:[[AGSMutablePolyline alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
 }
 
-- (void) editNewPolygon
+- (void) createAndEditNewPolygon
 {
     [self __ednLiteEditGeometry:[[AGSMutablePolygon alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
 }

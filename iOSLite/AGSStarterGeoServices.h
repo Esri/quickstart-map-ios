@@ -40,8 +40,11 @@
 #define kEDNLiteAddressCandidateZipField @"Postal"
 
 @interface AGSStarterGeoServices : NSObject
-- (NSOperation *) addressToPoint:(NSString *)singleLineAddress;
-- (NSOperation *) addressToPoint:(NSString *)singleLineAddress withinEnvelope:(AGSEnvelope *)env;
-- (NSOperation *) pointToAddress:(AGSPoint *)mapPoint;
-- (NSOperation *) directionsFrom:(AGSPoint *)startPoint To:(AGSPoint *)fromPoint;
+// Geocoding
+- (NSOperation *) getPointFromAddress:(NSString *)singleLineAddress;
+- (NSOperation *) getPointFromAddress:(NSString *)singleLineAddress withinEnvelope:(AGSEnvelope *)env;
+// Reverse Geocoding
+- (NSOperation *) getAddressFromPoint:(AGSPoint *)mapPoint;
+// Routing
+- (NSOperation *) getDirectionsFrom:(AGSPoint *)startPoint To:(AGSPoint *)fromPoint;
 @end

@@ -8,11 +8,5 @@
 
 #import <Foundation/Foundation.h>
 
-#define kEDNLiteGeolocationSucceeded @"EDNLiteGeolocationSucceeded"
-#define kEDNLiteGeolocationError @"EDNLiteGeolocationError"
-#define kEDNLiteGeolocationSucceededLocationKey @"newLocation"
-
 @interface EDNLiteNavigationHelper : NSObject
-- (void) getLocation;
-- (BOOL) isEnabled;
 @end

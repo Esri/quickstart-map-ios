@@ -9,13 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <ArcGIS/ArcGIS.h>
 
-@interface EDNLiteRouteTaskHelper : NSObject
-+ (EDNLiteRouteTaskHelper *) ednLiteRouteTaskHelperForMapView:(AGSMapView *)mapView;
+@interface EDNRouteDisplayHelper : NSObject
+// Use this method to instantiate a new RouteDisplayHelper for a given AGSMapView
++ (EDNRouteDisplayHelper *) ednLiteRouteDisplayHelperForMapView:(AGSMapView *)mapView;
 
-- (id) initForMapView:(AGSMapView *)mapView;
+- (void) showRouteResults:(AGSRouteTaskResult *)routeTaskResults;
+- (void) clearRouteDisplay;
 
 @property (nonatomic, retain) AGSGraphicsLayer *routeGraphicsLayer;
-
 @property (nonatomic, retain) AGSMarkerSymbol *startSymbol;
 @property (nonatomic, retain) AGSMarkerSymbol *endSymbol;
 @property (nonatomic, retain) AGSSimpleLineSymbol *routeSymbol;

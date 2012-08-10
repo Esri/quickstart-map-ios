@@ -21,10 +21,11 @@ NSString * const EDN_BASEMAP_KEY_NATGEO = @"National Geographic";
 NSString * const EDN_BASEMAP_KEY_TOPO = @"Topographic";
 NSString * const EDN_BASEMAP_KEY_OSM = @"OpenStreetMap";
 
-@interface EDNLiteHelper ()
+@interface EDNLiteHelper () <CLLocationManagerDelegate>
 + (id)defaultHelper;
 - (double) getScaleForLevel:(NSUInteger)level;
 @property (nonatomic, strong) NSMutableDictionary *mapViewQueues;
+@property (nonatomic, strong) CLLocationManager *locationManager;
 @end
 
 
@@ -36,6 +37,8 @@ NSDictionary * __ednBasemapWebMapIDs = nil;
 NSDictionary * __ednBasemapURLs = nil;
 
 @synthesize mapViewQueues = _mapViewQueues;
+
+@synthesize locationManager = _locationManager;
 
 #pragma mark - Queued Operations
 + (void) queueBlock:(void (^)(void))block untilMapViewLoaded:(AGSMapView *)mapView
@@ -109,6 +112,51 @@ NSDictionary * __ednBasemapURLs = nil;
             }
         }
     }
+}
+
+#pragma mark - Geolocation (GPS)
++ (void) getGeolocation
+{
+	EDNLiteHelper *defaultHelper = [EDNLiteHelper defaultHelper];
+	
+    if (!defaultHelper.locationManager)
+    {
+        defaultHelper.locationManager = [[CLLocationManager alloc] init];
+        defaultHelper.locationManager.delegate = defaultHelper;
+        defaultHelper.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        defaultHelper.locationManager.distanceFilter = 20;
+    }
+    [defaultHelper.locationManager startUpdatingLocation];
+}
+
++ (BOOL) isGeolocationEnabled
+{
+    return [CLLocationManager locationServicesEnabled];
+}
+
+- (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    [self.locationManager stopUpdatingLocation];
+	NSLog(@"Located me at %.4f,%.4f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
+    
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:newLocation
+														 forKey:kEDNLiteGeolocationSucceededLocationKey];
+	
+    [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteGeolocationSucceeded
+                                                        object:[EDNLiteHelper class]
+                                                      userInfo:userInfo];
+	self.locationManager = nil;
+}
+
+- (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    [self.locationManager stopUpdatingLocation];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteGeolocationError
+                                                        object:[EDNLiteHelper class]
+                                                      userInfo:[NSDictionary dictionaryWithObject:error
+                                                                                           forKey:@"error"]];
+	NSLog(@"Error getting location: %@", error);
+    self.locationManager = nil;
 }
 
 #pragma mark - Configuration Loading and initialization

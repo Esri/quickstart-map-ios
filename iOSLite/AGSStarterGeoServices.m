@@ -70,12 +70,12 @@
 }
 
 #pragma mark - Public Methods
-- (NSOperation *) addressToPoint:(NSString *)singleLineAddress 
+- (NSOperation *) getPointFromAddress:(NSString *)singleLineAddress 
 {
-    return [self addressToPoint:singleLineAddress withinEnvelope:nil];
+    return [self getPointFromAddress:singleLineAddress withinEnvelope:nil];
 }
 
-- (NSOperation *) addressToPoint:(NSString *)singleLineAddress withinEnvelope:(AGSEnvelope *)env
+- (NSOperation *) getPointFromAddress:(NSString *)singleLineAddress withinEnvelope:(AGSEnvelope *)env
 {
 	// Tell the service we are providing a single line address.
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:singleLineAddress forKey:kEDNLiteFindAddress_AddressKey];
@@ -101,7 +101,7 @@
     return op;
 }
 
-- (NSOperation *) pointToAddress:(AGSPoint *)mapPoint
+- (NSOperation *) getAddressFromPoint:(AGSPoint *)mapPoint
 {
 	return [self pointToAddress:mapPoint withMaxSearchDistance:kEDNLiteMaxDistanceForReverseGeocode];
 }
@@ -117,7 +117,7 @@
     return op;
 }
 
-- (NSOperation *) directionsFrom:(AGSPoint *)startPoint To:(AGSPoint *)endPoint
+- (NSOperation *) getDirectionsFrom:(AGSPoint *)startPoint To:(AGSPoint *)endPoint
 {
 	AGSRouteTaskParameters *routeTaskParams = [self getParametersToRouteFromStart:startPoint ToStop:endPoint];
 	return [self.routeTask solveWithParameters:routeTaskParams];
@@ -289,7 +289,6 @@
 														object:self
 													  userInfo:userInfo];
 }
-
 
 #pragma mark - Routing General
 - (AGSRouteTaskParameters *) getParametersToRouteFromStart:(AGSPoint *)startPoint ToStop:(AGSPoint *)stopPoint
