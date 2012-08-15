@@ -9,7 +9,6 @@
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSMapView+Navigation.h"
 #import "EDNLiteHelper.h"
-#import "EDNLiteNavigationHelper.h"
 #import <CoreLocation/CoreLocation.h>
 
 @implementation AGSMapView (Navigation)

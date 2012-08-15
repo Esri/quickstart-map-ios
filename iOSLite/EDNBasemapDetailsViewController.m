@@ -9,6 +9,8 @@
 #import <ArcGIS/ArcGIS.h>
 #import "EDNBasemapDetailsViewController.h"
 
+#define kEDNLiteAGSPortalItelURLBase @"http://www.arcgis.com/home/item.html?id=%@"
+
 @interface EDNBasemapDetailsViewController ()
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *titleLabel;
@@ -38,7 +40,7 @@
     {
         self.title = self.portalItem.title;
         self.titleLabel.title = self.portalItem.title;
-        NSString *url = [NSString stringWithFormat:@"http://www.arcgis.com/home/item.html?id=%@", self.portalItem.itemId];
+        NSString *url = [NSString stringWithFormat:kEDNLiteAGSPortalItelURLBase, self.portalItem.itemId];
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
         [self.webView loadRequest:request];
     }

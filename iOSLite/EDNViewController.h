@@ -12,6 +12,5 @@
 @interface EDNViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet AGSMapView *mapView;
-@property (nonatomic, retain) AGSPortalItem *currentPortalItem;
 
 @end

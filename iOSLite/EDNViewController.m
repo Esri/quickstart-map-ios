@@ -7,8 +7,8 @@
 //
 
 #import "EDNViewController.h"
-#import "EDNBasemapsListView.h"
-#import "EDNBasemapItemViewController.h"
+#import "EDNPortalItemsListView.h"
+#import "EDNPortalItemViewController.h"
 
 #import "EDNLiteHelper.h"
 
@@ -26,7 +26,7 @@
 
 #import "UIApplication+AppDimensions.h"
 
-#import "EDNBasemapsListView.h"
+#import "EDNPortalItemsListView.h"
 #import "EDNBasemapDetailsViewController.h"
 #import "UILabel+EDNAutoSizeMutliline.h"
 #import <objc/runtime.h>
@@ -66,10 +66,12 @@ EDNVCState;
 @property (weak, nonatomic) IBOutlet UIImageView *currentBasemapImageView;
 @property (weak, nonatomic) IBOutlet UILabel *currentBasemapNameLabel;
 @property (weak, nonatomic) IBOutlet UIButton *currentBasemapMoreInfoButton;
-@property (weak, nonatomic) IBOutlet EDNBasemapsListView *basemapListDisplay;
+@property (weak, nonatomic) IBOutlet EDNPortalItemsListView *basemapListDisplay;
 @property (weak, nonatomic) IBOutlet UIWebView *currentBasemapDescriptionWebView;
 
 @property (strong, nonatomic) NSMutableArray *basemapVCs;
+
+@property (nonatomic, retain) AGSPortalItem *currentPortalItem;
 
 //Graphics UI
 @property (weak, nonatomic) IBOutlet UIButton *graphicButton;
@@ -685,14 +687,14 @@ EDNVCState;
 
 - (void)basemapSelected:(NSNotification *)notification
 {
-    EDNBasemapItemViewController *bvc = notification.object;
-    if (bvc)
-    {
-        if (bvc.basemapType != self.currentBasemapType)
-        {
-            [self.mapView setBasemap:bvc.basemapType];
-        }
-    }
+//    EDNPortalItemViewController *bvc = notification.object;
+//    if (bvc)
+//    {
+//        if (bvc.basemapType != self.currentBasemapType)
+//        {
+//            [self.mapView setBasemap:bvc.basemapType];
+//        }
+//    }
 }
 
 - (void)setCurrentPortalItem:(AGSPortalItem *)currentPortalItem
@@ -720,7 +722,7 @@ EDNVCState;
 - (void)setCurrentBasemapType:(EDNLiteBasemapType)currentBasemapType
 {
     _currentBasemapType = currentBasemapType;
-    [self.basemapListDisplay ensureItemVisible:_currentBasemapType Highlighted:YES];
+//    [self.basemapListDisplay ensureItemVisible:@"" Highlighted:YES];
 }
 
 - (void)portalItem:(AGSPortalItem *)portalItem operation:(NSOperation *)op didFetchThumbnail:(UIImage *)thumbnail

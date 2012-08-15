@@ -21,6 +21,7 @@
 // Basemap Helpers
 + (NSString *) getBasemapName:(EDNLiteBasemapType)basemapType;
 + (AGSWebMap *) getBasemapWebMap:(EDNLiteBasemapType)basemapType;
+- (NSString *) getPortalItemIDForBasemap:(EDNLiteBasemapType)basemapType;
 + (AGSTiledLayer *) getBasemapTiledLayer:(EDNLiteBasemapType)basemapType;
 + (NSArray *) getBasemapSupplementalTiledLayers:(EDNLiteBasemapType)basemapType;
 

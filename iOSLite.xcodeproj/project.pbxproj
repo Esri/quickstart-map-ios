@@ -19,23 +19,21 @@
 		D98221601587C8DD00EF53CC /* 07-map-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = D982215E1587C8DD00EF53CC /* 07-map-marker.png */; };
 		D98221611587C8DD00EF53CC /* 07-map-marker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D982215F1587C8DD00EF53CC /* 07-map-marker@2x.png */; };
 		D99A58D01576B22A00AB05EE /* AGSLayer+Basemap.m in Sources */ = {isa = PBXBuildFile; fileRef = D99A58CF1576B22A00AB05EE /* AGSLayer+Basemap.m */; };
-		D99D987F158950F800F9D36B /* EDNBasemapsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D99D987D158950F800F9D36B /* EDNBasemapsListViewController.m */; };
-		D99D9880158950F800F9D36B /* EDNBasemapsListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D99D987E158950F800F9D36B /* EDNBasemapsListView.xib */; };
-		D9A7B3A4158FE80400A00A73 /* EDNLiteNavigationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A7B3A3158FE80400A00A73 /* EDNLiteNavigationHelper.m */; };
-		D9A985B715890C3D00A0DE40 /* EDNBasemapItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A985B515890C3D00A0DE40 /* EDNBasemapItemViewController.m */; };
-		D9A985B815890C3D00A0DE40 /* EDNBasemapItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9A985B615890C3D00A0DE40 /* EDNBasemapItemView.xib */; };
+		D99D987F158950F800F9D36B /* EDNPortalItemsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D99D987D158950F800F9D36B /* EDNPortalItemsListViewController.m */; };
+		D99D9880158950F800F9D36B /* EDNPortalItemsListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D99D987E158950F800F9D36B /* EDNPortalItemsListView.xib */; };
+		D9A985B715890C3D00A0DE40 /* EDNPortalItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A985B515890C3D00A0DE40 /* EDNPortalItemViewController.m */; };
+		D9A985B815890C3D00A0DE40 /* EDNPortalItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9A985B615890C3D00A0DE40 /* EDNPortalItemView.xib */; };
 		D9B1044D156D98B900DF6287 /* UILabel+EDNAutoSizeMutliline.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DCB32E156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.m */; };
-		D9E01457158A45A4005DD7D8 /* EDNBasemapsListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E01456158A45A4005DD7D8 /* EDNBasemapsListView.m */; };
+		D9E01457158A45A4005DD7D8 /* EDNPortalItemsListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E01456158A45A4005DD7D8 /* EDNPortalItemsListView.m */; };
 		D9E27C9E155ABDC5008F8CCB /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */; };
 		D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */; };
 		D9E27CB8155B1EDB008F8CCB /* LiteMapConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */; };
 		D9EAB292156FD1EF008BCE8F /* AGSMapView+RouteDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EAB291156FD1EE008BCE8F /* AGSMapView+RouteDisplay.m */; };
 		D9EAB295156FE0AF008BCE8F /* EDNRouteDisplayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EAB294156FE0AF008BCE8F /* EDNRouteDisplayHelper.m */; };
 		D9F9AE99157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9AE98157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m */; };
-		D9F9EE68156DE2D200C2A15F /* EDNBasemapSelector_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9F9EE67156DE2D200C2A15F /* EDNBasemapSelector_iPad.xib */; };
-		D9F9EE6D156DE75E00C2A15F /* EDNBasemapSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9EE6B156DE75E00C2A15F /* EDNBasemapSelectorViewController.m */; };
 		D9F9EE72156DE7FA00C2A15F /* AGSMapView+Graphics.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9EE71156DE7FA00C2A15F /* AGSMapView+Graphics.m */; };
 		E11C2FB41593AC830004EBB6 /* AGSPoint+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E11C2FB31593AC830004EBB6 /* AGSPoint+GeneralUtilities.m */; };
+		E141D0E315DB02CE004F81F4 /* EDNPortalItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = E141D0E215DB02CD004F81F4 /* EDNPortalItemView.m */; };
 		E16C07CC1559B39C00776F3E /* ArcGIS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E16C07CB1559B39C00776F3E /* ArcGIS.bundle */; };
 		E16C07D01559B9AA00776F3E /* AGSMapView+Navigation.m in Sources */ = {isa = PBXBuildFile; fileRef = E16C07CF1559B9AA00776F3E /* AGSMapView+Navigation.m */; };
 		E16C28FA15598A5E00E2DB56 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E16C28F915598A5E00E2DB56 /* UIKit.framework */; };
@@ -57,6 +55,9 @@
 		E1750BBB1559B0F600C50929 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BB31559B0F600C50929 /* Security.framework */; };
 		E1A5682D15ABAC74004AA6C1 /* AGSStarterGeoServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A5682C15ABAC74004AA6C1 /* AGSStarterGeoServices.m */; };
 		E1C12A6A15D5542300B1ADCB /* AGSMapView+GeoServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C12A6915D5542300B1ADCB /* AGSMapView+GeoServices.m */; };
+		E1E1808515DAD2A300BB30DD /* EDNPortalItemsPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1E1808415DAD2A300BB30DD /* EDNPortalItemsPickerView.xib */; };
+		E1E1808E15DAD38400BB30DD /* EDNPortalItemsPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E1808D15DAD38400BB30DD /* EDNPortalItemsPickerView.m */; };
+		E1E1809115DAD43D00BB30DD /* EDNPortalItemsPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E1809015DAD43C00BB30DD /* EDNPortalItemsPickerViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,17 +80,15 @@
 		D982215F1587C8DD00EF53CC /* 07-map-marker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "07-map-marker@2x.png"; sourceTree = "<group>"; };
 		D99A58CE1576B22A00AB05EE /* AGSLayer+Basemap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSLayer+Basemap.h"; sourceTree = "<group>"; };
 		D99A58CF1576B22A00AB05EE /* AGSLayer+Basemap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSLayer+Basemap.m"; sourceTree = "<group>"; };
-		D99D987C158950F800F9D36B /* EDNBasemapsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNBasemapsListViewController.h; sourceTree = "<group>"; };
-		D99D987D158950F800F9D36B /* EDNBasemapsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNBasemapsListViewController.m; sourceTree = "<group>"; };
-		D99D987E158950F800F9D36B /* EDNBasemapsListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EDNBasemapsListView.xib; sourceTree = "<group>"; };
-		D9A7B3A2158FE80400A00A73 /* EDNLiteNavigationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNLiteNavigationHelper.h; sourceTree = "<group>"; };
-		D9A7B3A3158FE80400A00A73 /* EDNLiteNavigationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNLiteNavigationHelper.m; sourceTree = "<group>"; };
-		D9A985B415890C3D00A0DE40 /* EDNBasemapItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNBasemapItemViewController.h; sourceTree = "<group>"; };
-		D9A985B515890C3D00A0DE40 /* EDNBasemapItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNBasemapItemViewController.m; sourceTree = "<group>"; };
-		D9A985B615890C3D00A0DE40 /* EDNBasemapItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EDNBasemapItemView.xib; sourceTree = "<group>"; };
+		D99D987C158950F800F9D36B /* EDNPortalItemsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNPortalItemsListViewController.h; sourceTree = "<group>"; };
+		D99D987D158950F800F9D36B /* EDNPortalItemsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNPortalItemsListViewController.m; sourceTree = "<group>"; };
+		D99D987E158950F800F9D36B /* EDNPortalItemsListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EDNPortalItemsListView.xib; sourceTree = "<group>"; };
+		D9A985B415890C3D00A0DE40 /* EDNPortalItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNPortalItemViewController.h; sourceTree = "<group>"; };
+		D9A985B515890C3D00A0DE40 /* EDNPortalItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNPortalItemViewController.m; sourceTree = "<group>"; };
+		D9A985B615890C3D00A0DE40 /* EDNPortalItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EDNPortalItemView.xib; sourceTree = "<group>"; };
 		D9CCC618156FECBE00EA4353 /* EDNLiteBasemaps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EDNLiteBasemaps.h; sourceTree = "<group>"; };
-		D9E01455158A45A4005DD7D8 /* EDNBasemapsListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNBasemapsListView.h; sourceTree = "<group>"; };
-		D9E01456158A45A4005DD7D8 /* EDNBasemapsListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNBasemapsListView.m; sourceTree = "<group>"; };
+		D9E01455158A45A4005DD7D8 /* EDNPortalItemsListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNPortalItemsListView.h; sourceTree = "<group>"; };
+		D9E01456158A45A4005DD7D8 /* EDNPortalItemsListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNPortalItemsListView.m; sourceTree = "<group>"; };
 		D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = ../../../Library/SDKs/ArcGIS/ArcGIS.framework; sourceTree = "<group>"; };
 		D9E27CB2155AEA6E008F8CCB /* AGSMapView+Basemaps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AGSMapView+Basemaps.h"; path = "Basemaps/AGSMapView+Basemaps.h"; sourceTree = "<group>"; };
 		D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = "AGSMapView+Basemaps.m"; path = "Basemaps/AGSMapView+Basemaps.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -100,13 +99,12 @@
 		D9EAB294156FE0AF008BCE8F /* EDNRouteDisplayHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNRouteDisplayHelper.m; sourceTree = "<group>"; };
 		D9F9AE97157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+GeneralUtilities.h"; sourceTree = "<group>"; };
 		D9F9AE98157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+GeneralUtilities.m"; sourceTree = "<group>"; };
-		D9F9EE67156DE2D200C2A15F /* EDNBasemapSelector_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EDNBasemapSelector_iPad.xib; sourceTree = "<group>"; };
-		D9F9EE6A156DE75E00C2A15F /* EDNBasemapSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNBasemapSelectorViewController.h; sourceTree = "<group>"; };
-		D9F9EE6B156DE75E00C2A15F /* EDNBasemapSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNBasemapSelectorViewController.m; sourceTree = "<group>"; };
 		D9F9EE70156DE7FA00C2A15F /* AGSMapView+Graphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+Graphics.h"; sourceTree = "<group>"; };
 		D9F9EE71156DE7FA00C2A15F /* AGSMapView+Graphics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+Graphics.m"; sourceTree = "<group>"; };
 		E11C2FB21593AC830004EBB6 /* AGSPoint+GeneralUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSPoint+GeneralUtilities.h"; sourceTree = "<group>"; };
 		E11C2FB31593AC830004EBB6 /* AGSPoint+GeneralUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSPoint+GeneralUtilities.m"; sourceTree = "<group>"; };
+		E141D0E115DB02CD004F81F4 /* EDNPortalItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNPortalItemView.h; sourceTree = "<group>"; };
+		E141D0E215DB02CD004F81F4 /* EDNPortalItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNPortalItemView.m; sourceTree = "<group>"; };
 		E16C07CB1559B39C00776F3E /* ArcGIS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ArcGIS.bundle; path = ../../../../Library/SDKs/ArcGIS/ArcGIS.framework/Versions/Current/Resources/ArcGIS.bundle; sourceTree = "<group>"; };
 		E16C07CE1559B9AA00776F3E /* AGSMapView+Navigation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AGSMapView+Navigation.h"; path = "Navigation/AGSMapView+Navigation.h"; sourceTree = "<group>"; };
 		E16C07CF1559B9AA00776F3E /* AGSMapView+Navigation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AGSMapView+Navigation.m"; path = "Navigation/AGSMapView+Navigation.m"; sourceTree = "<group>"; };
@@ -138,6 +136,11 @@
 		E1C12A6915D5542300B1ADCB /* AGSMapView+GeoServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+GeoServices.m"; sourceTree = "<group>"; };
 		E1DCB32D156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+EDNAutoSizeMutliline.h"; sourceTree = "<group>"; };
 		E1DCB32E156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+EDNAutoSizeMutliline.m"; sourceTree = "<group>"; };
+		E1E1808415DAD2A300BB30DD /* EDNPortalItemsPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EDNPortalItemsPickerView.xib; sourceTree = "<group>"; };
+		E1E1808C15DAD38400BB30DD /* EDNPortalItemsPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNPortalItemsPickerView.h; sourceTree = "<group>"; };
+		E1E1808D15DAD38400BB30DD /* EDNPortalItemsPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNPortalItemsPickerView.m; sourceTree = "<group>"; };
+		E1E1808F15DAD43C00BB30DD /* EDNPortalItemsPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNPortalItemsPickerViewController.h; sourceTree = "<group>"; };
+		E1E1809015DAD43C00BB30DD /* EDNPortalItemsPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNPortalItemsPickerViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,10 +177,8 @@
 		D94431A7156C1EEC00982D5C /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				D9CCC618156FECBE00EA4353 /* EDNLiteBasemaps.h */,
 				D94431A3156BE1FC00982D5C /* EDNLiteHelper.h */,
 				D94431A4156BE1FC00982D5C /* EDNLiteHelper.m */,
-				D9A7B3A1158FE7C000A00A73 /* Navigation */,
 				E1C12A6C15D5936500B1ADCB /* Resources */,
 			);
 			name = Helper;
@@ -194,16 +195,7 @@
 			name = AppleOSMLayer;
 			sourceTree = "<group>";
 		};
-		D9A7B3A1158FE7C000A00A73 /* Navigation */ = {
-			isa = PBXGroup;
-			children = (
-				D9A7B3A2158FE80400A00A73 /* EDNLiteNavigationHelper.h */,
-				D9A7B3A3158FE80400A00A73 /* EDNLiteNavigationHelper.m */,
-			);
-			name = Navigation;
-			sourceTree = "<group>";
-		};
-		D9E27CAF155AE891008F8CCB /* Categories */ = {
+		D9E27CAF155AE891008F8CCB /* AGS Categories */ = {
 			isa = PBXGroup;
 			children = (
 				E1C12A6815D5542300B1ADCB /* AGSMapView+GeoServices.h */,
@@ -213,9 +205,8 @@
 				D9E27CB1155AEA4D008F8CCB /* Basemaps */,
 				E16C07CD1559B96900776F3E /* Navigation */,
 				D9F9AE96157D6A76004CFAA8 /* General */,
-				E1C12A6B15D554A100B1ADCB /* UI */,
 			);
-			name = Categories;
+			name = "AGS Categories";
 			sourceTree = "<group>";
 		};
 		D9E27CB1155AEA4D008F8CCB /* Basemaps */ = {
@@ -322,8 +313,9 @@
 			isa = PBXGroup;
 			children = (
 				D9086D9E158B90C500FC1D43 /* html */,
+				D9CCC618156FECBE00EA4353 /* EDNLiteBasemaps.h */,
 				D94431A7156C1EEC00982D5C /* Helper */,
-				D9E27CAF155AE891008F8CCB /* Categories */,
+				D9E27CAF155AE891008F8CCB /* AGS Categories */,
 				E1A5682B15ABAC74004AA6C1 /* AGSStarterGeoServices.h */,
 				E1A5682C15ABAC74004AA6C1 /* AGSStarterGeoServices.m */,
 				E16C290815598A5E00E2DB56 /* EDNAppDelegate.h */,
@@ -350,11 +342,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		E185887715D9C4020015414B /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				D9754D7115ACAF830093BF1E /* UIApplication+AppDimensions.h */,
+				D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		E1AC7B8615D2E8EA00E4E1BE /* UI */ = {
 			isa = PBXGroup;
 			children = (
 				E16C290B15598A5E00E2DB56 /* MainStoryboard_iPhone.storyboard */,
 				E16C290E15598A5E00E2DB56 /* MainStoryboard_iPad.storyboard */,
+				D93C98A3156D8CC000A5F339 /* EDNBasemapDetailsViewController.h */,
+				D93C98A4156D8CC000A5F339 /* EDNBasemapDetailsViewController.m */,
+				E185887715D9C4020015414B /* Categories */,
 				E1AC7B8815D2E91E00E4E1BE /* Basemap Selector */,
 			);
 			name = UI;
@@ -363,32 +367,24 @@
 		E1AC7B8815D2E91E00E4E1BE /* Basemap Selector */ = {
 			isa = PBXGroup;
 			children = (
-				D93C98A3156D8CC000A5F339 /* EDNBasemapDetailsViewController.h */,
-				D93C98A4156D8CC000A5F339 /* EDNBasemapDetailsViewController.m */,
-				D9F9EE67156DE2D200C2A15F /* EDNBasemapSelector_iPad.xib */,
-				D9F9EE6A156DE75E00C2A15F /* EDNBasemapSelectorViewController.h */,
-				D9F9EE6B156DE75E00C2A15F /* EDNBasemapSelectorViewController.m */,
-				D9A985B615890C3D00A0DE40 /* EDNBasemapItemView.xib */,
-				D9A985B415890C3D00A0DE40 /* EDNBasemapItemViewController.h */,
-				D9A985B515890C3D00A0DE40 /* EDNBasemapItemViewController.m */,
-				D99D987E158950F800F9D36B /* EDNBasemapsListView.xib */,
-				D9E01455158A45A4005DD7D8 /* EDNBasemapsListView.h */,
-				D9E01456158A45A4005DD7D8 /* EDNBasemapsListView.m */,
-				D99D987C158950F800F9D36B /* EDNBasemapsListViewController.h */,
-				D99D987D158950F800F9D36B /* EDNBasemapsListViewController.m */,
+				E1E1808415DAD2A300BB30DD /* EDNPortalItemsPickerView.xib */,
+				E1E1808C15DAD38400BB30DD /* EDNPortalItemsPickerView.h */,
+				E1E1808D15DAD38400BB30DD /* EDNPortalItemsPickerView.m */,
+				E1E1808F15DAD43C00BB30DD /* EDNPortalItemsPickerViewController.h */,
+				E1E1809015DAD43C00BB30DD /* EDNPortalItemsPickerViewController.m */,
+				D99D987E158950F800F9D36B /* EDNPortalItemsListView.xib */,
+				D9E01455158A45A4005DD7D8 /* EDNPortalItemsListView.h */,
+				D9E01456158A45A4005DD7D8 /* EDNPortalItemsListView.m */,
+				D99D987C158950F800F9D36B /* EDNPortalItemsListViewController.h */,
+				D99D987D158950F800F9D36B /* EDNPortalItemsListViewController.m */,
+				D9A985B615890C3D00A0DE40 /* EDNPortalItemView.xib */,
+				E141D0E115DB02CD004F81F4 /* EDNPortalItemView.h */,
+				E141D0E215DB02CD004F81F4 /* EDNPortalItemView.m */,
+				D9A985B415890C3D00A0DE40 /* EDNPortalItemViewController.h */,
+				D9A985B515890C3D00A0DE40 /* EDNPortalItemViewController.m */,
+				E1E1809215DAEC2100BB30DD /* Categories */,
 			);
 			name = "Basemap Selector";
-			sourceTree = "<group>";
-		};
-		E1C12A6B15D554A100B1ADCB /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				E1DCB32D156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.h */,
-				E1DCB32E156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.m */,
-				D9754D7115ACAF830093BF1E /* UIApplication+AppDimensions.h */,
-				D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */,
-			);
-			name = UI;
 			sourceTree = "<group>";
 		};
 		E1C12A6C15D5936500B1ADCB /* Resources */ = {
@@ -397,6 +393,15 @@
 				D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		E1E1809215DAEC2100BB30DD /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				E1DCB32D156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.h */,
+				E1DCB32E156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -456,14 +461,14 @@
 				E16C291015598A5E00E2DB56 /* MainStoryboard_iPad.storyboard in Resources */,
 				E16C07CC1559B39C00776F3E /* ArcGIS.bundle in Resources */,
 				D9E27CB8155B1EDB008F8CCB /* LiteMapConfig.plist in Resources */,
-				D9F9EE68156DE2D200C2A15F /* EDNBasemapSelector_iPad.xib in Resources */,
 				D982215B1587C6EB00EF53CC /* 06-map-pin.png in Resources */,
 				D982215C1587C6EB00EF53CC /* 06-map-pin@2x.png in Resources */,
 				D98221601587C8DD00EF53CC /* 07-map-marker.png in Resources */,
 				D98221611587C8DD00EF53CC /* 07-map-marker@2x.png in Resources */,
-				D9A985B815890C3D00A0DE40 /* EDNBasemapItemView.xib in Resources */,
-				D99D9880158950F800F9D36B /* EDNBasemapsListView.xib in Resources */,
+				D9A985B815890C3D00A0DE40 /* EDNPortalItemView.xib in Resources */,
+				D99D9880158950F800F9D36B /* EDNPortalItemsListView.xib in Resources */,
 				D9086DA0158B90D800FC1D43 /* description.css in Resources */,
+				E1E1808515DAD2A300BB30DD /* EDNPortalItemsPickerView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,7 +487,6 @@
 				D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */,
 				D94431A5156BE1FC00982D5C /* EDNLiteHelper.m in Sources */,
 				D93C98A5156D8CC000A5F339 /* EDNBasemapDetailsViewController.m in Sources */,
-				D9F9EE6D156DE75E00C2A15F /* EDNBasemapSelectorViewController.m in Sources */,
 				D9F9EE72156DE7FA00C2A15F /* AGSMapView+Graphics.m in Sources */,
 				D950069F156E0C9C00BA872A /* EDNTiledAppleLayer.m in Sources */,
 				D95006A0156E0C9C00BA872A /* EDNAppleTileOperation.m in Sources */,
@@ -490,15 +494,17 @@
 				D9EAB295156FE0AF008BCE8F /* EDNRouteDisplayHelper.m in Sources */,
 				D99A58D01576B22A00AB05EE /* AGSLayer+Basemap.m in Sources */,
 				D9F9AE99157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m in Sources */,
-				D9A985B715890C3D00A0DE40 /* EDNBasemapItemViewController.m in Sources */,
-				D99D987F158950F800F9D36B /* EDNBasemapsListViewController.m in Sources */,
-				D9E01457158A45A4005DD7D8 /* EDNBasemapsListView.m in Sources */,
-				D9A7B3A4158FE80400A00A73 /* EDNLiteNavigationHelper.m in Sources */,
+				D9A985B715890C3D00A0DE40 /* EDNPortalItemViewController.m in Sources */,
+				D99D987F158950F800F9D36B /* EDNPortalItemsListViewController.m in Sources */,
+				D9E01457158A45A4005DD7D8 /* EDNPortalItemsListView.m in Sources */,
 				E11C2FB41593AC830004EBB6 /* AGSPoint+GeneralUtilities.m in Sources */,
 				D927EBEA15A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.m in Sources */,
 				E1A5682D15ABAC74004AA6C1 /* AGSStarterGeoServices.m in Sources */,
 				D9754D7315ACAF840093BF1E /* UIApplication+AppDimensions.m in Sources */,
 				E1C12A6A15D5542300B1ADCB /* AGSMapView+GeoServices.m in Sources */,
+				E1E1808E15DAD38400BB30DD /* EDNPortalItemsPickerView.m in Sources */,
+				E1E1809115DAD43D00BB30DD /* EDNPortalItemsPickerViewController.m in Sources */,
+				E141D0E315DB02CE004F81F4 /* EDNPortalItemView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

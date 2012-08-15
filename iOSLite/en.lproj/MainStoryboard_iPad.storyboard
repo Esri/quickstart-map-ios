@@ -20,60 +20,79 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                 <gestureRecognizers/>
                             </view>
+                            <view contentMode="scaleToFill" id="48v-Ui-wix" customClass="EDNPortalItemsPickerView">
+                                <rect key="frame" x="0.0" y="589.5" width="768" height="170"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="0.38283638333800507" blue="0.22890690856076035" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                             <view contentMode="scaleToFill" id="jM8-Ve-X6c" userLabel="View - Routing">
-                                <rect key="frame" x="0.0" y="568" width="768" height="105"/>
+                                <rect key="frame" x="0.0" y="576" width="768" height="170"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="krd-T4-cwH">
-                                        <rect key="frame" x="85" y="71" width="269" height="14"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="bY0-AZ-alK">
-                                        <rect key="frame" x="437" y="71" width="269" height="14"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="XcW-rU-ziG">
-                                        <rect key="frame" x="129" y="20" width="180" height="43"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.1595275551" green="0.39883607630000001" blue="0.1886591762" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
-                                        <inset key="imageEdgeInsets" minX="-10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="START">
-                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="selected" title="Tap on map" image="06-map-pin.png"/>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="toFromTapped:" destination="2" eventType="touchUpInside" id="xx9-49-D3k"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dHw-9u-cX9">
-                                        <rect key="frame" x="481" y="20" width="180" height="43"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.60405373569999998" green="0.15019468959999999" blue="0.1370830834" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
-                                        <inset key="imageEdgeInsets" minX="-10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="STOP">
-                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="selected" title="Tap on map" image="06-map-pin.png"/>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="toFromTapped:" destination="2" eventType="touchUpInside" id="oRA-Tf-5Nb"/>
-                                        </connections>
-                                    </button>
+                                    <view contentMode="scaleToFill" id="KaZ-Bm-QII">
+                                        <rect key="frame" x="0.0" y="0.0" width="384" height="170"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="krd-T4-cwH">
+                                                <rect key="frame" x="20" y="136" width="344" height="14"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="XcW-rU-ziG">
+                                                <rect key="frame" x="101" y="20" width="180" height="108"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.1595275551" green="0.39883607630000001" blue="0.1886591762" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                                <inset key="imageEdgeInsets" minX="-10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="START">
+                                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="selected" title="Tap on map" image="06-map-pin.png"/>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="toFromTapped:" destination="2" eventType="touchUpInside" id="xx9-49-D3k"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" id="Cow-qb-wen">
+                                        <rect key="frame" x="384" y="0.0" width="384" height="170"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="bY0-AZ-alK">
+                                                <rect key="frame" x="20" y="136" width="344" height="14"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dHw-9u-cX9">
+                                                <rect key="frame" x="101" y="20" width="180" height="108"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.60405373569999998" green="0.15019468959999999" blue="0.1370830834" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                                <inset key="imageEdgeInsets" minX="-10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="STOP">
+                                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="selected" title="Tap on map" image="06-map-pin.png"/>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="toFromTapped:" destination="2" eventType="touchUpInside" id="oRA-Tf-5Nb"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hNn-FK-cIg">
                                         <rect key="frame" x="693" y="20" width="55" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
@@ -163,14 +182,14 @@
                                             <action selector="infoRequested:" destination="2" eventType="touchUpInside" id="elv-vg-FSK"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="oou-L1-NmX" userLabel="Info Label">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="No basemap yet" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="oou-L1-NmX" userLabel="Info Label">
                                         <rect key="frame" x="148" y="10" width="176" height="80"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="36"/>
                                         <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view clipsSubviews="YES" contentMode="scaleToFill" id="OpJ-Qw-evM" customClass="EDNBasemapsListView">
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" id="OpJ-Qw-evM">
                                         <rect key="frame" x="365" y="0.0" width="403" height="170"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -513,17 +532,30 @@
                 <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
             </relationships>
         </class>
-        <class className="EDNBasemapsListView" superclassName="UIScrollView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EDNBasemapsListView.h"/>
+        <class className="EDNPortalItemsListView" superclassName="UIScrollView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EDNPortalItemsListView.h"/>
             <relationships>
                 <relationship kind="outlet" name="topLevelView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="viewController" candidateClass="EDNBasemapsListViewController"/>
+                <relationship kind="outlet" name="viewController" candidateClass="EDNPortalItemsListViewController"/>
             </relationships>
         </class>
-        <class className="EDNBasemapsListViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EDNBasemapsListViewController.h"/>
+        <class className="EDNPortalItemsListViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EDNPortalItemsListViewController.h"/>
             <relationships>
-                <relationship kind="outlet" name="basemapListView" candidateClass="EDNBasemapsListView"/>
+                <relationship kind="outlet" name="portalItemsListView" candidateClass="EDNPortalItemsListView"/>
+            </relationships>
+        </class>
+        <class className="EDNPortalItemsPickerView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EDNPortalItemsPickerView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="topLevelView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="viewController" candidateClass="EDNPortalItemsPickerViewController"/>
+            </relationships>
+        </class>
+        <class className="EDNPortalItemsPickerViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EDNPortalItemsPickerViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="portalItemListView" candidateClass="EDNPortalItemsListView"/>
             </relationships>
         </class>
         <class className="EDNViewController" superclassName="UIViewController">
@@ -550,7 +582,7 @@
                 <relationship kind="action" name="zoomToEditingGeometry:"/>
                 <relationship kind="action" name="zoomToLevel:"/>
                 <relationship kind="outlet" name="basemapInfoPanel" candidateClass="UIView"/>
-                <relationship kind="outlet" name="basemapListDisplay" candidateClass="EDNBasemapsListView"/>
+                <relationship kind="outlet" name="basemapListDisplay" candidateClass="EDNPortalItemsListView"/>
                 <relationship kind="outlet" name="clearLinesButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="clearPointsButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="clearPolysButton" candidateClass="UIButton"/>

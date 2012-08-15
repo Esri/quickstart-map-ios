@@ -259,7 +259,7 @@ NSDictionary * __ednBasemapURLs = nil;
     }
 }
 
-- (AGSWebMap *) getBasemapWebMap:(EDNLiteBasemapType)basemapType
+- (NSString *) getPortalItemIDForBasemap:(EDNLiteBasemapType)basemapType
 {
     NSString *key = [self getBasemapKeyForEnum:basemapType];
     NSAssert1(key != nil, @"Could not figure out which basemap you're after!", basemapType);
@@ -267,6 +267,12 @@ NSDictionary * __ednBasemapURLs = nil;
     NSString *webMapID = [__ednBasemapWebMapIDs objectForKey:key];
     NSAssert1(webMapID != nil, @"The basemap hasn't been configured properly!", key);
     
+	return webMapID;
+}
+
+- (AGSWebMap *) getBasemapWebMap:(EDNLiteBasemapType)basemapType
+{
+	NSString *webMapID = [self getPortalItemIDForBasemap:basemapType];
     AGSWebMap *r = [AGSWebMap webMapWithItemId:webMapID credential:nil];
     return r;
 }

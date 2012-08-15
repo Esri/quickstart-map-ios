@@ -8,6 +8,5 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EDNBasemapsListViewController : UIViewController
-@property (nonatomic, strong) NSMutableArray *basemapVCs;
+@interface EDNPortalItemsListViewController : UIViewController
 @end

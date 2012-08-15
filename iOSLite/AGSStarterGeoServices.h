@@ -8,6 +8,9 @@
 
 #import <ArcGIS/ArcGIS.h>
 
+// Notification Definitions - subscribe to these to be notified when GeoServices have completed.
+// Each geoservices has an OK and an Error notification. See the keys below for getting information
+// about those notifications.
 #define kEDNLiteGeoServicesNotification_AddressFromPoint_OK @"EDNLiteGeocodingGetAddressOK"
 #define kEDNLiteGeoServicesNotification_AddressFromPoint_Error @"EDNLiteGeocodingGetAddressError"
 
@@ -17,7 +20,10 @@
 #define kEDNLiteGeoServicesNotification_FindRoute_OK @"EDNLiteGeoservicesFindRouteOK"
 #define kEDNLiteGeoServicesNotification_FindRoute_Error @"EDNLiteGeoservicesFindRouteError"
 
+// Each Notification's userInfo dictionary will contain service-specific values, but some are common
+// kEDNLiteGeoServicesNotification_WorkerOperationKey: The NSOperation handling the call.
 #define kEDNLiteGeoServicesNotification_WorkerOperationKey @"operation"
+// kEDNLiteGeoServicesNotification_ErrorKey: The NSError object in the case a call failed.
 #define kEDNLiteGeoServicesNotification_ErrorKey @"error"
 
 #define kEDNLiteGeoServicesNotification_AddressFromPoint_AddressCandidateKey @"candidate"
@@ -34,6 +40,7 @@
 #define kEDNLiteRoutingStartPointName @"Start Point"
 #define kEDNLiteRoutingEndPointName @"End Point"
 
+// Getting address values from the raw AddressFromPoint geoservice result.
 #define kEDNLiteAddressCandidateAddressField @"Address"
 #define kEDNLiteAddressCandidateCityField @"Admin1"
 #define kEDNLiteAddressCandidateStateField @"Admin2"
