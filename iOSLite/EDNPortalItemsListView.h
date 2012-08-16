@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "EDNPortalItemViewController.h"
+#import "EDNPortalItemsListViewController.h"
 
 #define kEDNLiteNotification_BasemapSelected @"BasemapSelected"
 
 @interface EDNPortalItemsListView : UIScrollView
-- (void) addPortalItem:(NSString *)portalItemID;
-- (void) ensureItemVisible:(NSString *)portalItemID Highlighted:(BOOL)highlight;
-- (void) positionItemsInView;
+@property (strong, nonatomic) IBOutlet EDNPortalItemsListViewController *viewController;
+
+- (AGSPortalItem *) addPortalItem:(NSString *)portalItemID;
 @end

@@ -9,18 +9,32 @@
 #import "EDNPortalItemsListView.h"
 #import "EDNPortalItemsListViewController.h"
 
+#import "EDNPortalItemViewController.h"
+
 #import "EDNPortalItemView.h"
 
 @interface EDNPortalItemsListView () <UIGestureRecognizerDelegate>
 @property (strong, nonatomic) IBOutlet UIView *topLevelView;
-@property (strong, nonatomic) IBOutlet EDNPortalItemsListViewController *viewController;
+//@property (strong, nonatomic) IBOutlet EDNPortalItemsListViewController *viewController;
 @property (nonatomic, strong) NSMutableArray *portalItemVCs;
+
+- (void) positionItemsInView;
 @end
 
 @implementation EDNPortalItemsListView
-@synthesize topLevelView;
 @synthesize viewController;
+@synthesize topLevelView;
 @synthesize portalItemVCs;
+
+- (NSArray *)portalItems
+{
+	NSMutableArray *result = [NSMutableArray array];
+	for (EDNPortalItemView *piv in [self portalItemSubViews]) {
+		if (piv.portalItem)
+			[result addObject:piv.portalItem];
+	}
+	return result;
+}
 
 - (NSArray *)portalItemSubViews
 {
@@ -44,7 +58,7 @@
 	NSLog(@"InitWithCodered");
     if (self) {
 		self.portalItemVCs = [NSMutableArray array];
-		NSLog(@"Arrays: %@", self.portalItemVCs);
+//		NSLog(@"Arrays: %@", self.portalItemVCs);
 		
         [[NSBundle mainBundle] loadNibNamed:@"EDNPortalItemsListView" owner:self options:nil];
 //		[self addSubview:self.topLevelView];
@@ -52,15 +66,18 @@
     return self;
 }
 
-- (void)addPortalItem:(NSString *)portalItemID
+- (AGSPortalItem *)addPortalItem:(NSString *)portalItemID
 {
+	NSLog(@"Adding portal to container: %@", NSStringFromCGRect(self.frame));
 	EDNPortalItemViewController *portalItemVC = [[EDNPortalItemViewController alloc] initWithPortalItemID:portalItemID];
 	portalItemVC.touchDelegate = self.viewController;
 	[self.portalItemVCs addObject:portalItemVC];
 	[self addSubview:portalItemVC.view];
-	NSLog(@"Arrays: %@", self.portalItemVCs);
-	NSLog(@"Adding SubView: %d", self.portalItemVCs.count);
+//	NSLog(@"Arrays: %@", self.portalItemVCs);
+//	NSLog(@"Adding SubView: %d", self.portalItemVCs.count);
 	[self positionItemsInView];
+	
+	return portalItemVC.portalItem;
 }
 
 - (void)ensureItemVisible:(NSString *)portalItemID Highlighted:(BOOL)highlight
@@ -110,13 +127,12 @@
 			newWidth = newWidth * scale;
 			newHeight = newHeight * scale;
 		}
+
+		y = (tlvFrame.size.height - newHeight) / 2;
 		
-		y = oldFrame.origin.y + (oldFrame.size.height / 2) - (newHeight / 2);
-		
-		maxX = maxX + newWidth;
-		CGRect newFrame = CGRectMake(x, (tlvFrame.size.height - newHeight)/2, newWidth, newHeight);
+		CGRect newFrame = CGRectMake(x, y, newWidth, newHeight);
 		subView.frame = newFrame;
-		x = x + newFrame.size.width + spacing;
+		x = x + newWidth + spacing;
 		maxX = x;
     }
 

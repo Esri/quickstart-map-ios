@@ -7,19 +7,30 @@
 //
 
 #import "EDNPortalItemsPickerViewController.h"
-#import "EDNPortalItemsListView.h"
+#import "EDNPortalItemsPickerView.h"
+#import "EDNPortalItemsListView_int.h"
 #import "EDNLiteBasemaps.h"
 #import "EDNLiteHelper.h"
 
-@interface EDNPortalItemsPickerViewController ()
+@interface EDNPortalItemsPickerViewController () <EDNPortalItemsListViewDelegate>
+@property (weak, nonatomic) IBOutlet EDNPortalItemsPickerView *portalItemPickerView;
 @property (weak, nonatomic) IBOutlet EDNPortalItemsListView *portalItemListView;
+
+@property (weak, nonatomic) IBOutlet UILabel *currentBasemapNameLabel;
+@property (weak, nonatomic) IBOutlet UIWebView *currentBasemapDescriptionWebView;
+@property (weak, nonatomic) IBOutlet UIImageView *currentBasemapImageView;
 @end
 
 @implementation EDNPortalItemsPickerViewController
+@synthesize portalItemPickerView = _portalItemPickerView;
 @synthesize portalItemListView = _portalItemListView;
 
+@synthesize currentPortalItemID = _currentPortalItemID;
 @synthesize currentPortalItem = _currentPortalItem;
-@synthesize delegate = _delegate;
+
+@synthesize currentBasemapNameLabel = _currentBasemapNameLabel;
+@synthesize currentBasemapDescriptionWebView = _currentBasemapDescriptionWebView;
+@synthesize currentBasemapImageView = _currentBasemapImageView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,23 +41,11 @@
     return self;
 }
 
-- (void) populateForDefaultBasemaps
-{
-    for (EDNLiteBasemapType type = EDNLiteBasemapFirst; type <= EDNLiteBasemapLast; type++)
-    {
-        AGSWebMap *wm = [EDNLiteHelper getBasemapWebMap:type];
-        AGSPortalItem *pi = wm.portalItem;
-		
-		NSLog(@"Adding Portal Item: %@", pi.itemId);
-        [self.portalItemListView addPortalItem:pi.itemId];
-    }
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-	[self populateForDefaultBasemaps];
+	self.portalItemListView.viewController.portalItemDelegate = self;
 }
 
 - (void)viewDidUnload
@@ -55,19 +54,66 @@
     // Release any retained subviews of the main view.
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (void)setCurrentPortalItemID:(NSString *)currentPortalItemID
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+	for (AGSPortalItem *pi in self.portalItemListView.portalItems) {
+		if ([pi.itemId isEqualToString:currentPortalItemID])
+		{
+			[self setCurrentPortalItem:pi];
+			break;
+		}
+	}
+}
+
+- (void)selectedPortalItemChanged:(AGSPortalItem *)selectedPortalItem
+{
+	// If it's the case that the user has selected a different portal item, then we
+	// want to notify our delegate.
+	[self setCurrentPortalItem_Int:selectedPortalItem callingDelegate:YES];
+}
+
+- (void) setCurrentPortalItem_Int:(AGSPortalItem *)currentPortalItem callingDelegate:(BOOL)callDelegate
+{
+	_currentPortalItem = currentPortalItem;
+	
+	self.currentBasemapNameLabel.text = _currentPortalItem.title;
+	
+    // Load the base HTML file that we'll show in the web view.
+	NSString *filePath = [[NSBundle mainBundle] resourcePath];
+    NSURL *baseURL = [NSURL fileURLWithPath:filePath isDirectory:YES];
+	
+	// Set the HTML
+    NSString *htmlToShow = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"description.css\" /></head><body>%@</body></html>", _currentPortalItem.snippet];
+    [self.currentBasemapDescriptionWebView loadHTMLString:htmlToShow baseURL:baseURL];
+	
+	// Show the image
+	self.currentBasemapImageView.image = _currentPortalItem.thumbnail;
+
+	if (callDelegate)
+	{
+		if ([self.portalItemPickerView.pickerDelegate respondsToSelector:@selector(currentPortalItemChanged:)])
+		{
+			[self.portalItemPickerView.pickerDelegate currentPortalItemChanged:_currentPortalItem];
+		}
+	}
+}
+
+- (void) setCurrentPortalItem:(AGSPortalItem *)currentPortalItem
+{
+	// TODO - revisit this.
+	// If the property has been updated from without, don't raise the delegate
+	[self setCurrentPortalItem_Int:currentPortalItem callingDelegate:NO];
+	[self.portalItemListView ensureItemVisible:currentPortalItem.itemId Highlighted:YES];
 }
 
 - (AGSPortalItem *) currentPortalItem
 {
-	return nil;
+	return _currentPortalItem;
 }
 
-- (void) addPortalItemByID:(NSString *)portalItemID
+- (AGSPortalItem *) addPortalItemByID:(NSString *)portalItemID
 {
-	[self.portalItemListView addPortalItem:portalItemID];
+	return [self.portalItemListView addPortalItem:portalItemID];
 }
 
 - (void) ensureItemVisible:(NSString *)portalItemID Highlighted:(BOOL)highlight
@@ -75,4 +121,9 @@
 	[self.portalItemListView ensureItemVisible:portalItemID Highlighted:highlight];
 }
 
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+//{
+//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+//}
+//
 @end

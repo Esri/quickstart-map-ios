@@ -7,7 +7,17 @@
 //
 
 #import "EDNPortalItemsPickerView.h"
+#import "EDNLiteHelper.h"
 
-@interface SXTBasemapPickerView : EDNPortalItemsPickerView
+@protocol SXTBasemapPickerDelegate
+- (void)basemapSelected:(EDNLiteBasemapType)basemapType;
+-(void) basemapsPickerDidTapInfoButton:(id)basemapsPicker;
+@end
 
+@interface SXTBasemapPickerView : EDNPortalItemsPickerView {
+	id<SXTBasemapPickerDelegate> basemapDelegate;
+}
+
+@property (nonatomic, strong) id basemapDelegate;
+@property (nonatomic, assign) EDNLiteBasemapType basemapType;
 @end

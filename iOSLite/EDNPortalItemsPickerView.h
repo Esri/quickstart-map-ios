@@ -8,6 +8,21 @@
 
 #import <ArcGIS/ArcGIS.h>
 
-@interface EDNPortalItemsPickerView : UIView
+@protocol EDNBasemapsPickerDelegate
+@optional
+-(void) currentPortalItemChanged:(AGSPortalItem *)currentPortalItem;
+-(void) basemapsPickerDidTapInfoButton:(id)basemapsPicker;
+@end
 
+@interface EDNPortalItemsPickerView : UIView {
+	id<EDNBasemapsPickerDelegate> pickerDelegate;
+}
+
+@property (nonatomic, assign) id pickerDelegate;
+
+@property (nonatomic, weak) NSString *currentPortalItemID;
+@property (nonatomic, strong, readonly) AGSPortalItem *currentPortalItem;
+
+- (AGSPortalItem *)addPortalItemByID:(NSString *)portalItemID;
+- (void)ensureItemVisible:(NSString *)portalItemID Highlighted:(BOOL)highlight;
 @end

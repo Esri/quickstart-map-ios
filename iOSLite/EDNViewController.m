@@ -7,8 +7,7 @@
 //
 
 #import "EDNViewController.h"
-#import "EDNPortalItemsListView.h"
-#import "EDNPortalItemViewController.h"
+#import "EDNPortalItemsPickerView.h"
 
 #import "EDNLiteHelper.h"
 
@@ -26,7 +25,7 @@
 
 #import "UIApplication+AppDimensions.h"
 
-#import "EDNPortalItemsListView.h"
+#import "SXTBasemapPickerView.h"
 #import "EDNBasemapDetailsViewController.h"
 #import "UILabel+EDNAutoSizeMutliline.h"
 #import <objc/runtime.h>
@@ -50,7 +49,7 @@ EDNVCState;
 #define kEDNLiteGetAddressReasonRouteEnd @"RouteEndPoint"
 #define kEDNLiteGetAddressReasonReverseGeocodeForPoint @"FindAddressFunction"
 
-@interface EDNViewController () <AGSPortalItemDelegate, AGSMapViewTouchDelegate, AGSRouteTaskDelegate, UISearchBarDelegate, AGSLocatorDelegate, UIWebViewDelegate>
+@interface EDNViewController () <AGSPortalItemDelegate, AGSMapViewTouchDelegate, AGSRouteTaskDelegate, UISearchBarDelegate, AGSLocatorDelegate, UIWebViewDelegate, SXTBasemapPickerDelegate>
 
 // General UI
 @property (weak, nonatomic) IBOutlet UIToolbar *functionToolBar;
@@ -66,8 +65,10 @@ EDNVCState;
 @property (weak, nonatomic) IBOutlet UIImageView *currentBasemapImageView;
 @property (weak, nonatomic) IBOutlet UILabel *currentBasemapNameLabel;
 @property (weak, nonatomic) IBOutlet UIButton *currentBasemapMoreInfoButton;
-@property (weak, nonatomic) IBOutlet EDNPortalItemsListView *basemapListDisplay;
+//@property (weak, nonatomic) IBOutlet EDNPortalItemsListView *basemapListDisplay;
 @property (weak, nonatomic) IBOutlet UIWebView *currentBasemapDescriptionWebView;
+
+@property (weak, nonatomic) IBOutlet SXTBasemapPickerView *basemapsPicker;
 
 @property (strong, nonatomic) NSMutableArray *basemapVCs;
 
@@ -123,7 +124,6 @@ EDNVCState;
 @property (nonatomic, assign) CGSize keyboardSize;
 
 // Actions
-- (IBAction)infoRequested:(id)sender;
 - (IBAction)addGraphics:(id)sender;
 
 - (IBAction)clearPoints:(id)sender;
@@ -151,8 +151,9 @@ EDNVCState;
 @synthesize currentBasemapImageView = _infoImageView;
 @synthesize currentBasemapNameLabel = _infoLabel;
 @synthesize currentBasemapMoreInfoButton = _infoButton;
-@synthesize basemapListDisplay = _basemapListDisplay;
+//@synthesize basemapListDisplay = _basemapListDisplay;
 @synthesize currentBasemapDescriptionWebView = _currentBasemapDescriptionWebView;
+@synthesize basemapsPicker = _basemapsPicker;
 @synthesize graphicButton = _graphicButton;
 @synthesize clearPointsButton = _clearPointsButton;
 @synthesize clearLinesButton = _clearLinesButton;
@@ -226,10 +227,10 @@ EDNVCState;
 											 selector:@selector(basemapDidChange:)
 												 name:kEDNLiteNotification_BasemapDidChange
 											   object:self.mapView];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(basemapSelected:)
-												 name:kEDNLiteNotification_BasemapSelected
-											   object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//											 selector:@selector(basemapSelected:)
+//												 name:kEDNLiteNotification_BasemapSelected
+//											   object:nil];
 	
 	// We need to re-arrange the UI when the keyboard displays and hides, so let's find out when that happens.
 	self.keyboardSize = CGSizeZero;
@@ -254,7 +255,9 @@ EDNVCState;
 	[self initUI];
 
     // Initialize our property for tracking the current basemap type.
-    self.currentBasemapType = EDNLiteBasemapTopographic;
+    self.currentBasemapType = EDNLiteBasemapCanvas;
+	
+	[self populateForDefaultBasemaps];
     
 	// Set up our map with a basemap, and jump to a location and scale level.
     [self.mapView setBasemap: self.currentBasemapType];
@@ -295,7 +298,7 @@ EDNVCState;
     [self setFindPlacePanel:nil];
     [self setGeolocationPanel:nil];
     [self setGraphicsPanel:nil];
-    [self setBasemapListDisplay:nil];
+//    [self setBasemapListDisplay:nil];
     [self setCurrentBasemapDescriptionWebView:nil];
     [self setEditGraphicsToolbar:nil];
     [self setUndoEditGraphicsButton:nil];
@@ -304,6 +307,7 @@ EDNVCState;
     [self setRouteEndButton:nil];
     [self setClearRouteButton:nil];
 	[self setFindAddressSearchBar:nil];
+	[self setBasemapsPicker:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -500,7 +504,7 @@ EDNVCState;
 - (NSMutableArray *)allUIViews
 {
     NSMutableArray *uiViews = [NSMutableArray arrayWithObjects:self.routingPanel,
-                               self.basemapInfoPanel,
+                               self.basemapsPicker,
                                self.geolocationPanel,
                                self.findAddressPanel,
                                self.findPlacePanel,
@@ -514,7 +518,7 @@ EDNVCState;
     
     switch (self.currentState) {
         case EDNVCStateBasemaps:
-            viewToShow = self.basemapInfoPanel;
+            viewToShow = self.basemapsPicker;
             break;
         case EDNVCStateDirections:
         case EDNVCStateDirections_WaitingForRouteStart:
@@ -685,34 +689,27 @@ EDNVCState;
 
 #pragma mark - Basemap Selection
 
-- (void)basemapSelected:(NSNotification *)notification
+// Populate the PortalItemViewer with items based off our Basemap List
+- (void) populateForDefaultBasemaps
 {
-//    EDNPortalItemViewController *bvc = notification.object;
-//    if (bvc)
-//    {
-//        if (bvc.basemapType != self.currentBasemapType)
-//        {
-//            [self.mapView setBasemap:bvc.basemapType];
-//        }
-//    }
+	self.basemapsPicker.basemapDelegate = self;
+	self.basemapsPicker.basemapType = self.currentBasemapType;
 }
 
-- (void)setCurrentPortalItem:(AGSPortalItem *)currentPortalItem
+- (void)basemapSelected:(EDNLiteBasemapType)basemapType
 {
-    _currentPortalItem = currentPortalItem;
-    
-    self.currentBasemapNameLabel.text = _currentPortalItem.title;
-    //self.currentBasemapDescriptionTextView.text = _currentPortalItem.itemDescription;
-    NSString *filePath = [[NSBundle mainBundle] resourcePath];
-//    NSLog(@"FilePath: %@", filePath);
-    NSURL *baseURL = [NSURL fileURLWithPath:filePath isDirectory:YES];
-    NSString *htmlToShow = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"description.css\" /></head><body>%@</body></html>", _currentPortalItem.snippet];
-    [self.currentBasemapDescriptionWebView loadHTMLString:htmlToShow baseURL:baseURL];
-
-    _currentPortalItem.delegate = self;
-//    [_currentPortalItem fetchData];
-    [_currentPortalItem fetchThumbnail];
+	self.currentBasemapType = basemapType;
+	self.currentPortalItem = self.basemapsPicker.currentPortalItem;
+	[self.mapView setBasemap:basemapType];
 }
+
+//- (void)currentPortalItemChanged:(AGSPortalItem *)currentPortalItem
+//{
+//    EDNLiteBasemapType basemapType = [EDNLiteHelper getBasemapTypeForPortalItemID:currentPortalItem.itemId];
+//    self.currentBasemapType = basemapType;
+//	self.currentPortalItem = currentPortalItem;
+//	[self.mapView setBasemap:self.currentBasemapType];
+//}
 
 - (EDNLiteBasemapType)currentBasemapType
 {
@@ -722,12 +719,10 @@ EDNVCState;
 - (void)setCurrentBasemapType:(EDNLiteBasemapType)currentBasemapType
 {
     _currentBasemapType = currentBasemapType;
-//    [self.basemapListDisplay ensureItemVisible:@"" Highlighted:YES];
-}
-
-- (void)portalItem:(AGSPortalItem *)portalItem operation:(NSOperation *)op didFetchThumbnail:(UIImage *)thumbnail
-{
-    self.currentBasemapImageView.image = thumbnail;
+	
+	NSString *portalItemID = [EDNLiteHelper getBasemapWebMap:_currentBasemapType].portalItem.itemId;
+	
+	self.basemapsPicker.currentPortalItemID = portalItemID;
 }
 
 - (void)basemapDidChange:(NSNotification *)notification
@@ -739,15 +734,21 @@ EDNVCState;
     {
         self.currentPortalItem = pi;
     }
+	
+	self.basemapsPicker.currentPortalItemID = pi.itemId;
     
     self.currentBasemapMoreInfoButton.userInteractionEnabled = YES;
 }
 
 #pragma mark - Basemap Info
 
-- (IBAction)infoRequested:(id)sender {
-    // Seque to the Info Modal View.
-    [self performSegueWithIdentifier:@"showBasemapInfo" sender:self];
+- (void)basemapsPickerDidTapInfoButton:(id)basemapsPicker
+{
+	if (basemapsPicker == self.basemapsPicker)
+	{
+		// It's us.
+		[self performSegueWithIdentifier:@"showBasemapInfo" sender:self];
+	}
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -758,16 +759,6 @@ EDNVCState;
         EDNBasemapDetailsViewController *destVC = segue.destinationViewController;
         destVC.portalItem = self.currentPortalItem;
     }
-}
-
-- (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    if (navigationType == UIWebViewNavigationTypeLinkClicked)
-    {
-        [[UIApplication sharedApplication] openURL:request.URL];
-        return NO;
-    }
-    return YES;
 }
 
 #pragma mark - Graphics

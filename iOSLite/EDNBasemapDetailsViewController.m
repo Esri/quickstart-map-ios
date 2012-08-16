@@ -11,7 +11,7 @@
 
 #define kEDNLiteAGSPortalItelURLBase @"http://www.arcgis.com/home/item.html?id=%@"
 
-@interface EDNBasemapDetailsViewController ()
+@interface EDNBasemapDetailsViewController () <UIWebViewDelegate>
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *titleLabel;
 
@@ -43,6 +43,7 @@
         NSString *url = [NSString stringWithFormat:kEDNLiteAGSPortalItelURLBase, self.portalItem.itemId];
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
         [self.webView loadRequest:request];
+		self.webView.delegate = self;
     }
 }
 
@@ -62,5 +63,15 @@
 
 - (IBAction)doneButtonClicked:(id)sender {
     [self dismissModalViewControllerAnimated:YES];
+}
+
+- (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    if (navigationType == UIWebViewNavigationTypeLinkClicked)
+    {
+        [[UIApplication sharedApplication] openURL:request.URL];
+        return NO;
+    }
+    return YES;
 }
 @end

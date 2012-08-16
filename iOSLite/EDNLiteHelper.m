@@ -242,7 +242,6 @@ NSDictionary * __ednBasemapURLs = nil;
     return key;
 }
 
-
 #pragma mark - Helper functions
 - (double) getScaleForLevel:(NSUInteger)level
 {	
@@ -268,6 +267,48 @@ NSDictionary * __ednBasemapURLs = nil;
     NSAssert1(webMapID != nil, @"The basemap hasn't been configured properly!", key);
     
 	return webMapID;
+}
+
++ (EDNLiteBasemapType) getBasemapTypeForPortalItemID:(NSString *)portalItemID
+{
+	return [[EDNLiteHelper defaultHelper] getBasemapTypeForPortalItemID:portalItemID];
+}
+
+- (EDNLiteBasemapType) getBasemapTypeForPortalItemID:(NSString *)portalItemID
+{
+	NSString *foundKey = nil;
+	for (int i=0; i < __ednBasemapWebMapIDs.count; i++) {
+		NSString *key = [__ednBasemapWebMapIDs.allKeys objectAtIndex:i];
+		NSString *val = [__ednBasemapWebMapIDs objectForKey:key];
+		if ([val isEqualToString:portalItemID])
+		{
+			foundKey = key;
+			break;
+		}
+	}
+	
+	if (foundKey)
+	{
+		EDNLiteBasemapType type = EDNLiteBasemapFirst;
+		if ([foundKey isEqualToString:EDN_BASEMAP_KEY_STREET])
+			type = EDNLiteBasemapStreet;
+		else if ([foundKey isEqualToString:EDN_BASEMAP_KEY_SATELLITE])
+			type = EDNLiteBasemapSatellite;
+		else if ([foundKey isEqualToString:EDN_BASEMAP_KEY_HYBRID])
+			type = EDNLiteBasemapHybrid;
+		else if ([foundKey isEqualToString:EDN_BASEMAP_KEY_CANVAS])
+			type = EDNLiteBasemapCanvas;
+		else if ([foundKey isEqualToString:EDN_BASEMAP_KEY_NATGEO])
+			type = EDNLiteBasemapNationalGeographic;
+		else if ([foundKey isEqualToString:EDN_BASEMAP_KEY_TOPO])
+			type = EDNLiteBasemapTopographic;
+		else if ([foundKey isEqualToString:EDN_BASEMAP_KEY_OSM])
+			type = EDNLiteBasemapOpenStreetMap;
+		
+		return type;
+	}
+	
+	return 0;
 }
 
 - (AGSWebMap *) getBasemapWebMap:(EDNLiteBasemapType)basemapType

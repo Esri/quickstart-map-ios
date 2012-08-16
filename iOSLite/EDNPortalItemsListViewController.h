@@ -7,6 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ArcGIS/ArcGIS.h>
 
-@interface EDNPortalItemsListViewController : UIViewController
+@protocol EDNPortalItemsListViewDelegate
+- (void)selectedPortalItemChanged:(AGSPortalItem *)selectedPortalItem;
+@end
+
+@interface EDNPortalItemsListViewController : UIViewController {
+	id <EDNPortalItemsListViewDelegate> portalItemDelegate;
+}
+
+@property (nonatomic, weak) id portalItemDelegate;
 @end

@@ -7,7 +7,7 @@
 //
 
 #import <ArcGIS/ArcGIS.h>
-#import "EDNPortalItemsListView.h"
+#import "EDNPortalItemsListView_int.h"
 #import "EDNPortalItemsListViewController.h"
 #import "EDNPortalItemViewController.h"
 
@@ -15,19 +15,22 @@
 
 @interface EDNPortalItemsListViewController () <PortalItemViewTouchDelegate>
 @property (weak, nonatomic) IBOutlet EDNPortalItemsListView *portalItemsListView;
-
-@property (nonatomic, strong) NSMutableArray *portalItemVCs;
 @end
 
 @implementation EDNPortalItemsListViewController
 @synthesize portalItemsListView = _portalItemsListView;
 
-@synthesize portalItemVCs = _portalItemVCs;
+@synthesize portalItemDelegate = _portalItemDelegate;
 
 - (void) portalItemViewTapped:(EDNPortalItemView *)portalItemView
 {
 	NSLog(@"Tapped a basemap!");
 	[self.portalItemsListView ensureItemVisible:portalItemView.portalItemID Highlighted:YES];
+	
+	if ([self.portalItemDelegate respondsToSelector:@selector(selectedPortalItemChanged:)]);
+	{
+		[self.portalItemDelegate selectedPortalItemChanged:portalItemView.portalItem];
+	}
 }
 
 - (void)viewDidLoad
@@ -41,11 +44,10 @@
 {
     [super viewDidUnload];
     self.portalItemsListView = nil;
-    NSLog(@"View unloaded");
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+//{
+//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+//}
 @end
