@@ -7,23 +7,23 @@
 //
 
 #import "AGSPoint+GeneralUtilities.h"
-#import "EDNLiteHelper.h"
+#import "STXHelper.h"
 
 @implementation AGSPoint (GeneralUtilities)
 + (AGSPoint *) pointFromLat:(double)latitude Long:(double)longitude
 {
-	return [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
+	return [STXHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
 }
 
 - (double) latitude
 {
-	AGSPoint *geoPt = [EDNLiteHelper getWGS84PointFromPoint:self];
+	AGSPoint *geoPt = [STXHelper getWGS84PointFromPoint:self];
 	return geoPt.y;
 }
 
 - (double) longitude
 {
-	AGSPoint *geoPt = [EDNLiteHelper getWGS84PointFromPoint:self];
+	AGSPoint *geoPt = [STXHelper getWGS84PointFromPoint:self];
 	return geoPt.x;
 }
 @end

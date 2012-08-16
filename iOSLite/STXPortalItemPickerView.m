@@ -1,22 +1,22 @@
 //
-//  EDNBasemapsPicker.m
+//  STXPortalItemPickerView.m
 //  iOSLite
 //
 //  Created by Nicholas Furness on 8/14/12.
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "EDNPortalItemsPickerView.h"
-#import "EDNPortalItemsPickerViewController.h"
-#import "EDNPortalItemViewController.h"
-#import "EDNPortalItemsListView.h"
+#import "STXPortalItemPickerView.h"
+#import "STXPortalItemPickerViewController.h"
+#import "STXPortalItemViewController.h"
+#import "STXPortalItemListView.h"
 
-@interface EDNPortalItemsPickerView()
+@interface STXPortalItemPickerView()
 @property (strong, nonatomic) IBOutlet UIView *topLevelView;
-@property (strong, nonatomic) IBOutlet EDNPortalItemsPickerViewController *viewController;
+@property (strong, nonatomic) IBOutlet STXPortalItemPickerViewController *viewController;
 @end
 
-@implementation EDNPortalItemsPickerView
+@implementation STXPortalItemPickerView
 @synthesize topLevelView = _topLevelView;
 @synthesize viewController = _viewController;
 
@@ -26,7 +26,7 @@
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        [[NSBundle mainBundle] loadNibNamed:@"EDNPortalItemsPickerView" owner:self options:nil];
+        [[NSBundle mainBundle] loadNibNamed:@"STXPortalItemPickerView" owner:self options:nil];
 		// This is solid in the designer so that we can, well,
 		// see it to design it, but let's hide it at runtime.
 		self.topLevelView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.0];

@@ -1,20 +1,20 @@
 //
-//  EDNPortalItemView.m
+//  STXPortalItemView.m
 //  iOSLite
 //
 //  Created by Nicholas Furness on 8/14/12.
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "EDNPortalItemView.h"
-#import "EDNPortalItemViewController.h"
+#import "STXPortalItemView.h"
+#import "STXPortalItemViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface EDNPortalItemView ()
+@interface STXPortalItemView ()
 @property (nonatomic, retain) UIColor *defaultBackgroundColor;
 @end
 
-@implementation EDNPortalItemView
+@implementation STXPortalItemView
 @synthesize highlighted = _highlighted;
 @synthesize defaultBackgroundColor = _defaultBackgroundColor;
 
@@ -42,7 +42,6 @@
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-//        [[NSBundle mainBundle] loadNibNamed:@"EDNPortalItemView" owner:self options:nil];
 		[self doSetup];
     }
     return self;

@@ -7,9 +7,9 @@
 //
 
 #import "EDNViewController.h"
-#import "EDNPortalItemsPickerView.h"
+#import "STXPortalItemPickerView.h"
 
-#import "EDNLiteHelper.h"
+#import "STXHelper.h"
 
 #import "AGSMapView+GeoServices.h"
 
@@ -26,8 +26,8 @@
 #import "UIApplication+AppDimensions.h"
 
 #import "SXTBasemapPickerView.h"
-#import "EDNBasemapDetailsViewController.h"
-#import "UILabel+EDNAutoSizeMutliline.h"
+#import "STXBasemapDetailsViewController.h"
+//#import "UILabel+EDNAutoSizeMutliline.h"
 #import <objc/runtime.h>
 
 typedef enum 
@@ -108,7 +108,7 @@ EDNVCState;
 @property (weak, nonatomic) IBOutlet UILabel *findScaleLabel;
 
 // Non UI Properties
-@property (assign) EDNLiteBasemapType currentBasemapType;
+@property (assign) STXBasemapType currentBasemapType;
 @property (assign) BOOL uiControlsVisible;
 
 @property (assign) EDNVCState currentState;
@@ -244,7 +244,7 @@ EDNVCState;
 	[self initUI];
 
     // Initialize our property for tracking the current basemap type.
-    self.currentBasemapType = EDNLiteBasemapTopographic;
+    self.currentBasemapType = STXBasemapTypeTopographic;
 	
 	[self populateForDefaultBasemaps];
     
@@ -680,7 +680,7 @@ EDNVCState;
 	self.basemapsPicker.basemapType = self.currentBasemapType;
 }
 
-- (void)basemapSelected:(EDNLiteBasemapType)basemapType
+- (void)basemapSelected:(STXBasemapType)basemapType
 {
 	self.currentBasemapType = basemapType;
 	self.currentPortalItem = self.basemapsPicker.currentPortalItem;
@@ -695,16 +695,16 @@ EDNVCState;
 //	[self.mapView setBasemap:self.currentBasemapType];
 //}
 
-- (EDNLiteBasemapType)currentBasemapType
+- (STXBasemapType)currentBasemapType
 {
     return _currentBasemapType;
 }
 
-- (void)setCurrentBasemapType:(EDNLiteBasemapType)currentBasemapType
+- (void)setCurrentBasemapType:(STXBasemapType)currentBasemapType
 {
     _currentBasemapType = currentBasemapType;
 	
-	NSString *portalItemID = [EDNLiteHelper getBasemapWebMap:_currentBasemapType].portalItem.itemId;
+	NSString *portalItemID = [STXHelper getBasemapWebMap:_currentBasemapType].portalItem.itemId;
 	
 	self.basemapsPicker.currentPortalItemID = portalItemID;
 }
@@ -712,7 +712,7 @@ EDNVCState;
 - (void)basemapDidChange:(NSNotification *)notification
 {
     AGSPortalItem *pi = [notification.userInfo objectForKey:@"PortalItem"];
-    EDNLiteBasemapType basemapType = [(NSNumber *)[notification.userInfo objectForKey:@"BasemapType"] intValue];
+    STXBasemapType basemapType = [(NSNumber *)[notification.userInfo objectForKey:@"BasemapType"] intValue];
     self.currentBasemapType = basemapType;
     if (pi)
     {
@@ -738,7 +738,7 @@ EDNVCState;
     // If the Info Modal View is about to be shown, tell it what PortalItem we're showing.
     if ([segue.identifier isEqualToString:@"showBasemapInfo"])
     {
-        EDNBasemapDetailsViewController *destVC = segue.destinationViewController;
+        STXBasemapDetailsViewController *destVC = segue.destinationViewController;
         destVC.portalItem = self.currentPortalItem;
     }
 }
@@ -1002,7 +1002,7 @@ EDNVCState;
     NSString *latLongText = nil;
     if (self.routeStartPoint)
     {
-        AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromPoint:self.routeStartPoint];
+        AGSPoint *wgs84Pt = [STXHelper getWGS84PointFromPoint:self.routeStartPoint];
         latLongText = [NSString stringWithFormat:@"%.4f,%.4f", wgs84Pt.y, wgs84Pt.x];
     }
     NSString *address = self.routeStartAddress;
@@ -1024,7 +1024,7 @@ EDNVCState;
     NSString *latLongText = nil;
     if (self.routeEndPoint)
     {
-        AGSPoint *wgs84Pt = [EDNLiteHelper getWGS84PointFromPoint:self.routeEndPoint];
+        AGSPoint *wgs84Pt = [STXHelper getWGS84PointFromPoint:self.routeEndPoint];
         latLongText = [NSString stringWithFormat:@"%.4f,%.4f", wgs84Pt.y, wgs84Pt.x];
     }
     NSString *address = self.routeEndAddress;
@@ -1137,7 +1137,7 @@ EDNVCState;
                 {
                     count++;
                     NSLog(@"Address found: %@", c.attributes);
-                    AGSPoint *p = [EDNLiteHelper getWebMercatorAuxSpherePointFromPoint:c.location];
+                    AGSPoint *p = [STXHelper getWebMercatorAuxSpherePointFromPoint:c.location];
                     AGSGraphic *g = [self.mapView addPoint:p];
                     [g.attributes setObject:@"Geocoded" forKey:@"Source"];
                     if (!totalEnv)

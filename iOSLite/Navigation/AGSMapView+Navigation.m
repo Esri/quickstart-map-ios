@@ -8,7 +8,7 @@
 
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSMapView+Navigation.h"
-#import "EDNLiteHelper.h"
+#import "STXHelper.h"
 #import <CoreLocation/CoreLocation.h>
 
 @implementation AGSMapView (Navigation)
@@ -18,14 +18,14 @@ NSInteger __ednLiteScaleForGeolocation = -1;
 - (void) centerAtLat:(double) latitude Long:(double) longitude withScaleLevel:(NSInteger)scaleLevel
 {
     // Build an AGSPoint using the Lat and Long
-    AGSPoint *webMercatorCenterPt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
+    AGSPoint *webMercatorCenterPt = [STXHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
     
     [self centerAtPoint:webMercatorCenterPt withScaleLevel:scaleLevel];
 }
 
 - (void) centerAtLat:(double) latitude Long:(double) longitude
 {
-    AGSPoint *p = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
+    AGSPoint *p = [STXHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
     
     // Here's the code to do the zoom, but we don't know whether we want to run it now, or
     // need to queue it up until the AGSMapView is loaded.
@@ -39,7 +39,7 @@ NSInteger __ednLiteScaleForGeolocation = -1;
 - (void) centerAtPoint:(AGSPoint *)point withScaleLevel:(NSInteger)scaleLevel
 {
     // Get the map scale represented by the integer level
-    double scaleForLevel = [EDNLiteHelper getScaleForLevel:scaleLevel];
+    double scaleForLevel = [STXHelper getScaleForLevel:scaleLevel];
     
     [self doActionWhenLoaded:^void {
         [self zoomToScale:scaleForLevel withCenterPoint:point animated:YES];
@@ -50,7 +50,7 @@ NSInteger __ednLiteScaleForGeolocation = -1;
 - (void) zoomToLevel:(NSInteger)level
 {
     AGSPoint *currentCenterPoint = self.visibleArea.envelope.center;
-    double scaleForLevel = [EDNLiteHelper getScaleForLevel:level];
+    double scaleForLevel = [STXHelper getScaleForLevel:level];
     [self doActionWhenLoaded:^void {
         [self zoomToScale:scaleForLevel withCenterPoint:currentCenterPoint animated:YES];
     }];
@@ -61,9 +61,9 @@ NSInteger __ednLiteScaleForGeolocation = -1;
 {
     [self ensureNavigationHelperInitialized];
     
-    if ([EDNLiteHelper isGeolocationEnabled])
+    if ([STXHelper isGeolocationEnabled])
     {
-        [EDNLiteHelper getGeolocation];
+        [STXHelper getGeolocation];
     }
 	else {
 		UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"Cannot Find You" message:@"Location Services Not Enabled" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -74,7 +74,7 @@ NSInteger __ednLiteScaleForGeolocation = -1;
 #pragma mark - Centerpoint of map
 - (AGSPoint *) getCenterPoint
 {
-    return [EDNLiteHelper getWGS84PointFromPoint:self.visibleArea.envelope.center];
+    return [STXHelper getWGS84PointFromPoint:self.visibleArea.envelope.center];
 }
 
 #pragma mark - Internal

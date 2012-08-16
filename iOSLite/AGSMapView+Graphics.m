@@ -9,7 +9,7 @@
 #import "AGSMapView+Graphics.h"
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSMapView+Basemaps.h"
-#import "EDNLiteHelper.h"
+#import "STXHelper.h"
 
 @implementation AGSMapView (Graphics)
 AGSGraphicsLayer * __ednLitePointGraphicsLayer = nil;
@@ -32,7 +32,7 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
 #pragma mark - Add Graphics Programatically
 - (AGSGraphic *) addPointAtLat:(double)latitude Long:(double)longitude
 {
-    AGSPoint *pt = [EDNLiteHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
+    AGSPoint *pt = [STXHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
     
 	return [self addPoint:pt];
 }

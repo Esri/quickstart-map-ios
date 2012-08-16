@@ -1,15 +1,15 @@
 //
-//  UILabel+EDNAutoSize.m
+//  UILabel+STXAutoSizeMultiline.m
 //  iOSLite
 //
 //  Created by Nicholas Furness on 5/23/12.
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "UILabel+EDNAutoSizeMutliline.h"
+#import "UILabel+STXAutoSizeMultiline.h"
 
-@implementation UILabel (EDNAutoSizeMutliline)
-CGFloat __ednAutoSizeMaxFontSize = -1;
+@implementation UILabel (STXAutoSizeMultiline)
+CGFloat __stxAutoSizeMaxFontSize = -1;
 
 - (void) setFontSizeToFit
 {
@@ -18,15 +18,15 @@ CGFloat __ednAutoSizeMaxFontSize = -1;
 	UIFont *baseFont = self.font;
 	UIFont *workingFont = nil;
 	
-	if (__ednAutoSizeMaxFontSize == -1)
+	if (__stxAutoSizeMaxFontSize == -1)
 	{
-		__ednAutoSizeMaxFontSize = baseFont.pointSize;
+		__stxAutoSizeMaxFontSize = baseFont.pointSize;
 	}
 	
 	/* Time to calculate the needed font size.
 	 This for loop starts at the largest font size, and decreases by two point sizes (i=i-2)
 	 Until it either hits a size that will fit or hits the minimum size we want to allow (i > 10) */
-	for(int i = __ednAutoSizeMaxFontSize; i > self.minimumFontSize; i=i-2)
+	for(int i = __stxAutoSizeMaxFontSize; i > self.minimumFontSize; i=i-2)
 	{
 		// Set the new font size.
 		workingFont = [baseFont fontWithSize:i];

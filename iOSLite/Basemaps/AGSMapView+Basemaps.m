@@ -8,7 +8,7 @@
 
 #import "AGSMapView+Basemaps.h"
 #import "AGSLayer+Basemap.h"
-#import "EDNLiteHelper.h"
+#import "STXHelper.h"
 
 @interface AGSMapView()<AGSWebMapDelegate>
 @end
@@ -16,11 +16,11 @@
 @implementation AGSMapView (Basemaps)
 
 AGSEnvelope *__ednLiteBasemaps_oldExtent = nil;
-EDNLiteBasemapType __ednLiteCurrentBasemapType = 0;
+STXBasemapType __ednLiteCurrentBasemapType = 0;
 NSString *EDN_LITE_BASEMAP_LAYER_NAME = @"ednLiteBasemap";
 
 
-- (void) setBasemap:(EDNLiteBasemapType)basemapType
+- (void) setBasemap:(STXBasemapType)basemapType
 {
     BOOL useWebMaps = YES;
     __ednLiteCurrentBasemapType = basemapType;
@@ -35,17 +35,17 @@ NSString *EDN_LITE_BASEMAP_LAYER_NAME = @"ednLiteBasemap";
             currentWebMap.delegate = nil;
         }
         
-        currentWebMap = [EDNLiteHelper getBasemapWebMap:basemapType];
+        currentWebMap = [STXHelper getBasemapWebMap:basemapType];
         currentWebMap.delegate = self;
         
         [currentWebMap openIntoMapView:self];
     }
     else {
         // Get the new basemap layer and supplemental layers.
-        AGSTiledLayer *newBasemapLayer = [EDNLiteHelper getBasemapTiledLayer:basemapType];
+        AGSTiledLayer *newBasemapLayer = [STXHelper getBasemapTiledLayer:basemapType];
         [newBasemapLayer setIsEDNLiteBasemapLayer:YES];
 
-        NSArray *supplementalBasemapLayers = [EDNLiteHelper getBasemapSupplementalTiledLayers:basemapType];
+        NSArray *supplementalBasemapLayers = [STXHelper getBasemapSupplementalTiledLayers:basemapType];
 
         // Remove current basemap layers.
         NSMutableArray *layerNamesToRemove = [NSMutableArray array];
@@ -88,7 +88,7 @@ NSString *EDN_LITE_BASEMAP_LAYER_NAME = @"ednLiteBasemap";
     [mapView zoomToEnvelope:__ednLiteBasemaps_oldExtent animated:NO];
     __ednLiteBasemaps_oldExtent = nil;
 
-    if (__ednLiteCurrentBasemapType == EDNLiteBasemapHybrid)
+    if (__ednLiteCurrentBasemapType == STXBasemapTypeHybrid)
     {
         NSArray *layers = webMap.operationalLayers;
         if (layers.count > 0)
@@ -120,7 +120,7 @@ NSString *EDN_LITE_BASEMAP_LAYER_NAME = @"ednLiteBasemap";
     NSLog(@"Failed to load webmap");
 }
 
-- (void)postNewBasemapNotification:(EDNLiteBasemapType)basemapType forPortalItem:(AGSPortalItem *)portalItem
+- (void)postNewBasemapNotification:(STXBasemapType)basemapType forPortalItem:(AGSPortalItem *)portalItem
 {
     // TODO - Refactor into #define constants and make public.
     NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:basemapType], @"BasemapType", nil];

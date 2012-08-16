@@ -1,5 +1,5 @@
 //
-//  EDNBasemapInfoViewController.h
+//  STXBasemapDetailsViewController.h
 //  iOSLite
 //
 //  Created by Nicholas Furness on 5/23/12.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
 
-@interface EDNBasemapDetailsViewController : UIViewController
+@interface STXBasemapDetailsViewController : UIViewController
 @property (nonatomic, strong) AGSPortalItem *portalItem;
 @end

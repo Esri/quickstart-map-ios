@@ -1,33 +1,32 @@
 //
-//  EDNBasemapsListView.m
+//  STXPortalItemListView.m
 //  iOSLite
 //
 //  Created by Nicholas Furness on 6/14/12.
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "EDNPortalItemsListView.h"
-#import "EDNPortalItemsListViewController.h"
+#import "STXPortalItemListView.h"
+#import "STXPortalItemListViewController.h"
 
-#import "EDNPortalItemViewController.h"
+#import "STXPortalItemViewController.h"
 
-#import "EDNPortalItemView.h"
+#import "STXPortalItemView.h"
 
-@interface EDNPortalItemsListView () <UIGestureRecognizerDelegate>
-//@property (strong, nonatomic) IBOutlet EDNPortalItemsListViewController *viewController;
+@interface STXPortalItemListView () <UIGestureRecognizerDelegate>
 @property (nonatomic, strong) NSMutableArray *portalItemVCs;
 
 - (void) positionItemsInView;
 @end
 
-@implementation EDNPortalItemsListView
+@implementation STXPortalItemListView
 @synthesize viewController;
 @synthesize portalItemVCs;
 
 - (NSArray *)portalItems
 {
 	NSMutableArray *result = [NSMutableArray array];
-	for (EDNPortalItemView *piv in [self portalItemSubViews]) {
+	for (STXPortalItemView *piv in [self portalItemSubViews]) {
 		if (piv.portalItem)
 			[result addObject:piv.portalItem];
 	}
@@ -37,7 +36,7 @@
 - (NSArray *)portalItemSubViews
 {
 	return [self.subviews filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-		return [evaluatedObject isKindOfClass:[EDNPortalItemView class]];
+		return [evaluatedObject isKindOfClass:[STXPortalItemView class]];
 	}]];
 }
 
@@ -57,14 +56,14 @@
     if (self) {
 		self.portalItemVCs = [NSMutableArray array];
 		
-        [[NSBundle mainBundle] loadNibNamed:@"EDNPortalItemsListView" owner:self options:nil];
+        [[NSBundle mainBundle] loadNibNamed:@"STXPortalItemListView" owner:self options:nil];
     }
     return self;
 }
 
 - (AGSPortalItem *)addPortalItem:(NSString *)portalItemID
 {
-	EDNPortalItemViewController *portalItemVC = [[EDNPortalItemViewController alloc] initWithPortalItemID:portalItemID];
+	STXPortalItemViewController *portalItemVC = [[STXPortalItemViewController alloc] initWithPortalItemID:portalItemID];
 	portalItemVC.touchDelegate = self.viewController;
 	[self.portalItemVCs addObject:portalItemVC];
 	[self addSubview:portalItemVC.view];
@@ -78,7 +77,7 @@
     // We'll scroll to put the selected item in the middle of the view.
     CGFloat w = CGRectGetWidth(self.frame);
     CGFloat h = CGRectGetHeight(self.frame);
-    for (EDNPortalItemViewController *pvc in self.portalItemVCs) {
+    for (STXPortalItemViewController *pvc in self.portalItemVCs) {
         if ([pvc.portalItem.itemId isEqualToString:portalItemID])
         {
             CGFloat targetMidX = CGRectGetMidX(pvc.portalItemView.frame);
@@ -106,7 +105,7 @@
 	NSInteger y = 0;
 
     // Place each subview in the UIScrollView appropriately
-    for (EDNPortalItemView *subView in self.portalItemSubViews)
+    for (STXPortalItemView *subView in self.portalItemSubViews)
     {
 		CGRect oldFrame = subView.frame;
 		NSInteger newHeight = oldFrame.size.height;

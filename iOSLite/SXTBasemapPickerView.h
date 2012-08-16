@@ -6,18 +6,18 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "EDNPortalItemsPickerView.h"
-#import "EDNLiteHelper.h"
+#import "STXPortalItemPickerView.h"
+#import "STXHelper.h"
 
 @protocol SXTBasemapPickerDelegate
-- (void)basemapSelected:(EDNLiteBasemapType)basemapType;
+- (void)basemapSelected:(STXBasemapType)basemapType;
 -(void) basemapsPickerDidTapInfoButton:(id)basemapsPicker;
 @end
 
-@interface SXTBasemapPickerView : EDNPortalItemsPickerView {
+@interface SXTBasemapPickerView : STXPortalItemPickerView {
 	id<SXTBasemapPickerDelegate> basemapDelegate;
 }
 
 @property (nonatomic, strong) id basemapDelegate;
-@property (nonatomic, assign) EDNLiteBasemapType basemapType;
+@property (nonatomic, assign) STXBasemapType basemapType;
 @end

@@ -50,7 +50,7 @@
         <scene sceneID="cwO-su-kyT">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3zl-Ca-ytR" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="UsU-69-K1C" customClass="EDNBasemapDetailsViewController" sceneMemberID="viewController">
+                <viewController id="UsU-69-K1C" customClass="STXBasemapDetailsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ip8-7G-YI5">
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

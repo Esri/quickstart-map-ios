@@ -7,7 +7,7 @@
 //
 
 #import "AGSStarterGeoServices.h"
-#import "EDNLiteHelper.h"
+#import "STXHelper.h"
 #import <objc/runtime.h>
 
 //#define kEDNLiteNALocatorURL @"http://tasks.arcgisonline.com/ArcGIS/rest/services/Locators/TA_Address_NA_10/GeocodeServer"
@@ -134,7 +134,7 @@
         
         // Log to the console.
         NSLog(@"Found address at %@ within %@ units of %@: %@", candidate.location, distance, 
-              [EDNLiteHelper getWebMercatorAuxSpherePointFromPoint:location], candidate.address);
+              [STXHelper getWebMercatorAuxSpherePointFromPoint:location], candidate.address);
         
         // Build the UserInfo package that goes on the NSNotification
         NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:

@@ -1,5 +1,5 @@
 //
-//  EDNBasemapInfoViewController.m
+//  STXBasemapDetailsViewController.m
 //  iOSLite
 //
 //  Created by Nicholas Furness on 5/23/12.
@@ -7,18 +7,18 @@
 //
 
 #import <ArcGIS/ArcGIS.h>
-#import "EDNBasemapDetailsViewController.h"
+#import "STXBasemapDetailsViewController.h"
 
-#define kEDNLiteAGSPortalItelURLBase @"http://www.arcgis.com/home/item.html?id=%@"
+#define kSTXPortalItemURLBase @"http://www.arcgis.com/home/item.html?id=%@"
 
-@interface EDNBasemapDetailsViewController () <UIWebViewDelegate>
+@interface STXBasemapDetailsViewController () <UIWebViewDelegate>
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *titleLabel;
 
 - (IBAction)doneButtonClicked:(id)sender;
 @end
 
-@implementation EDNBasemapDetailsViewController
+@implementation STXBasemapDetailsViewController
 @synthesize webView;
 @synthesize titleLabel;
 @synthesize portalItem;
@@ -40,7 +40,7 @@
     {
         self.title = self.portalItem.title;
         self.titleLabel.title = self.portalItem.title;
-        NSString *url = [NSString stringWithFormat:kEDNLiteAGSPortalItelURLBase, self.portalItem.itemId];
+        NSString *url = [NSString stringWithFormat:kSTXPortalItemURLBase, self.portalItem.itemId];
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
         [self.webView loadRequest:request];
 		self.webView.delegate = self;

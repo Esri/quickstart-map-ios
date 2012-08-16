@@ -1,5 +1,5 @@
 //
-//  EDNBasemapsPickerViewController.h
+//  STXPortalItemPickerViewController.h
 //  iOSLite
 //
 //  Created by Nicholas Furness on 8/14/12.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
 
-@interface EDNPortalItemsPickerViewController : UIViewController
+@interface STXPortalItemPickerViewController : UIViewController
 @property (nonatomic, weak) NSString *currentPortalItemID;
 @property (nonatomic, strong) AGSPortalItem *currentPortalItem;
 

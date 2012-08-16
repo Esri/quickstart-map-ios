@@ -1,27 +1,27 @@
 //
-//  EDNBasemapsPickerViewController.m
+//  STXPortalItemPickerViewController.m
 //  iOSLite
 //
 //  Created by Nicholas Furness on 8/14/12.
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "EDNPortalItemsPickerViewController.h"
-#import "EDNPortalItemsPickerView.h"
-#import "EDNPortalItemsListView_int.h"
-#import "EDNLiteBasemaps.h"
-#import "EDNLiteHelper.h"
+#import "STXPortalItemPickerViewController.h"
+#import "STXPortalItemPickerView.h"
+#import "STXPortalItemListView_int.h"
+#import "STXBasemapTypeEnum.h"
+#import "STXHelper.h"
 
-@interface EDNPortalItemsPickerViewController () <EDNPortalItemsListViewDelegate, AGSPortalItemDelegate>
-@property (weak, nonatomic) IBOutlet EDNPortalItemsPickerView *portalItemPickerView;
-@property (weak, nonatomic) IBOutlet EDNPortalItemsListView *portalItemListView;
+@interface STXPortalItemPickerViewController () <STXPortalItemListViewDelegate, AGSPortalItemDelegate>
+@property (weak, nonatomic) IBOutlet STXPortalItemPickerView *portalItemPickerView;
+@property (weak, nonatomic) IBOutlet STXPortalItemListView *portalItemListView;
 
 @property (weak, nonatomic) IBOutlet UILabel *portalItemDetailsTitleLabel;
 @property (weak, nonatomic) IBOutlet UIWebView *portalItemDetailsDescriptionWebView;
 @property (weak, nonatomic) IBOutlet UIImageView *portalItemDetailsImageView;
 @end
 
-@implementation EDNPortalItemsPickerViewController
+@implementation STXPortalItemPickerViewController
 @synthesize portalItemPickerView = _portalItemPickerView;
 @synthesize portalItemListView = _portalItemListView;
 

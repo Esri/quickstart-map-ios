@@ -1,5 +1,5 @@
 //
-//  EDNBasemapsListViewController.h
+//  STXPortalItemListViewController.h
 //  iOSLite
 //
 //  Created by Nicholas Furness on 6/13/12.
@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
 
-@protocol EDNPortalItemsListViewDelegate
+@protocol STXPortalItemListViewDelegate
 - (void)selectedPortalItemChanged:(AGSPortalItem *)selectedPortalItem;
 @end
 
-@interface EDNPortalItemsListViewController : UIViewController {
-	id <EDNPortalItemsListViewDelegate> portalItemDelegate;
+@interface STXPortalItemListViewController : UIViewController {
+	id <STXPortalItemListViewDelegate> portalItemDelegate;
 }
 
 @property (nonatomic, weak) id portalItemDelegate;

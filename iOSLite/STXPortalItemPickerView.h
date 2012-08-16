@@ -1,5 +1,5 @@
 //
-//  EDNBasemapsPicker.h
+//  STXPortalItemPickerView.h
 //  iOSLite
 //
 //  Created by Nicholas Furness on 8/14/12.
@@ -8,14 +8,14 @@
 
 #import <ArcGIS/ArcGIS.h>
 
-@protocol EDNBasemapsPickerDelegate
+@protocol STXPortalItemPickerDelegate
 @optional
 -(void) currentPortalItemChanged:(AGSPortalItem *)currentPortalItem;
 -(void) basemapsPickerDidTapInfoButton:(id)basemapsPicker;
 @end
 
-@interface EDNPortalItemsPickerView : UIView {
-	id<EDNBasemapsPickerDelegate> pickerDelegate;
+@interface STXPortalItemPickerView : UIView {
+	id<STXPortalItemPickerDelegate> pickerDelegate;
 }
 
 @property (nonatomic, assign) id pickerDelegate;

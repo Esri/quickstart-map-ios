@@ -1,5 +1,5 @@
 //
-//  EDNPortalItemView.h
+//  STXPortalItemView.h
 //  iOSLite
 //
 //  Created by Nicholas Furness on 8/14/12.
@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
 
-@class EDNPortalItemViewController;
+@class STXPortalItemViewController;
 
-@interface EDNPortalItemView : UIView
+@interface STXPortalItemView : UIView
 @property (nonatomic, assign) BOOL highlighted;
-@property (nonatomic, strong) IBOutlet EDNPortalItemViewController *viewController;
+@property (nonatomic, strong) IBOutlet STXPortalItemViewController *viewController;
 
 @property (nonatomic, readonly) NSString *portalItemID;
 @property (nonatomic, readonly) AGSPortalItem *portalItem;

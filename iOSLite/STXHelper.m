@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "EDNLiteHelper.h"
+#import "STXHelper.h"
 
 NSString * const EDN_SCALE_LEVELS_KEY = @"DefaultScaleLevels";
 NSString * const EDN_DEFAULT_LEVEL_KEY = @"DefaultScaleLevel";
@@ -21,7 +21,7 @@ NSString * const EDN_BASEMAP_KEY_NATGEO = @"National Geographic";
 NSString * const EDN_BASEMAP_KEY_TOPO = @"Topographic";
 NSString * const EDN_BASEMAP_KEY_OSM = @"OpenStreetMap";
 
-@interface EDNLiteHelper () <CLLocationManagerDelegate>
+@interface STXHelper () <CLLocationManagerDelegate>
 + (id)defaultHelper;
 - (double) getScaleForLevel:(NSUInteger)level;
 @property (nonatomic, strong) NSMutableDictionary *mapViewQueues;
@@ -29,7 +29,7 @@ NSString * const EDN_BASEMAP_KEY_OSM = @"OpenStreetMap";
 @end
 
 
-@implementation EDNLiteHelper
+@implementation STXHelper
 BOOL __isInitialized = NO;
 NSDictionary * __ednScales = nil;
 NSString * __ednDefaultScaleLevel = nil;
@@ -47,7 +47,7 @@ NSDictionary * __ednBasemapURLs = nil;
     // until such time as the AGSMapView is loaded. An NSOperationQueue is populated
     // with code blocks, but is not processed until the AGSMapView is observer to have
     // loaded (using KVO).
-    [[EDNLiteHelper defaultHelper] queueBlock:block untilMapViewLoaded:mapView];
+    [[STXHelper defaultHelper] queueBlock:block untilMapViewLoaded:mapView];
 }
 
 - (void) queueBlock:(void (^)(void))block untilMapViewLoaded:(AGSMapView *)mapView
@@ -117,7 +117,7 @@ NSDictionary * __ednBasemapURLs = nil;
 #pragma mark - Geolocation (GPS)
 + (void) getGeolocation
 {
-	EDNLiteHelper *defaultHelper = [EDNLiteHelper defaultHelper];
+	STXHelper *defaultHelper = [STXHelper defaultHelper];
 	
     if (!defaultHelper.locationManager)
     {
@@ -143,7 +143,7 @@ NSDictionary * __ednBasemapURLs = nil;
 														 forKey:kEDNLiteGeolocationSucceededLocationKey];
 	
     [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteGeolocationSucceeded
-                                                        object:[EDNLiteHelper class]
+                                                        object:[STXHelper class]
                                                       userInfo:userInfo];
 	self.locationManager = nil;
 }
@@ -152,7 +152,7 @@ NSDictionary * __ednBasemapURLs = nil;
 {
     [self.locationManager stopUpdatingLocation];
     [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteGeolocationError
-                                                        object:[EDNLiteHelper class]
+                                                        object:[STXHelper class]
                                                       userInfo:[NSDictionary dictionaryWithObject:error
                                                                                            forKey:@"error"]];
 	NSLog(@"Error getting location: %@", error);
@@ -212,29 +212,29 @@ NSDictionary * __ednBasemapURLs = nil;
 	return __ednDefaultScaleLevel;
 }
 
-- (NSString *) getBasemapKeyForEnum:(EDNLiteBasemapType)basemapType
+- (NSString *) getBasemapKeyForEnum:(STXBasemapType)basemapType
 {
     NSString *key;
     switch (basemapType) {
-        case EDNLiteBasemapStreet:
+        case STXBasemapTypeStreet:
             key = EDN_BASEMAP_KEY_STREET;
             break;
-        case EDNLiteBasemapSatellite:
+        case STXBasemapTypeSatellite:
             key = EDN_BASEMAP_KEY_SATELLITE;
             break;
-        case EDNLiteBasemapHybrid:
+        case STXBasemapTypeHybrid:
             key = EDN_BASEMAP_KEY_HYBRID;
             break;
-        case EDNLiteBasemapCanvas:
+        case STXBasemapTypeCanvas:
             key = EDN_BASEMAP_KEY_CANVAS;
             break;
-        case EDNLiteBasemapNationalGeographic:
+        case STXBasemapTypeNationalGeographic:
             key = EDN_BASEMAP_KEY_NATGEO;
             break;
-        case EDNLiteBasemapTopographic:
+        case STXBasemapTypeTopographic:
             key = EDN_BASEMAP_KEY_TOPO;
             break;
-        case EDNLiteBasemapOpenStreetMap:
+        case STXBasemapTypeOpenStreetMap:
             key = EDN_BASEMAP_KEY_OSM;
             break;
     }
@@ -258,12 +258,12 @@ NSDictionary * __ednBasemapURLs = nil;
     }
 }
 
-+ (NSString *) getPortalItemIDForBasemap:(EDNLiteBasemapType)basemapType
++ (NSString *) getPortalItemIDForBasemap:(STXBasemapType)basemapType
 {
-    return [[EDNLiteHelper defaultHelper] getPortalItemIDForBasemap:basemapType];
+    return [[STXHelper defaultHelper] getPortalItemIDForBasemap:basemapType];
 }
 
-- (NSString *) getPortalItemIDForBasemap:(EDNLiteBasemapType)basemapType
+- (NSString *) getPortalItemIDForBasemap:(STXBasemapType)basemapType
 {
     NSString *key = [self getBasemapKeyForEnum:basemapType];
     NSAssert1(key != nil, @"Could not figure out which basemap you're after!", basemapType);
@@ -274,12 +274,12 @@ NSDictionary * __ednBasemapURLs = nil;
 	return webMapID;
 }
 
-+ (EDNLiteBasemapType) getBasemapTypeForPortalItemID:(NSString *)portalItemID
++ (STXBasemapType) getBasemapTypeForPortalItemID:(NSString *)portalItemID
 {
-	return [[EDNLiteHelper defaultHelper] getBasemapTypeForPortalItemID:portalItemID];
+	return [[STXHelper defaultHelper] getBasemapTypeForPortalItemID:portalItemID];
 }
 
-- (EDNLiteBasemapType) getBasemapTypeForPortalItemID:(NSString *)portalItemID
+- (STXBasemapType) getBasemapTypeForPortalItemID:(NSString *)portalItemID
 {
 	NSString *foundKey = nil;
 	for (int i=0; i < __ednBasemapWebMapIDs.count; i++) {
@@ -294,21 +294,21 @@ NSDictionary * __ednBasemapURLs = nil;
 	
 	if (foundKey)
 	{
-		EDNLiteBasemapType type = EDNLiteBasemapFirst;
+		STXBasemapType type = STXBasemapTypeFirst;
 		if ([foundKey isEqualToString:EDN_BASEMAP_KEY_STREET])
-			type = EDNLiteBasemapStreet;
+			type = STXBasemapTypeStreet;
 		else if ([foundKey isEqualToString:EDN_BASEMAP_KEY_SATELLITE])
-			type = EDNLiteBasemapSatellite;
+			type = STXBasemapTypeSatellite;
 		else if ([foundKey isEqualToString:EDN_BASEMAP_KEY_HYBRID])
-			type = EDNLiteBasemapHybrid;
+			type = STXBasemapTypeHybrid;
 		else if ([foundKey isEqualToString:EDN_BASEMAP_KEY_CANVAS])
-			type = EDNLiteBasemapCanvas;
+			type = STXBasemapTypeCanvas;
 		else if ([foundKey isEqualToString:EDN_BASEMAP_KEY_NATGEO])
-			type = EDNLiteBasemapNationalGeographic;
+			type = STXBasemapTypeNationalGeographic;
 		else if ([foundKey isEqualToString:EDN_BASEMAP_KEY_TOPO])
-			type = EDNLiteBasemapTopographic;
+			type = STXBasemapTypeTopographic;
 		else if ([foundKey isEqualToString:EDN_BASEMAP_KEY_OSM])
-			type = EDNLiteBasemapOpenStreetMap;
+			type = STXBasemapTypeOpenStreetMap;
 		
 		return type;
 	}
@@ -316,17 +316,17 @@ NSDictionary * __ednBasemapURLs = nil;
 	return 0;
 }
 
-- (AGSWebMap *) getBasemapWebMap:(EDNLiteBasemapType)basemapType
+- (AGSWebMap *) getBasemapWebMap:(STXBasemapType)basemapType
 {
 	NSString *webMapID = [self getPortalItemIDForBasemap:basemapType];
     AGSWebMap *r = [AGSWebMap webMapWithItemId:webMapID credential:nil];
     return r;
 }
 
-- (BOOL) basemapLayerHasSupplementLayers:(EDNLiteBasemapType)basemapType
+- (BOOL) basemapLayerHasSupplementLayers:(STXBasemapType)basemapType
 {
     switch (basemapType) {
-        case EDNLiteBasemapHybrid:
+        case STXBasemapTypeHybrid:
             return YES;
             
         default:
@@ -334,10 +334,10 @@ NSDictionary * __ednBasemapURLs = nil;
     }
 }
 
-- (AGSTiledLayer *) getBasemapTiledLayer:(EDNLiteBasemapType)basemapType
+- (AGSTiledLayer *) getBasemapTiledLayer:(STXBasemapType)basemapType
 {
     switch (basemapType) {
-        case EDNLiteBasemapOpenStreetMap:
+        case STXBasemapTypeOpenStreetMap:
             return [AGSOpenStreetMapLayer openStreetMapLayer];
             break;
 
@@ -367,7 +367,7 @@ NSDictionary * __ednBasemapURLs = nil;
     }
 }
 
-- (NSArray *) getBasemapSupplementalTiledLayers:(EDNLiteBasemapType)basemapType
+- (NSArray *) getBasemapSupplementalTiledLayers:(STXBasemapType)basemapType
 {
     if ([self basemapLayerHasSupplementLayers:basemapType])
     {
@@ -393,12 +393,12 @@ NSDictionary * __ednBasemapURLs = nil;
 }
 
 #pragma mark - Static Helper functions
-+ (EDNLiteHelper *)defaultHelper {
-    static EDNLiteHelper *sharedInstance = nil;
++ (STXHelper *)defaultHelper {
+    static STXHelper *sharedInstance = nil;
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[EDNLiteHelper alloc] init];
+        sharedInstance = [[STXHelper alloc] init];
     });
     
     return sharedInstance;
@@ -406,27 +406,27 @@ NSDictionary * __ednBasemapURLs = nil;
 
 + (double) getScaleForLevel:(NSUInteger)level
 {
-    return [[EDNLiteHelper defaultHelper] getScaleForLevel:level];
+    return [[STXHelper defaultHelper] getScaleForLevel:level];
 }
 
-+ (AGSWebMap *) getBasemapWebMap:(EDNLiteBasemapType)basemapType
++ (AGSWebMap *) getBasemapWebMap:(STXBasemapType)basemapType
 {
-    return [[EDNLiteHelper defaultHelper] getBasemapWebMap:basemapType];
+    return [[STXHelper defaultHelper] getBasemapWebMap:basemapType];
 }
 
-+ (AGSTiledLayer *) getBasemapTiledLayer:(EDNLiteBasemapType)basemapType
++ (AGSTiledLayer *) getBasemapTiledLayer:(STXBasemapType)basemapType
 {
-    return [[EDNLiteHelper defaultHelper] getBasemapTiledLayer:basemapType];
+    return [[STXHelper defaultHelper] getBasemapTiledLayer:basemapType];
 }
 
-+ (NSArray *) getBasemapSupplementalTiledLayers:(EDNLiteBasemapType)basemapType
++ (NSArray *) getBasemapSupplementalTiledLayers:(STXBasemapType)basemapType
 {
-    return [[EDNLiteHelper defaultHelper] getBasemapSupplementalTiledLayers:basemapType];
+    return [[STXHelper defaultHelper] getBasemapSupplementalTiledLayers:basemapType];
 }
 
-+ (NSString *) getBasemapName:(EDNLiteBasemapType)basemapType
++ (NSString *) getBasemapName:(STXBasemapType)basemapType
 {
-    return [[EDNLiteHelper defaultHelper] getBasemapKeyForEnum:basemapType];
+    return [[STXHelper defaultHelper] getBasemapKeyForEnum:basemapType];
 }
 
 + (AGSPoint *) getWebMercatorAuxSpherePointFromPoint:(AGSPoint *)wgs84Point

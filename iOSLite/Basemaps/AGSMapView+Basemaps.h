@@ -7,10 +7,10 @@
 //
 
 #import <ArcGIS/ArcGIS.h>
-#import "EDNLiteBasemaps.h"
+#import "STXBasemapTypeEnum.h"
 
 #define kEDNLiteNotification_BasemapDidChange @"BasemapDidChange"
 
 @interface AGSMapView (Basemaps)
-- (void) setBasemap:(EDNLiteBasemapType)basemapType;
+- (void) setBasemap:(STXBasemapType)basemapType;
 @end

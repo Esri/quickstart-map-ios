@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		D9086DA0158B90D800FC1D43 /* description.css in Resources */ = {isa = PBXBuildFile; fileRef = D9086D9F158B90D800FC1D43 /* description.css */; };
 		D927EBEA15A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D927EBE915A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.m */; };
-		D93C98A5156D8CC000A5F339 /* EDNBasemapDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D93C98A4156D8CC000A5F339 /* EDNBasemapDetailsViewController.m */; };
-		D94431A5156BE1FC00982D5C /* EDNLiteHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D94431A4156BE1FC00982D5C /* EDNLiteHelper.m */; };
+		D93C98A5156D8CC000A5F339 /* STXBasemapDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D93C98A4156D8CC000A5F339 /* STXBasemapDetailsViewController.m */; };
+		D94431A5156BE1FC00982D5C /* STXHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D94431A4156BE1FC00982D5C /* STXHelper.m */; };
 		D950069F156E0C9C00BA872A /* EDNTiledAppleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D950069C156E0C9C00BA872A /* EDNTiledAppleLayer.m */; };
 		D95006A0156E0C9C00BA872A /* EDNAppleTileOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = D950069E156E0C9C00BA872A /* EDNAppleTileOperation.m */; };
 		D9754D7315ACAF840093BF1E /* UIApplication+AppDimensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */; };
@@ -19,12 +19,12 @@
 		D98221601587C8DD00EF53CC /* 07-map-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = D982215E1587C8DD00EF53CC /* 07-map-marker.png */; };
 		D98221611587C8DD00EF53CC /* 07-map-marker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D982215F1587C8DD00EF53CC /* 07-map-marker@2x.png */; };
 		D99A58D01576B22A00AB05EE /* AGSLayer+Basemap.m in Sources */ = {isa = PBXBuildFile; fileRef = D99A58CF1576B22A00AB05EE /* AGSLayer+Basemap.m */; };
-		D99D987F158950F800F9D36B /* EDNPortalItemsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D99D987D158950F800F9D36B /* EDNPortalItemsListViewController.m */; };
-		D99D9880158950F800F9D36B /* EDNPortalItemsListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D99D987E158950F800F9D36B /* EDNPortalItemsListView.xib */; };
-		D9A985B715890C3D00A0DE40 /* EDNPortalItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A985B515890C3D00A0DE40 /* EDNPortalItemViewController.m */; };
-		D9A985B815890C3D00A0DE40 /* EDNPortalItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9A985B615890C3D00A0DE40 /* EDNPortalItemView.xib */; };
-		D9B1044D156D98B900DF6287 /* UILabel+EDNAutoSizeMutliline.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DCB32E156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.m */; };
-		D9E01457158A45A4005DD7D8 /* EDNPortalItemsListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E01456158A45A4005DD7D8 /* EDNPortalItemsListView.m */; };
+		D99D987F158950F800F9D36B /* STXPortalItemListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D99D987D158950F800F9D36B /* STXPortalItemListViewController.m */; };
+		D99D9880158950F800F9D36B /* STXPortalItemListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D99D987E158950F800F9D36B /* STXPortalItemListView.xib */; };
+		D9A985B715890C3D00A0DE40 /* STXPortalItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A985B515890C3D00A0DE40 /* STXPortalItemViewController.m */; };
+		D9A985B815890C3D00A0DE40 /* STXPortalItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9A985B615890C3D00A0DE40 /* STXPortalItemView.xib */; };
+		D9B1044D156D98B900DF6287 /* UILabel+STXAutoSizeMultiline.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DCB32E156D455100A30BB2 /* UILabel+STXAutoSizeMultiline.m */; };
+		D9E01457158A45A4005DD7D8 /* STXPortalItemListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E01456158A45A4005DD7D8 /* STXPortalItemListView.m */; };
 		D9E27C9E155ABDC5008F8CCB /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */; };
 		D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */; };
 		D9E27CB8155B1EDB008F8CCB /* LiteMapConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */; };
@@ -33,7 +33,7 @@
 		D9F9AE99157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9AE98157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m */; };
 		D9F9EE72156DE7FA00C2A15F /* AGSMapView+Graphics.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9EE71156DE7FA00C2A15F /* AGSMapView+Graphics.m */; };
 		E11C2FB41593AC830004EBB6 /* AGSPoint+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E11C2FB31593AC830004EBB6 /* AGSPoint+GeneralUtilities.m */; };
-		E141D0E315DB02CE004F81F4 /* EDNPortalItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = E141D0E215DB02CD004F81F4 /* EDNPortalItemView.m */; };
+		E141D0E315DB02CE004F81F4 /* STXPortalItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = E141D0E215DB02CD004F81F4 /* STXPortalItemView.m */; };
 		E16C07CC1559B39C00776F3E /* ArcGIS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E16C07CB1559B39C00776F3E /* ArcGIS.bundle */; };
 		E16C07D01559B9AA00776F3E /* AGSMapView+Navigation.m in Sources */ = {isa = PBXBuildFile; fileRef = E16C07CF1559B9AA00776F3E /* AGSMapView+Navigation.m */; };
 		E16C28FA15598A5E00E2DB56 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E16C28F915598A5E00E2DB56 /* UIKit.framework */; };
@@ -56,19 +56,19 @@
 		E1812BDC15DC767E00D3325A /* SXTBasemapPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1812BDB15DC767E00D3325A /* SXTBasemapPickerView.m */; };
 		E1A5682D15ABAC74004AA6C1 /* AGSStarterGeoServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A5682C15ABAC74004AA6C1 /* AGSStarterGeoServices.m */; };
 		E1C12A6A15D5542300B1ADCB /* AGSMapView+GeoServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C12A6915D5542300B1ADCB /* AGSMapView+GeoServices.m */; };
-		E1E1808515DAD2A300BB30DD /* EDNPortalItemsPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1E1808415DAD2A300BB30DD /* EDNPortalItemsPickerView.xib */; };
-		E1E1808E15DAD38400BB30DD /* EDNPortalItemsPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E1808D15DAD38400BB30DD /* EDNPortalItemsPickerView.m */; };
-		E1E1809115DAD43D00BB30DD /* EDNPortalItemsPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E1809015DAD43C00BB30DD /* EDNPortalItemsPickerViewController.m */; };
+		E1E1808515DAD2A300BB30DD /* STXPortalItemPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1E1808415DAD2A300BB30DD /* STXPortalItemPickerView.xib */; };
+		E1E1808E15DAD38400BB30DD /* STXPortalItemPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E1808D15DAD38400BB30DD /* STXPortalItemPickerView.m */; };
+		E1E1809115DAD43D00BB30DD /* STXPortalItemPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E1809015DAD43C00BB30DD /* STXPortalItemPickerViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D9086D9F158B90D800FC1D43 /* description.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = description.css; sourceTree = "<group>"; };
 		D927EBE815A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSGraphicsLayer+GeneralUtilities.h"; sourceTree = "<group>"; };
 		D927EBE915A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSGraphicsLayer+GeneralUtilities.m"; sourceTree = "<group>"; };
-		D93C98A3156D8CC000A5F339 /* EDNBasemapDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNBasemapDetailsViewController.h; sourceTree = "<group>"; };
-		D93C98A4156D8CC000A5F339 /* EDNBasemapDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNBasemapDetailsViewController.m; sourceTree = "<group>"; };
-		D94431A3156BE1FC00982D5C /* EDNLiteHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNLiteHelper.h; sourceTree = "<group>"; };
-		D94431A4156BE1FC00982D5C /* EDNLiteHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNLiteHelper.m; sourceTree = "<group>"; };
+		D93C98A3156D8CC000A5F339 /* STXBasemapDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXBasemapDetailsViewController.h; sourceTree = "<group>"; };
+		D93C98A4156D8CC000A5F339 /* STXBasemapDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXBasemapDetailsViewController.m; sourceTree = "<group>"; };
+		D94431A3156BE1FC00982D5C /* STXHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXHelper.h; sourceTree = "<group>"; };
+		D94431A4156BE1FC00982D5C /* STXHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXHelper.m; sourceTree = "<group>"; };
 		D950069B156E0C9C00BA872A /* EDNTiledAppleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNTiledAppleLayer.h; sourceTree = "<group>"; };
 		D950069C156E0C9C00BA872A /* EDNTiledAppleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNTiledAppleLayer.m; sourceTree = "<group>"; };
 		D950069D156E0C9C00BA872A /* EDNAppleTileOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNAppleTileOperation.h; sourceTree = "<group>"; };
@@ -81,15 +81,15 @@
 		D982215F1587C8DD00EF53CC /* 07-map-marker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "07-map-marker@2x.png"; sourceTree = "<group>"; };
 		D99A58CE1576B22A00AB05EE /* AGSLayer+Basemap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSLayer+Basemap.h"; sourceTree = "<group>"; };
 		D99A58CF1576B22A00AB05EE /* AGSLayer+Basemap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSLayer+Basemap.m"; sourceTree = "<group>"; };
-		D99D987C158950F800F9D36B /* EDNPortalItemsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNPortalItemsListViewController.h; sourceTree = "<group>"; };
-		D99D987D158950F800F9D36B /* EDNPortalItemsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNPortalItemsListViewController.m; sourceTree = "<group>"; };
-		D99D987E158950F800F9D36B /* EDNPortalItemsListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EDNPortalItemsListView.xib; sourceTree = "<group>"; };
-		D9A985B415890C3D00A0DE40 /* EDNPortalItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNPortalItemViewController.h; sourceTree = "<group>"; };
-		D9A985B515890C3D00A0DE40 /* EDNPortalItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNPortalItemViewController.m; sourceTree = "<group>"; };
-		D9A985B615890C3D00A0DE40 /* EDNPortalItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EDNPortalItemView.xib; sourceTree = "<group>"; };
-		D9CCC618156FECBE00EA4353 /* EDNLiteBasemaps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EDNLiteBasemaps.h; sourceTree = "<group>"; };
-		D9E01455158A45A4005DD7D8 /* EDNPortalItemsListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNPortalItemsListView.h; sourceTree = "<group>"; };
-		D9E01456158A45A4005DD7D8 /* EDNPortalItemsListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNPortalItemsListView.m; sourceTree = "<group>"; };
+		D99D987C158950F800F9D36B /* STXPortalItemListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXPortalItemListViewController.h; sourceTree = "<group>"; };
+		D99D987D158950F800F9D36B /* STXPortalItemListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXPortalItemListViewController.m; sourceTree = "<group>"; };
+		D99D987E158950F800F9D36B /* STXPortalItemListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = STXPortalItemListView.xib; sourceTree = "<group>"; };
+		D9A985B415890C3D00A0DE40 /* STXPortalItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXPortalItemViewController.h; sourceTree = "<group>"; };
+		D9A985B515890C3D00A0DE40 /* STXPortalItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXPortalItemViewController.m; sourceTree = "<group>"; };
+		D9A985B615890C3D00A0DE40 /* STXPortalItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = STXPortalItemView.xib; sourceTree = "<group>"; };
+		D9CCC618156FECBE00EA4353 /* STXBasemapTypeEnum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STXBasemapTypeEnum.h; sourceTree = "<group>"; };
+		D9E01455158A45A4005DD7D8 /* STXPortalItemListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXPortalItemListView.h; sourceTree = "<group>"; };
+		D9E01456158A45A4005DD7D8 /* STXPortalItemListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXPortalItemListView.m; sourceTree = "<group>"; };
 		D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = ../../../Library/SDKs/ArcGIS/ArcGIS.framework; sourceTree = "<group>"; };
 		D9E27CB2155AEA6E008F8CCB /* AGSMapView+Basemaps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AGSMapView+Basemaps.h"; path = "Basemaps/AGSMapView+Basemaps.h"; sourceTree = "<group>"; };
 		D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = "AGSMapView+Basemaps.m"; path = "Basemaps/AGSMapView+Basemaps.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -104,8 +104,8 @@
 		D9F9EE71156DE7FA00C2A15F /* AGSMapView+Graphics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+Graphics.m"; sourceTree = "<group>"; };
 		E11C2FB21593AC830004EBB6 /* AGSPoint+GeneralUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSPoint+GeneralUtilities.h"; sourceTree = "<group>"; };
 		E11C2FB31593AC830004EBB6 /* AGSPoint+GeneralUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSPoint+GeneralUtilities.m"; sourceTree = "<group>"; };
-		E141D0E115DB02CD004F81F4 /* EDNPortalItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNPortalItemView.h; sourceTree = "<group>"; };
-		E141D0E215DB02CD004F81F4 /* EDNPortalItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNPortalItemView.m; sourceTree = "<group>"; };
+		E141D0E115DB02CD004F81F4 /* STXPortalItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXPortalItemView.h; sourceTree = "<group>"; };
+		E141D0E215DB02CD004F81F4 /* STXPortalItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXPortalItemView.m; sourceTree = "<group>"; };
 		E16C07CB1559B39C00776F3E /* ArcGIS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ArcGIS.bundle; path = ../../../../Library/SDKs/ArcGIS/ArcGIS.framework/Versions/Current/Resources/ArcGIS.bundle; sourceTree = "<group>"; };
 		E16C07CE1559B9AA00776F3E /* AGSMapView+Navigation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AGSMapView+Navigation.h"; path = "Navigation/AGSMapView+Navigation.h"; sourceTree = "<group>"; };
 		E16C07CF1559B9AA00776F3E /* AGSMapView+Navigation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AGSMapView+Navigation.m"; path = "Navigation/AGSMapView+Navigation.m"; sourceTree = "<group>"; };
@@ -131,20 +131,20 @@
 		E1750BB11559B0F600C50929 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		E1750BB21559B0F600C50929 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E1750BB31559B0F600C50929 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		E1812BD815DC6FA200D3325A /* EDNPortalItemsListView_int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EDNPortalItemsListView_int.h; sourceTree = "<group>"; };
+		E1812BD815DC6FA200D3325A /* STXPortalItemListView_int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STXPortalItemListView_int.h; sourceTree = "<group>"; };
 		E1812BDA15DC767D00D3325A /* SXTBasemapPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXTBasemapPickerView.h; sourceTree = "<group>"; };
 		E1812BDB15DC767E00D3325A /* SXTBasemapPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXTBasemapPickerView.m; sourceTree = "<group>"; };
 		E1A5682B15ABAC74004AA6C1 /* AGSStarterGeoServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGSStarterGeoServices.h; sourceTree = "<group>"; };
 		E1A5682C15ABAC74004AA6C1 /* AGSStarterGeoServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGSStarterGeoServices.m; sourceTree = "<group>"; };
 		E1C12A6815D5542300B1ADCB /* AGSMapView+GeoServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+GeoServices.h"; sourceTree = "<group>"; };
 		E1C12A6915D5542300B1ADCB /* AGSMapView+GeoServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+GeoServices.m"; sourceTree = "<group>"; };
-		E1DCB32D156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+EDNAutoSizeMutliline.h"; sourceTree = "<group>"; };
-		E1DCB32E156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+EDNAutoSizeMutliline.m"; sourceTree = "<group>"; };
-		E1E1808415DAD2A300BB30DD /* EDNPortalItemsPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EDNPortalItemsPickerView.xib; sourceTree = "<group>"; };
-		E1E1808C15DAD38400BB30DD /* EDNPortalItemsPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNPortalItemsPickerView.h; sourceTree = "<group>"; };
-		E1E1808D15DAD38400BB30DD /* EDNPortalItemsPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNPortalItemsPickerView.m; sourceTree = "<group>"; };
-		E1E1808F15DAD43C00BB30DD /* EDNPortalItemsPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNPortalItemsPickerViewController.h; sourceTree = "<group>"; };
-		E1E1809015DAD43C00BB30DD /* EDNPortalItemsPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNPortalItemsPickerViewController.m; sourceTree = "<group>"; };
+		E1DCB32D156D455100A30BB2 /* UILabel+STXAutoSizeMultiline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+STXAutoSizeMultiline.h"; sourceTree = "<group>"; };
+		E1DCB32E156D455100A30BB2 /* UILabel+STXAutoSizeMultiline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+STXAutoSizeMultiline.m"; sourceTree = "<group>"; };
+		E1E1808415DAD2A300BB30DD /* STXPortalItemPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = STXPortalItemPickerView.xib; sourceTree = "<group>"; };
+		E1E1808C15DAD38400BB30DD /* STXPortalItemPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXPortalItemPickerView.h; sourceTree = "<group>"; };
+		E1E1808D15DAD38400BB30DD /* STXPortalItemPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXPortalItemPickerView.m; sourceTree = "<group>"; };
+		E1E1808F15DAD43C00BB30DD /* STXPortalItemPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXPortalItemPickerViewController.h; sourceTree = "<group>"; };
+		E1E1809015DAD43C00BB30DD /* STXPortalItemPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXPortalItemPickerViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,8 +181,8 @@
 		D94431A7156C1EEC00982D5C /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				D94431A3156BE1FC00982D5C /* EDNLiteHelper.h */,
-				D94431A4156BE1FC00982D5C /* EDNLiteHelper.m */,
+				D94431A3156BE1FC00982D5C /* STXHelper.h */,
+				D94431A4156BE1FC00982D5C /* STXHelper.m */,
 				E1C12A6C15D5936500B1ADCB /* Resources */,
 			);
 			name = Helper;
@@ -316,7 +316,7 @@
 		E16C28FF15598A5E00E2DB56 /* iOSLite */ = {
 			isa = PBXGroup;
 			children = (
-				D9CCC618156FECBE00EA4353 /* EDNLiteBasemaps.h */,
+				D9CCC618156FECBE00EA4353 /* STXBasemapTypeEnum.h */,
 				D94431A7156C1EEC00982D5C /* Helper */,
 				D9E27CAF155AE891008F8CCB /* AGS Categories */,
 				E1A5682B15ABAC74004AA6C1 /* AGSStarterGeoServices.h */,
@@ -359,8 +359,8 @@
 			children = (
 				E16C290B15598A5E00E2DB56 /* MainStoryboard_iPhone.storyboard */,
 				E16C290E15598A5E00E2DB56 /* MainStoryboard_iPad.storyboard */,
-				D93C98A3156D8CC000A5F339 /* EDNBasemapDetailsViewController.h */,
-				D93C98A4156D8CC000A5F339 /* EDNBasemapDetailsViewController.m */,
+				D93C98A3156D8CC000A5F339 /* STXBasemapDetailsViewController.h */,
+				D93C98A4156D8CC000A5F339 /* STXBasemapDetailsViewController.m */,
 				E1812BDA15DC767D00D3325A /* SXTBasemapPickerView.h */,
 				E1812BDB15DC767E00D3325A /* SXTBasemapPickerView.m */,
 				E1AC7B8815D2E91E00E4E1BE /* PortalItem Selector */,
@@ -372,22 +372,22 @@
 		E1AC7B8815D2E91E00E4E1BE /* PortalItem Selector */ = {
 			isa = PBXGroup;
 			children = (
-				E1E1808415DAD2A300BB30DD /* EDNPortalItemsPickerView.xib */,
-				E1E1808C15DAD38400BB30DD /* EDNPortalItemsPickerView.h */,
-				E1E1808D15DAD38400BB30DD /* EDNPortalItemsPickerView.m */,
-				E1E1808F15DAD43C00BB30DD /* EDNPortalItemsPickerViewController.h */,
-				E1E1809015DAD43C00BB30DD /* EDNPortalItemsPickerViewController.m */,
-				D99D987E158950F800F9D36B /* EDNPortalItemsListView.xib */,
-				D9E01455158A45A4005DD7D8 /* EDNPortalItemsListView.h */,
-				E1812BD815DC6FA200D3325A /* EDNPortalItemsListView_int.h */,
-				D9E01456158A45A4005DD7D8 /* EDNPortalItemsListView.m */,
-				D99D987C158950F800F9D36B /* EDNPortalItemsListViewController.h */,
-				D99D987D158950F800F9D36B /* EDNPortalItemsListViewController.m */,
-				D9A985B615890C3D00A0DE40 /* EDNPortalItemView.xib */,
-				E141D0E115DB02CD004F81F4 /* EDNPortalItemView.h */,
-				E141D0E215DB02CD004F81F4 /* EDNPortalItemView.m */,
-				D9A985B415890C3D00A0DE40 /* EDNPortalItemViewController.h */,
-				D9A985B515890C3D00A0DE40 /* EDNPortalItemViewController.m */,
+				E1E1808415DAD2A300BB30DD /* STXPortalItemPickerView.xib */,
+				E1E1808C15DAD38400BB30DD /* STXPortalItemPickerView.h */,
+				E1E1808D15DAD38400BB30DD /* STXPortalItemPickerView.m */,
+				E1E1808F15DAD43C00BB30DD /* STXPortalItemPickerViewController.h */,
+				E1E1809015DAD43C00BB30DD /* STXPortalItemPickerViewController.m */,
+				D99D987E158950F800F9D36B /* STXPortalItemListView.xib */,
+				D9E01455158A45A4005DD7D8 /* STXPortalItemListView.h */,
+				E1812BD815DC6FA200D3325A /* STXPortalItemListView_int.h */,
+				D9E01456158A45A4005DD7D8 /* STXPortalItemListView.m */,
+				D99D987C158950F800F9D36B /* STXPortalItemListViewController.h */,
+				D99D987D158950F800F9D36B /* STXPortalItemListViewController.m */,
+				D9A985B615890C3D00A0DE40 /* STXPortalItemView.xib */,
+				E141D0E115DB02CD004F81F4 /* STXPortalItemView.h */,
+				E141D0E215DB02CD004F81F4 /* STXPortalItemView.m */,
+				D9A985B415890C3D00A0DE40 /* STXPortalItemViewController.h */,
+				D9A985B515890C3D00A0DE40 /* STXPortalItemViewController.m */,
 				E1E1809215DAEC2100BB30DD /* Categories */,
 				D9086D9E158B90C500FC1D43 /* Resources */,
 			);
@@ -405,8 +405,8 @@
 		E1E1809215DAEC2100BB30DD /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				E1DCB32D156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.h */,
-				E1DCB32E156D455100A30BB2 /* UILabel+EDNAutoSizeMutliline.m */,
+				E1DCB32D156D455100A30BB2 /* UILabel+STXAutoSizeMultiline.h */,
+				E1DCB32E156D455100A30BB2 /* UILabel+STXAutoSizeMultiline.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -472,10 +472,10 @@
 				D982215C1587C6EB00EF53CC /* 06-map-pin@2x.png in Resources */,
 				D98221601587C8DD00EF53CC /* 07-map-marker.png in Resources */,
 				D98221611587C8DD00EF53CC /* 07-map-marker@2x.png in Resources */,
-				D9A985B815890C3D00A0DE40 /* EDNPortalItemView.xib in Resources */,
-				D99D9880158950F800F9D36B /* EDNPortalItemsListView.xib in Resources */,
+				D9A985B815890C3D00A0DE40 /* STXPortalItemView.xib in Resources */,
+				D99D9880158950F800F9D36B /* STXPortalItemListView.xib in Resources */,
 				D9086DA0158B90D800FC1D43 /* description.css in Resources */,
-				E1E1808515DAD2A300BB30DD /* EDNPortalItemsPickerView.xib in Resources */,
+				E1E1808515DAD2A300BB30DD /* STXPortalItemPickerView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,14 +486,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9B1044D156D98B900DF6287 /* UILabel+EDNAutoSizeMutliline.m in Sources */,
+				D9B1044D156D98B900DF6287 /* UILabel+STXAutoSizeMultiline.m in Sources */,
 				E16C290615598A5E00E2DB56 /* main.m in Sources */,
 				E16C290A15598A5E00E2DB56 /* EDNAppDelegate.m in Sources */,
 				E16C291315598A5E00E2DB56 /* EDNViewController.m in Sources */,
 				E16C07D01559B9AA00776F3E /* AGSMapView+Navigation.m in Sources */,
 				D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */,
-				D94431A5156BE1FC00982D5C /* EDNLiteHelper.m in Sources */,
-				D93C98A5156D8CC000A5F339 /* EDNBasemapDetailsViewController.m in Sources */,
+				D94431A5156BE1FC00982D5C /* STXHelper.m in Sources */,
+				D93C98A5156D8CC000A5F339 /* STXBasemapDetailsViewController.m in Sources */,
 				D9F9EE72156DE7FA00C2A15F /* AGSMapView+Graphics.m in Sources */,
 				D950069F156E0C9C00BA872A /* EDNTiledAppleLayer.m in Sources */,
 				D95006A0156E0C9C00BA872A /* EDNAppleTileOperation.m in Sources */,
@@ -501,17 +501,17 @@
 				D9EAB295156FE0AF008BCE8F /* EDNRouteDisplayHelper.m in Sources */,
 				D99A58D01576B22A00AB05EE /* AGSLayer+Basemap.m in Sources */,
 				D9F9AE99157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m in Sources */,
-				D9A985B715890C3D00A0DE40 /* EDNPortalItemViewController.m in Sources */,
-				D99D987F158950F800F9D36B /* EDNPortalItemsListViewController.m in Sources */,
-				D9E01457158A45A4005DD7D8 /* EDNPortalItemsListView.m in Sources */,
+				D9A985B715890C3D00A0DE40 /* STXPortalItemViewController.m in Sources */,
+				D99D987F158950F800F9D36B /* STXPortalItemListViewController.m in Sources */,
+				D9E01457158A45A4005DD7D8 /* STXPortalItemListView.m in Sources */,
 				E11C2FB41593AC830004EBB6 /* AGSPoint+GeneralUtilities.m in Sources */,
 				D927EBEA15A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.m in Sources */,
 				E1A5682D15ABAC74004AA6C1 /* AGSStarterGeoServices.m in Sources */,
 				D9754D7315ACAF840093BF1E /* UIApplication+AppDimensions.m in Sources */,
 				E1C12A6A15D5542300B1ADCB /* AGSMapView+GeoServices.m in Sources */,
-				E1E1808E15DAD38400BB30DD /* EDNPortalItemsPickerView.m in Sources */,
-				E1E1809115DAD43D00BB30DD /* EDNPortalItemsPickerViewController.m in Sources */,
-				E141D0E315DB02CE004F81F4 /* EDNPortalItemView.m in Sources */,
+				E1E1808E15DAD38400BB30DD /* STXPortalItemPickerView.m in Sources */,
+				E1E1809115DAD43D00BB30DD /* STXPortalItemPickerViewController.m in Sources */,
+				E141D0E315DB02CE004F81F4 /* STXPortalItemView.m in Sources */,
 				E1812BDC15DC767E00D3325A /* SXTBasemapPickerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

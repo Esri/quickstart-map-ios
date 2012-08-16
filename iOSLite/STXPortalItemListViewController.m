@@ -1,5 +1,5 @@
 //
-//  EDNBasemapsListViewController.m
+//  STXPortalItemListViewController.m
 //  iOSLite
 //
 //  Created by Nicholas Furness on 6/13/12.
@@ -7,22 +7,22 @@
 //
 
 #import <ArcGIS/ArcGIS.h>
-#import "EDNPortalItemsListView_int.h"
-#import "EDNPortalItemsListViewController.h"
-#import "EDNPortalItemViewController.h"
+#import "STXPortalItemListView_int.h"
+#import "STXPortalItemListViewController.h"
+#import "STXPortalItemViewController.h"
 
-#import "EDNPortalItemView.h"
+#import "STXPortalItemView.h"
 
-@interface EDNPortalItemsListViewController () <PortalItemViewTouchDelegate>
-@property (weak, nonatomic) IBOutlet EDNPortalItemsListView *portalItemsListView;
+@interface STXPortalItemListViewController () <PortalItemViewTouchDelegate>
+@property (weak, nonatomic) IBOutlet STXPortalItemListView *portalItemsListView;
 @end
 
-@implementation EDNPortalItemsListViewController
+@implementation STXPortalItemListViewController
 @synthesize portalItemsListView = _portalItemsListView;
 
 @synthesize portalItemDelegate = _portalItemDelegate;
 
-- (void) portalItemViewTapped:(EDNPortalItemView *)portalItemView
+- (void) portalItemViewTapped:(STXPortalItemView *)portalItemView
 {
 	NSLog(@"Tapped a basemap!");
 	[self.portalItemsListView ensureItemVisible:portalItemView.portalItemID Highlighted:YES];

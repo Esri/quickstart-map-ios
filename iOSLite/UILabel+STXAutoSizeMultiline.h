@@ -1,5 +1,5 @@
 //
-//  UILabel+EDNAutoSize.h
+//  UILabel+STXAutoSizeMultiline.h
 //  iOSLite
 //
 //  Created by Nicholas Furness on 5/23/12.
@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UILabel (EDNAutoSizeMultiline)
+@interface UILabel (STXAutoSizeMultiline)
 - (void) setFontSizeToFit;
 @end

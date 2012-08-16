@@ -6,14 +6,14 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 //  This subclass of the PortalItemsPickerView abstracts the AGSPortalItem behaviour away from
-//  the user. Instead, the control's interface works on the EDNBasemapType enumeration.
+//  the user. Instead, the control's interface works on the STXBasemapType enumeration.
 
 #import "SXTBasemapPickerView.h"
-#import "EDNLiteHelper.h"
+#import "STXHelper.h"
 
 // We modify the interface declaration here to show that we're going to implement
-// the <EDNBasemapsPickerDelegate> handler
-@interface SXTBasemapPickerView () <EDNBasemapsPickerDelegate>
+// the <STXPortalItemPickerDelegate> handler
+@interface SXTBasemapPickerView () <STXPortalItemPickerDelegate>
 
 @end
 
@@ -47,10 +47,10 @@
 - (void)populateWithBasemaps
 {
     // Loop over all the basemap types we have enumerated
-	for (EDNLiteBasemapType type = EDNLiteBasemapFirst; type <= EDNLiteBasemapLast; type++)
+	for (STXBasemapType type = STXBasemapTypeFirst; type <= STXBasemapTypeLast; type++)
     {
         // Use the helper to get a portal item for the basemap type
-        NSString *portalItemID = [EDNLiteHelper getPortalItemIDForBasemap:type];
+        NSString *portalItemID = [STXHelper getPortalItemIDForBasemap:type];
 
 		// Add the portal item to this PortalItemsPickerView
         [self addPortalItemByID:portalItemID];
@@ -58,13 +58,13 @@
 }
 
 // Explicit setter definition for the basemapType property
-- (void)setBasemapType:(EDNLiteBasemapType)basemapType
+- (void)setBasemapType:(STXBasemapType)basemapType
 {
     // Set the iVar
 	_basemapType = basemapType;
 	
     // Get hold of the WebMap for the Basemap Type
-	AGSWebMap *wm = [EDNLiteHelper getBasemapWebMap:_basemapType];
+	AGSWebMap *wm = [STXHelper getBasemapWebMap:_basemapType];
     // Then get hold of the Portal Item
 	AGSPortalItem *pi = wm.portalItem;
     // And lastly read the ItemID off the Portal Item.
@@ -73,11 +73,11 @@
 	self.currentPortalItemID = portalID;
 }
 
-#pragma mark - EDNBasemapsPickerDelegate handlers
+#pragma mark - STXPortalItemPickerDelegate handlers
 - (void)currentPortalItemChanged:(AGSPortalItem *)currentPortalItem
 {
     // Translate the PortalItem into a BasemapType
-	EDNLiteBasemapType newType = [EDNLiteHelper getBasemapTypeForPortalItemID:currentPortalItem.itemId];
+	STXBasemapType newType = [STXHelper getBasemapTypeForPortalItemID:currentPortalItem.itemId];
 	
     // Bubble this up using our custom BasemapType based delegate handler
 	if ([self.basemapDelegate respondsToSelector:@selector(basemapSelected:)])

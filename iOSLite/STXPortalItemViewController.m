@@ -1,18 +1,17 @@
 //
-//  EDNBasemapItemViewController.m
+//  STXPortalItemViewController.m
 //  iOSLite
 //
 //  Created by Nicholas Furness on 6/13/12.
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "EDNPortalItemViewController.h"
-#import "UILabel+EDNAutoSizeMutliline.h"
+#import "STXPortalItemViewController.h"
+#import "UILabel+STXAutoSizeMultiline.h"
 
-@interface EDNPortalItemViewController () <AGSPortalDelegate, AGSPortalItemDelegate>
+@interface STXPortalItemViewController () <AGSPortalDelegate, AGSPortalItemDelegate>
 @property (nonatomic, strong) AGSPortal *portal;
 @property (nonatomic, strong, readwrite) AGSPortalItem *portalItem;
-//@property (nonatomic, assign, readwrite) EDNLiteBasemapType basemapType;
 @property (nonatomic, strong) NSString *portalItemID;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -21,7 +20,7 @@
 - (IBAction)basemapTapped:(id)sender;
 @end
 
-@implementation EDNPortalItemViewController
+@implementation STXPortalItemViewController
 
 @synthesize portal = _portal;
 @synthesize portalItem = _portalItem;
@@ -29,13 +28,12 @@
 @synthesize portalItemView = _portalItemView;
 @synthesize imageView = _portalImageView;
 @synthesize label = _portalLabel;
-//@synthesize basemapType = _basemapType;
 
 
 #pragma mark - Initialization
 - (id)initWithPortalItemID:(NSString *)portalItemID
 {
-    self = [super initWithNibName:@"EDNPortalItemView" bundle:nil];
+    self = [super initWithNibName:@"STXPortalItemView" bundle:nil];
  
     if (self)
     {

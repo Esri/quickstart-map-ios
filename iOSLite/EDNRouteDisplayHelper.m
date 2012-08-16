@@ -8,7 +8,7 @@
 
 #import "EDNRouteDisplayHelper.h"
 
-#import "EDNLiteHelper.h"
+#import "STXHelper.h"
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSMapView+Basemaps.h"
 #import "AGSGraphicsLayer+GeneralUtilities.h"
