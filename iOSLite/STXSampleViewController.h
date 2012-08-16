@@ -1,5 +1,5 @@
 //
-//  EDNViewController.h
+//  STXSampleViewController.h
 //  iOSLite
 //
 //  Created by Nicholas Furness on 5/8/12.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
 
-@interface EDNViewController : UIViewController
+@interface STXSampleViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet AGSMapView *mapView;
 

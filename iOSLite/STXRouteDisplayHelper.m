@@ -1,37 +1,37 @@
 //
-//  EDNLitRouteTaskHelper.m
+//  STXRouteDisplayHelper.m
 //  iOSLite
 //
 //  Created by Nicholas Furness on 5/25/12.
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "EDNRouteDisplayHelper.h"
+#import "STXRouteDisplayHelper.h"
 
 #import "STXHelper.h"
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSMapView+Basemaps.h"
 #import "AGSGraphicsLayer+GeneralUtilities.h"
-#import "AGSStarterGeoServices.h"
+#import "STXGeoServices.h"
 
-#define kEdnLiteRouteTaskUrl @"http://tasks.arcgisonline.com/ArcGIS/rest/services/NetworkAnalysis/ESRI_Route_NA/NAServer/Route"
-#define kEdnLiteRouteTaskHelperNotificationLoaded @"EDNLiteRouteTaskHelperLoaded"
-#define kEdnLiteRouteTaskHelperNotificationRouteSolved @"EDNLiteRouteTaskHelperRouteSolved"
+#define kSTXRouteTaskUrl @"http://tasks.arcgisonline.com/ArcGIS/rest/services/NetworkAnalysis/ESRI_Route_NA/NAServer/Route"
+#define kSTXRouteTaskHelperNotificationLoaded @"STXRouteTaskHelperLoaded"
+#define kSTXRouteTaskHelperNotificationRouteSolved @"STXRouteTaskHelperRouteSolved"
 
-#define kEDNLiteGreenPinURL @"http://static.arcgis.com/images/Symbols/Shapes/GreenPin1LargeB.png"
-#define kEDNLiteRedPinURL @"http://static.arcgis.com/images/Symbols/Shapes/RedPin1LargeB.png"
-#define kEDNLitePinXOffset 0
-#define kEDNLitePinYOffset 11
-#define kEDNLitePinSize CGSizeMake(28,28)
+#define kSTXGreenPinURL @"http://static.arcgis.com/images/Symbols/Shapes/GreenPin1LargeB.png"
+#define kSTXRedPinURL @"http://static.arcgis.com/images/Symbols/Shapes/RedPin1LargeB.png"
+#define kSTXPinXOffset 0
+#define kSTXPinYOffset 11
+#define kSTXPinSize CGSizeMake(28,28)
 
-#define kEDNLiteRouteResultsLayerName @"EDNLiteRouteResults"
+#define kSTXRouteResultsLayerName @"STXRouteResults"
 
-@interface EDNRouteDisplayHelper ()
+@interface STXRouteDisplayHelper ()
 - (id) initForMapView:(AGSMapView *)mapView;
 @property (nonatomic, retain) AGSMapView *mapView;
 @end
 
-@implementation EDNRouteDisplayHelper
+@implementation STXRouteDisplayHelper
 @synthesize routeGraphicsLayer = _routeGraphicsLayer;
 
 @synthesize startSymbol = _startSymbol;
@@ -41,9 +41,9 @@
 @synthesize mapView = _mapView;
 
 #pragma mark - Public static shortcut
-+ (EDNRouteDisplayHelper *) ednLiteRouteDisplayHelperForMapView:(AGSMapView *)mapView
++ (STXRouteDisplayHelper *) routeDisplayHelperForMapView:(AGSMapView *)mapView
 {
-    return [[EDNRouteDisplayHelper alloc] initForMapView:mapView];
+    return [[STXRouteDisplayHelper alloc] initForMapView:mapView];
 }
 
 #pragma mark - Public methods
@@ -62,11 +62,11 @@
 		
         for (AGSStopGraphic *stopGraphic in result.stopGraphics) {
             NSLog(@"Route Stop Point: \"%@\"", stopGraphic.name);
-            if ([stopGraphic.name isEqualToString:kEDNLiteRoutingStartPointName])
+            if ([stopGraphic.name isEqualToString:kSTXRoutingStartPointName])
             {
                 stopGraphic.symbol = self.startSymbol;
             }
-            else if ([stopGraphic.name isEqualToString:kEDNLiteRoutingEndPointName])
+            else if ([stopGraphic.name isEqualToString:kSTXRoutingEndPointName])
             {
                 stopGraphic.symbol = self.endSymbol;
             }
@@ -94,12 +94,12 @@
     {
 		// Create a new Graphics Layer
         self.routeGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
-		[mapView addMapLayer:self.routeGraphicsLayer withName:kEDNLiteRouteResultsLayerName];
+		[mapView addMapLayer:self.routeGraphicsLayer withName:kSTXRouteResultsLayerName];
 		
 		// We need to make sure we re-add the layer when the basemap changes...
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(basemapDidChange:)
-                                                     name:kEDNLiteNotification_BasemapDidChange
+                                                     name:kSTXNotification_BasemapDidChange
                                                    object:mapView];
 
 		// Keep a handle onto our AGSMapView
@@ -107,16 +107,16 @@
 
 		// Set up the default symbols.
         self.startSymbol = [AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor greenColor]];
-        AGSPictureMarkerSymbol *pms = [AGSPictureMarkerSymbol pictureMarkerSymbolWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:kEDNLiteGreenPinURL]]]];
-        pms.xoffset = kEDNLitePinXOffset;
-        pms.yoffset = kEDNLitePinYOffset;
-        pms.size = kEDNLitePinSize;
+        AGSPictureMarkerSymbol *pms = [AGSPictureMarkerSymbol pictureMarkerSymbolWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:kSTXGreenPinURL]]]];
+        pms.xoffset = kSTXPinXOffset;
+        pms.yoffset = kSTXPinYOffset;
+        pms.size = kSTXPinSize;
         self.startSymbol = pms;
 
-        pms = [AGSPictureMarkerSymbol pictureMarkerSymbolWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:kEDNLiteRedPinURL]]]];
-        pms.xoffset = kEDNLitePinXOffset;
-        pms.yoffset = kEDNLitePinYOffset;
-        pms.size = kEDNLitePinSize;
+        pms = [AGSPictureMarkerSymbol pictureMarkerSymbolWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:kSTXRedPinURL]]]];
+        pms.xoffset = kSTXPinXOffset;
+        pms.yoffset = kSTXPinYOffset;
+        pms.size = kSTXPinSize;
         self.endSymbol = pms;
         
 		self.routeSymbol = [AGSSimpleLineSymbol simpleLineSymbolWithColor:[[UIColor orangeColor] colorWithAlphaComponent:0.7f] width:8.0f];
@@ -136,14 +136,14 @@
 
 - (void) addRouteResultsLayer
 {
-	 [self.mapView addMapLayer:self.routeGraphicsLayer withName:kEDNLiteRouteResultsLayerName];
+	 [self.mapView addMapLayer:self.routeGraphicsLayer withName:kSTXRouteResultsLayerName];
 }
 
 #pragma mark - Basemap Change Notification Handler
 - (void) basemapDidChange:(NSNotification *)notification
 {
     // The basemap changed, which means we need to re-add the basemap layer
-    if (![self.mapView getLayerForName:kEDNLiteRouteResultsLayerName])
+    if (![self.mapView getLayerForName:kSTXRouteResultsLayerName])
     {
 		[self addRouteResultsLayer];
     }

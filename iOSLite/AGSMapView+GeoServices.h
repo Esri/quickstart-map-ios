@@ -7,8 +7,8 @@
 //
 
 #import <ArcGIS/ArcGIS.h>
-#import "AGSStarterGeoServices.h"
+#import "STXGeoServices.h"
 
 @interface AGSMapView (GeoServices)
-- (AGSStarterGeoServices *) geoServices;
+- (STXGeoServices *) geoServices;
 @end

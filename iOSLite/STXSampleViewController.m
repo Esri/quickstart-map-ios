@@ -1,12 +1,12 @@
 //
-//  EDNViewController.m
+//  STXSampleViewController.m
 //  iOSLite
 //
 //  Created by Nicholas Furness on 5/8/12.
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "EDNViewController.h"
+#import "STXSampleViewController.h"
 #import "STXPortalItemPickerView.h"
 
 #import "STXHelper.h"
@@ -18,38 +18,37 @@
 #import "AGSMapView+Graphics.h"
 #import "AGSMapView+RouteDisplay.h"
 
-#import "AGSStarterGeoServices.h"
+#import "STXGeoServices.h"
 
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSPoint+GeneralUtilities.h"
 
 #import "UIApplication+AppDimensions.h"
 
-#import "SXTBasemapPickerView.h"
+#import "STXBasemapPickerView.h"
 #import "STXBasemapDetailsViewController.h"
-//#import "UILabel+EDNAutoSizeMutliline.h"
 #import <objc/runtime.h>
 
 typedef enum 
 {
-    EDNVCStateBasemaps,
-    EDNVCStateGeolocation,
-    EDNVCStateGraphics,
-    EDNVCStateGraphics_Editing,
-    EDNVCStateFindPlace,
-    EDNVCStateFindAddress,
-	EDNVCStateDirections,
-    EDNVCStateDirections_WaitingForRouteStart,
-    EDNVCStateDirections_WaitingForRouteEnd
+    STXSampleAppStateBasemaps,
+    STXSampleAppStateGeolocation,
+    STXSampleAppStateGraphics,
+    STXSampleAppStateGraphics_Editing,
+    STXSampleAppStateFindPlace,
+    STXSampleAppStateFindAddress,
+	STXSampleAppStateDirections,
+    STXSampleAppStateDirections_WaitingForRouteStart,
+    STXSampleAppStateDirections_WaitingForRouteEnd
 }
-EDNVCState;
+STXSampleAppState;
 
-#define kEDNLiteGetAddressReasonKey @"FindAddressReason"
-#define kEDNLiteGetAddressReasonRouteStart @"RouteStartPoint"
-#define kEDNLiteGetAddressReasonRouteEnd @"RouteEndPoint"
-#define kEDNLiteGetAddressReasonReverseGeocodeForPoint @"FindAddressFunction"
+#define kSTXGetAddressReasonKey @"FindAddressReason"
+#define kSTXGetAddressReasonRouteStart @"RouteStartPoint"
+#define kSTXGetAddressReasonRouteEnd @"RouteEndPoint"
+#define kSTXGetAddressReasonReverseGeocodeForPoint @"FindAddressFunction"
 
-@interface EDNViewController () <AGSPortalItemDelegate, AGSMapViewTouchDelegate, AGSRouteTaskDelegate, UISearchBarDelegate, AGSLocatorDelegate, UIWebViewDelegate, SXTBasemapPickerDelegate>
+@interface STXSampleViewController () <AGSPortalItemDelegate, AGSMapViewTouchDelegate, AGSRouteTaskDelegate, UISearchBarDelegate, AGSLocatorDelegate, UIWebViewDelegate, STXBasemapPickerDelegate>
 
 // General UI
 @property (weak, nonatomic) IBOutlet UIToolbar *functionToolBar;
@@ -62,7 +61,7 @@ EDNVCState;
 @property (weak, nonatomic) IBOutlet UIView *graphicsPanel;
 
 // Basemaps
-@property (weak, nonatomic) IBOutlet SXTBasemapPickerView *basemapsPicker;
+@property (weak, nonatomic) IBOutlet STXBasemapPickerView *basemapsPicker;
 
 @property (strong, nonatomic) NSMutableArray *basemapVCs;
 
@@ -111,7 +110,7 @@ EDNVCState;
 @property (assign) STXBasemapType currentBasemapType;
 @property (assign) BOOL uiControlsVisible;
 
-@property (assign) EDNVCState currentState;
+@property (assign) STXSampleAppState currentState;
 
 @property (nonatomic, assign) NSUInteger findScale;
 
@@ -135,7 +134,7 @@ EDNVCState;
 - (IBAction)toFromTapped:(id)sender;
 @end
 
-@implementation EDNViewController
+@implementation STXSampleViewController
 @synthesize editGraphicsToolbar = _editGraphicsToolbar;
 @synthesize undoEditGraphicsButton = _undoEditGraphicsButton;
 @synthesize redoEditGraphicsButton = _redoEditGraphicsButton;
@@ -183,18 +182,18 @@ EDNVCState;
 @synthesize keyboardSize = _keyboardSize;
 
 
-#define kEDNLiteApplicationLocFromState @"ButtonState"
+#define kSTXApplicationLocFromState @"ButtonState"
 
 #pragma mark - Initialization Methods
 
 - (void)initUI
 {
 	// Track the application state
-    self.currentState = EDNVCStateBasemaps;
+    self.currentState = STXSampleAppStateBasemaps;
 
     // Store some state on the UI so that we can track when the user is placing points for routing.
-    objc_setAssociatedObject(self.routeStartButton, kEDNLiteApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    objc_setAssociatedObject(self.routeEndButton, kEDNLiteApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self.routeStartButton, kSTXApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self.routeEndButton, kSTXApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
     // When we geolocate, what scale level to zoom the map to?
     self.findScale = 13;
@@ -214,11 +213,11 @@ EDNVCState;
     // of events.
     [[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(basemapDidChange:)
-												 name:kEDNLiteNotification_BasemapDidChange
+												 name:kSTXNotification_BasemapDidChange
 											   object:self.mapView];
 //    [[NSNotificationCenter defaultCenter] addObserver:self
 //											 selector:@selector(basemapSelected:)
-//												 name:kEDNLiteNotification_BasemapSelected
+//												 name:kSTXNotification_BasemapSelected
 //											   object:nil];
 	
 	// We need to re-arrange the UI when the keyboard displays and hides, so let's find out when that happens.
@@ -263,7 +262,7 @@ EDNVCState;
 	// And let me know when it finds points for an address.
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(gotCandidatesForAddress:)
-                                                 name:kEDNLiteGeoServicesNotification_PointsFromAddress_OK
+                                                 name:kSTXGeoServicesNotification_PointsFromAddress_OK
                                                object:self.mapView.geoServices];
 }
 
@@ -307,24 +306,24 @@ EDNVCState;
 {
     NSLog(@"Clicked on map!");
     switch (self.currentState) {
-        case EDNVCStateGraphics:
+        case STXSampleAppStateGraphics:
             if (graphics.count > 0)
             {
                 // The user selected a graphic. Let's edit it.
                 [self.mapView editGraphicFromMapViewDidClickAtPoint:graphics];
-                self.currentState = EDNVCStateGraphics_Editing;
+                self.currentState = STXSampleAppStateGraphics_Editing;
             }
             break;
 
-        case EDNVCStateDirections_WaitingForRouteStart:
+        case STXSampleAppStateDirections_WaitingForRouteStart:
             [self didTapStartPoint:mapPoint];
             break;
             
-        case EDNVCStateDirections_WaitingForRouteEnd:
+        case STXSampleAppStateDirections_WaitingForRouteEnd:
             [self didTapEndPoint:mapPoint];
             break;
             
-        case EDNVCStateFindAddress:
+        case STXSampleAppStateFindAddress:
             [self didTapToReverseGeocode:mapPoint];
             break;
             
@@ -411,28 +410,28 @@ EDNVCState;
 
 #pragma mark - Application State
 
-- (EDNVCState)currentState
+- (STXSampleAppState)currentState
 {
     return _currentState;
 }
 
-- (void) setCurrentState:(EDNVCState)currentState
+- (void) setCurrentState:(STXSampleAppState)currentState
 {
     _currentState = currentState;
     
     switch (_currentState) {
-        case EDNVCStateDirections_WaitingForRouteStart:
+        case STXSampleAppStateDirections_WaitingForRouteStart:
             self.routeStartLabel.text = @"Tap a point on the map…";
 			self.routeStartButton.selected = YES;
 			self.routeEndButton.selected = NO;
             break;
-        case EDNVCStateDirections_WaitingForRouteEnd:
+        case STXSampleAppStateDirections_WaitingForRouteEnd:
             self.routeEndLabel.text = @"Tap a point on the map…";
 			self.routeEndButton.selected = YES;
 			self.routeStartButton.selected = NO;
             break;
             
-        case EDNVCStateGraphics_Editing:
+        case STXSampleAppStateGraphics_Editing:
             for (UIBarButtonItem *buttonItem in self.editGraphicsToolbar.items) {
                 buttonItem.enabled = YES;
             }
@@ -440,7 +439,7 @@ EDNVCState;
             [self listenToEditingUndoManager];
             self.mapView.showMagnifierOnTapAndHold = YES;
             break;
-        case EDNVCStateGraphics:
+        case STXSampleAppStateGraphics:
             for (UIBarButtonItem *buttonItem in self.editGraphicsToolbar.items) {
                 buttonItem.enabled = NO;
             }
@@ -462,22 +461,22 @@ EDNVCState;
     UISegmentedControl *seg = sender;
     switch (seg.selectedSegmentIndex) {
         case 0:
-            self.currentState = EDNVCStateBasemaps;
+            self.currentState = STXSampleAppStateBasemaps;
             break;
         case 1:
-            self.currentState = EDNVCStateGeolocation;
+            self.currentState = STXSampleAppStateGeolocation;
             break;
         case 2:
-            self.currentState = EDNVCStateGraphics;
+            self.currentState = STXSampleAppStateGraphics;
             break;
         case 3:
-            self.currentState = EDNVCStateFindPlace;
+            self.currentState = STXSampleAppStateFindPlace;
             break;
         case 4:
-            self.currentState = EDNVCStateFindAddress;
+            self.currentState = STXSampleAppStateFindAddress;
             break;
         case 5:
-            self.currentState = EDNVCStateDirections;
+            self.currentState = STXSampleAppStateDirections;
             break;
         default:
             NSLog(@"Set state to %d", seg.selectedSegmentIndex);
@@ -501,25 +500,25 @@ EDNVCState;
     UIView *viewToShow = nil;
     
     switch (self.currentState) {
-        case EDNVCStateBasemaps:
+        case STXSampleAppStateBasemaps:
             viewToShow = self.basemapsPicker;
             break;
-        case EDNVCStateDirections:
-        case EDNVCStateDirections_WaitingForRouteStart:
-        case EDNVCStateDirections_WaitingForRouteEnd:
+        case STXSampleAppStateDirections:
+        case STXSampleAppStateDirections_WaitingForRouteStart:
+        case STXSampleAppStateDirections_WaitingForRouteEnd:
             viewToShow = self.routingPanel;
             break;
-        case EDNVCStateFindAddress:
+        case STXSampleAppStateFindAddress:
             viewToShow = self.findAddressPanel;
             break;
-        case EDNVCStateFindPlace:
+        case STXSampleAppStateFindPlace:
             viewToShow = self.findPlacePanel;
             break;
-        case EDNVCStateGeolocation:
+        case STXSampleAppStateGeolocation:
             viewToShow = self.geolocationPanel;
             break;
-        case EDNVCStateGraphics:
-        case EDNVCStateGraphics_Editing:
+        case STXSampleAppStateGraphics:
+        case STXSampleAppStateGraphics_Editing:
             viewToShow = self.graphicsPanel;
             break;
     }
@@ -687,14 +686,6 @@ EDNVCState;
 	[self.mapView setBasemap:basemapType];
 }
 
-//- (void)currentPortalItemChanged:(AGSPortalItem *)currentPortalItem
-//{
-//    EDNLiteBasemapType basemapType = [EDNLiteHelper getBasemapTypeForPortalItemID:currentPortalItem.itemId];
-//    self.currentBasemapType = basemapType;
-//	self.currentPortalItem = currentPortalItem;
-//	[self.mapView setBasemap:self.currentBasemapType];
-//}
-
 - (STXBasemapType)currentBasemapType
 {
     return _currentBasemapType;
@@ -756,44 +747,44 @@ EDNVCState;
 
 - (IBAction)newPtGraphic:(id)sender {
     [self.mapView createAndEditNewPoint];
-    self.currentState = EDNVCStateGraphics_Editing;
+    self.currentState = STXSampleAppStateGraphics_Editing;
 }
 
 - (IBAction)newLnGraphic:(id)sender {
     [self.mapView createAndEditNewLine];
-    self.currentState = EDNVCStateGraphics_Editing;
+    self.currentState = STXSampleAppStateGraphics_Editing;
 }
 
 - (IBAction)newPgGraphic:(id)sender {
     [self.mapView createAndEditNewPolygon];
-    self.currentState = EDNVCStateGraphics_Editing;
+    self.currentState = STXSampleAppStateGraphics_Editing;
 }
 
 - (IBAction)newMultiPtGraphic:(id)sender {
     [self.mapView createAndEditNewMultipoint];
-    self.currentState = EDNVCStateGraphics_Editing;
+    self.currentState = STXSampleAppStateGraphics_Editing;
 }
 
 - (IBAction)clearPoints:(id)sender {
-    [self.mapView clearGraphics:EDNLiteGraphicsLayerTypePoint];
+    [self.mapView clearGraphics:STXGraphicsLayerTypePoint];
 }
 
 - (IBAction)clearLines:(id)sender {
-    [self.mapView clearGraphics:EDNLiteGraphicsLayerTypePolyline];
+    [self.mapView clearGraphics:STXGraphicsLayerTypePolyline];
 }
 
 - (IBAction)clearPolygons:(id)sender {
-    [self.mapView clearGraphics:EDNLiteGraphicsLayerTypePolygon];
+    [self.mapView clearGraphics:STXGraphicsLayerTypePolygon];
 }
 
 - (IBAction)doneEditingGraphic:(id)sender {
     [self.mapView saveCurrentEdit];
-    self.currentState = EDNVCStateGraphics;
+    self.currentState = STXSampleAppStateGraphics;
 }
 
 - (IBAction)cancelEditingGraphic:(id)sender {
     [self.mapView cancelCurrentEdit];
-    self.currentState = EDNVCStateGraphics;
+    self.currentState = STXSampleAppStateGraphics;
 }
 
 - (IBAction)undoEditingGraphic:(id)sender {
@@ -816,14 +807,14 @@ EDNVCState;
 - (void) didGetAddressFromPoint:(NSNotification *)notification
 {
 	NSDictionary *userInfo = notification.userInfo;
-	NSOperation *op = [userInfo objectForKey:kEDNLiteGeoServicesNotification_WorkerOperationKey];
+	NSOperation *op = [userInfo objectForKey:kSTXGeoServicesNotification_WorkerOperationKey];
 	
 	if (op)
 	{
-		AGSAddressCandidate *candidate = [userInfo objectForKey:kEDNLiteGeoServicesNotification_AddressFromPoint_AddressCandidateKey];
+		AGSAddressCandidate *candidate = [userInfo objectForKey:kSTXGeoServicesNotification_AddressFromPoint_AddressCandidateKey];
 		
 		NSDictionary *ad = candidate.address;
-		NSString *street = [ad objectForKey:kEDNLiteAddressCandidateAddressField];
+		NSString *street = [ad objectForKey:kSTXAddressCandidateAddressField];
 		if (street != (id)[NSNull null])
 		{
 			street = [NSString stringWithFormat:@"%@, ", street];
@@ -833,29 +824,29 @@ EDNVCState;
 		}
 		NSString *address = [NSString stringWithFormat:@"%@%@, %@ %@",
 							 street,
-							 [ad objectForKey:kEDNLiteAddressCandidateCityField],
-							 [ad objectForKey:kEDNLiteAddressCandidateStateField],
-							 [ad objectForKey:kEDNLiteAddressCandidateZipField]];
+							 [ad objectForKey:kSTXAddressCandidateCityField],
+							 [ad objectForKey:kSTXAddressCandidateStateField],
+							 [ad objectForKey:kSTXAddressCandidateZipField]];
 		
 		// We're only interested in Reverse Geocodes that happened as a result of
 		// start or end points of the route being clicked...
-		NSString *source = objc_getAssociatedObject(op, kEDNLiteGetAddressReasonKey);
+		NSString *source = objc_getAssociatedObject(op, kSTXGetAddressReasonKey);
 		if (source)
 		{
 			// OK, this is something we requested and so we should be able to work
 			// out what to do with it.
 			
-			if ([source isEqualToString:kEDNLiteGetAddressReasonRouteStart])
+			if ([source isEqualToString:kSTXGetAddressReasonRouteStart])
 			{
 				self.routeStartPoint = candidate.location;
 				self.routeStartAddress = address;
 			}
-			else if ([source isEqualToString:kEDNLiteGetAddressReasonRouteEnd])
+			else if ([source isEqualToString:kSTXGetAddressReasonRouteEnd])
 			{
 				self.routeEndPoint = candidate.location;
 				self.routeEndAddress = address;
 			}
-			else if ([source isEqualToString:kEDNLiteGetAddressReasonReverseGeocodeForPoint])
+			else if ([source isEqualToString:kSTXGetAddressReasonReverseGeocodeForPoint])
 			{
 				self.findAddressSearchBar.text = address;
 			}
@@ -865,7 +856,7 @@ EDNVCState;
 
 - (void) didFailToGetAddressFromPoint:(NSNotification *)notification
 {
-	NSError *error = [notification.userInfo objectForKey:kEDNLiteGeoServicesNotification_ErrorKey];
+	NSError *error = [notification.userInfo objectForKey:kSTXGeoServicesNotification_ErrorKey];
 	NSLog(@"Failed to get address for location: %@", error);
 }
 
@@ -876,41 +867,41 @@ EDNVCState;
 	// Let me know when the Geoservices object finds an address for a point.
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(didGetAddressFromPoint:)
-												 name:kEDNLiteGeoServicesNotification_AddressFromPoint_OK
+												 name:kSTXGeoServicesNotification_AddressFromPoint_OK
 											   object:self.mapView.geoServices];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(didFailToGetAddressFromPoint:)
-												 name:kEDNLiteGeoServicesNotification_AddressFromPoint_Error
+												 name:kSTXGeoServicesNotification_AddressFromPoint_Error
 											   object:self.mapView.geoServices];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(didSolveRouteOK:)
-												 name:kEDNLiteGeoServicesNotification_FindRoute_OK
+												 name:kSTXGeoServicesNotification_FindRoute_OK
 											   object:self.mapView.geoServices];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(didFailToSolveRoute:)
-												 name:kEDNLiteGeoServicesNotification_FindRoute_Error
+												 name:kSTXGeoServicesNotification_FindRoute_Error
 											   object:self.mapView.geoServices];
 }
 
 - (void)didTapStartPoint:(AGSPoint *)mapPoint
 {
     NSOperation *op = [self.mapView.geoServices getAddressFromPoint:mapPoint];
-    objc_setAssociatedObject(op, kEDNLiteGetAddressReasonKey, kEDNLiteGetAddressReasonRouteStart, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(op, kSTXGetAddressReasonKey, kSTXGetAddressReasonRouteStart, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)didTapEndPoint:(AGSPoint *)mapPoint
 {
     NSOperation *op = [self.mapView.geoServices getAddressFromPoint:mapPoint];
-    objc_setAssociatedObject(op, kEDNLiteGetAddressReasonKey, kEDNLiteGetAddressReasonRouteEnd, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(op, kSTXGetAddressReasonKey, kSTXGetAddressReasonRouteEnd, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)didTapToReverseGeocode:(AGSPoint *)mapPoint
 {
 	NSOperation *op = [self.mapView.geoServices getAddressFromPoint:mapPoint];
-    objc_setAssociatedObject(op, kEDNLiteGetAddressReasonKey, kEDNLiteGetAddressReasonReverseGeocodeForPoint, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(op, kSTXGetAddressReasonKey, kSTXGetAddressReasonReverseGeocodeForPoint, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void) setRouteStartPoint:(AGSPoint *)routeStartPoint
@@ -918,11 +909,11 @@ EDNVCState;
     _routeStartPoint = routeStartPoint;
     if (_routeStartPoint)
     {
-		self.currentState = EDNVCStateDirections;
+		self.currentState = STXSampleAppStateDirections;
         [self setToFromButton:self.routeStartButton selectedState:NO];
         if (![self doRouteIfPossible])
 		{
-			self.currentState = EDNVCStateDirections_WaitingForRouteEnd;
+			self.currentState = STXSampleAppStateDirections_WaitingForRouteEnd;
 		}
     }
     [self setStartText];
@@ -933,11 +924,11 @@ EDNVCState;
     _routeEndPoint = routeEndPoint;
     if (_routeEndPoint)
     {
-		self.currentState = EDNVCStateDirections;
+		self.currentState = STXSampleAppStateDirections;
         [self setToFromButton:self.routeEndButton selectedState:NO];
         if (![self doRouteIfPossible])
 		{
-			self.currentState = EDNVCStateDirections_WaitingForRouteStart;
+			self.currentState = STXSampleAppStateDirections_WaitingForRouteStart;
 		}
 	}
     [self setEndText];
@@ -969,7 +960,7 @@ EDNVCState;
 
 - (void) didSolveRouteOK:(NSNotification *)notification
 {
-	AGSRouteTaskResult *results = [notification.userInfo objectForKey:kEDNLiteGeoServicesNotification_FindRoute_RouteTaskResultsKey];
+	AGSRouteTaskResult *results = [notification.userInfo objectForKey:kSTXGeoServicesNotification_FindRoute_RouteTaskResultsKey];
 	if (results)
 	{
 		self.routeResult = [results.routeResults objectAtIndex:0];
@@ -979,7 +970,7 @@ EDNVCState;
 
 - (void) didFailToSolveRoute:(NSNotification *)notification
 {
-	NSError *error = [notification.userInfo objectForKey:kEDNLiteGeoServicesNotification_ErrorKey];
+	NSError *error = [notification.userInfo objectForKey:kSTXGeoServicesNotification_ErrorKey];
 	if (error)
 	{
 		NSLog(@"Failed to solve route: %@", error);
@@ -1050,7 +1041,7 @@ EDNVCState;
 		self.routeEndAddress = nil;
         self.routeStartPoint = nil;
         self.routeEndPoint = nil;
-        self.currentState = EDNVCStateDirections_WaitingForRouteStart;
+        self.currentState = STXSampleAppStateDirections_WaitingForRouteStart;
     }
 }
 
@@ -1061,7 +1052,7 @@ EDNVCState;
 	//    otherBi.tintColor = nil;
     otherBi.selected = NO;
 	//    UIColor *tintColor = (bi == self.routeStartButton)?[UIColor greenColor]:[UIColor redColor];
-    objc_setAssociatedObject(otherBi, kEDNLiteApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(otherBi, kSTXApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     // Set the new state for this one, and set our app state too.
     NSLog(@"Selected: %@", selected?@"YES":@"NO");
@@ -1070,18 +1061,18 @@ EDNVCState;
     {
 		//        bi.tintColor = [UIColor colorWithWhite:0.6 alpha:1];
 		//        bi.tintColor = tintColor;
-        self.currentState = (bi == self.routeStartButton)?EDNVCStateDirections_WaitingForRouteStart:EDNVCStateDirections_WaitingForRouteEnd;
+        self.currentState = (bi == self.routeStartButton)?STXSampleAppStateDirections_WaitingForRouteStart:STXSampleAppStateDirections_WaitingForRouteEnd;
     }
     else
     {
 		//        bi.tintColor = nil;
-        self.currentState = EDNVCStateDirections;
+        self.currentState = STXSampleAppStateDirections;
     }
-    objc_setAssociatedObject(bi, kEDNLiteApplicationLocFromState, [NSNumber numberWithBool:selected], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(bi, kSTXApplicationLocFromState, [NSNumber numberWithBool:selected], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (IBAction)toFromTapped:(id)sender {
-    BOOL selected = [(NSNumber *)objc_getAssociatedObject(sender, kEDNLiteApplicationLocFromState) boolValue];
+    BOOL selected = [(NSNumber *)objc_getAssociatedObject(sender, kSTXApplicationLocFromState) boolValue];
     [self setToFromButton:sender selectedState:!selected];
 }
 
@@ -1107,7 +1098,7 @@ EDNVCState;
 {
     NSDictionary *userInfo = notification.userInfo;
     
-    NSOperation *op = [userInfo objectForKey:kEDNLiteGeoServicesNotification_WorkerOperationKey];
+    NSOperation *op = [userInfo objectForKey:kSTXGeoServicesNotification_WorkerOperationKey];
 	
     if (op)
     {
@@ -1121,7 +1112,7 @@ EDNVCState;
             return NO;
         }];
         
-        NSArray *candidates = [userInfo objectForKey:kEDNLiteGeoServicesNotification_PointsFromAddress_LocationCandidatesKey];
+        NSArray *candidates = [userInfo objectForKey:kSTXGeoServicesNotification_PointsFromAddress_LocationCandidatesKey];
         if (candidates.count > 0)
         {
             NSArray *sortedCandidates = [candidates sortedArrayUsingComparator:^(id obj1, id obj2) {

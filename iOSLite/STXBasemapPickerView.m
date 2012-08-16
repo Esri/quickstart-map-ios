@@ -1,5 +1,5 @@
 //
-//  SXTBasemapPickerView.m
+//  STXBasemapPickerView.m
 //  iOSLite
 //
 //  Created by Nicholas Furness on 8/15/12.
@@ -8,16 +8,16 @@
 //  This subclass of the PortalItemsPickerView abstracts the AGSPortalItem behaviour away from
 //  the user. Instead, the control's interface works on the STXBasemapType enumeration.
 
-#import "SXTBasemapPickerView.h"
+#import "STXBasemapPickerView.h"
 #import "STXHelper.h"
 
 // We modify the interface declaration here to show that we're going to implement
 // the <STXPortalItemPickerDelegate> handler
-@interface SXTBasemapPickerView () <STXPortalItemPickerDelegate>
+@interface STXBasemapPickerView () <STXPortalItemPickerDelegate>
 
 @end
 
-@implementation SXTBasemapPickerView
+@implementation STXBasemapPickerView
 // Synthesize the properties (not needed from Xcode 4.4.1 onwards)
 @synthesize basemapType = _basemapType;
 @synthesize basemapDelegate = _basemapDelegate;

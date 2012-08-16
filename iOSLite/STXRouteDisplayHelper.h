@@ -1,5 +1,5 @@
 //
-//  EDNLitRouteTaskHelper.h
+//  STXRouteDisplayHelper.h
 //  iOSLite
 //
 //  Created by Nicholas Furness on 5/25/12.
@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <ArcGIS/ArcGIS.h>
 
-@interface EDNRouteDisplayHelper : NSObject
+@interface STXRouteDisplayHelper : NSObject
 // Use this method to instantiate a new RouteDisplayHelper for a given AGSMapView
-+ (EDNRouteDisplayHelper *) ednLiteRouteDisplayHelperForMapView:(AGSMapView *)mapView;
++ (STXRouteDisplayHelper *) routeDisplayHelperForMapView:(AGSMapView *)mapView;
 
 - (void) showRouteResults:(AGSRouteTaskResult *)routeTaskResults;
 - (void) clearRouteDisplay;

@@ -12,22 +12,22 @@
 #import "STXHelper.h"
 
 @implementation AGSMapView (Graphics)
-AGSGraphicsLayer * __ednLitePointGraphicsLayer = nil;
-AGSGraphicsLayer * __ednLitePolylineGraphicsLayer = nil;
-AGSGraphicsLayer * __ednLitePolygonGraphicsLayer = nil;
-AGSSketchGraphicsLayer * __ednLiteSketchGraphicsLayer = nil;
-id<AGSMapViewTouchDelegate> __ednLiteTempTouchDelegate = nil;
+AGSGraphicsLayer * __stxPointGraphicsLayer = nil;
+AGSGraphicsLayer * __stxPolylineGraphicsLayer = nil;
+AGSGraphicsLayer * __stxPolygonGraphicsLayer = nil;
+AGSSketchGraphicsLayer * __stxSketchGraphicsLayer = nil;
+id<AGSMapViewTouchDelegate> __stxTempTouchDelegate = nil;
 
-AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
+AGSGraphic * __stxCurrentEditingGraphic = nil;
 
-#define kEDNLiteGraphicsLayerName_Point @"ednLitePointGraphicsLayer"
-#define kEDNLiteGraphicsLayerName_Polyline @"ednLitePolylineGraphicsLayer"
-#define kEDNLiteGraphicsLayerName_Polygon @"ednLitePolygonGraphicsLayer"
+#define kSTXGraphicsLayerName_Point @"stxPointGraphicsLayer"
+#define kSTXGraphicsLayerName_Polyline @"stxPolylineGraphicsLayer"
+#define kSTXGraphicsLayerName_Polygon @"stxPolygonGraphicsLayer"
 
-#define kEdnLiteGraphicTag @"iOSLiteAPI"
-#define kEdnLiteGraphicTagKey @"createdBy"
+#define kSTXGraphicTag @"iOSLiteAPI"
+#define kSTXGraphicTagKey @"createdBy"
 
-#define kEDNLiteSketchGraphicsLayerName @"ednLiteSketchGraphcisLayer"
+#define kSTXSketchGraphicsLayerName @"stxSketchGraphcisLayer"
 
 #pragma mark - Add Graphics Programatically
 - (AGSGraphic *) addPointAtLat:(double)latitude Long:(double)longitude
@@ -39,9 +39,9 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
 
 - (AGSGraphic *) addPoint:(AGSPoint *)point
 {    
-    AGSGraphic *g = [self __ednLiteGetDefaultGraphicForGeometry:point];
+    AGSGraphic *g = [self __stxGetDefaultGraphicForGeometry:point];
     
-    [self __ednLiteAddGraphicToAppropriateGraphicsLayer:g];
+    [self __stxAddGraphicToAppropriateGraphicsLayer:g];
     
     return g;
 }
@@ -58,9 +58,9 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
         [line addPointToPath:pt];
     }
 
-    AGSGraphic *g = [self __ednLiteGetDefaultGraphicForGeometry:line];
+    AGSGraphic *g = [self __stxGetDefaultGraphicForGeometry:line];
 
-    [self __ednLiteAddGraphicToAppropriateGraphicsLayer:g];
+    [self __stxAddGraphicToAppropriateGraphicsLayer:g];
 
     return g;
 }
@@ -77,34 +77,34 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
         [poly addPointToRing:pt];
     }
 
-    AGSGraphic *g = [self __ednLiteGetDefaultGraphicForGeometry:poly];
+    AGSGraphic *g = [self __stxGetDefaultGraphicForGeometry:poly];
 
-    [self __ednLiteAddGraphicToAppropriateGraphicsLayer:g];
+    [self __stxAddGraphicToAppropriateGraphicsLayer:g];
 
     return g;
 }
 
 #pragma mark - Clear graphics from the map
-- (void) clearGraphics:(EDNLiteGraphicsLayerType)layerType
+- (void) clearGraphics:(STXGraphicsLayerType)layerType
 {
     AGSGraphicsLayer *gl = nil;
-    if (layerType & EDNLiteGraphicsLayerTypePoint)
+    if (layerType & STXGraphicsLayerTypePoint)
     {
-        gl = [self getGraphicsLayer:EDNLiteGraphicsLayerTypePoint];
+        gl = [self getGraphicsLayer:STXGraphicsLayerTypePoint];
         [gl removeAllGraphics];
         [gl dataChanged];
     }
     
-    if (layerType & EDNLiteGraphicsLayerTypePolyline)
+    if (layerType & STXGraphicsLayerTypePolyline)
     {
-        gl = [self getGraphicsLayer:EDNLiteGraphicsLayerTypePolyline];
+        gl = [self getGraphicsLayer:STXGraphicsLayerTypePolyline];
         [gl removeAllGraphics];
         [gl dataChanged];
     }
     
-    if (layerType & EDNLiteGraphicsLayerTypePolygon)
+    if (layerType & STXGraphicsLayerTypePolygon)
     {
-        gl = [self getGraphicsLayer:EDNLiteGraphicsLayerTypePolygon];
+        gl = [self getGraphicsLayer:STXGraphicsLayerTypePolygon];
         [gl removeAllGraphics];
         [gl dataChanged];
     }
@@ -112,9 +112,9 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
 
 - (void) clearGraphics
 {
-    [self clearGraphics:(EDNLiteGraphicsLayerTypePoint + 
-                         EDNLiteGraphicsLayerTypePolyline +
-                         EDNLiteGraphicsLayerTypePolygon)];
+    [self clearGraphics:(STXGraphicsLayerTypePoint + 
+                         STXGraphicsLayerTypePolyline +
+                         STXGraphicsLayerTypePolygon)];
 }
 
 #pragma marl - Remove graphic
@@ -131,9 +131,9 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
 
 - (void) removeGraphicsMatchingCriteria:(BOOL (^)(AGSGraphic *))checkBlock
 {
-    NSArray *layersToCheck = [NSArray arrayWithObjects:__ednLitePointGraphicsLayer,
-                                                       __ednLitePolylineGraphicsLayer, 
-                                                       __ednLitePolygonGraphicsLayer, nil];
+    NSArray *layersToCheck = [NSArray arrayWithObjects:__stxPointGraphicsLayer,
+                                                       __stxPolylineGraphicsLayer, 
+                                                       __stxPolygonGraphicsLayer, nil];
     
     // Get the graphics to remove from all layers
     NSMutableArray *graphicsToRemove = [NSMutableArray array];
@@ -163,7 +163,7 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
 #pragma mark - Edit graphic
 - (void) editGraphic:(AGSGraphic *)graphic
 {
-	[self __ednLiteEditGraphic:graphic];
+	[self __stxEditGraphic:graphic];
 }
 
 #pragma mark - Edit graphic selected from the map
@@ -173,9 +173,9 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
     
     for (NSString *layerName in graphics.allKeys)
     {
-        if (layerName == kEDNLiteGraphicsLayerName_Point ||
-            layerName == kEDNLiteGraphicsLayerName_Polyline ||
-            layerName == kEDNLiteGraphicsLayerName_Polygon)
+        if (layerName == kSTXGraphicsLayerName_Point ||
+            layerName == kSTXGraphicsLayerName_Polyline ||
+            layerName == kSTXGraphicsLayerName_Polygon)
         {
             NSArray *graphicsToEditFromLayer = [graphics objectForKey:layerName];
             if (graphicsToEditFromLayer.count > 0)
@@ -194,56 +194,56 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
 #pragma mark - Create and Edit new graphics
 - (void) createAndEditNewPoint
 {
-    [self __ednLiteEditGeometry:[[AGSMutablePoint alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
+    [self __stxEditGeometry:[[AGSMutablePoint alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
 }
 
 - (void) createAndEditNewMultipoint
 {
-    [self __ednLiteEditGeometry:[[AGSMutableMultipoint alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
+    [self __stxEditGeometry:[[AGSMutableMultipoint alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
 }
 
 - (void) createAndEditNewLine
 {
-    [self __ednLiteEditGeometry:[[AGSMutablePolyline alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
+    [self __stxEditGeometry:[[AGSMutablePolyline alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
 }
 
 - (void) createAndEditNewPolygon
 {
-    [self __ednLiteEditGeometry:[[AGSMutablePolygon alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
+    [self __stxEditGeometry:[[AGSMutablePolygon alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
 }
 
 #pragma mark - Save edit/create
 - (AGSGraphic *) saveCurrentEdit
 {
-    if (__ednLiteSketchGraphicsLayer)
+    if (__stxSketchGraphicsLayer)
     {
         // Update the graphics geometry
-        AGSGeometry *editedGeometry = __ednLiteSketchGraphicsLayer.geometry;
+        AGSGeometry *editedGeometry = __stxSketchGraphicsLayer.geometry;
         AGSGraphic *editedGraphic = nil;
-        if (__ednLiteCurrentEditingGraphic)
+        if (__stxCurrentEditingGraphic)
         {
             // Editing an existing graphic
-            __ednLiteCurrentEditingGraphic.geometry = editedGeometry;
-            AGSGraphicsLayer *owningLayer = __ednLiteCurrentEditingGraphic.layer;
+            __stxCurrentEditingGraphic.geometry = editedGeometry;
+            AGSGraphicsLayer *owningLayer = __stxCurrentEditingGraphic.layer;
             // Get the owning layer and refresh it.
             [owningLayer dataChanged];
             
-            editedGraphic = __ednLiteCurrentEditingGraphic;
+            editedGraphic = __stxCurrentEditingGraphic;
         }
         else
         {
             // Creating a new graphic
-            AGSGraphic *g = [self __ednLiteGetDefaultGraphicForGeometry:editedGeometry];
-            [self __ednLiteAddGraphicToAppropriateGraphicsLayer:g];
+            AGSGraphic *g = [self __stxGetDefaultGraphicForGeometry:editedGeometry];
+            [self __stxAddGraphicToAppropriateGraphicsLayer:g];
             
             editedGraphic = g;
         }
         
         // Set the UI interaction back to how it was before.
-        __ednLiteSketchGraphicsLayer.geometry = nil;
-        __ednLiteCurrentEditingGraphic = nil;
-        self.touchDelegate = __ednLiteTempTouchDelegate;
-        __ednLiteTempTouchDelegate = nil;
+        __stxSketchGraphicsLayer.geometry = nil;
+        __stxCurrentEditingGraphic = nil;
+        self.touchDelegate = __stxTempTouchDelegate;
+        __stxTempTouchDelegate = nil;
         
         return editedGraphic;
     }
@@ -254,61 +254,61 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
 #pragma mark - Cancel edit/create
 - (void) cancelCurrentEdit
 {
-    if (__ednLiteSketchGraphicsLayer)
+    if (__stxSketchGraphicsLayer)
     {
         // Set the UI interaction back to how it was before.
-        __ednLiteSketchGraphicsLayer.geometry = nil;
-        __ednLiteCurrentEditingGraphic = nil;
-        self.touchDelegate = __ednLiteTempTouchDelegate;
-        __ednLiteTempTouchDelegate = nil;
+        __stxSketchGraphicsLayer.geometry = nil;
+        __stxCurrentEditingGraphic = nil;
+        self.touchDelegate = __stxTempTouchDelegate;
+        __stxTempTouchDelegate = nil;
     }
 }
 
 #pragma mark - Accessors to useful objects for UI feedback during editing
 - (NSUndoManager *) getUndoManagerForGraphicsEdits
 {
-    if (__ednLiteSketchGraphicsLayer)
+    if (__stxSketchGraphicsLayer)
     {
-        return __ednLiteSketchGraphicsLayer.undoManager;
+        return __stxSketchGraphicsLayer.undoManager;
     }
     return nil;
 }
 
 - (AGSGeometry *) getCurrentEditGeometry
 {
-    if (__ednLiteSketchGraphicsLayer)
+    if (__stxSketchGraphicsLayer)
     {
-        return __ednLiteSketchGraphicsLayer.geometry;
+        return __stxSketchGraphicsLayer.geometry;
     }
     return nil;
 }
 
-- (AGSGraphicsLayer *) getGraphicsLayer:(EDNLiteGraphicsLayerType)layerType
+- (AGSGraphicsLayer *) getGraphicsLayer:(STXGraphicsLayerType)layerType
 {
-    if (!__ednLitePointGraphicsLayer)
+    if (!__stxPointGraphicsLayer)
     {
         // Create three graphics layers and add them to the map.
-        __ednLitePointGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
-        __ednLitePolylineGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
-        __ednLitePolygonGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
+        __stxPointGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
+        __stxPolylineGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
+        __stxPolygonGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
 		[[NSNotificationCenter defaultCenter] addObserver:self 
-                                                 selector:@selector(__ednLiteGraphicsBasemapDidChange:) 
-                                                     name:kEDNLiteNotification_BasemapDidChange
+                                                 selector:@selector(__stxGraphicsBasemapDidChange:) 
+                                                     name:kSTXNotification_BasemapDidChange
                                                    object:self];
         
     }
     
-    [self __ensureEdnLiteGraphicsLayersAdded];
+    [self __ensureSTXGraphicsLayersAdded];
     
     switch (layerType) {
-        case EDNLiteGraphicsLayerTypePoint:
-            return __ednLitePointGraphicsLayer;
+        case STXGraphicsLayerTypePoint:
+            return __stxPointGraphicsLayer;
             
-        case EDNLiteGraphicsLayerTypePolyline:
-            return __ednLitePolylineGraphicsLayer;
+        case STXGraphicsLayerTypePolyline:
+            return __stxPolylineGraphicsLayer;
             
-        case EDNLiteGraphicsLayerTypePolygon:
-            return __ednLitePolygonGraphicsLayer;
+        case STXGraphicsLayerTypePolygon:
+            return __stxPolygonGraphicsLayer;
     }
     
     return nil;
@@ -316,79 +316,79 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
 
 #pragma mark - Internal/Private
 
-- (void) __ednLiteEditGraphic:(AGSGraphic *)graphicToEdit
+- (void) __stxEditGraphic:(AGSGraphic *)graphicToEdit
 {
     if (graphicToEdit)
     {
-        [self __ednLiteEditGeometry:graphicToEdit.geometry];
-        __ednLiteCurrentEditingGraphic = graphicToEdit;
+        [self __stxEditGeometry:graphicToEdit.geometry];
+        __stxCurrentEditingGraphic = graphicToEdit;
     }
 }
 
-- (void) __ednLiteEditGeometry:(AGSGeometry *)geom
+- (void) __stxEditGeometry:(AGSGeometry *)geom
 {
     if (geom)
     {
-        if (!__ednLiteSketchGraphicsLayer)
+        if (!__stxSketchGraphicsLayer)
         {
-            __ednLiteSketchGraphicsLayer = [AGSSketchGraphicsLayer graphicsLayer];
+            __stxSketchGraphicsLayer = [AGSSketchGraphicsLayer graphicsLayer];
         }
         
         // The layer should always be the topmost layer so, even if we've added it previously, let's
         // remove it now so we can add it to the top again.
-        if (![self getLayerForName:kEDNLiteSketchGraphicsLayerName])
+        if (![self getLayerForName:kSTXSketchGraphicsLayerName])
         {
-            [self removeMapLayerWithName:kEDNLiteSketchGraphicsLayerName];
+            [self removeMapLayerWithName:kSTXSketchGraphicsLayerName];
         }
 
-        [self addMapLayer:__ednLiteSketchGraphicsLayer withName:kEDNLiteSketchGraphicsLayerName];
+        [self addMapLayer:__stxSketchGraphicsLayer withName:kSTXSketchGraphicsLayerName];
         
         // Store the real touch delegate
-        if (!__ednLiteTempTouchDelegate &&
-            self.touchDelegate != __ednLiteSketchGraphicsLayer)
+        if (!__stxTempTouchDelegate &&
+            self.touchDelegate != __stxSketchGraphicsLayer)
         {
-            __ednLiteTempTouchDelegate = self.touchDelegate;
+            __stxTempTouchDelegate = self.touchDelegate;
         }
         
         // Set the sketch layer to be the touch delegate.
-        self.touchDelegate = __ednLiteSketchGraphicsLayer;
+        self.touchDelegate = __stxSketchGraphicsLayer;
         
         AGSGeometry *editGeom = nil;
         editGeom = [geom mutableCopy];
-        __ednLiteSketchGraphicsLayer.geometry = editGeom;
+        __stxSketchGraphicsLayer.geometry = editGeom;
     }
 }
 
-- (void) __ensureEdnLiteGraphicsLayersAdded
+- (void) __ensureSTXGraphicsLayersAdded
 {
-	if (![self getLayerForName:kEDNLiteGraphicsLayerName_Polygon])
+	if (![self getLayerForName:kSTXGraphicsLayerName_Polygon])
     {
-        [self addMapLayer:__ednLitePolygonGraphicsLayer withName:kEDNLiteGraphicsLayerName_Polygon];
+        [self addMapLayer:__stxPolygonGraphicsLayer withName:kSTXGraphicsLayerName_Polygon];
     }
 	
-    if (![self getLayerForName:kEDNLiteGraphicsLayerName_Polyline])
+    if (![self getLayerForName:kSTXGraphicsLayerName_Polyline])
     {
-        [self addMapLayer:__ednLitePolylineGraphicsLayer withName:kEDNLiteGraphicsLayerName_Polyline];
+        [self addMapLayer:__stxPolylineGraphicsLayer withName:kSTXGraphicsLayerName_Polyline];
     }
     
-    if (![self getLayerForName:kEDNLiteGraphicsLayerName_Point])
+    if (![self getLayerForName:kSTXGraphicsLayerName_Point])
     {
-        [self addMapLayer:__ednLitePointGraphicsLayer withName:kEDNLiteGraphicsLayerName_Point];
+        [self addMapLayer:__stxPointGraphicsLayer withName:kSTXGraphicsLayerName_Point];
     }
 }
 
-- (void) __initEdnLiteGraphics
+- (void) __initSTXGraphics
 {
     // Asking for any layer will ensure they're all created and added.
-    [self getGraphicsLayer:EDNLiteGraphicsLayerTypePoint];
+    [self getGraphicsLayer:STXGraphicsLayerTypePoint];
 }
 
-- (void) __ednLiteGraphicsBasemapDidChange:(NSNotification *)notification
+- (void) __stxGraphicsBasemapDidChange:(NSNotification *)notification
 {
-	[self __ensureEdnLiteGraphicsLayersAdded];
+	[self __ensureSTXGraphicsLayersAdded];
 }
 
-- (AGSSymbol *) __ednLiteGetDefaultSymbolForGeometry:(AGSGeometry *)geom
+- (AGSSymbol *) __stxGetDefaultSymbolForGeometry:(AGSGeometry *)geom
 {
     // Return a symbol depending on the type of geometry that was passed in.
     AGSSymbol *symbol = nil;
@@ -411,17 +411,17 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
     return symbol;
 }
 
-- (AGSGraphic *) __ednLiteGetDefaultGraphicForGeometry:(AGSGeometry *)geom
+- (AGSGraphic *) __stxGetDefaultGraphicForGeometry:(AGSGeometry *)geom
 {  
     // Create a graphic with an appropriate symbol and attributes, given a geometry.
     AGSGraphic *g = [AGSGraphic graphicWithGeometry:geom
-                                             symbol:[self __ednLiteGetDefaultSymbolForGeometry:geom]
-                                         attributes:[NSMutableDictionary dictionaryWithObject:kEdnLiteGraphicTag forKey:kEdnLiteGraphicTagKey]
+                                             symbol:[self __stxGetDefaultSymbolForGeometry:geom]
+                                         attributes:[NSMutableDictionary dictionaryWithObject:kSTXGraphicTag forKey:kSTXGraphicTagKey]
                                infoTemplateDelegate:nil];
     return g;
 }
 
-- (void) __ednLiteAddGraphicToAppropriateGraphicsLayer:(AGSGraphic *)graphic
+- (void) __stxAddGraphicToAppropriateGraphicsLayer:(AGSGraphic *)graphic
 {
     // Figure out what type of geometry the graphic is, and add the graphic to the appropriate layer.
     if (graphic)
@@ -431,15 +431,15 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
         if ([geom isKindOfClass:[AGSPoint class]] ||
             [geom isKindOfClass:[AGSMultipoint class]])
         {
-            gLayer = [self getGraphicsLayer:EDNLiteGraphicsLayerTypePoint];
+            gLayer = [self getGraphicsLayer:STXGraphicsLayerTypePoint];
         }
         else if ([geom isKindOfClass:[AGSPolyline class]])
         {
-            gLayer = [self getGraphicsLayer:EDNLiteGraphicsLayerTypePolyline];
+            gLayer = [self getGraphicsLayer:STXGraphicsLayerTypePolyline];
         }
         else if ([geom isKindOfClass:[AGSPolygon class]])
         {
-            gLayer = [self getGraphicsLayer:EDNLiteGraphicsLayerTypePolygon];
+            gLayer = [self getGraphicsLayer:STXGraphicsLayerTypePolygon];
         }
         else {
             NSLog(@"Unrecognized Geometry Class: %@", geom);
@@ -453,7 +453,7 @@ AGSGraphic * __ednLiteCurrentEditingGraphic = nil;
     }
 }
 
-- (NSArray *) __ednLiteGetArrayFromArguments:(NSNumber *)first arguments:(va_list)otherArgs
+- (NSArray *) __stxGetArrayFromArguments:(NSNumber *)first arguments:(va_list)otherArgs
 {
     // Just a helper function.
     NSMutableArray *result = [NSMutableArray array];

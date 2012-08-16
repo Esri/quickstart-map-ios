@@ -9,6 +9,6 @@
 #import <ArcGIS/ArcGIS.h>
 
 @interface AGSLayer (Basemap)
-- (BOOL) isEDNLiteBasemapLayer;
-- (void) setIsEDNLiteBasemapLayer:(BOOL)isBasemapLayer;
+- (BOOL) isSTXBasemapLayer;
+- (void) setIsSTXBasemapLayer:(BOOL)isBasemapLayer;
 @end

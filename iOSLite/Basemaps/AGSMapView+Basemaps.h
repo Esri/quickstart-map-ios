@@ -1,5 +1,5 @@
 //
-//  EDNMapViewLite+Basemaps.h
+//  AGSMapView+Basemaps.h
 //  iOSLite
 //
 //  Created by Nicholas Furness on 5/9/12.
@@ -9,7 +9,7 @@
 #import <ArcGIS/ArcGIS.h>
 #import "STXBasemapTypeEnum.h"
 
-#define kEDNLiteNotification_BasemapDidChange @"BasemapDidChange"
+#define kSTXNotification_BasemapDidChange @"BasemapDidChange"
 
 @interface AGSMapView (Basemaps)
 - (void) setBasemap:(STXBasemapType)basemapType;

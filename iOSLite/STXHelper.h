@@ -1,5 +1,5 @@
 //
-//  EDNLiteHelper.h
+//  STXHelper.h
 //  iOSLite
 //
 //  Created by Nicholas Furness on 5/22/12.
@@ -10,9 +10,9 @@
 #import <ArcGIS/ArcGIS.h>
 #import "STXBasemapTypeEnum.h"
 
-#define kEDNLiteGeolocationSucceeded @"EDNLiteGeolocationSucceeded"
-#define kEDNLiteGeolocationError @"EDNLiteGeolocationError"
-#define kEDNLiteGeolocationSucceededLocationKey @"newLocation"
+#define kSTXGeolocationSucceeded @"STXGeolocationSucceeded"
+#define kSTXGeolocationError @"STXGeolocationError"
+#define kSTXGeolocationSucceededLocationKey @"newLocation"
 
 @interface STXHelper : NSObject
 // Translate a Google/Bing/ArcGIS Online tiling scheme scale number (1-20) to an actual scale value.
@@ -31,9 +31,9 @@
 + (AGSPoint *) getWebMercatorAuxSpherePointFromPoint:(AGSPoint *)wgs84Point;
 + (AGSPoint *) getWGS84PointFromPoint:(AGSPoint *)webMercatorPoint;
 
-// Call getLocation and wait for a notification response of either kEDNLiteGeolocationSucceeded or
-// kEDNLiteGeolocationError. In the case of success, read the AGSPoint from the notification's
-// userInfo dictionary using the kEDNLiteGeolocationSucceededLocationKey key.
+// Call getLocation and wait for a notification response of either kSTXGeolocationSucceeded or
+// kSTXGeolocationError. In the case of success, read the AGSPoint from the notification's
+// userInfo dictionary using the kSTXGeolocationSucceededLocationKey key.
 + (void) getGeolocation;
 + (BOOL) isGeolocationEnabled;
 

@@ -1,5 +1,5 @@
 //
-//  EDNLiteHelper.m
+//  STXHelper.m
 //  iOSLite
 //
 //  Created by Nicholas Furness on 5/22/12.
@@ -8,18 +8,18 @@
 
 #import "STXHelper.h"
 
-NSString * const EDN_SCALE_LEVELS_KEY = @"DefaultScaleLevels";
-NSString * const EDN_DEFAULT_LEVEL_KEY = @"DefaultScaleLevel";
-NSString * const EDN_BASEMAP_IDS_KEY = @"Basemaps";
-NSString * const EDN_BASEMAP_URLS_KEY = @"BasemapURLs";
+#define kSTXConfigKey_ScaleLevels @"DefaultScaleLevels"
+#define kSTXConfigKey_DefaultScaleLevel @"DefaultScaleLevel"
+#define kSTXConfigKey_BasemapPortalItemIDs @"Basemaps"
+#define kSTXConfigKey_BasemapURLs @"BasemapURLs"
 
-NSString * const EDN_BASEMAP_KEY_STREET = @"Street";
-NSString * const EDN_BASEMAP_KEY_SATELLITE = @"Satellite";
-NSString * const EDN_BASEMAP_KEY_HYBRID = @"Hybrid";
-NSString * const EDN_BASEMAP_KEY_CANVAS = @"Canvas";
-NSString * const EDN_BASEMAP_KEY_NATGEO = @"National Geographic";
-NSString * const EDN_BASEMAP_KEY_TOPO = @"Topographic";
-NSString * const EDN_BASEMAP_KEY_OSM = @"OpenStreetMap";
+#define kSTXConfigKey_Basemap_Street @"Street"
+#define kSTXConfigKey_Basemap_Satellite @"Satellite"
+#define kSTXConfigKey_Basemap_Hybrid @"Hybrid"
+#define kSTXConfigKey_Basemap_Canvas @"Canvas"
+#define kSTXConfigKey_Basemap_NatGeo @"National Geographic"
+#define kSTXConfigKey_Basemap_Topographic @"Topographic"
+#define kSTXConfigKey_Basemap_OSM @"OpenStreetMap"
 
 @interface STXHelper () <CLLocationManagerDelegate>
 + (id)defaultHelper;
@@ -31,10 +31,10 @@ NSString * const EDN_BASEMAP_KEY_OSM = @"OpenStreetMap";
 
 @implementation STXHelper
 BOOL __isInitialized = NO;
-NSDictionary * __ednScales = nil;
-NSString * __ednDefaultScaleLevel = nil;
-NSDictionary * __ednBasemapWebMapIDs = nil;
-NSDictionary * __ednBasemapURLs = nil;
+NSDictionary * __stxScales = nil;
+NSString * __stxDefaultScaleLevel = nil;
+NSDictionary * __stxBasemapWebMapIDs = nil;
+NSDictionary * __stxBasemapURLs = nil;
 
 @synthesize mapViewQueues = _mapViewQueues;
 
@@ -140,9 +140,9 @@ NSDictionary * __ednBasemapURLs = nil;
 	NSLog(@"Located me at %.4f,%.4f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
     
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:newLocation
-														 forKey:kEDNLiteGeolocationSucceededLocationKey];
+														 forKey:kSTXGeolocationSucceededLocationKey];
 	
-    [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteGeolocationSucceeded
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSTXGeolocationSucceeded
                                                         object:[STXHelper class]
                                                       userInfo:userInfo];
 	self.locationManager = nil;
@@ -151,7 +151,7 @@ NSDictionary * __ednBasemapURLs = nil;
 - (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
     [self.locationManager stopUpdatingLocation];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteGeolocationError
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSTXGeolocationError
                                                         object:[STXHelper class]
                                                       userInfo:[NSDictionary dictionaryWithObject:error
                                                                                            forKey:@"error"]];
@@ -178,10 +178,10 @@ NSDictionary * __ednBasemapURLs = nil;
 			if ([pList isKindOfClass:[NSDictionary class]])
 			{
 				NSDictionary *d = (NSDictionary *)pList;
-				__ednScales = [d objectForKey:EDN_SCALE_LEVELS_KEY];
-				__ednDefaultScaleLevel = [d objectForKey:EDN_DEFAULT_LEVEL_KEY];
-                __ednBasemapWebMapIDs = [d objectForKey:EDN_BASEMAP_IDS_KEY];
-                __ednBasemapURLs = [d objectForKey:EDN_BASEMAP_URLS_KEY];
+				__stxScales = [d objectForKey:kSTXConfigKey_ScaleLevels];
+				__stxDefaultScaleLevel = [d objectForKey:kSTXConfigKey_DefaultScaleLevel];
+                __stxBasemapWebMapIDs = [d objectForKey:kSTXConfigKey_BasemapPortalItemIDs];
+                __stxBasemapURLs = [d objectForKey:kSTXConfigKey_BasemapURLs];
                 __isInitialized = YES;
 			}
 		}
@@ -204,12 +204,12 @@ NSDictionary * __ednBasemapURLs = nil;
 #pragma mark - Property accessors
 - (NSDictionary *) getEdnScales
 {
-	return __ednScales;
+	return __stxScales;
 }
 
 - (NSString *) getEdnDefaultScaleLevel
 {
-	return __ednDefaultScaleLevel;
+	return __stxDefaultScaleLevel;
 }
 
 - (NSString *) getBasemapKeyForEnum:(STXBasemapType)basemapType
@@ -217,25 +217,25 @@ NSDictionary * __ednBasemapURLs = nil;
     NSString *key;
     switch (basemapType) {
         case STXBasemapTypeStreet:
-            key = EDN_BASEMAP_KEY_STREET;
+            key = kSTXConfigKey_Basemap_Street;
             break;
         case STXBasemapTypeSatellite:
-            key = EDN_BASEMAP_KEY_SATELLITE;
+            key = kSTXConfigKey_Basemap_Satellite;
             break;
         case STXBasemapTypeHybrid:
-            key = EDN_BASEMAP_KEY_HYBRID;
+            key = kSTXConfigKey_Basemap_Hybrid;
             break;
         case STXBasemapTypeCanvas:
-            key = EDN_BASEMAP_KEY_CANVAS;
+            key = kSTXConfigKey_Basemap_Canvas;
             break;
         case STXBasemapTypeNationalGeographic:
-            key = EDN_BASEMAP_KEY_NATGEO;
+            key = kSTXConfigKey_Basemap_NatGeo;
             break;
         case STXBasemapTypeTopographic:
-            key = EDN_BASEMAP_KEY_TOPO;
+            key = kSTXConfigKey_Basemap_Topographic;
             break;
         case STXBasemapTypeOpenStreetMap:
-            key = EDN_BASEMAP_KEY_OSM;
+            key = kSTXConfigKey_Basemap_OSM;
             break;
     }
     
@@ -268,7 +268,7 @@ NSDictionary * __ednBasemapURLs = nil;
     NSString *key = [self getBasemapKeyForEnum:basemapType];
     NSAssert1(key != nil, @"Could not figure out which basemap you're after!", basemapType);
     
-    NSString *webMapID = [__ednBasemapWebMapIDs objectForKey:key];
+    NSString *webMapID = [__stxBasemapWebMapIDs objectForKey:key];
     NSAssert1(webMapID != nil, @"The basemap hasn't been configured properly!", key);
     
 	return webMapID;
@@ -282,9 +282,9 @@ NSDictionary * __ednBasemapURLs = nil;
 - (STXBasemapType) getBasemapTypeForPortalItemID:(NSString *)portalItemID
 {
 	NSString *foundKey = nil;
-	for (int i=0; i < __ednBasemapWebMapIDs.count; i++) {
-		NSString *key = [__ednBasemapWebMapIDs.allKeys objectAtIndex:i];
-		NSString *val = [__ednBasemapWebMapIDs objectForKey:key];
+	for (int i=0; i < __stxBasemapWebMapIDs.count; i++) {
+		NSString *key = [__stxBasemapWebMapIDs.allKeys objectAtIndex:i];
+		NSString *val = [__stxBasemapWebMapIDs objectForKey:key];
 		if ([val isEqualToString:portalItemID])
 		{
 			foundKey = key;
@@ -295,19 +295,19 @@ NSDictionary * __ednBasemapURLs = nil;
 	if (foundKey)
 	{
 		STXBasemapType type = STXBasemapTypeFirst;
-		if ([foundKey isEqualToString:EDN_BASEMAP_KEY_STREET])
+		if ([foundKey isEqualToString:kSTXConfigKey_Basemap_Street])
 			type = STXBasemapTypeStreet;
-		else if ([foundKey isEqualToString:EDN_BASEMAP_KEY_SATELLITE])
+		else if ([foundKey isEqualToString:kSTXConfigKey_Basemap_Satellite])
 			type = STXBasemapTypeSatellite;
-		else if ([foundKey isEqualToString:EDN_BASEMAP_KEY_HYBRID])
+		else if ([foundKey isEqualToString:kSTXConfigKey_Basemap_Hybrid])
 			type = STXBasemapTypeHybrid;
-		else if ([foundKey isEqualToString:EDN_BASEMAP_KEY_CANVAS])
+		else if ([foundKey isEqualToString:kSTXConfigKey_Basemap_Canvas])
 			type = STXBasemapTypeCanvas;
-		else if ([foundKey isEqualToString:EDN_BASEMAP_KEY_NATGEO])
+		else if ([foundKey isEqualToString:kSTXConfigKey_Basemap_NatGeo])
 			type = STXBasemapTypeNationalGeographic;
-		else if ([foundKey isEqualToString:EDN_BASEMAP_KEY_TOPO])
+		else if ([foundKey isEqualToString:kSTXConfigKey_Basemap_Topographic])
 			type = STXBasemapTypeTopographic;
-		else if ([foundKey isEqualToString:EDN_BASEMAP_KEY_OSM])
+		else if ([foundKey isEqualToString:kSTXConfigKey_Basemap_OSM])
 			type = STXBasemapTypeOpenStreetMap;
 		
 		return type;
@@ -350,13 +350,13 @@ NSDictionary * __ednBasemapURLs = nil;
                 if ([self basemapLayerHasSupplementLayers:basemapType])
                 {
                     // The value is a dictionary of layer IDs
-                    NSArray *allBasemapLayers = [__ednBasemapURLs objectForKey:key];
+                    NSArray *allBasemapLayers = [__stxBasemapURLs objectForKey:key];
                     basemapURL = [allBasemapLayers objectAtIndex:0];
                 }
                 else
                 {
                     // The value is a string.
-                    basemapURL = [__ednBasemapURLs objectForKey:key];
+                    basemapURL = [__stxBasemapURLs objectForKey:key];
                 }
                 NSAssert1(basemapURL != nil, @"The basemap hasn't been configured properly!", key);
                 
@@ -375,7 +375,7 @@ NSDictionary * __ednBasemapURLs = nil;
         NSAssert1(key != nil, @"Could not figure out which basemap you're after!", basemapType);
 
         // The value is a dictionary of layer IDs
-        NSArray *allBasemapLayers = [__ednBasemapURLs objectForKey:key];
+        NSArray *allBasemapLayers = [__stxBasemapURLs objectForKey:key];
         NSMutableArray *results = [NSMutableArray array];
         for (int i = 1; i < allBasemapLayers.count; i++)
         {

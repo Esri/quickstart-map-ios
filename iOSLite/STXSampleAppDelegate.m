@@ -1,14 +1,14 @@
 //
-//  EDNAppDelegate.m
+//  STXSampleAppDelegate.m
 //  iOSLite
 //
 //  Created by Nicholas Furness on 5/8/12.
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "EDNAppDelegate.h"
+#import "STXSampleAppDelegate.h"
 
-@implementation EDNAppDelegate
+@implementation STXSampleAppDelegate
 
 @synthesize window = _window;
 

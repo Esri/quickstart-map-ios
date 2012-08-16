@@ -1,5 +1,5 @@
 //
-//  EDNMapViewLite+Basemaps.m
+//  AGSMapView+Basemaps.m
 //  iOSLite
 //
 //  Created by Nicholas Furness on 5/9/12.
@@ -10,24 +10,25 @@
 #import "AGSLayer+Basemap.h"
 #import "STXHelper.h"
 
+#define kSTXBasemapLayerName @"STXBasemapLayer"
+
 @interface AGSMapView()<AGSWebMapDelegate>
 @end
 
 @implementation AGSMapView (Basemaps)
 
-AGSEnvelope *__ednLiteBasemaps_oldExtent = nil;
-STXBasemapType __ednLiteCurrentBasemapType = 0;
-NSString *EDN_LITE_BASEMAP_LAYER_NAME = @"ednLiteBasemap";
+AGSEnvelope *__stxBasemaps_oldExtent = nil;
+STXBasemapType __stxCurrentBasemapType = 0;
 
 
 - (void) setBasemap:(STXBasemapType)basemapType
 {
     BOOL useWebMaps = YES;
-    __ednLiteCurrentBasemapType = basemapType;
+    __stxCurrentBasemapType = basemapType;
     
     if (useWebMaps)
     {
-        __ednLiteBasemaps_oldExtent = self.visibleArea.envelope;
+        __stxBasemaps_oldExtent = self.visibleArea.envelope;
         
         static AGSWebMap *currentWebMap = nil;
         if (currentWebMap != nil)
@@ -43,14 +44,14 @@ NSString *EDN_LITE_BASEMAP_LAYER_NAME = @"ednLiteBasemap";
     else {
         // Get the new basemap layer and supplemental layers.
         AGSTiledLayer *newBasemapLayer = [STXHelper getBasemapTiledLayer:basemapType];
-        [newBasemapLayer setIsEDNLiteBasemapLayer:YES];
+        [newBasemapLayer setIsSTXBasemapLayer:YES];
 
         NSArray *supplementalBasemapLayers = [STXHelper getBasemapSupplementalTiledLayers:basemapType];
 
         // Remove current basemap layers.
         NSMutableArray *layerNamesToRemove = [NSMutableArray array];
         for (AGSLayer *layer in self.mapLayers) {
-            if ([layer isEDNLiteBasemapLayer])
+            if ([layer isSTXBasemapLayer])
             {
                 [layerNamesToRemove addObject:layer.name];
             }
@@ -62,8 +63,8 @@ NSString *EDN_LITE_BASEMAP_LAYER_NAME = @"ednLiteBasemap";
         }
 
         // Add the new basemap layer
-        NSLog(@"Adding basemap layer: %@", EDN_LITE_BASEMAP_LAYER_NAME);
-        [self insertMapLayer:newBasemapLayer withName:EDN_LITE_BASEMAP_LAYER_NAME atIndex:0];
+        NSLog(@"Adding basemap layer: %@", kSTXBasemapLayerName);
+        [self insertMapLayer:newBasemapLayer withName:kSTXBasemapLayerName atIndex:0];
 
         // Add any supplemental layers.
         if (supplementalBasemapLayers)
@@ -71,8 +72,8 @@ NSString *EDN_LITE_BASEMAP_LAYER_NAME = @"ednLiteBasemap";
             for (int i=0; i < supplementalBasemapLayers.count; i++)
             {
                 AGSTiledLayer *supplementalLayer = [supplementalBasemapLayers objectAtIndex:i];
-                [supplementalLayer setIsEDNLiteBasemapLayer:YES];
-                NSString *layerName = [NSString stringWithFormat:@"%@_%d", EDN_LITE_BASEMAP_LAYER_NAME, i];
+                [supplementalLayer setIsSTXBasemapLayer:YES];
+                NSString *layerName = [NSString stringWithFormat:@"%@_%d", kSTXBasemapLayerName, i];
                 NSLog(@"Adding basemap supplemental layer: %@", layerName);
                 [self insertMapLayer:supplementalLayer withName:layerName atIndex:1+i];
             }
@@ -85,10 +86,10 @@ NSString *EDN_LITE_BASEMAP_LAYER_NAME = @"ednLiteBasemap";
 
 - (void)didOpenWebMap:(AGSWebMap *)webMap intoMapView:(AGSMapView *)mapView
 {
-    [mapView zoomToEnvelope:__ednLiteBasemaps_oldExtent animated:NO];
-    __ednLiteBasemaps_oldExtent = nil;
+    [mapView zoomToEnvelope:__stxBasemaps_oldExtent animated:NO];
+    __stxBasemaps_oldExtent = nil;
 
-    if (__ednLiteCurrentBasemapType == STXBasemapTypeHybrid)
+    if (__stxCurrentBasemapType == STXBasemapTypeHybrid)
     {
         NSArray *layers = webMap.operationalLayers;
         if (layers.count > 0)
@@ -101,17 +102,17 @@ NSString *EDN_LITE_BASEMAP_LAYER_NAME = @"ednLiteBasemap";
 
     // All the layers right now are basemap layers from whichever WebMap we loaded.
     for (AGSLayer *basemapLayer in mapView.mapLayers) {
-        [basemapLayer setIsEDNLiteBasemapLayer:YES];
+        [basemapLayer setIsSTXBasemapLayer:YES];
     }
     
     AGSPortalItem *pi = webMap.portalItem;
-    [self postNewBasemapNotification:__ednLiteCurrentBasemapType forPortalItem:pi];
+    [self postNewBasemapNotification:__stxCurrentBasemapType forPortalItem:pi];
     
-    if ([self respondsToSelector:@selector(__initEdnLiteGraphics)])
+    if ([self respondsToSelector:@selector(__initSTXGraphics)])
     {
         // The Graphics Category is included, let's load the graphics layers
         // back into the map.
-        [self performSelector:@selector(__initEdnLiteGraphics)];
+        [self performSelector:@selector(__initSTXGraphics)];
     }
 }
 
@@ -130,7 +131,7 @@ NSString *EDN_LITE_BASEMAP_LAYER_NAME = @"ednLiteBasemap";
         [userInfo setObject:portalItem forKey:@"PortalItem"];        
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:kEDNLiteNotification_BasemapDidChange
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSTXNotification_BasemapDidChange
                                                         object:self 
                                                       userInfo:userInfo];
 }

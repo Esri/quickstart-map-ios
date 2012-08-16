@@ -1,5 +1,5 @@
 //
-//  SXTBasemapPickerView.h
+//  STXBasemapPickerView.h
 //  iOSLite
 //
 //  Created by Nicholas Furness on 8/15/12.
@@ -9,13 +9,13 @@
 #import "STXPortalItemPickerView.h"
 #import "STXHelper.h"
 
-@protocol SXTBasemapPickerDelegate
+@protocol STXBasemapPickerDelegate
 - (void)basemapSelected:(STXBasemapType)basemapType;
 -(void) basemapsPickerDidTapInfoButton:(id)basemapsPicker;
 @end
 
-@interface SXTBasemapPickerView : STXPortalItemPickerView {
-	id<SXTBasemapPickerDelegate> basemapDelegate;
+@interface STXBasemapPickerView : STXPortalItemPickerView {
+	id<STXBasemapPickerDelegate> basemapDelegate;
 }
 
 @property (nonatomic, strong) id basemapDelegate;

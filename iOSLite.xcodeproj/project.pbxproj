@@ -11,8 +11,6 @@
 		D927EBEA15A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D927EBE915A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.m */; };
 		D93C98A5156D8CC000A5F339 /* STXBasemapDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D93C98A4156D8CC000A5F339 /* STXBasemapDetailsViewController.m */; };
 		D94431A5156BE1FC00982D5C /* STXHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D94431A4156BE1FC00982D5C /* STXHelper.m */; };
-		D950069F156E0C9C00BA872A /* EDNTiledAppleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D950069C156E0C9C00BA872A /* EDNTiledAppleLayer.m */; };
-		D95006A0156E0C9C00BA872A /* EDNAppleTileOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = D950069E156E0C9C00BA872A /* EDNAppleTileOperation.m */; };
 		D9754D7315ACAF840093BF1E /* UIApplication+AppDimensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */; };
 		D982215B1587C6EB00EF53CC /* 06-map-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D98221591587C6EB00EF53CC /* 06-map-pin.png */; };
 		D982215C1587C6EB00EF53CC /* 06-map-pin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D982215A1587C6EB00EF53CC /* 06-map-pin@2x.png */; };
@@ -29,7 +27,7 @@
 		D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */; };
 		D9E27CB8155B1EDB008F8CCB /* LiteMapConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */; };
 		D9EAB292156FD1EF008BCE8F /* AGSMapView+RouteDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EAB291156FD1EE008BCE8F /* AGSMapView+RouteDisplay.m */; };
-		D9EAB295156FE0AF008BCE8F /* EDNRouteDisplayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EAB294156FE0AF008BCE8F /* EDNRouteDisplayHelper.m */; };
+		D9EAB295156FE0AF008BCE8F /* STXRouteDisplayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EAB294156FE0AF008BCE8F /* STXRouteDisplayHelper.m */; };
 		D9F9AE99157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9AE98157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m */; };
 		D9F9EE72156DE7FA00C2A15F /* AGSMapView+Graphics.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9EE71156DE7FA00C2A15F /* AGSMapView+Graphics.m */; };
 		E11C2FB41593AC830004EBB6 /* AGSPoint+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E11C2FB31593AC830004EBB6 /* AGSPoint+GeneralUtilities.m */; };
@@ -41,10 +39,10 @@
 		E16C28FE15598A5E00E2DB56 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E16C28FD15598A5E00E2DB56 /* CoreGraphics.framework */; };
 		E16C290415598A5E00E2DB56 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E16C290215598A5E00E2DB56 /* InfoPlist.strings */; };
 		E16C290615598A5E00E2DB56 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E16C290515598A5E00E2DB56 /* main.m */; };
-		E16C290A15598A5E00E2DB56 /* EDNAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E16C290915598A5E00E2DB56 /* EDNAppDelegate.m */; };
+		E16C290A15598A5E00E2DB56 /* STXSampleAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E16C290915598A5E00E2DB56 /* STXSampleAppDelegate.m */; };
 		E16C290D15598A5E00E2DB56 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E16C290B15598A5E00E2DB56 /* MainStoryboard_iPhone.storyboard */; };
 		E16C291015598A5E00E2DB56 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E16C290E15598A5E00E2DB56 /* MainStoryboard_iPad.storyboard */; };
-		E16C291315598A5E00E2DB56 /* EDNViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E16C291215598A5E00E2DB56 /* EDNViewController.m */; };
+		E16C291315598A5E00E2DB56 /* STXSampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E16C291215598A5E00E2DB56 /* STXSampleViewController.m */; };
 		E1750BB41559B0F600C50929 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BAC1559B0F600C50929 /* CoreLocation.framework */; };
 		E1750BB51559B0F600C50929 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BAD1559B0F600C50929 /* CoreText.framework */; };
 		E1750BB61559B0F600C50929 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BAE1559B0F600C50929 /* libstdc++.dylib */; };
@@ -53,8 +51,8 @@
 		E1750BB91559B0F600C50929 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BB11559B0F600C50929 /* MobileCoreServices.framework */; };
 		E1750BBA1559B0F600C50929 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BB21559B0F600C50929 /* QuartzCore.framework */; };
 		E1750BBB1559B0F600C50929 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BB31559B0F600C50929 /* Security.framework */; };
-		E1812BDC15DC767E00D3325A /* SXTBasemapPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1812BDB15DC767E00D3325A /* SXTBasemapPickerView.m */; };
-		E1A5682D15ABAC74004AA6C1 /* AGSStarterGeoServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A5682C15ABAC74004AA6C1 /* AGSStarterGeoServices.m */; };
+		E1812BDC15DC767E00D3325A /* STXBasemapPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1812BDB15DC767E00D3325A /* STXBasemapPickerView.m */; };
+		E1A5682D15ABAC74004AA6C1 /* STXGeoServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A5682C15ABAC74004AA6C1 /* STXGeoServices.m */; };
 		E1C12A6A15D5542300B1ADCB /* AGSMapView+GeoServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C12A6915D5542300B1ADCB /* AGSMapView+GeoServices.m */; };
 		E1E1808515DAD2A300BB30DD /* STXPortalItemPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1E1808415DAD2A300BB30DD /* STXPortalItemPickerView.xib */; };
 		E1E1808E15DAD38400BB30DD /* STXPortalItemPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E1808D15DAD38400BB30DD /* STXPortalItemPickerView.m */; };
@@ -69,10 +67,6 @@
 		D93C98A4156D8CC000A5F339 /* STXBasemapDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXBasemapDetailsViewController.m; sourceTree = "<group>"; };
 		D94431A3156BE1FC00982D5C /* STXHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXHelper.h; sourceTree = "<group>"; };
 		D94431A4156BE1FC00982D5C /* STXHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXHelper.m; sourceTree = "<group>"; };
-		D950069B156E0C9C00BA872A /* EDNTiledAppleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNTiledAppleLayer.h; sourceTree = "<group>"; };
-		D950069C156E0C9C00BA872A /* EDNTiledAppleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNTiledAppleLayer.m; sourceTree = "<group>"; };
-		D950069D156E0C9C00BA872A /* EDNAppleTileOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNAppleTileOperation.h; sourceTree = "<group>"; };
-		D950069E156E0C9C00BA872A /* EDNAppleTileOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNAppleTileOperation.m; sourceTree = "<group>"; };
 		D9754D7115ACAF830093BF1E /* UIApplication+AppDimensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+AppDimensions.h"; sourceTree = "<group>"; };
 		D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+AppDimensions.m"; sourceTree = "<group>"; };
 		D98221591587C6EB00EF53CC /* 06-map-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "06-map-pin.png"; sourceTree = "<group>"; };
@@ -96,8 +90,8 @@
 		D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = LiteMapConfig.plist; path = ../LiteMapConfig.plist; sourceTree = "<group>"; };
 		D9EAB290156FD1EE008BCE8F /* AGSMapView+RouteDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+RouteDisplay.h"; sourceTree = "<group>"; };
 		D9EAB291156FD1EE008BCE8F /* AGSMapView+RouteDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+RouteDisplay.m"; sourceTree = "<group>"; };
-		D9EAB293156FE0AF008BCE8F /* EDNRouteDisplayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNRouteDisplayHelper.h; sourceTree = "<group>"; };
-		D9EAB294156FE0AF008BCE8F /* EDNRouteDisplayHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNRouteDisplayHelper.m; sourceTree = "<group>"; };
+		D9EAB293156FE0AF008BCE8F /* STXRouteDisplayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXRouteDisplayHelper.h; sourceTree = "<group>"; };
+		D9EAB294156FE0AF008BCE8F /* STXRouteDisplayHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXRouteDisplayHelper.m; sourceTree = "<group>"; };
 		D9F9AE97157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+GeneralUtilities.h"; sourceTree = "<group>"; };
 		D9F9AE98157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+GeneralUtilities.m"; sourceTree = "<group>"; };
 		D9F9EE70156DE7FA00C2A15F /* AGSMapView+Graphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+Graphics.h"; sourceTree = "<group>"; };
@@ -117,12 +111,12 @@
 		E16C290315598A5E00E2DB56 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E16C290515598A5E00E2DB56 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E16C290715598A5E00E2DB56 /* iOSLite-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOSLite-Prefix.pch"; sourceTree = "<group>"; };
-		E16C290815598A5E00E2DB56 /* EDNAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EDNAppDelegate.h; sourceTree = "<group>"; };
-		E16C290915598A5E00E2DB56 /* EDNAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EDNAppDelegate.m; sourceTree = "<group>"; };
+		E16C290815598A5E00E2DB56 /* STXSampleAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STXSampleAppDelegate.h; sourceTree = "<group>"; };
+		E16C290915598A5E00E2DB56 /* STXSampleAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STXSampleAppDelegate.m; sourceTree = "<group>"; };
 		E16C290C15598A5E00E2DB56 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		E16C290F15598A5E00E2DB56 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		E16C291115598A5E00E2DB56 /* EDNViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EDNViewController.h; sourceTree = "<group>"; };
-		E16C291215598A5E00E2DB56 /* EDNViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EDNViewController.m; sourceTree = "<group>"; };
+		E16C291115598A5E00E2DB56 /* STXSampleViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STXSampleViewController.h; sourceTree = "<group>"; };
+		E16C291215598A5E00E2DB56 /* STXSampleViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STXSampleViewController.m; sourceTree = "<group>"; };
 		E1750BAC1559B0F600C50929 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E1750BAD1559B0F600C50929 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		E1750BAE1559B0F600C50929 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
@@ -132,10 +126,10 @@
 		E1750BB21559B0F600C50929 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E1750BB31559B0F600C50929 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		E1812BD815DC6FA200D3325A /* STXPortalItemListView_int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STXPortalItemListView_int.h; sourceTree = "<group>"; };
-		E1812BDA15DC767D00D3325A /* SXTBasemapPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXTBasemapPickerView.h; sourceTree = "<group>"; };
-		E1812BDB15DC767E00D3325A /* SXTBasemapPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXTBasemapPickerView.m; sourceTree = "<group>"; };
-		E1A5682B15ABAC74004AA6C1 /* AGSStarterGeoServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGSStarterGeoServices.h; sourceTree = "<group>"; };
-		E1A5682C15ABAC74004AA6C1 /* AGSStarterGeoServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGSStarterGeoServices.m; sourceTree = "<group>"; };
+		E1812BDA15DC767D00D3325A /* STXBasemapPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXBasemapPickerView.h; sourceTree = "<group>"; };
+		E1812BDB15DC767E00D3325A /* STXBasemapPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXBasemapPickerView.m; sourceTree = "<group>"; };
+		E1A5682B15ABAC74004AA6C1 /* STXGeoServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXGeoServices.h; sourceTree = "<group>"; };
+		E1A5682C15ABAC74004AA6C1 /* STXGeoServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXGeoServices.m; sourceTree = "<group>"; };
 		E1C12A6815D5542300B1ADCB /* AGSMapView+GeoServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+GeoServices.h"; sourceTree = "<group>"; };
 		E1C12A6915D5542300B1ADCB /* AGSMapView+GeoServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+GeoServices.m"; sourceTree = "<group>"; };
 		E1DCB32D156D455100A30BB2 /* UILabel+STXAutoSizeMultiline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+STXAutoSizeMultiline.h"; sourceTree = "<group>"; };
@@ -186,17 +180,6 @@
 				E1C12A6C15D5936500B1ADCB /* Resources */,
 			);
 			name = Helper;
-			sourceTree = "<group>";
-		};
-		D95006A2156E0CA100BA872A /* AppleOSMLayer */ = {
-			isa = PBXGroup;
-			children = (
-				D950069B156E0C9C00BA872A /* EDNTiledAppleLayer.h */,
-				D950069C156E0C9C00BA872A /* EDNTiledAppleLayer.m */,
-				D950069D156E0C9C00BA872A /* EDNAppleTileOperation.h */,
-				D950069E156E0C9C00BA872A /* EDNAppleTileOperation.m */,
-			);
-			name = AppleOSMLayer;
 			sourceTree = "<group>";
 		};
 		D9E27CAF155AE891008F8CCB /* AGS Categories */ = {
@@ -262,8 +245,8 @@
 			children = (
 				D9EAB290156FD1EE008BCE8F /* AGSMapView+RouteDisplay.h */,
 				D9EAB291156FD1EE008BCE8F /* AGSMapView+RouteDisplay.m */,
-				D9EAB293156FE0AF008BCE8F /* EDNRouteDisplayHelper.h */,
-				D9EAB294156FE0AF008BCE8F /* EDNRouteDisplayHelper.m */,
+				D9EAB293156FE0AF008BCE8F /* STXRouteDisplayHelper.h */,
+				D9EAB294156FE0AF008BCE8F /* STXRouteDisplayHelper.m */,
 			);
 			name = "Route Display";
 			sourceTree = "<group>";
@@ -319,15 +302,14 @@
 				D9CCC618156FECBE00EA4353 /* STXBasemapTypeEnum.h */,
 				D94431A7156C1EEC00982D5C /* Helper */,
 				D9E27CAF155AE891008F8CCB /* AGS Categories */,
-				E1A5682B15ABAC74004AA6C1 /* AGSStarterGeoServices.h */,
-				E1A5682C15ABAC74004AA6C1 /* AGSStarterGeoServices.m */,
-				E16C290815598A5E00E2DB56 /* EDNAppDelegate.h */,
-				E16C290915598A5E00E2DB56 /* EDNAppDelegate.m */,
-				E16C291115598A5E00E2DB56 /* EDNViewController.h */,
-				E16C291215598A5E00E2DB56 /* EDNViewController.m */,
+				E1A5682B15ABAC74004AA6C1 /* STXGeoServices.h */,
+				E1A5682C15ABAC74004AA6C1 /* STXGeoServices.m */,
+				E16C290815598A5E00E2DB56 /* STXSampleAppDelegate.h */,
+				E16C290915598A5E00E2DB56 /* STXSampleAppDelegate.m */,
+				E16C291115598A5E00E2DB56 /* STXSampleViewController.h */,
+				E16C291215598A5E00E2DB56 /* STXSampleViewController.m */,
 				E1AC7B8615D2E8EA00E4E1BE /* UI */,
 				E16C290015598A5E00E2DB56 /* Supporting Files */,
-				D95006A2156E0CA100BA872A /* AppleOSMLayer */,
 			);
 			path = iOSLite;
 			sourceTree = "<group>";
@@ -361,8 +343,8 @@
 				E16C290E15598A5E00E2DB56 /* MainStoryboard_iPad.storyboard */,
 				D93C98A3156D8CC000A5F339 /* STXBasemapDetailsViewController.h */,
 				D93C98A4156D8CC000A5F339 /* STXBasemapDetailsViewController.m */,
-				E1812BDA15DC767D00D3325A /* SXTBasemapPickerView.h */,
-				E1812BDB15DC767E00D3325A /* SXTBasemapPickerView.m */,
+				E1812BDA15DC767D00D3325A /* STXBasemapPickerView.h */,
+				E1812BDB15DC767E00D3325A /* STXBasemapPickerView.m */,
 				E1AC7B8815D2E91E00E4E1BE /* PortalItem Selector */,
 				E185887715D9C4020015414B /* Categories */,
 			);
@@ -488,17 +470,15 @@
 			files = (
 				D9B1044D156D98B900DF6287 /* UILabel+STXAutoSizeMultiline.m in Sources */,
 				E16C290615598A5E00E2DB56 /* main.m in Sources */,
-				E16C290A15598A5E00E2DB56 /* EDNAppDelegate.m in Sources */,
-				E16C291315598A5E00E2DB56 /* EDNViewController.m in Sources */,
+				E16C290A15598A5E00E2DB56 /* STXSampleAppDelegate.m in Sources */,
+				E16C291315598A5E00E2DB56 /* STXSampleViewController.m in Sources */,
 				E16C07D01559B9AA00776F3E /* AGSMapView+Navigation.m in Sources */,
 				D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */,
 				D94431A5156BE1FC00982D5C /* STXHelper.m in Sources */,
 				D93C98A5156D8CC000A5F339 /* STXBasemapDetailsViewController.m in Sources */,
 				D9F9EE72156DE7FA00C2A15F /* AGSMapView+Graphics.m in Sources */,
-				D950069F156E0C9C00BA872A /* EDNTiledAppleLayer.m in Sources */,
-				D95006A0156E0C9C00BA872A /* EDNAppleTileOperation.m in Sources */,
 				D9EAB292156FD1EF008BCE8F /* AGSMapView+RouteDisplay.m in Sources */,
-				D9EAB295156FE0AF008BCE8F /* EDNRouteDisplayHelper.m in Sources */,
+				D9EAB295156FE0AF008BCE8F /* STXRouteDisplayHelper.m in Sources */,
 				D99A58D01576B22A00AB05EE /* AGSLayer+Basemap.m in Sources */,
 				D9F9AE99157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m in Sources */,
 				D9A985B715890C3D00A0DE40 /* STXPortalItemViewController.m in Sources */,
@@ -506,13 +486,13 @@
 				D9E01457158A45A4005DD7D8 /* STXPortalItemListView.m in Sources */,
 				E11C2FB41593AC830004EBB6 /* AGSPoint+GeneralUtilities.m in Sources */,
 				D927EBEA15A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.m in Sources */,
-				E1A5682D15ABAC74004AA6C1 /* AGSStarterGeoServices.m in Sources */,
+				E1A5682D15ABAC74004AA6C1 /* STXGeoServices.m in Sources */,
 				D9754D7315ACAF840093BF1E /* UIApplication+AppDimensions.m in Sources */,
 				E1C12A6A15D5542300B1ADCB /* AGSMapView+GeoServices.m in Sources */,
 				E1E1808E15DAD38400BB30DD /* STXPortalItemPickerView.m in Sources */,
 				E1E1809115DAD43D00BB30DD /* STXPortalItemPickerViewController.m in Sources */,
 				E141D0E315DB02CE004F81F4 /* STXPortalItemView.m in Sources */,
-				E1812BDC15DC767E00D3325A /* SXTBasemapPickerView.m in Sources */,
+				E1812BDC15DC767E00D3325A /* STXBasemapPickerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

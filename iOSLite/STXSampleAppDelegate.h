@@ -1,5 +1,5 @@
 //
-//  EDNAppDelegate.h
+//  STXSampleAppDelegate.h
 //  iOSLite
 //
 //  Created by Nicholas Furness on 5/8/12.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EDNAppDelegate : UIResponder <UIApplicationDelegate>
+@interface STXSampleAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import "EDNAppDelegate.h"
+#import "STXSampleAppDelegate.h"
 
 int main(int argc, char *argv[])
 {
 	@autoreleasepool {
-	    return UIApplicationMain(argc, argv, nil, NSStringFromClass([EDNAppDelegate class]));
+	    return UIApplicationMain(argc, argv, nil, NSStringFromClass([STXSampleAppDelegate class]));
 	}
 }

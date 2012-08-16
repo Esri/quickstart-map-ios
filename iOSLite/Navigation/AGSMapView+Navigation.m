@@ -12,7 +12,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 @implementation AGSMapView (Navigation)
-NSInteger __ednLiteScaleForGeolocation = -1;
+NSInteger __stxScaleForGeolocation = -1;
 
 #pragma mark - Center
 - (void) centerAtLat:(double) latitude Long:(double) longitude withScaleLevel:(NSInteger)scaleLevel
@@ -80,15 +80,15 @@ NSInteger __ednLiteScaleForGeolocation = -1;
 #pragma mark - Internal
 - (void) centerAtMyLocationWithScaleLevel:(NSInteger)scaleLevel
 {
-    __ednLiteScaleForGeolocation = scaleLevel;
+    __stxScaleForGeolocation = scaleLevel;
     [self centerAtMyLocation];
 }
 
 - (void) gotLocation:(NSNotification *)notification
 {
-    CLLocation *newLocation = [notification.userInfo objectForKey:kEDNLiteGeolocationSucceededLocationKey];
+    CLLocation *newLocation = [notification.userInfo objectForKey:kSTXGeolocationSucceededLocationKey];
     [self doActionWhenLoaded:^void {
-        if (__ednLiteScaleForGeolocation == -1)
+        if (__stxScaleForGeolocation == -1)
         {
             [self centerAtLat:newLocation.coordinate.latitude
                          Long:newLocation.coordinate.longitude];
@@ -97,9 +97,9 @@ NSInteger __ednLiteScaleForGeolocation = -1;
         {
             [self centerAtLat:newLocation.coordinate.latitude
                          Long:newLocation.coordinate.longitude
-               withScaleLevel:__ednLiteScaleForGeolocation];
+               withScaleLevel:__stxScaleForGeolocation];
         }
-        __ednLiteScaleForGeolocation = -1;
+        __stxScaleForGeolocation = -1;
     }];
 }
 
@@ -112,11 +112,11 @@ NSInteger __ednLiteScaleForGeolocation = -1;
 {
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(gotLocation:)
-												 name:kEDNLiteGeolocationSucceeded
+												 name:kSTXGeolocationSucceeded
 											   object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(failedToGetLocation:)
-												 name:kEDNLiteGeolocationError
+												 name:kSTXGeolocationError
 											   object:nil];
 }
 @end
