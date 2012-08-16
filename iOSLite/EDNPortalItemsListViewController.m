@@ -45,9 +45,4 @@
     [super viewDidUnload];
     self.portalItemsListView = nil;
 }
-
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-//{
-//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-//}
 @end

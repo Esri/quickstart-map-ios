@@ -170,12 +170,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D9086D9E158B90C500FC1D43 /* html */ = {
+		D9086D9E158B90C500FC1D43 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				D9086D9F158B90D800FC1D43 /* description.css */,
 			);
-			name = html;
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		D94431A7156C1EEC00982D5C /* Helper */ = {
@@ -316,7 +316,6 @@
 		E16C28FF15598A5E00E2DB56 /* iOSLite */ = {
 			isa = PBXGroup;
 			children = (
-				D9086D9E158B90C500FC1D43 /* html */,
 				D9CCC618156FECBE00EA4353 /* EDNLiteBasemaps.h */,
 				D94431A7156C1EEC00982D5C /* Helper */,
 				D9E27CAF155AE891008F8CCB /* AGS Categories */,
@@ -362,10 +361,10 @@
 				E16C290E15598A5E00E2DB56 /* MainStoryboard_iPad.storyboard */,
 				D93C98A3156D8CC000A5F339 /* EDNBasemapDetailsViewController.h */,
 				D93C98A4156D8CC000A5F339 /* EDNBasemapDetailsViewController.m */,
-				E185887715D9C4020015414B /* Categories */,
 				E1812BDA15DC767D00D3325A /* SXTBasemapPickerView.h */,
 				E1812BDB15DC767E00D3325A /* SXTBasemapPickerView.m */,
 				E1AC7B8815D2E91E00E4E1BE /* PortalItem Selector */,
+				E185887715D9C4020015414B /* Categories */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -390,6 +389,7 @@
 				D9A985B415890C3D00A0DE40 /* EDNPortalItemViewController.h */,
 				D9A985B515890C3D00A0DE40 /* EDNPortalItemViewController.m */,
 				E1E1809215DAEC2100BB30DD /* Categories */,
+				D9086D9E158B90C500FC1D43 /* Resources */,
 			);
 			name = "PortalItem Selector";
 			sourceTree = "<group>";
@@ -438,7 +438,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = EDN;
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0440;
 				ORGANIZATIONNAME = ESRI;
 			};
 			buildConfigurationList = E16C28EF15598A5E00E2DB56 /* Build configuration list for PBXProject "iOSLite" */;

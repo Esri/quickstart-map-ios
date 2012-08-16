@@ -68,7 +68,7 @@
 
 - (AGSPortalItem *)addPortalItem:(NSString *)portalItemID
 {
-	NSLog(@"Adding portal to container: %@", NSStringFromCGRect(self.frame));
+//	NSLog(@"Adding portal to container: %@", NSStringFromCGRect(self.frame));
 	EDNPortalItemViewController *portalItemVC = [[EDNPortalItemViewController alloc] initWithPortalItemID:portalItemID];
 	portalItemVC.touchDelegate = self.viewController;
 	[self.portalItemVCs addObject:portalItemVC];
@@ -102,7 +102,6 @@
 
 - (void) positionItemsInView
 {
-	NSLog(@"Position Items In Subview...");
     // Space the items evenly in the horizontal scroll view.
     NSInteger spacing = 10;
     NSInteger x = spacing;

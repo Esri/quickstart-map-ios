@@ -122,6 +122,7 @@ NSString *EDN_LITE_BASEMAP_LAYER_NAME = @"ednLiteBasemap";
 
 - (void)postNewBasemapNotification:(EDNLiteBasemapType)basemapType forPortalItem:(AGSPortalItem *)portalItem
 {
+    // TODO - Refactor into #define constants and make public.
     NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:basemapType], @"BasemapType", nil];
 
     if (portalItem != nil)

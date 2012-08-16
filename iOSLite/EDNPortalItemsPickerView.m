@@ -33,14 +33,9 @@
 		
 		// Load the nib contents into wherever we are in our parent.
 		[self addSubview:self.topLevelView];
+        self.viewController.delegate = self;
     }
     return self;
-}
-
-- (void)awakeFromNib
-{
-	// TODO - can this go in the initWithCoder?
-	self.viewController.delegate = self;
 }
 
 #pragma mark - Passthrough public convenience functions.

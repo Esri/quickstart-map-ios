@@ -62,12 +62,6 @@ EDNVCState;
 @property (weak, nonatomic) IBOutlet UIView *graphicsPanel;
 
 // Basemaps
-@property (weak, nonatomic) IBOutlet UIImageView *currentBasemapImageView;
-@property (weak, nonatomic) IBOutlet UILabel *currentBasemapNameLabel;
-@property (weak, nonatomic) IBOutlet UIButton *currentBasemapMoreInfoButton;
-//@property (weak, nonatomic) IBOutlet EDNPortalItemsListView *basemapListDisplay;
-@property (weak, nonatomic) IBOutlet UIWebView *currentBasemapDescriptionWebView;
-
 @property (weak, nonatomic) IBOutlet SXTBasemapPickerView *basemapsPicker;
 
 @property (strong, nonatomic) NSMutableArray *basemapVCs;
@@ -148,11 +142,6 @@ EDNVCState;
 @synthesize basemapInfoPanel = _infoView;
 @synthesize geolocationPanel = _geolocationPanel;
 @synthesize graphicsPanel = _graphicsPanel;
-@synthesize currentBasemapImageView = _infoImageView;
-@synthesize currentBasemapNameLabel = _infoLabel;
-@synthesize currentBasemapMoreInfoButton = _infoButton;
-//@synthesize basemapListDisplay = _basemapListDisplay;
-@synthesize currentBasemapDescriptionWebView = _currentBasemapDescriptionWebView;
 @synthesize basemapsPicker = _basemapsPicker;
 @synthesize graphicButton = _graphicButton;
 @synthesize clearPointsButton = _clearPointsButton;
@@ -255,7 +244,7 @@ EDNVCState;
 	[self initUI];
 
     // Initialize our property for tracking the current basemap type.
-    self.currentBasemapType = EDNLiteBasemapCanvas;
+    self.currentBasemapType = EDNLiteBasemapTopographic;
 	
 	[self populateForDefaultBasemaps];
     
@@ -282,9 +271,6 @@ EDNVCState;
 {
     [self setMapView:nil];
     [self setBasemapInfoPanel:nil];
-    [self setCurrentBasemapImageView:nil];
-    [self setCurrentBasemapNameLabel:nil];
-    [self setCurrentBasemapMoreInfoButton:nil];
     [self setGraphicButton:nil];
     [self setClearPointsButton:nil];
     [self setClearLinesButton:nil];
@@ -298,8 +284,6 @@ EDNVCState;
     [self setFindPlacePanel:nil];
     [self setGeolocationPanel:nil];
     [self setGraphicsPanel:nil];
-//    [self setBasemapListDisplay:nil];
-    [self setCurrentBasemapDescriptionWebView:nil];
     [self setEditGraphicsToolbar:nil];
     [self setUndoEditGraphicsButton:nil];
     [self setRedoEditGraphicsButton:nil];
@@ -736,8 +720,6 @@ EDNVCState;
     }
 	
 	self.basemapsPicker.currentPortalItemID = pi.itemId;
-    
-    self.currentBasemapMoreInfoButton.userInteractionEnabled = YES;
 }
 
 #pragma mark - Basemap Info

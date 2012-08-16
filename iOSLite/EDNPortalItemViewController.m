@@ -17,6 +17,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *label;
+
 - (IBAction)basemapTapped:(id)sender;
 @end
 
@@ -59,7 +60,6 @@
 #pragma mark - Load Portal Item
 - (void) portalDidLoad:(AGSPortal *)portal
 {
-	NSLog(@"Loaded Portal");
     self.portalItem = [[AGSPortalItem alloc] initWithPortal:portal itemId:self.portalItemID];
 }
 
@@ -71,14 +71,6 @@
 
 - (void)portalItemDidLoad:(AGSPortalItem *)portalItem
 {
-	NSLog(@"Loaded Portal Item");
-    [portalItem fetchData];
-    [portalItem fetchThumbnail];
-}
-
-- (void)portalItem:(AGSPortalItem *)portalItem operation:(NSOperation *)op didFetchData:(NSData *)data
-{
-	NSLog(@"Fetched Portal data: %@", portalItem.title);
     self.label.text = portalItem.title;
 	NSString *infoText = portalItem.title;
 	
@@ -87,7 +79,7 @@
 		// If there's a single word, make sure we don't try to break it over two lines
 		self.label.numberOfLines = 1;
 	}
-	else 
+	else
 	{
 		// Otherwise, we can drift over two lines if we want.
 		self.label.numberOfLines = 2;
@@ -95,6 +87,8 @@
     
 	self.label.text = portalItem.title;
 	[self.label setFontSizeToFit];
+    
+    [portalItem fetchThumbnail];
 }
 
 - (void)portalItem:(AGSPortalItem *)portalItem operation:(NSOperation *)op didFetchThumbnail:(UIImage *)thumbnail
@@ -108,11 +102,6 @@
 - (void) portal:(AGSPortal *)portal didFailToLoadWithError:(NSError *)error
 {
     NSLog(@"Could not load portal: %@", error);
-}
-
-- (void)portalItem:(AGSPortalItem *)portalItem operation:(NSOperation *)op didFailToFetchDataWithError:(NSError *)error
-{
-    NSLog(@"Failed to load portal item: %@", error);
 }
 
 - (void)portalItem:(AGSPortalItem *)portalItem operation:(NSOperation *)op didFailToFetchThumbnailWithError:(NSError *)error

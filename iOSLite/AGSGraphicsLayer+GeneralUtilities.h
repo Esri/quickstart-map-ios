@@ -10,5 +10,5 @@
 
 @interface AGSGraphicsLayer (GeneralUtilities)
 - (void) addGraphic:(AGSGraphic *)graphic withID:(NSString *)graphicID;
-- (AGSGraphic *)getGraphicForID:(NSString *)graphicID;
+- (AGSGraphic *) getGraphicForID:(NSString *)graphicID;
 @end

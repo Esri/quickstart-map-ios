@@ -12,13 +12,13 @@
 #import "EDNLiteBasemaps.h"
 #import "EDNLiteHelper.h"
 
-@interface EDNPortalItemsPickerViewController () <EDNPortalItemsListViewDelegate>
+@interface EDNPortalItemsPickerViewController () <EDNPortalItemsListViewDelegate, AGSPortalItemDelegate>
 @property (weak, nonatomic) IBOutlet EDNPortalItemsPickerView *portalItemPickerView;
 @property (weak, nonatomic) IBOutlet EDNPortalItemsListView *portalItemListView;
 
-@property (weak, nonatomic) IBOutlet UILabel *currentBasemapNameLabel;
-@property (weak, nonatomic) IBOutlet UIWebView *currentBasemapDescriptionWebView;
-@property (weak, nonatomic) IBOutlet UIImageView *currentBasemapImageView;
+@property (weak, nonatomic) IBOutlet UILabel *portalItemDetailsTitleLabel;
+@property (weak, nonatomic) IBOutlet UIWebView *portalItemDetailsDescriptionWebView;
+@property (weak, nonatomic) IBOutlet UIImageView *portalItemDetailsImageView;
 @end
 
 @implementation EDNPortalItemsPickerViewController
@@ -28,9 +28,9 @@
 @synthesize currentPortalItemID = _currentPortalItemID;
 @synthesize currentPortalItem = _currentPortalItem;
 
-@synthesize currentBasemapNameLabel = _currentBasemapNameLabel;
-@synthesize currentBasemapDescriptionWebView = _currentBasemapDescriptionWebView;
-@synthesize currentBasemapImageView = _currentBasemapImageView;
+@synthesize portalItemDetailsTitleLabel = _currentBasemapNameLabel;
+@synthesize portalItemDetailsDescriptionWebView = _currentBasemapDescriptionWebView;
+@synthesize portalItemDetailsImageView = _currentBasemapImageView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -72,11 +72,48 @@
 	[self setCurrentPortalItem_Int:selectedPortalItem callingDelegate:YES];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (keyPath == @"thumbnail")
+    {
+        // We were waiting for the thumbnail to load.
+        NSLog(@"Thumbnail is here at last!");
+        AGSPortalItem *pi = object;
+        [pi removeObserver:self forKeyPath:@"thumbnail"];
+        self.portalItemDetailsImageView.image = pi.thumbnail;
+    }
+}
+
 - (void) setCurrentPortalItem_Int:(AGSPortalItem *)currentPortalItem callingDelegate:(BOOL)callDelegate
 {
+    if (_currentPortalItem)
+    {
+        @try {
+            [_currentPortalItem removeObserver:self forKeyPath:@"thumbnail"];
+        }
+        @catch (NSException *exception) {
+            // Do nothing - this is doubtless because we weren't registered observers.
+        }
+    }
+
 	_currentPortalItem = currentPortalItem;
-	
-	self.currentBasemapNameLabel.text = _currentPortalItem.title;
+
+    // Show the thumbnail image
+    self.portalItemDetailsImageView.image = _currentPortalItem.thumbnail;
+    
+    // If the thumbnail has not yet loaded, we will assume the request has been made, and will just
+    // keep an eye on things and display it when it is loaded.
+    if (_currentPortalItem.thumbnail == nil)
+    {
+        NSLog(@"Observing Portal Item Thumbnail");
+        [_currentPortalItem addObserver:self
+                          forKeyPath:@"thumbnail"
+                             options:NSKeyValueObservingOptionNew
+                             context:nil];
+    }
+
+    // Set the title text for the portal item
+	self.portalItemDetailsTitleLabel.text = _currentPortalItem.title;
 	
     // Load the base HTML file that we'll show in the web view.
 	NSString *filePath = [[NSBundle mainBundle] resourcePath];
@@ -84,11 +121,8 @@
 	
 	// Set the HTML
     NSString *htmlToShow = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"description.css\" /></head><body>%@</body></html>", _currentPortalItem.snippet];
-    [self.currentBasemapDescriptionWebView loadHTMLString:htmlToShow baseURL:baseURL];
+    [self.portalItemDetailsDescriptionWebView loadHTMLString:htmlToShow baseURL:baseURL];
 	
-	// Show the image
-	self.currentBasemapImageView.image = _currentPortalItem.thumbnail;
-
 	if (callDelegate)
 	{
 		if ([self.portalItemPickerView.pickerDelegate respondsToSelector:@selector(currentPortalItemChanged:)])
@@ -120,10 +154,4 @@
 {
 	[self.portalItemListView ensureItemVisible:portalItemID Highlighted:highlight];
 }
-
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-//{
-//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-//}
-//
 @end

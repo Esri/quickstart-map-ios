@@ -258,6 +258,11 @@ NSDictionary * __ednBasemapURLs = nil;
     }
 }
 
++ (NSString *) getPortalItemIDForBasemap:(EDNLiteBasemapType)basemapType
+{
+    return [[EDNLiteHelper defaultHelper] getPortalItemIDForBasemap:basemapType];
+}
+
 - (NSString *) getPortalItemIDForBasemap:(EDNLiteBasemapType)basemapType
 {
     NSString *key = [self getBasemapKeyForEnum:basemapType];
