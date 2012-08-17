@@ -164,7 +164,7 @@ NSDictionary * __stxBasemapURLs = nil;
 {
 	if (!__isInitialized)
 	{
-		NSString *path = [[NSBundle mainBundle] pathForResource:@"LiteMapConfig" ofType:@"plist"];
+		NSString *path = [[NSBundle mainBundle] pathForResource:@"STXConfig" ofType:@"plist"];
 		NSData *pListData = [NSData dataWithContentsOfFile:path];
 		NSString *error;
 		NSPropertyListFormat format;

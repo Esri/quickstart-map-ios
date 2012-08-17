@@ -25,7 +25,7 @@
 		D9E01457158A45A4005DD7D8 /* STXPortalItemListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E01456158A45A4005DD7D8 /* STXPortalItemListView.m */; };
 		D9E27C9E155ABDC5008F8CCB /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */; };
 		D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */; };
-		D9E27CB8155B1EDB008F8CCB /* LiteMapConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */; };
+		D9E27CB8155B1EDB008F8CCB /* STXConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9E27CB7155B1EDB008F8CCB /* STXConfig.plist */; };
 		D9EAB292156FD1EF008BCE8F /* AGSMapView+RouteDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EAB291156FD1EE008BCE8F /* AGSMapView+RouteDisplay.m */; };
 		D9EAB295156FE0AF008BCE8F /* STXRouteDisplayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EAB294156FE0AF008BCE8F /* STXRouteDisplayHelper.m */; };
 		D9F9AE99157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9AE98157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m */; };
@@ -87,7 +87,7 @@
 		D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = ../../../Library/SDKs/ArcGIS/ArcGIS.framework; sourceTree = "<group>"; };
 		D9E27CB2155AEA6E008F8CCB /* AGSMapView+Basemaps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AGSMapView+Basemaps.h"; path = "Basemaps/AGSMapView+Basemaps.h"; sourceTree = "<group>"; };
 		D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = "AGSMapView+Basemaps.m"; path = "Basemaps/AGSMapView+Basemaps.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = LiteMapConfig.plist; path = ../LiteMapConfig.plist; sourceTree = "<group>"; };
+		D9E27CB7155B1EDB008F8CCB /* STXConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = STXConfig.plist; path = ../STXConfig.plist; sourceTree = "<group>"; };
 		D9EAB290156FD1EE008BCE8F /* AGSMapView+RouteDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+RouteDisplay.h"; sourceTree = "<group>"; };
 		D9EAB291156FD1EE008BCE8F /* AGSMapView+RouteDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+RouteDisplay.m"; sourceTree = "<group>"; };
 		D9EAB293156FE0AF008BCE8F /* STXRouteDisplayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXRouteDisplayHelper.h; sourceTree = "<group>"; };
@@ -379,7 +379,7 @@
 		E1C12A6C15D5936500B1ADCB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				D9E27CB7155B1EDB008F8CCB /* LiteMapConfig.plist */,
+				D9E27CB7155B1EDB008F8CCB /* STXConfig.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -449,7 +449,7 @@
 				E16C290D15598A5E00E2DB56 /* MainStoryboard_iPhone.storyboard in Resources */,
 				E16C291015598A5E00E2DB56 /* MainStoryboard_iPad.storyboard in Resources */,
 				E16C07CC1559B39C00776F3E /* ArcGIS.bundle in Resources */,
-				D9E27CB8155B1EDB008F8CCB /* LiteMapConfig.plist in Resources */,
+				D9E27CB8155B1EDB008F8CCB /* STXConfig.plist in Resources */,
 				D982215B1587C6EB00EF53CC /* 06-map-pin.png in Resources */,
 				D982215C1587C6EB00EF53CC /* 06-map-pin@2x.png in Resources */,
 				D98221601587C8DD00EF53CC /* 07-map-marker.png in Resources */,
