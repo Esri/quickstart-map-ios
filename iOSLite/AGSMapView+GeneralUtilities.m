@@ -7,7 +7,7 @@
 //
 
 #import "AGSMapView+GeneralUtilities.h"
-#import "STXHelper.h"
+#import "EQSHelper.h"
 
 @implementation AGSMapView (GeneralUtilities)
 - (AGSLayer *) getLayerForName:(NSString *)layerName
@@ -36,7 +36,7 @@
         // Otherwise we queue this block up to be run when self (an AGSMapView) *has* loaded
         // since the behaviour doesn't work before then. This is because the map will not yet
         // be fully initialized for UI interaction until then.
-        [STXHelper queueBlock:actionBlock untilMapViewLoaded:self];
+        [EQSHelper queueBlock:actionBlock untilMapViewLoaded:self];
     }
 }
 @end

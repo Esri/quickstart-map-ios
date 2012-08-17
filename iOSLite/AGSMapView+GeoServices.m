@@ -9,13 +9,13 @@
 #import "AGSMapView+GeoServices.h"
 
 @implementation AGSMapView (GeoServices)
-STXGeoServices *__agsStarterGeoServices = nil;
+EQSGeoServices *__agsStarterGeoServices = nil;
 
-- (STXGeoServices *) geoServices
+- (EQSGeoServices *) geoServices
 {
 	if (!__agsStarterGeoServices)
 	{
-		__agsStarterGeoServices = [[STXGeoServices alloc] init];
+		__agsStarterGeoServices = [[EQSGeoServices alloc] init];
 	}
 	return __agsStarterGeoServices;
 }

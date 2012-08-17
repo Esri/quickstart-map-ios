@@ -9,15 +9,15 @@
 #import "AGSLayer+Basemap.h"
 
 @implementation AGSLayer (Basemap)
-BOOL __stxIsBasemapLayer = NO;
+BOOL __eqsIsBasemapLayer = NO;
 
-- (BOOL) isSTXBasemapLayer
+- (BOOL) isEQSBasemapLayer
 {
-    return __stxIsBasemapLayer;
+    return __eqsIsBasemapLayer;
 }
 
-- (void) setIsSTXBasemapLayer:(BOOL)isBasemapLayer
+- (void) setIsEQSBasemapLayer:(BOOL)isBasemapLayer
 {
-    __stxIsBasemapLayer = isBasemapLayer;
+    __eqsIsBasemapLayer = isBasemapLayer;
 }
 @end

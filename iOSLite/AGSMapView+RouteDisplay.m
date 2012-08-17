@@ -8,20 +8,20 @@
 
 #import "AGSMapView+RouteDisplay.h"
 #import "AGSMapView+GeneralUtilities.h"
-#import "STXHelper.h"
-#import "STXRouteDisplayHelper.h"
-#import "STXGeoServices.h"
+#import "EQSHelper.h"
+#import "EQSRouteDisplayHelper.h"
+#import "EQSGeoServices.h"
 
 @implementation AGSMapView (RouteDisplay)
-STXRouteDisplayHelper *_stxRouteHelper = nil;
+EQSRouteDisplayHelper *_eqsRouteHelper = nil;
 
 #pragma mark - Properties
-- (STXRouteDisplayHelper *)routeDisplayHelper
+- (EQSRouteDisplayHelper *)routeDisplayHelper
 {
-	if (!_stxRouteHelper)
+	if (!_eqsRouteHelper)
 	{
-		_stxRouteHelper = [STXRouteDisplayHelper routeDisplayHelperForMapView:self];
+		_eqsRouteHelper = [EQSRouteDisplayHelper routeDisplayHelperForMapView:self];
 	}
-	return _stxRouteHelper;
+	return _eqsRouteHelper;
 }
 @end

@@ -7,10 +7,10 @@
 //
 
 #import <ArcGIS/ArcGIS.h>
-#import "STXBasemapTypeEnum.h"
+#import "EQSBasemapTypeEnum.h"
 
-#define kSTXNotification_BasemapDidChange @"BasemapDidChange"
+#define kEQSNotification_BasemapDidChange @"BasemapDidChange"
 
 @interface AGSMapView (Basemaps)
-- (void) setBasemap:(STXBasemapType)basemapType;
+- (void) setBasemap:(EQSBasemapType)basemapType;
 @end

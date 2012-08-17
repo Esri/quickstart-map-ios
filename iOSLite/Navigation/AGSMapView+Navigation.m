@@ -8,24 +8,24 @@
 
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSMapView+Navigation.h"
-#import "STXHelper.h"
+#import "EQSHelper.h"
 #import <CoreLocation/CoreLocation.h>
 
 @implementation AGSMapView (Navigation)
-NSInteger __stxScaleForGeolocation = -1;
+NSInteger __eqsScaleForGeolocation = -1;
 
 #pragma mark - Center
 - (void) centerAtLat:(double) latitude Long:(double) longitude withScaleLevel:(NSInteger)scaleLevel
 {
     // Build an AGSPoint using the Lat and Long
-    AGSPoint *webMercatorCenterPt = [STXHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
+    AGSPoint *webMercatorCenterPt = [EQSHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
     
     [self centerAtPoint:webMercatorCenterPt withScaleLevel:scaleLevel];
 }
 
 - (void) centerAtLat:(double) latitude Long:(double) longitude
 {
-    AGSPoint *p = [STXHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
+    AGSPoint *p = [EQSHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
     
     // Here's the code to do the zoom, but we don't know whether we want to run it now, or
     // need to queue it up until the AGSMapView is loaded.
@@ -39,7 +39,7 @@ NSInteger __stxScaleForGeolocation = -1;
 - (void) centerAtPoint:(AGSPoint *)point withScaleLevel:(NSInteger)scaleLevel
 {
     // Get the map scale represented by the integer level
-    double scaleForLevel = [STXHelper getScaleForLevel:scaleLevel];
+    double scaleForLevel = [EQSHelper getScaleForLevel:scaleLevel];
     
     [self doActionWhenLoaded:^void {
         [self zoomToScale:scaleForLevel withCenterPoint:point animated:YES];
@@ -50,7 +50,7 @@ NSInteger __stxScaleForGeolocation = -1;
 - (void) zoomToLevel:(NSInteger)level
 {
     AGSPoint *currentCenterPoint = self.visibleArea.envelope.center;
-    double scaleForLevel = [STXHelper getScaleForLevel:level];
+    double scaleForLevel = [EQSHelper getScaleForLevel:level];
     [self doActionWhenLoaded:^void {
         [self zoomToScale:scaleForLevel withCenterPoint:currentCenterPoint animated:YES];
     }];
@@ -61,9 +61,9 @@ NSInteger __stxScaleForGeolocation = -1;
 {
     [self ensureNavigationHelperInitialized];
     
-    if ([STXHelper isGeolocationEnabled])
+    if ([EQSHelper isGeolocationEnabled])
     {
-        [STXHelper getGeolocation];
+        [EQSHelper getGeolocation];
     }
 	else {
 		UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"Cannot Find You" message:@"Location Services Not Enabled" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -74,21 +74,21 @@ NSInteger __stxScaleForGeolocation = -1;
 #pragma mark - Centerpoint of map
 - (AGSPoint *) getCenterPoint
 {
-    return [STXHelper getWGS84PointFromPoint:self.visibleArea.envelope.center];
+    return [EQSHelper getWGS84PointFromPoint:self.visibleArea.envelope.center];
 }
 
 #pragma mark - Internal
 - (void) centerAtMyLocationWithScaleLevel:(NSInteger)scaleLevel
 {
-    __stxScaleForGeolocation = scaleLevel;
+    __eqsScaleForGeolocation = scaleLevel;
     [self centerAtMyLocation];
 }
 
 - (void) gotLocation:(NSNotification *)notification
 {
-    CLLocation *newLocation = [notification.userInfo objectForKey:kSTXGeolocationSucceededLocationKey];
+    CLLocation *newLocation = [notification.userInfo objectForKey:kEQSGeolocationSucceededLocationKey];
     [self doActionWhenLoaded:^void {
-        if (__stxScaleForGeolocation == -1)
+        if (__eqsScaleForGeolocation == -1)
         {
             [self centerAtLat:newLocation.coordinate.latitude
                          Long:newLocation.coordinate.longitude];
@@ -97,9 +97,9 @@ NSInteger __stxScaleForGeolocation = -1;
         {
             [self centerAtLat:newLocation.coordinate.latitude
                          Long:newLocation.coordinate.longitude
-               withScaleLevel:__stxScaleForGeolocation];
+               withScaleLevel:__eqsScaleForGeolocation];
         }
-        __stxScaleForGeolocation = -1;
+        __eqsScaleForGeolocation = -1;
     }];
 }
 
@@ -112,11 +112,11 @@ NSInteger __stxScaleForGeolocation = -1;
 {
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(gotLocation:)
-												 name:kSTXGeolocationSucceeded
+												 name:kEQSGeolocationSucceeded
 											   object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(failedToGetLocation:)
-												 name:kSTXGeolocationError
+												 name:kEQSGeolocationError
 											   object:nil];
 }
 @end

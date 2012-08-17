@@ -11,10 +11,10 @@
 @interface AGSMapView (Graphics)
 
 typedef enum {
-    STXGraphicsLayerTypePoint = 1,
-    STXGraphicsLayerTypePolyline = 2,
-    STXGraphicsLayerTypePolygon = 4
-} STXGraphicsLayerType;
+    EQSGraphicsLayerTypePoint = 1,
+    EQSGraphicsLayerTypePolyline = 2,
+    EQSGraphicsLayerTypePolygon = 4
+} EQSGraphicsLayerType;
 
 
 
@@ -37,7 +37,7 @@ typedef enum {
 
 #pragma mark - Clear graphics
 // Clear graphics from the map. Optionally specify what type or types of graphics to clear.
-- (void) clearGraphics:(STXGraphicsLayerType)layerType;
+- (void) clearGraphics:(EQSGraphicsLayerType)layerType;
 - (void) clearGraphics;
 
 
@@ -82,6 +82,6 @@ typedef enum {
 // read it's canUndo and canRedo properties to update the UI appropriately.
 - (NSUndoManager *) getUndoManagerForGraphicsEdits;
 - (AGSGeometry *) getCurrentEditGeometry;
-- (AGSGraphicsLayer *) getGraphicsLayer:(STXGraphicsLayerType)layerType;
+- (AGSGraphicsLayer *) getGraphicsLayer:(EQSGraphicsLayerType)layerType;
 
 @end

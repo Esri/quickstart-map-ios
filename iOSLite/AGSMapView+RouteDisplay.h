@@ -7,8 +7,8 @@
 //
 
 #import <ArcGIS/ArcGIS.h>
-#import "STXRouteDisplayHelper.h"
+#import "EQSRouteDisplayHelper.h"
 
 @interface AGSMapView (RouteDisplay)
-- (STXRouteDisplayHelper *)routeDisplayHelper;
+- (EQSRouteDisplayHelper *)routeDisplayHelper;
 @end

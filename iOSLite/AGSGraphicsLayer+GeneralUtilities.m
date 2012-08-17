@@ -9,7 +9,7 @@
 #import "AGSGraphicsLayer+GeneralUtilities.h"
 
 @implementation AGSGraphicsLayer (GeneralUtilities)
-#define kSTXGraphicsLayerIDAttribute @"STXGraphicID"
+#define kEQSGraphicsLayerIDAttribute @"EQSGraphicID"
 
 - (void) addGraphic:(AGSGraphic *)graphic withID:(NSString *)graphicID
 {
@@ -17,14 +17,14 @@
     {
         graphic.attributes = [NSMutableDictionary dictionary];
     }
-    [graphic.attributes setObject:graphicID forKey:kSTXGraphicsLayerIDAttribute];
+    [graphic.attributes setObject:graphicID forKey:kEQSGraphicsLayerIDAttribute];
     [self addGraphic:graphic];
 }
 
 - (AGSGraphic *)getGraphicForID:(NSString *)graphicID
 {
     for (AGSGraphic *g in self.graphics) {
-        NSString *gID = [g.attributes objectForKey:kSTXGraphicsLayerIDAttribute];
+        NSString *gID = [g.attributes objectForKey:kEQSGraphicsLayerIDAttribute];
         if (!(gID == nil || [gID isKindOfClass:[NSNull class]]))
         {
             if ([gID isEqualToString:graphicID])
