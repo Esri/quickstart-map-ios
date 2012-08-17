@@ -15,6 +15,7 @@
 // Internal - for use by the PortalItemListViewController only
 - (void) ensureItemVisible:(NSString *)portalItemID Highlighted:(BOOL)highlight;
 - (NSArray *)portalItems;
+- (NSArray *)portalItemViews;
 @end
 
 #endif

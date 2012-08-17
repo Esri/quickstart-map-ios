@@ -47,6 +47,11 @@
     return self;
 }
 
+- (STXPortalItemViewLoadingState)loadingState
+{
+    return self.viewController.loadingState;
+}
+
 - (NSString *) portalItemID
 {
 	return self.viewController.portalItemID;

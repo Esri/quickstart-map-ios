@@ -9,6 +9,15 @@
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
 
+typedef enum {
+    STXPortalItemViewLoadingStateNew,
+    STXPortalItemViewLoadingStatePortalLoading,
+    STXPortalItemViewLoadingStatePortalLoaded,
+    STXPortalItemViewLoadingStatePortalItemLoading,
+    STXPortalItemViewLoadingStatePortalItemLoaded,
+    STXPortalItemViewLoadingStatePortalItemLoadedWithThumbnail
+} STXPortalItemViewLoadingState;
+
 @class STXPortalItemViewController;
 
 @interface STXPortalItemView : UIView
@@ -17,4 +26,5 @@
 
 @property (nonatomic, readonly) NSString *portalItemID;
 @property (nonatomic, readonly) AGSPortalItem *portalItem;
+@property (nonatomic, readonly) STXPortalItemViewLoadingState loadingState;
 @end

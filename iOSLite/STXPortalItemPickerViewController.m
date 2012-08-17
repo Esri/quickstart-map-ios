@@ -80,8 +80,47 @@
         NSLog(@"Thumbnail is here at last!");
         AGSPortalItem *pi = object;
         [pi removeObserver:self forKeyPath:@"thumbnail"];
-        self.portalItemDetailsImageView.image = pi.thumbnail;
+        [self setDetailsThumbnail:pi];
     }
+    else if (keyPath == @"title")
+    {
+        // We were waiting for the thumbnail to load.
+        NSLog(@"Title is here at last!");
+        AGSPortalItem *pi = object;
+        [pi removeObserver:self forKeyPath:@"title"];
+        [self setDetailsTitle:pi];
+    }
+    else if (keyPath == @"snippet")
+    {
+        // We were waiting for the thumbnail to load.
+        NSLog(@"Snippet is here at last!");
+        AGSPortalItem *pi = object;
+        [pi removeObserver:self forKeyPath:@"snippet"];
+        [self setDetailsSnippet:pi];
+    }
+}
+
+- (void) setDetailsThumbnail:(AGSPortalItem *)portalItem
+{
+    // Show the thumbnail image
+    self.portalItemDetailsImageView.image = _currentPortalItem.thumbnail;
+}
+
+- (void) setDetailsTitle:(AGSPortalItem *)portalItem
+{
+    // Set the title text for the portal item
+	self.portalItemDetailsTitleLabel.text = _currentPortalItem.title;
+}
+
+- (void) setDetailsSnippet:(AGSPortalItem *)portalItem
+{
+    // Load the base HTML file that we'll show in the web view.
+	NSString *filePath = [[NSBundle mainBundle] resourcePath];
+    NSURL *baseURL = [NSURL fileURLWithPath:filePath isDirectory:YES];
+	
+	// Set the HTML
+    NSString *htmlToShow = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"description.css\" /></head><body>%@</body></html>", _currentPortalItem.snippet];
+    [self.portalItemDetailsDescriptionWebView loadHTMLString:htmlToShow baseURL:baseURL];
 }
 
 - (void) setCurrentPortalItem_Int:(AGSPortalItem *)currentPortalItem callingDelegate:(BOOL)callDelegate
@@ -94,35 +133,59 @@
         @catch (NSException *exception) {
             // Do nothing - this is doubtless because we weren't registered observers.
         }
+        @try {
+            [_currentPortalItem removeObserver:self forKeyPath:@"title"];
+        }
+        @catch (NSException *exception) {
+            // Do nothing - this is doubtless because we weren't registered observers.
+        }
+        @try {
+            [_currentPortalItem removeObserver:self forKeyPath:@"snippet"];
+        }
+        @catch (NSException *exception) {
+            // Do nothing - this is doubtless because we weren't registered observers.
+        }
     }
 
 	_currentPortalItem = currentPortalItem;
-
-    // Show the thumbnail image
-    self.portalItemDetailsImageView.image = _currentPortalItem.thumbnail;
     
+    [self setDetailsThumbnail:_currentPortalItem];
+    [self setDetailsTitle:_currentPortalItem];
+    [self setDetailsSnippet:_currentPortalItem];
+
     // If the thumbnail has not yet loaded, we will assume the request has been made, and will just
     // keep an eye on things and display it when it is loaded.
     if (_currentPortalItem.thumbnail == nil)
     {
-        NSLog(@"Observing Portal Item Thumbnail");
+        NSLog(@"Observing Portal Item Thumbnail: %@", _currentPortalItem);
         [_currentPortalItem addObserver:self
                           forKeyPath:@"thumbnail"
                              options:NSKeyValueObservingOptionNew
                              context:nil];
     }
 
-    // Set the title text for the portal item
-	self.portalItemDetailsTitleLabel.text = _currentPortalItem.title;
-	
-    // Load the base HTML file that we'll show in the web view.
-	NSString *filePath = [[NSBundle mainBundle] resourcePath];
-    NSURL *baseURL = [NSURL fileURLWithPath:filePath isDirectory:YES];
-	
-	// Set the HTML
-    NSString *htmlToShow = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"description.css\" /></head><body>%@</body></html>", _currentPortalItem.snippet];
-    [self.portalItemDetailsDescriptionWebView loadHTMLString:htmlToShow baseURL:baseURL];
-	
+    // If the title has not yet loaded, we will assume the request has been made, and will just
+    // keep an eye on things and display it when it is loaded.
+    if (_currentPortalItem.title == nil)
+    {
+        NSLog(@"Observing Portal Item Title");
+        [_currentPortalItem addObserver:self
+                             forKeyPath:@"title"
+                                options:NSKeyValueObservingOptionNew
+                                context:nil];
+    }
+    
+    // If the snippet has not yet loaded, we will assume the request has been made, and will just
+    // keep an eye on things and display it when it is loaded.
+    if (_currentPortalItem.snippet == nil)
+    {
+        NSLog(@"Observing Portal Item Snippet");
+        [_currentPortalItem addObserver:self
+                             forKeyPath:@"snippet"
+                                options:NSKeyValueObservingOptionNew
+                                context:nil];
+    }
+
 	if (callDelegate)
 	{
 		if ([self.portalItemPickerView.pickerDelegate respondsToSelector:@selector(currentPortalItemChanged:)])

@@ -24,7 +24,6 @@
 
 - (void) portalItemViewTapped:(STXPortalItemView *)portalItemView
 {
-	NSLog(@"Tapped a basemap!");
 	[self.portalItemsListView ensureItemVisible:portalItemView.portalItemID Highlighted:YES];
 	
 	if ([self.portalItemDelegate respondsToSelector:@selector(selectedPortalItemChanged:)]);

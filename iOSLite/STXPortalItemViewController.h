@@ -23,5 +23,7 @@
 
 @property (strong, nonatomic) IBOutlet STXPortalItemView *portalItemView;
 
+@property (nonatomic, readonly) STXPortalItemViewLoadingState loadingState;
+
 - (id) initWithPortalItemID:(NSString *)portalItemID;
 @end

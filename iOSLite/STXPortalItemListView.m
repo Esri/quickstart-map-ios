@@ -26,14 +26,14 @@
 - (NSArray *)portalItems
 {
 	NSMutableArray *result = [NSMutableArray array];
-	for (STXPortalItemView *piv in [self portalItemSubViews]) {
+	for (STXPortalItemView *piv in [self portalItemViews]) {
 		if (piv.portalItem)
 			[result addObject:piv.portalItem];
 	}
 	return result;
 }
 
-- (NSArray *)portalItemSubViews
+- (NSArray *)portalItemViews
 {
 	return [self.subviews filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
 		return [evaluatedObject isKindOfClass:[STXPortalItemView class]];
@@ -44,7 +44,6 @@
 {
 	self = [super initWithFrame:frame];
 	if (self) {
-		NSLog(@"Frame Init");
 	}
 	return self;
 }
@@ -52,7 +51,6 @@
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
-	NSLog(@"InitWithCodered");
     if (self) {
 		self.portalItemVCs = [NSMutableArray array];
 		
@@ -105,7 +103,7 @@
 	NSInteger y = 0;
 
     // Place each subview in the UIScrollView appropriately
-    for (STXPortalItemView *subView in self.portalItemSubViews)
+    for (STXPortalItemView *subView in self.portalItemViews)
     {
 		CGRect oldFrame = subView.frame;
 		NSInteger newHeight = oldFrame.size.height;
