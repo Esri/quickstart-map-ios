@@ -11,8 +11,6 @@
 
 #import "EQSHelper.h"
 
-#import "AGSMapView+GeoServices.h"
-
 #import	"AGSMapView+Navigation.h"
 #import "AGSMapView+Basemaps.h"
 #import "AGSMapView+Graphics.h"
@@ -56,9 +54,13 @@ EQSSampleAppState;
 @property (weak, nonatomic) IBOutlet UIView *findAddressPanel;
 @property (weak, nonatomic) IBOutlet UISearchBar *findAddressSearchBar;
 @property (weak, nonatomic) IBOutlet UIView *findPlacePanel;
-@property (weak, nonatomic) IBOutlet UIView *basemapInfoPanel;
 @property (weak, nonatomic) IBOutlet UIView *geolocationPanel;
 @property (weak, nonatomic) IBOutlet UIView *graphicsPanel;
+
+@property (weak, nonatomic) IBOutlet UIView *messageBar;
+@property (weak, nonatomic) IBOutlet UILabel *messageBarLabel;
+- (IBAction)messageBarCloseTapped:(id)sender;
+
 
 // Basemaps
 @property (weak, nonatomic) IBOutlet EQSBasemapPickerView *basemapsPicker;
@@ -116,6 +118,11 @@ EQSSampleAppState;
 
 @property (nonatomic, assign) CGSize keyboardSize;
 
+
+@property (weak, nonatomic) IBOutlet UIToolbar *findToolbar;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *findbutton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
+
 // Actions
 - (IBAction)addGraphics:(id)sender;
 
@@ -138,9 +145,10 @@ EQSSampleAppState;
 @synthesize editGraphicsToolbar = _editGraphicsToolbar;
 @synthesize undoEditGraphicsButton = _undoEditGraphicsButton;
 @synthesize redoEditGraphicsButton = _redoEditGraphicsButton;
-@synthesize basemapInfoPanel = _infoView;
 @synthesize geolocationPanel = _geolocationPanel;
 @synthesize graphicsPanel = _graphicsPanel;
+@synthesize messageBar = _messageBar;
+@synthesize messageBarLabel = _messageBarLabel;
 @synthesize basemapsPicker = _basemapsPicker;
 @synthesize graphicButton = _graphicButton;
 @synthesize clearPointsButton = _clearPointsButton;
@@ -180,6 +188,9 @@ EQSSampleAppState;
 @synthesize basemapVCs = _basemapVCs;
 
 @synthesize keyboardSize = _keyboardSize;
+@synthesize findToolbar = _findToolbar;
+@synthesize findbutton = _findbutton;
+@synthesize cancelButton = _cancelButton;
 
 
 #define kEQSApplicationLocFromState @"ButtonState"
@@ -249,15 +260,15 @@ EQSSampleAppState;
     
 	// Set up our map with a basemap, and jump to a location and scale level.
     [self.mapView setBasemap: self.currentBasemapType];
-    [self.mapView centerAtLat:40.7302 Long:-73.9958 withScaleLevel:13];
-//    AGSPoint *nyc = [AGSPoint pointFromLat:40.7302 Long:-73.9958];
+    [self.mapView centerAtLat:40.7302 Lon:-73.9958 withScaleLevel:13];
+//    AGSPoint *nyc = [AGSPoint pointFromLat:40.7302 Lon:-73.9958];
 //    [self.mapView centerAtPoint:nyc withScaleLevel:0];
 //    [self.mapView centerAtLat:40.7302 Long:-73.9958];
 //    [self.mapView zoomToLevel:7];
 //    [self.mapView centerAtMyLocation];
 //    [self.mapView centerAtMyLocationWithScaleLevel:15];
 
-	[self initForRouting];
+	[self initForDirections];
 	
 	// And let me know when it finds points for an address.
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -269,7 +280,6 @@ EQSSampleAppState;
 - (void)viewDidUnload
 {
     [self setMapView:nil];
-    [self setBasemapInfoPanel:nil];
     [self setGraphicButton:nil];
     [self setClearPointsButton:nil];
     [self setClearLinesButton:nil];
@@ -291,6 +301,11 @@ EQSSampleAppState;
     [self setClearRouteButton:nil];
 	[self setFindAddressSearchBar:nil];
 	[self setBasemapsPicker:nil];
+    [self setFindbutton:nil];
+    [self setCancelButton:nil];
+    [self setFindToolbar:nil];
+    [self setMessageBar:nil];
+    [self setMessageBarLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -408,6 +423,17 @@ EQSSampleAppState;
     return newFrame;
 }
 
+- (CGRect) getMessageFrameForMasterFrame:(UIView *)masterView
+{
+    double messageHeight = CGRectGetHeight(self.messageBar.frame);
+    CGRect masterFrame = masterView.frame;
+    CGRect messageFrame = CGRectMake(masterFrame.origin.x, masterFrame.origin.y - messageHeight, masterFrame.size.width, messageHeight);
+    
+    NSLog(@"Master: %@\nMessage: %@", NSStringFromCGRect(masterFrame), NSStringFromCGRect(messageFrame));
+
+    return messageFrame;
+}
+
 #pragma mark - Application State
 
 - (EQSSampleAppState)currentState
@@ -420,6 +446,10 @@ EQSSampleAppState;
     _currentState = currentState;
     
     switch (_currentState) {
+        case EQSSampleAppStateDirections:
+			self.routeStartButton.selected = NO;
+			self.routeEndButton.selected = NO;
+            break;
         case EQSSampleAppStateDirections_WaitingForRouteStart:
             self.routeStartLabel.text = @"Tap a point on the map…";
 			self.routeStartButton.selected = YES;
@@ -456,6 +486,35 @@ EQSSampleAppState;
 }
 
 #pragma mark - UI Function Selection
+
+- (NSString *) getMessageForCurrentFunction
+{
+    switch (self.currentState) {
+        case EQSSampleAppStateBasemaps:
+            return @"Select a basemap";
+            break;
+        case EQSSampleAppStateGeolocation:
+            return @"Zoom to your location";
+            break;
+        case EQSSampleAppStateGraphics:
+            return @"Click the map to add graphics";
+            break;
+        case EQSSampleAppStateFindPlace:
+            return @"Click the map or enter an address";
+            break;
+        case EQSSampleAppStateDirections:
+            return @"Click the map get directions between start and end points";
+            break;
+        case EQSSampleAppStateFindAddress:
+            return @"Access World City features in the cloud";
+            break;
+            
+        default:
+            NSLog(@"Can't get message for unknown app state %d", self.currentState);
+            return @"Magic unknown functionality! Well done!";
+            break;
+    }
+}
 
 - (IBAction)functionChanged:(id)sender {
     UISegmentedControl *seg = sender;
@@ -598,7 +657,9 @@ EQSSampleAppState;
                              viewToShow.alpha = 1;
                              viewToAnimateOut.alpha = 0;
                              viewToShow.frame = [self getUIFrame:viewToShow forOrientation:orientation];
-                             viewToAnimateOut.frame = [self getUIFrameWhenHidden:viewToAnimateOut ];
+                             self.messageBar.frame = [self getMessageFrameForMasterFrame:viewToShow];
+                             self.messageBarLabel.text = [self getMessageForCurrentFunction];
+//                             viewToAnimateOut.frame = [self getUIFrameWhenHidden:viewToAnimateOut ];
                          }
                          completion:^(BOOL finished) {
                              viewToAnimateOut.hidden = YES;
@@ -738,11 +799,11 @@ EQSSampleAppState;
 
 - (IBAction)addGraphics:(id)sender {
     [self.mapView addPointAtLat:40.7302 Long:-73.9958];
-    [self.mapView addLineFromPoints:[NSArray arrayWithObjects:[AGSPoint pointFromLat:40.7302 Long:-73.9958],
-									 [AGSPoint pointFromLat:41.0 Long:-73.9], nil]];
-    [self.mapView addPolygonFromPoints:[NSArray arrayWithObjects:[AGSPoint pointFromLat:40.7302 Long:-73.9958],
-										[AGSPoint pointFromLat:40.85 Long:-73.65],
-										[AGSPoint pointFromLat:41.0 Long:-73.7],nil]];
+    [self.mapView addLineFromPoints:[NSArray arrayWithObjects:[AGSPoint pointFromLat:40.7302 Lon:-73.9958],
+									 [AGSPoint pointFromLat:41.0 Lon:-73.9], nil]];
+    [self.mapView addPolygonFromPoints:[NSArray arrayWithObjects:[AGSPoint pointFromLat:40.7302 Lon:-73.9958],
+										[AGSPoint pointFromLat:40.85 Lon:-73.65],
+										[AGSPoint pointFromLat:41.0 Lon:-73.7],nil]];
 }
 
 - (IBAction)newPtGraphic:(id)sender {
@@ -860,9 +921,9 @@ EQSSampleAppState;
 	NSLog(@"Failed to get address for location: %@", error);
 }
 
-#pragma mark - Routing
+#pragma mark - Directions
 
-- (void)initForRouting
+- (void)initForDirections
 {
 	// Let me know when the Geoservices object finds an address for a point.
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -888,19 +949,19 @@ EQSSampleAppState;
 
 - (void)didTapStartPoint:(AGSPoint *)mapPoint
 {
-    NSOperation *op = [self.mapView.geoServices getAddressFromPoint:mapPoint];
+    NSOperation *op = [self.mapView.geoServices findAddressFromPoint:mapPoint];
     objc_setAssociatedObject(op, kEQSGetAddressReasonKey, kEQSGetAddressReasonRouteStart, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)didTapEndPoint:(AGSPoint *)mapPoint
 {
-    NSOperation *op = [self.mapView.geoServices getAddressFromPoint:mapPoint];
+    NSOperation *op = [self.mapView.geoServices findAddressFromPoint:mapPoint];
     objc_setAssociatedObject(op, kEQSGetAddressReasonKey, kEQSGetAddressReasonRouteEnd, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)didTapToReverseGeocode:(AGSPoint *)mapPoint
 {
-	NSOperation *op = [self.mapView.geoServices getAddressFromPoint:mapPoint];
+	NSOperation *op = [self.mapView.geoServices findAddressFromPoint:mapPoint];
     objc_setAssociatedObject(op, kEQSGetAddressReasonKey, kEQSGetAddressReasonReverseGeocodeForPoint, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
@@ -952,7 +1013,7 @@ EQSSampleAppState;
         self.routeEndPoint)
     {
         NSLog(@"Start and end points set...");
-        [self.mapView.geoServices getDirectionsFrom:self.routeStartPoint To:self.routeEndPoint];
+        [self.mapView.geoServices findDirectionsFrom:self.routeStartPoint To:self.routeEndPoint];
         return YES;
     }
     return NO;
@@ -993,8 +1054,7 @@ EQSSampleAppState;
     NSString *latLongText = nil;
     if (self.routeStartPoint)
     {
-        AGSPoint *wgs84Pt = [EQSHelper getWGS84PointFromPoint:self.routeStartPoint];
-        latLongText = [NSString stringWithFormat:@"%.4f,%.4f", wgs84Pt.y, wgs84Pt.x];
+        latLongText = [NSString stringWithFormat:@"%.4f,%.4f", self.routeStartPoint.latitude, self.routeStartPoint.longitude];
     }
     NSString *address = self.routeStartAddress;
     if (latLongText && address)
@@ -1015,8 +1075,7 @@ EQSSampleAppState;
     NSString *latLongText = nil;
     if (self.routeEndPoint)
     {
-        AGSPoint *wgs84Pt = [EQSHelper getWGS84PointFromPoint:self.routeEndPoint];
-        latLongText = [NSString stringWithFormat:@"%.4f,%.4f", wgs84Pt.y, wgs84Pt.x];
+        latLongText = [NSString stringWithFormat:@"%.4f,%.4f", self.routeEndPoint.latitude, self.routeEndPoint.longitude];
     }
     NSString *address = self.routeEndAddress;
     if (latLongText && address)
@@ -1085,13 +1144,51 @@ EQSSampleAppState;
 	NSLog(@"Searching for: %@", searchString);
     AGSPolygon *v = self.mapView.visibleArea;
     AGSEnvelope *env = v.envelope;
-	[self.mapView.geoServices getPointFromAddress:searchString withinEnvelope:env];
+	[self.mapView.geoServices findPlaces:searchString withinEnvelope:env];
     [searchBar resignFirstResponder];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
+}
+
+- (BOOL) searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    NSArray *currentItems = self.findToolbar.items;
+    NSMutableArray *newItems = [NSMutableArray array];
+    for (UIBarButtonItem *bbi in currentItems) {
+        if (bbi != self.findbutton &&
+            bbi != self.cancelButton)
+        {
+            [newItems addObject:bbi];
+        }
+    }
+    
+    [newItems addObject:self.cancelButton];
+    
+    [self.findToolbar setItems:newItems animated:YES];
+    
+    return YES;
+}
+
+- (BOOL) searchBarShouldEndEditing:(UISearchBar *)searchBar
+{
+    NSArray *currentItems = self.findToolbar.items;
+    NSMutableArray *newItems = [NSMutableArray array];
+    for (UIBarButtonItem *bbi in currentItems) {
+        if (bbi != self.findbutton &&
+            bbi != self.cancelButton)
+        {
+            [newItems addObject:bbi];
+        }
+    }
+    
+    [newItems addObject:self.findbutton];
+    
+    [self.findToolbar setItems:newItems animated:YES];
+    
+    return YES;
 }
 
 - (void) gotCandidatesForAddress:(NSNotification *)notification
@@ -1128,7 +1225,7 @@ EQSSampleAppState;
                 {
                     count++;
                     NSLog(@"Address found: %@", c.attributes);
-                    AGSPoint *p = [EQSHelper getWebMercatorAuxSpherePointFromPoint:c.location];
+                    AGSPoint *p = [c.location getWebMercatorAuxSpherePoint];
                     AGSGraphic *g = [self.mapView addPoint:p];
                     [g.attributes setObject:@"Geocoded" forKey:@"Source"];
                     if (!totalEnv)
@@ -1176,5 +1273,8 @@ EQSSampleAppState;
 {
     _findScale = findScale;
     self.findScaleLabel.text = [NSString stringWithFormat:@"%d", _findScale];
+}
+- (IBAction)messageBarCloseTapped:(id)sender {
+    NSLog(@"Close the message bar now...");
 }
 @end

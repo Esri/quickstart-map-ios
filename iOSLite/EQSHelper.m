@@ -327,6 +327,7 @@ NSDictionary * __eqsBasemapURLs = nil;
 {
     switch (basemapType) {
         case EQSBasemapTypeHybrid:
+        case EQSBasemapTypeCanvas:
             return YES;
             
         default:
@@ -429,36 +430,4 @@ NSDictionary * __eqsBasemapURLs = nil;
     return [[EQSHelper defaultHelper] getBasemapKeyForEnum:basemapType];
 }
 
-+ (AGSPoint *) getWebMercatorAuxSpherePointFromPoint:(AGSPoint *)wgs84Point
-{
-    @try
-    {
-		return (AGSPoint *)[[AGSGeometryEngine defaultGeometryEngine] projectGeometry:wgs84Point 
-																   toSpatialReference:[AGSSpatialReference webMercatorSpatialReference]];    
-    }
-    @catch (NSException *e) {
-        NSLog(@"Error getting Web Mercator Point from %@: %@",wgs84Point, e); 
-    }
-}
-
-+ (AGSPoint *) getWGS84PointFromPoint:(AGSPoint *)webMercatorPoint;
-{
-    @try
-    {
-		return (AGSPoint *)[[AGSGeometryEngine defaultGeometryEngine] projectGeometry:webMercatorPoint 
-																   toSpatialReference:[AGSSpatialReference wgs84SpatialReference]];    
-    }
-    @catch (NSException *e) {
-        NSLog(@"Error getting Web Mercator Point from %@: %@",webMercatorPoint, e); 
-    }
-}
-
-+ (AGSPoint *) getWebMercatorAuxSpherePointFromLat:(double) latitude Long:(double) longitude
-{
-    // Ensure we're passed sensible values for lat and long
-    NSAssert1((-90 <= latitude) && (latitude <= 90), @"Latitude %f must be between -90 and 90 degrees", latitude);
-    
-    AGSPoint *wgs84CenterPt = [AGSPoint pointWithX:longitude y:latitude spatialReference:[AGSSpatialReference wgs84SpatialReference]];
-    return [self getWebMercatorAuxSpherePointFromPoint:wgs84CenterPt];
-}
 @end

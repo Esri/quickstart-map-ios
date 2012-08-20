@@ -26,11 +26,6 @@
 + (AGSTiledLayer *) getBasemapTiledLayer:(EQSBasemapType)basemapType;
 + (NSArray *) getBasemapSupplementalTiledLayers:(EQSBasemapType)basemapType;
 
-// Convenience functions for translating to Web Mercator Auxiliary Sphere spatial reference
-+ (AGSPoint *) getWebMercatorAuxSpherePointFromLat:(double) latitude Long:(double) longitude;
-+ (AGSPoint *) getWebMercatorAuxSpherePointFromPoint:(AGSPoint *)wgs84Point;
-+ (AGSPoint *) getWGS84PointFromPoint:(AGSPoint *)webMercatorPoint;
-
 // Call getLocation and wait for a notification response of either kEQSGeolocationSucceeded or
 // kEQSGeolocationError. In the case of success, read the AGSPoint from the notification's
 // userInfo dictionary using the kEQSGeolocationSucceededLocationKey key.

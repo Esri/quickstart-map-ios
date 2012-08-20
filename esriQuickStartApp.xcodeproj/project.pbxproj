@@ -22,6 +22,11 @@
 		D9A985B715890C3D00A0DE40 /* EQSPortalItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A985B515890C3D00A0DE40 /* EQSPortalItemViewController.m */; };
 		D9A985B815890C3D00A0DE40 /* EQSPortalItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9A985B615890C3D00A0DE40 /* EQSPortalItemView.xib */; };
 		D9B1044D156D98B900DF6287 /* UILabel+EQSAutoSizeMultiline.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DCB32E156D455100A30BB2 /* UILabel+EQSAutoSizeMultiline.m */; };
+		D9B3D61815E2BE3100140C4E /* closeX.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D61615E2BE3100140C4E /* closeX.png */; };
+		D9B3D61915E2BE3100140C4E /* closeX@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D61715E2BE3100140C4E /* closeX@2x.png */; };
+		D9B3D61C15E2BE4C00140C4E /* 298-circlex.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D61A15E2BE4C00140C4E /* 298-circlex.png */; };
+		D9B3D61D15E2BE4C00140C4E /* 298-circlex@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D61B15E2BE4C00140C4E /* 298-circlex@2x.png */; };
+		D9B3D62015E2C86300140C4E /* EQSDefaultSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B3D61F15E2C86300140C4E /* EQSDefaultSymbols.m */; };
 		D9E01457158A45A4005DD7D8 /* EQSPortalItemListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E01456158A45A4005DD7D8 /* EQSPortalItemListView.m */; };
 		D9E27C9E155ABDC5008F8CCB /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */; };
 		D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */; };
@@ -53,7 +58,6 @@
 		E1750BBB1559B0F600C50929 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BB31559B0F600C50929 /* Security.framework */; };
 		E1812BDC15DC767E00D3325A /* EQSBasemapPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1812BDB15DC767E00D3325A /* EQSBasemapPickerView.m */; };
 		E1A5682D15ABAC74004AA6C1 /* EQSGeoServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A5682C15ABAC74004AA6C1 /* EQSGeoServices.m */; };
-		E1C12A6A15D5542300B1ADCB /* AGSMapView+GeoServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C12A6915D5542300B1ADCB /* AGSMapView+GeoServices.m */; };
 		E1E1808515DAD2A300BB30DD /* EQSPortalItemPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1E1808415DAD2A300BB30DD /* EQSPortalItemPickerView.xib */; };
 		E1E1808E15DAD38400BB30DD /* EQSPortalItemPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E1808D15DAD38400BB30DD /* EQSPortalItemPickerView.m */; };
 		E1E1809115DAD43D00BB30DD /* EQSPortalItemPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E1809015DAD43C00BB30DD /* EQSPortalItemPickerViewController.m */; };
@@ -81,6 +85,12 @@
 		D9A985B415890C3D00A0DE40 /* EQSPortalItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSPortalItemViewController.h; sourceTree = "<group>"; };
 		D9A985B515890C3D00A0DE40 /* EQSPortalItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSPortalItemViewController.m; sourceTree = "<group>"; };
 		D9A985B615890C3D00A0DE40 /* EQSPortalItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQSPortalItemView.xib; sourceTree = "<group>"; };
+		D9B3D61615E2BE3100140C4E /* closeX.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closeX.png; sourceTree = "<group>"; };
+		D9B3D61715E2BE3100140C4E /* closeX@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "closeX@2x.png"; sourceTree = "<group>"; };
+		D9B3D61A15E2BE4C00140C4E /* 298-circlex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "298-circlex.png"; sourceTree = "<group>"; };
+		D9B3D61B15E2BE4C00140C4E /* 298-circlex@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "298-circlex@2x.png"; sourceTree = "<group>"; };
+		D9B3D61E15E2C86300140C4E /* EQSDefaultSymbols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSDefaultSymbols.h; sourceTree = "<group>"; };
+		D9B3D61F15E2C86300140C4E /* EQSDefaultSymbols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSDefaultSymbols.m; sourceTree = "<group>"; };
 		D9CCC618156FECBE00EA4353 /* EQSBasemapTypeEnum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EQSBasemapTypeEnum.h; path = iOSLite/EQSBasemapTypeEnum.h; sourceTree = "<group>"; };
 		D9E01455158A45A4005DD7D8 /* EQSPortalItemListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSPortalItemListView.h; sourceTree = "<group>"; };
 		D9E01456158A45A4005DD7D8 /* EQSPortalItemListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSPortalItemListView.m; sourceTree = "<group>"; };
@@ -130,8 +140,6 @@
 		E1812BDB15DC767E00D3325A /* EQSBasemapPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSBasemapPickerView.m; sourceTree = "<group>"; };
 		E1A5682B15ABAC74004AA6C1 /* EQSGeoServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EQSGeoServices.h; path = iOSLite/EQSGeoServices.h; sourceTree = "<group>"; };
 		E1A5682C15ABAC74004AA6C1 /* EQSGeoServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EQSGeoServices.m; path = iOSLite/EQSGeoServices.m; sourceTree = "<group>"; };
-		E1C12A6815D5542300B1ADCB /* AGSMapView+GeoServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+GeoServices.h"; sourceTree = "<group>"; };
-		E1C12A6915D5542300B1ADCB /* AGSMapView+GeoServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+GeoServices.m"; sourceTree = "<group>"; };
 		E1DCB32D156D455100A30BB2 /* UILabel+EQSAutoSizeMultiline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+EQSAutoSizeMultiline.h"; sourceTree = "<group>"; };
 		E1DCB32E156D455100A30BB2 /* UILabel+EQSAutoSizeMultiline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+EQSAutoSizeMultiline.m"; sourceTree = "<group>"; };
 		E1E1808415DAD2A300BB30DD /* EQSPortalItemPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQSPortalItemPickerView.xib; sourceTree = "<group>"; };
@@ -186,12 +194,10 @@
 		D9E27CAF155AE891008F8CCB /* AGS Categories */ = {
 			isa = PBXGroup;
 			children = (
-				E1C12A6815D5542300B1ADCB /* AGSMapView+GeoServices.h */,
-				E1C12A6915D5542300B1ADCB /* AGSMapView+GeoServices.m */,
-				D9FB2CD5156EF6ED0052E2AC /* Route Display */,
-				D9F9EE6F156DE7DA00C2A15F /* Graphics */,
 				D9E27CB1155AEA4D008F8CCB /* Basemaps */,
 				E16C07CD1559B96900776F3E /* Navigation */,
+				D9F9EE6F156DE7DA00C2A15F /* Graphics */,
+				D9FB2CD5156EF6ED0052E2AC /* Route Display */,
 				D9F9AE96157D6A76004CFAA8 /* General */,
 			);
 			name = "AGS Categories";
@@ -217,6 +223,8 @@
 				D9E27CAF155AE891008F8CCB /* AGS Categories */,
 				E1A5682B15ABAC74004AA6C1 /* EQSGeoServices.h */,
 				E1A5682C15ABAC74004AA6C1 /* EQSGeoServices.m */,
+				D9B3D61E15E2C86300140C4E /* EQSDefaultSymbols.h */,
+				D9B3D61F15E2C86300140C4E /* EQSDefaultSymbols.m */,
 			);
 			name = QuickStartLib;
 			sourceTree = "<group>";
@@ -246,6 +254,10 @@
 		D9F9EE77156DFD3200C2A15F /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D9B3D61615E2BE3100140C4E /* closeX.png */,
+				D9B3D61715E2BE3100140C4E /* closeX@2x.png */,
+				D9B3D61A15E2BE4C00140C4E /* 298-circlex.png */,
+				D9B3D61B15E2BE4C00140C4E /* 298-circlex@2x.png */,
 				D98221591587C6EB00EF53CC /* 06-map-pin.png */,
 				D982215A1587C6EB00EF53CC /* 06-map-pin@2x.png */,
 				D982215E1587C8DD00EF53CC /* 07-map-marker.png */,
@@ -314,6 +326,8 @@
 		E16C28FF15598A5E00E2DB56 /* QuickStartApp */ = {
 			isa = PBXGroup;
 			children = (
+				E16C290B15598A5E00E2DB56 /* MainStoryboard_iPhone.storyboard */,
+				E16C290E15598A5E00E2DB56 /* MainStoryboard_iPad.storyboard */,
 				E16C290815598A5E00E2DB56 /* EQSSampleAppDelegate.h */,
 				E16C290915598A5E00E2DB56 /* EQSSampleAppDelegate.m */,
 				E16C291115598A5E00E2DB56 /* EQSSampleViewController.h */,
@@ -350,8 +364,6 @@
 		E1AC7B8615D2E8EA00E4E1BE /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				E16C290B15598A5E00E2DB56 /* MainStoryboard_iPhone.storyboard */,
-				E16C290E15598A5E00E2DB56 /* MainStoryboard_iPad.storyboard */,
 				D93C98A3156D8CC000A5F339 /* EQSBasemapDetailsViewController.h */,
 				D93C98A4156D8CC000A5F339 /* EQSBasemapDetailsViewController.m */,
 				E1812BDA15DC767D00D3325A /* EQSBasemapPickerView.h */,
@@ -469,6 +481,10 @@
 				D99D9880158950F800F9D36B /* EQSPortalItemListView.xib in Resources */,
 				D9086DA0158B90D800FC1D43 /* description.css in Resources */,
 				E1E1808515DAD2A300BB30DD /* EQSPortalItemPickerView.xib in Resources */,
+				D9B3D61815E2BE3100140C4E /* closeX.png in Resources */,
+				D9B3D61915E2BE3100140C4E /* closeX@2x.png in Resources */,
+				D9B3D61C15E2BE4C00140C4E /* 298-circlex.png in Resources */,
+				D9B3D61D15E2BE4C00140C4E /* 298-circlex@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -499,11 +515,11 @@
 				D927EBEA15A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.m in Sources */,
 				E1A5682D15ABAC74004AA6C1 /* EQSGeoServices.m in Sources */,
 				D9754D7315ACAF840093BF1E /* UIApplication+AppDimensions.m in Sources */,
-				E1C12A6A15D5542300B1ADCB /* AGSMapView+GeoServices.m in Sources */,
 				E1E1808E15DAD38400BB30DD /* EQSPortalItemPickerView.m in Sources */,
 				E1E1809115DAD43D00BB30DD /* EQSPortalItemPickerViewController.m in Sources */,
 				E141D0E315DB02CE004F81F4 /* EQSPortalItemView.m in Sources */,
 				E1812BDC15DC767E00D3325A /* EQSBasemapPickerView.m in Sources */,
+				D9B3D62015E2C86300140C4E /* EQSDefaultSymbols.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

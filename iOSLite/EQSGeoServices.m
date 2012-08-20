@@ -8,12 +8,29 @@
 
 #import "EQSGeoServices.h"
 #import "EQSHelper.h"
+
+#import "AGSPoint+GeneralUtilities.h"
+
 #import <objc/runtime.h>
 
+@implementation AGSMapView (GeoServices)
+EQSGeoServices *__agsStarterGeoServices = nil;
+
+- (EQSGeoServices *) geoServices
+{
+	if (!__agsStarterGeoServices)
+	{
+		__agsStarterGeoServices = [[EQSGeoServices alloc] init];
+	}
+	return __agsStarterGeoServices;
+}
+@end
+
+
 //#define kEQSNALocatorURL @"http://tasks.arcgisonline.com/ArcGIS/rest/services/Locators/TA_Address_NA_10/GeocodeServer"
-#define kEQSNALocatorURL @"http://geocodedev.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+#define kEQSNALocatorURL @"http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
 #define kEQSFindAddress_AddressKey @"SingleLine"
-#define kEQSFindAddress_ReturnFields @"Loc_name", @"Shape"
+#define kEQSFindAddress_ReturnFields @"Loc_name", @"Shape", @"Country", @"Addr_Type", @"Type", @"Match_Addr"
 #define kEQSFindAddress_AssociatedAddressKey "address"
 #define kEQSFindAddress_AssociatedExtentKey "extent"
 
@@ -70,12 +87,12 @@
 }
 
 #pragma mark - Public Methods
-- (NSOperation *) getPointFromAddress:(NSString *)singleLineAddress 
+- (NSOperation *) findPlaces:(NSString *)singleLineAddress 
 {
-    return [self getPointFromAddress:singleLineAddress withinEnvelope:nil];
+    return [self findPlaces:singleLineAddress withinEnvelope:nil];
 }
 
-- (NSOperation *) getPointFromAddress:(NSString *)singleLineAddress withinEnvelope:(AGSEnvelope *)env
+- (NSOperation *) findPlaces:(NSString *)singleLineAddress withinEnvelope:(AGSEnvelope *)env
 {
 	// Tell the service we are providing a single line address.
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:singleLineAddress forKey:kEQSFindAddress_AddressKey];
@@ -101,7 +118,7 @@
     return op;
 }
 
-- (NSOperation *) getAddressFromPoint:(AGSPoint *)mapPoint
+- (NSOperation *) findAddressFromPoint:(AGSPoint *)mapPoint
 {
 	return [self pointToAddress:mapPoint withMaxSearchDistance:kEQSMaxDistanceForReverseGeocode];
 }
@@ -117,7 +134,7 @@
     return op;
 }
 
-- (NSOperation *) getDirectionsFrom:(AGSPoint *)startPoint To:(AGSPoint *)endPoint
+- (NSOperation *) findDirectionsFrom:(AGSPoint *)startPoint To:(AGSPoint *)endPoint
 {
 	AGSRouteTaskParameters *routeTaskParams = [self getParametersToRouteFromStart:startPoint ToStop:endPoint];
 	return [self.routeTask solveWithParameters:routeTaskParams];
@@ -133,8 +150,8 @@
         NSNumber *distance = objc_getAssociatedObject(op, kEQSFindLocation_AssociatedDistanceKey);
         
         // Log to the console.
-        NSLog(@"Found address at %@ within %@ units of %@: %@", candidate.location, distance, 
-              [EQSHelper getWebMercatorAuxSpherePointFromPoint:location], candidate.address);
+        NSLog(@"Found address at %@\nwithin %@ units of %@:\n%@\n%@", candidate.location, distance,
+              [location getWebMercatorAuxSpherePoint], candidate.address, candidate.attributes);
         
         // Build the UserInfo package that goes on the NSNotification
         NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -195,6 +212,10 @@
         NSString *address = objc_getAssociatedObject(op, kEQSFindAddress_AssociatedAddressKey);
         AGSEnvelope *env = objc_getAssociatedObject(op, kEQSFindAddress_AssociatedExtentKey);
         
+        for (AGSAddressCandidate *candidate in candidates) {
+            NSLog(@"Found candidate: %@ %@", candidate.addressString, candidate.attributes);
+        }
+
         // Build a dictionary of useful info which listeners to our notification might want.
         NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                                   op, kEQSGeoServicesNotification_WorkerOperationKey,

@@ -8,6 +8,29 @@
 
 #import <ArcGIS/ArcGIS.h>
 
+@class EQSGeoServices;
+
+@interface AGSMapView (GeoServices)
+// Provide a reference to the geoServices instance for an AGSMapView.
+- (EQSGeoServices *) geoServices;
+@end
+
+@interface EQSGeoServices : NSObject
+// Geocoding
+- (NSOperation *) findPlaces:(NSString *)singleLineAddress;
+- (NSOperation *) findPlaces:(NSString *)singleLineAddress withinEnvelope:(AGSEnvelope *)env;
+
+// Reverse Geocoding
+- (NSOperation *) findAddressFromPoint:(AGSPoint *)mapPoint;
+
+// Routing
+- (NSOperation *) findDirectionsFrom:(AGSPoint *)startPoint To:(AGSPoint *)endPoint;
+@end
+
+
+
+
+
 // Notification Definitions - subscribe to these to be notified when GeoServices have completed.
 // Each geoservices has an OK and an Error notification. See the keys below for getting information
 // about those notifications.
@@ -45,13 +68,3 @@
 #define kEQSAddressCandidateCityField @"Admin1"
 #define kEQSAddressCandidateStateField @"Admin2"
 #define kEQSAddressCandidateZipField @"Postal"
-
-@interface EQSGeoServices : NSObject
-// Geocoding
-- (NSOperation *) getPointFromAddress:(NSString *)singleLineAddress;
-- (NSOperation *) getPointFromAddress:(NSString *)singleLineAddress withinEnvelope:(AGSEnvelope *)env;
-// Reverse Geocoding
-- (NSOperation *) getAddressFromPoint:(AGSPoint *)mapPoint;
-// Routing
-- (NSOperation *) getDirectionsFrom:(AGSPoint *)startPoint To:(AGSPoint *)fromPoint;
-@end

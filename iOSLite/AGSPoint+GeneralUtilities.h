@@ -9,7 +9,15 @@
 #import <ArcGIS/ArcGIS.h>
 
 @interface AGSPoint (GeneralUtilities)
-+ (AGSPoint *) pointFromLat:(double)latitude Long:(double)longitude;
+// Convenience function to return a new AGSPoint given a Lat and Lon.
++ (AGSPoint *) pointFromLat:(double)latitude Lon:(double)longitude;
+
+// Read the Lat and Lon values from any point, regardless of its internal spatial reference.
 - (double) latitude;
 - (double) longitude;
+
+// Convenience functions for translating to Web Mercator Auxiliary Sphere spatial reference
+//+ (AGSPoint *) getWebMercatorAuxSpherePointFromLat:(double) latitude Lon:(double) longitude;
+- (AGSPoint *) getWebMercatorAuxSpherePoint;
+- (AGSPoint *) getWGS84Point;
 @end

@@ -10,20 +10,63 @@
 #import "EQSHelper.h"
 
 @implementation AGSPoint (GeneralUtilities)
-+ (AGSPoint *) pointFromLat:(double)latitude Long:(double)longitude
++ (AGSPoint *) pointFromLat:(double)latitude Lon:(double)longitude
 {
-	return [EQSHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
+    // Ensure we're passed sensible values for lat and long
+    NSAssert1((-90 <= latitude) && (latitude <= 90), @"Latitude %f must be between -90 and 90 degrees", latitude);
+    
+    AGSPoint *wgs84CenterPt = [AGSPoint pointWithX:longitude y:latitude spatialReference:[AGSSpatialReference wgs84SpatialReference]];
+    return [wgs84CenterPt getWebMercatorAuxSpherePoint];
 }
 
 - (double) latitude
 {
-	AGSPoint *geoPt = [EQSHelper getWGS84PointFromPoint:self];
+	AGSPoint *geoPt = [self getWGS84Point];
 	return geoPt.y;
 }
 
 - (double) longitude
 {
-	AGSPoint *geoPt = [EQSHelper getWGS84PointFromPoint:self];
+	AGSPoint *geoPt = [self getWGS84Point];
 	return geoPt.x;
+}
+
+#pragma mark - Spatial Reference Shortcuts
+- (AGSPoint *) getWebMercatorAuxSpherePoint
+{
+    if ([self.spatialReference isEqualToSpatialReference:[AGSSpatialReference webMercatorSpatialReference]])
+    {
+        return self;
+    }
+    else
+    {
+        @try
+        {
+            return (AGSPoint *)[[AGSGeometryEngine defaultGeometryEngine] projectGeometry:self
+                                                                       toSpatialReference:[AGSSpatialReference webMercatorSpatialReference]];
+        }
+        @catch (NSException *e) {
+            NSLog(@"Error getting Web Mercator Point from %@: %@",self, e);
+        }
+    }
+}
+
+- (AGSPoint *) getWGS84Point
+{
+    if ([self.spatialReference isEqualToSpatialReference:[AGSSpatialReference wgs84SpatialReference]])
+    {
+        return self;
+    }
+    else
+    {
+        @try
+        {
+            return (AGSPoint *)[[AGSGeometryEngine defaultGeometryEngine] projectGeometry:self
+                                                                       toSpatialReference:[AGSSpatialReference wgs84SpatialReference]];
+        }
+        @catch (NSException *e) {
+            NSLog(@"Error getting Web Mercator Point from %@: %@",self, e);
+        }
+    }
 }
 @end

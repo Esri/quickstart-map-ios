@@ -30,15 +30,21 @@ EQSBasemapType __eqsCurrentBasemapType = 0;
     {
         __eqsBasemaps_oldExtent = self.visibleArea.envelope;
         
+        // Set up a static pointer to the current WebMap.
         static AGSWebMap *currentWebMap = nil;
+        
+        // If the WebMap is not nil, this means it's been updated since initialization.
+        // We must remove ourselves as the delegate before doing anything else.
         if (currentWebMap != nil)
         {
             currentWebMap.delegate = nil;
         }
         
+        // Now get the WebMap we're switching to, and set ourselves as the delegate.
         currentWebMap = [EQSHelper getBasemapWebMap:basemapType];
         currentWebMap.delegate = self;
         
+        // And open it into the MapView.
         [currentWebMap openIntoMapView:self];
     }
     else {
@@ -89,22 +95,6 @@ EQSBasemapType __eqsCurrentBasemapType = 0;
     [mapView zoomToEnvelope:__eqsBasemaps_oldExtent animated:NO];
     __eqsBasemaps_oldExtent = nil;
 
-    if (__eqsCurrentBasemapType == EQSBasemapTypeHybrid)
-    {
-        NSArray *layers = webMap.operationalLayers;
-        if (layers.count > 0)
-        {
-            AGSWebMapLayerInfo *layerInfo = [layers objectAtIndex:0];
-            AGSTiledLayer *roadLayer = [AGSTiledMapServiceLayer tiledMapServiceLayerWithURL:layerInfo.URL];
-            [mapView addMapLayer:roadLayer withName:@"roads"];
-        }
-    }
-
-    // All the layers right now are basemap layers from whichever WebMap we loaded.
-    for (AGSLayer *basemapLayer in mapView.mapLayers) {
-        [basemapLayer setIsEQSBasemapLayer:YES];
-    }
-    
     AGSPortalItem *pi = webMap.portalItem;
     [self postNewBasemapNotification:__eqsCurrentBasemapType forPortalItem:pi];
     

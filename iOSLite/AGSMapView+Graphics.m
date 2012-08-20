@@ -9,6 +9,8 @@
 #import "AGSMapView+Graphics.h"
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSMapView+Basemaps.h"
+#import "AGSPoint+GeneralUtilities.h"
+
 #import "EQSHelper.h"
 
 @implementation AGSMapView (Graphics)
@@ -24,7 +26,7 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
 #define kEQSGraphicsLayerName_Polyline @"eqsPolylineGraphicsLayer"
 #define kEQSGraphicsLayerName_Polygon @"eqsPolygonGraphicsLayer"
 
-#define kEQSGraphicTag @"iOSLiteAPI"
+#define kEQSGraphicTag @"esriQuickStartLib"
 #define kEQSGraphicTagKey @"createdBy"
 
 #define kEQSSketchGraphicsLayerName @"eqsSketchGraphcisLayer"
@@ -32,14 +34,14 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
 #pragma mark - Add Graphics Programatically
 - (AGSGraphic *) addPointAtLat:(double)latitude Long:(double)longitude
 {
-    AGSPoint *pt = [EQSHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
+    AGSPoint *pt = [AGSPoint pointFromLat:latitude Lon:longitude];
     
 	return [self addPoint:pt];
 }
 
 - (AGSGraphic *) addPoint:(AGSPoint *)point
-{    
-    AGSGraphic *g = [self __eqsGetDefaultGraphicForGeometry:point];
+{
+    AGSGraphic *g = [self __eqsGetDefaultGraphicForGeometry:[point getWebMercatorAuxSpherePoint]];
     
     [self __eqsAddGraphicToAppropriateGraphicsLayer:g];
     
@@ -55,7 +57,7 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
 
     for (AGSPoint *pt in points)
     {
-        [line addPointToPath:pt];
+        [line addPointToPath:[pt getWebMercatorAuxSpherePoint]];
     }
 
     AGSGraphic *g = [self __eqsGetDefaultGraphicForGeometry:line];
@@ -74,7 +76,7 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
 
     for (AGSPoint *pt in points)
     {
-        [poly addPointToRing:pt];
+        [poly addPointToRing:[pt getWebMercatorAuxSpherePoint]];
     }
 
     AGSGraphic *g = [self __eqsGetDefaultGraphicForGeometry:poly];
@@ -291,6 +293,7 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
         __eqsPointGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
         __eqsPolylineGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
         __eqsPolygonGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
+        // And register our interest in basemap changes so we can re-add the layers if need be.
 		[[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(__eqsGraphicsBasemapDidChange:) 
                                                      name:kEQSNotification_BasemapDidChange

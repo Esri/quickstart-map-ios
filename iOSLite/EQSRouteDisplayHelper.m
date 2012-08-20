@@ -13,16 +13,11 @@
 #import "AGSMapView+Basemaps.h"
 #import "AGSGraphicsLayer+GeneralUtilities.h"
 #import "EQSGeoServices.h"
+#import "EQSDefaultSymbols.h"
 
 #define kEQSRouteTaskUrl @"http://tasks.arcgisonline.com/ArcGIS/rest/services/NetworkAnalysis/ESRI_Route_NA/NAServer/Route"
 #define kEQSRouteTaskHelperNotificationLoaded @"EQSRouteTaskHelperLoaded"
 #define kEQSRouteTaskHelperNotificationRouteSolved @"EQSRouteTaskHelperRouteSolved"
-
-#define kEQSGreenPinURL @"http://static.arcgis.com/images/Symbols/Shapes/GreenPin1LargeB.png"
-#define kEQSRedPinURL @"http://static.arcgis.com/images/Symbols/Shapes/RedPin1LargeB.png"
-#define kEQSPinXOffset 0
-#define kEQSPinYOffset 11
-#define kEQSPinSize CGSizeMake(28,28)
 
 #define kEQSRouteResultsLayerName @"EQSRouteResults"
 
@@ -106,21 +101,11 @@
 		self.mapView = mapView;
 
 		// Set up the default symbols.
-        self.startSymbol = [AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor greenColor]];
-        AGSPictureMarkerSymbol *pms = [AGSPictureMarkerSymbol pictureMarkerSymbolWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:kEQSGreenPinURL]]]];
-        pms.xoffset = kEQSPinXOffset;
-        pms.yoffset = kEQSPinYOffset;
-        pms.size = kEQSPinSize;
-        self.startSymbol = pms;
-
-        pms = [AGSPictureMarkerSymbol pictureMarkerSymbolWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:kEQSRedPinURL]]]];
-        pms.xoffset = kEQSPinXOffset;
-        pms.yoffset = kEQSPinYOffset;
-        pms.size = kEQSPinSize;
-        self.endSymbol = pms;
+        self.startSymbol = mapView.defaultSymbols.routeStart;
+        self.endSymbol = mapView.defaultSymbols.routeEnd;
         
-		self.routeSymbol = [AGSSimpleLineSymbol simpleLineSymbolWithColor:[[UIColor orangeColor] colorWithAlphaComponent:0.7f] width:8.0f];
-    }    
+		self.routeSymbol = mapView.defaultSymbols.route;
+    }
     
     return self;
 }

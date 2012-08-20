@@ -28,11 +28,14 @@ typedef enum {
 - (AGSGraphic *) addLineFromPoints:(NSArray *) points;
 - (AGSGraphic *) addPolygonFromPoints:(NSArray *) points;
 
+//TODO - (AGSGraphic *) addLine:(AGSPolyline *) line;
+//TODO - (AGSGraphic *) addPolygon:(AGSPolygon *) polygon;
+
 // Remove individual graphics
 - (void) removeGraphic:(AGSGraphic *)graphic;
 - (void) removeGraphicsMatchingCriteria:(BOOL(^)(AGSGraphic *))checkBlock;
 
-
+// TODO - (void) removeGraphicByID:(NSString *)graphicID;
 
 
 #pragma mark - Clear graphics

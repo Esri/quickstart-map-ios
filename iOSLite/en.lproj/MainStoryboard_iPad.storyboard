@@ -11,94 +11,49 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3" sceneMemberID="firstResponder"/>
                 <viewController id="2" customClass="EQSSampleViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5">
-                        <rect key="frame" x="0.0" y="20" width="768" height="960"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="jAh-IA-P6U" customClass="AGSMapView">
-                                <rect key="frame" x="0.0" y="44" width="768" height="916"/>
+                                <rect key="frame" x="0.0" y="44" width="768" height="960"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                 <gestureRecognizers/>
                             </view>
-                            <view contentMode="scaleToFill" id="48v-Ui-wix" customClass="EQSBasemapPickerView">
-                                <rect key="frame" x="0.0" y="274.5" width="768" height="170"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackOpaque" id="ea8-sr-7to" userLabel="Toolbar - Functions">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
-                            </view>
-                            <view contentMode="scaleToFill" id="jM8-Ve-X6c" userLabel="View - Routing">
-                                <rect key="frame" x="0.0" y="576" width="768" height="170"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="zNV-Jb-paT"/>
+                                    <barButtonItem style="plain" id="8N0-0O-Xqh">
+                                        <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="w40-5S-jjW">
+                                            <rect key="frame" x="45" y="7" width="678" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                            <segments>
+                                                <segment title="Basemaps"/>
+                                                <segment title="Geolocation"/>
+                                                <segment title="Graphics"/>
+                                                <segment title="Cloud Data"/>
+                                                <segment title="Find Place"/>
+                                                <segment title="Directions"/>
+                                            </segments>
+                                            <connections>
+                                                <action selector="functionChanged:" destination="2" eventType="valueChanged" id="qfR-S8-PnG"/>
+                                            </connections>
+                                        </segmentedControl>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="a1V-LR-rWz"/>
+                                </items>
+                            </toolbar>
+                            <view contentMode="scaleToFill" id="f5r-af-vh7" userLabel="View - MessageBar">
+                                <rect key="frame" x="0.0" y="746" width="768" height="25"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" id="KaZ-Bm-QII">
-                                        <rect key="frame" x="0.0" y="0.0" width="384" height="170"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="krd-T4-cwH">
-                                                <rect key="frame" x="20" y="136" width="344" height="14"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="XcW-rU-ziG">
-                                                <rect key="frame" x="101" y="20" width="180" height="108"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" red="0.1595275551" green="0.39883607630000001" blue="0.1886591762" alpha="1" colorSpace="calibratedRGB"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
-                                                <inset key="imageEdgeInsets" minX="-10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="START">
-                                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="selected" title="Tap on map" image="06-map-pin.png"/>
-                                                <state key="highlighted">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="toFromTapped:" destination="2" eventType="touchUpInside" id="xx9-49-D3k"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" id="Cow-qb-wen">
-                                        <rect key="frame" x="384" y="0.0" width="384" height="170"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="bY0-AZ-alK">
-                                                <rect key="frame" x="20" y="136" width="344" height="14"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dHw-9u-cX9">
-                                                <rect key="frame" x="101" y="20" width="180" height="108"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" red="0.60405373569999998" green="0.15019468959999999" blue="0.1370830834" alpha="1" colorSpace="calibratedRGB"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
-                                                <inset key="imageEdgeInsets" minX="-10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="STOP">
-                                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="selected" title="Tap on map" image="06-map-pin.png"/>
-                                                <state key="highlighted">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="toFromTapped:" destination="2" eventType="touchUpInside" id="oRA-Tf-5Nb"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                    </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hNn-FK-cIg">
-                                        <rect key="frame" x="693" y="20" width="55" height="20"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nMJ-p7-Y8a">
+                                        <rect key="frame" x="743" y="0.0" width="25" height="25"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Clear">
+                                        <state key="normal" image="closeX.png">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -106,56 +61,30 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="clearRoute:" destination="2" eventType="touchUpInside" id="DKx-Eb-7JA"/>
+                                            <action selector="messageBarCloseTapped:" destination="2" eventType="touchUpInside" id="DOc-zc-vbY"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="t9r-H8-nBu">
+                                        <rect key="frame" x="20" y="2" width="715" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="48v-Ui-wix" userLabel="View - Basemaps" customClass="EQSBasemapPickerView">
+                                <rect key="frame" x="0.0" y="47" width="768" height="170"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                             </view>
-                            <view contentMode="scaleToFill" id="iAZ-ik-vkL" userLabel="View - Search Address">
-                                <rect key="frame" x="0.0" y="44" width="768" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <searchBar contentMode="redraw" barStyle="blackTranslucent" text="6 Stuyvesant Oval, New York" showsCancelButton="YES" id="ehD-4C-jip" userLabel="Search Bar - Address">
-                                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no"/>
-                                        <scopeButtonTitles>
-                                            <string>Globally</string>
-                                            <string>Current extent</string>
-                                        </scopeButtonTitles>
-                                        <connections>
-                                            <outlet property="delegate" destination="2" id="IGd-bW-r6Y"/>
-                                        </connections>
-                                    </searchBar>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" id="TRm-6g-wOm" userLabel="View - Search Place">
-                                <rect key="frame" x="0.0" y="105" width="768" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <searchBar contentMode="redraw" text="6 Stuyvesant Oval, New York" showsCancelButton="YES" id="CGS-sj-XQo" userLabel="Search Bar - Place">
-                                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no"/>
-                                        <scopeButtonTitles>
-                                            <string>Globally</string>
-                                            <string>Current extent</string>
-                                        </scopeButtonTitles>
-                                        <connections>
-                                            <outlet property="delegate" destination="2" id="HK2-2F-Xhn"/>
-                                        </connections>
-                                    </searchBar>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            </view>
                             <view contentMode="scaleToFill" id="BNi-3I-6yY" userLabel="View - Geolocation">
-                                <rect key="frame" x="0.0" y="219" width="768" height="47"/>
+                                <rect key="frame" x="0.0" y="220" width="768" height="170"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="w9T-wB-hG1">
-                                        <rect key="frame" x="20" y="5" width="82" height="37"/>
+                                        <rect key="frame" x="20" y="128" width="82" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="Find Me">
@@ -170,14 +99,14 @@
                                         </connections>
                                     </button>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="13" minValue="1" maxValue="20" id="hfH-hr-eOU" userLabel="Slider - Scale">
-                                        <rect key="frame" x="108" y="13" width="122" height="23"/>
+                                        <rect key="frame" x="108" y="136" width="122" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <connections>
                                             <action selector="findScaleChanged:" destination="2" eventType="valueChanged" id="nV7-eE-ZmJ"/>
                                         </connections>
                                     </slider>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="20" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="HsG-tn-8xE" userLabel="Label - Scale">
-                                        <rect key="frame" x="236" y="5" width="28" height="37"/>
+                                        <rect key="frame" x="236" y="128" width="28" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
@@ -186,7 +115,7 @@
                                         <size key="shadowOffset" width="1" height="1"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="q2U-V4-JgT" userLabel="Button - Zoom To Level">
-                                        <rect key="frame" x="272" y="5" width="67" height="37"/>
+                                        <rect key="frame" x="272" y="128" width="67" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="Zoom">
@@ -203,7 +132,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="jDE-Vd-KbV" userLabel="View - Graphics">
-                                <rect key="frame" x="0.0" y="451" width="768" height="109"/>
+                                <rect key="frame" x="0.0" y="393" width="768" height="170"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="87Z-Xw-kbS" userLabel="Clear Points Button">
@@ -300,7 +229,7 @@
                                         </items>
                                     </toolbar>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="T6R-qz-YDu" userLabel="Load Graphics Button">
-                                        <rect key="frame" x="583" y="49" width="67" height="26"/>
+                                        <rect key="frame" x="676" y="62" width="72" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="New Pt">
@@ -315,7 +244,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="A2H-dj-njm" userLabel="Load Graphics Button">
-                                        <rect key="frame" x="671" y="76" width="67" height="27"/>
+                                        <rect key="frame" x="676" y="94" width="72" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="New Ln">
@@ -330,7 +259,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="pDt-KN-QUE" userLabel="Load Graphics Button">
-                                        <rect key="frame" x="696" y="44" width="72" height="24"/>
+                                        <rect key="frame" x="676" y="126" width="72" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="New Pg">
@@ -362,39 +291,148 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                             </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackOpaque" id="ea8-sr-7to" userLabel="Toolbar - Functions">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                            <view contentMode="scaleToFill" id="TRm-6g-wOm" userLabel="View - Cloud Data">
+                                <rect key="frame" x="0.0" y="568" width="768" height="170"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="zNV-Jb-paT"/>
-                                    <barButtonItem style="plain" id="8N0-0O-Xqh">
-                                        <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="w40-5S-jjW">
-                                            <rect key="frame" x="45" y="7" width="678" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                            <segments>
-                                                <segment title="Basemaps"/>
-                                                <segment title="Geolocation"/>
-                                                <segment title="Add Graphics"/>
-                                                <segment title="Find Place"/>
-                                                <segment title="Find Address"/>
-                                                <segment title="Directions"/>
-                                            </segments>
-                                            <connections>
-                                                <action selector="functionChanged:" destination="2" eventType="valueChanged" id="qfR-S8-PnG"/>
-                                            </connections>
-                                        </segmentedControl>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="a1V-LR-rWz"/>
-                                </items>
-                            </toolbar>
+                                <color key="backgroundColor" red="0.76020407680000002" green="0.50472348929999999" blue="0.46332988139999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="iAZ-ik-vkL" userLabel="View - Find Place">
+                                <rect key="frame" x="0.0" y="954" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackOpaque" id="gcB-3g-Gdh">
+                                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                        <items>
+                                            <barButtonItem style="plain" id="hMF-ZN-lvS">
+                                                <searchBar key="customView" contentMode="redraw" barStyle="blackOpaque" text="6 Stuyvesant Oval, New York" id="ehD-4C-jip" userLabel="Search Bar - Address">
+                                                    <rect key="frame" x="12" y="0.0" width="616" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="2" id="IGd-bW-r6Y"/>
+                                                    </connections>
+                                                </searchBar>
+                                            </barButtonItem>
+                                            <barButtonItem width="7" style="plain" systemItem="fixedSpace" id="Hd0-64-Htn"/>
+                                            <barButtonItem title="Cancel" id="7md-MA-r1B"/>
+                                            <barButtonItem title="Find" id="GP9-HT-6Rp"/>
+                                        </items>
+                                    </toolbar>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="jM8-Ve-X6c" userLabel="View - Directions">
+                                <rect key="frame" x="0.0" y="782" width="768" height="170"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" id="KaZ-Bm-QII" userLabel="View - Start Details">
+                                        <rect key="frame" x="20" y="0.0" width="364" height="170"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="krd-T4-cwH">
+                                                <rect key="frame" x="20" y="136" width="324" height="14"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="XcW-rU-ziG">
+                                                <rect key="frame" x="91" y="20" width="180" height="108"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.1595275551" green="0.39883607630000001" blue="0.1886591762" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                                <inset key="imageEdgeInsets" minX="-10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="START">
+                                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="selected" title="Tap on map" image="06-map-pin.png"/>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="toFromTapped:" destination="2" eventType="touchUpInside" id="xx9-49-D3k"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" id="Cow-qb-wen" userLabel="View - End Details">
+                                        <rect key="frame" x="384" y="0.0" width="364" height="170"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="bY0-AZ-alK">
+                                                <rect key="frame" x="20" y="136" width="324" height="14"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dHw-9u-cX9">
+                                                <rect key="frame" x="91" y="20" width="180" height="108"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.60405373569999998" green="0.15019468959999999" blue="0.1370830834" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                                <inset key="imageEdgeInsets" minX="-10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="END">
+                                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="selected" title="Tap on map" image="06-map-pin.png"/>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="toFromTapped:" destination="2" eventType="touchUpInside" id="oRA-Tf-5Nb"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rQs-Jn-ITb">
+                                                <rect key="frame" x="20" y="72" width="25" height="25"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" image="X.png">
+                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="messageBarCloseTapped:" destination="2" eventType="touchUpInside" id="MzM-xI-UMd"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hNn-FK-cIg">
+                                        <rect key="frame" x="693" y="20" width="55" height="20"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Clear">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="clearRoute:" destination="2" eventType="touchUpInside" id="DKx-Eb-7JA"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                     </view>
                     <toolbarItems/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="basemapsPicker" destination="48v-Ui-wix" id="Sim-5T-VL1"/>
+                        <outlet property="cancelButton" destination="7md-MA-r1B" id="6aw-MG-0uX"/>
                         <outlet property="clearLinesButton" destination="bB5-aq-ZRt" id="qqj-xh-ZPE"/>
                         <outlet property="clearPointsButton" destination="87Z-Xw-kbS" id="uIx-Mu-anO"/>
                         <outlet property="clearPolysButton" destination="lGD-Q1-aDN" id="64f-Jt-JJU"/>
@@ -404,11 +442,15 @@
                         <outlet property="findAddressSearchBar" destination="ehD-4C-jip" id="Xcj-UO-NC8"/>
                         <outlet property="findPlacePanel" destination="TRm-6g-wOm" id="SYZ-A2-uNZ"/>
                         <outlet property="findScaleLabel" destination="HsG-tn-8xE" id="Qcz-FZ-fDI"/>
+                        <outlet property="findToolbar" destination="gcB-3g-Gdh" id="KMC-ZH-Xbt"/>
+                        <outlet property="findbutton" destination="GP9-HT-6Rp" id="Uts-K1-x4T"/>
                         <outlet property="functionToolBar" destination="ea8-sr-7to" id="Jx0-a3-jVy"/>
                         <outlet property="geolocationPanel" destination="BNi-3I-6yY" id="rec-3r-oFB"/>
                         <outlet property="graphicButton" destination="phz-y9-cDK" id="kZg-l1-Y6D"/>
                         <outlet property="graphicsPanel" destination="jDE-Vd-KbV" id="7R9-VG-urD"/>
                         <outlet property="mapView" destination="jAh-IA-P6U" id="WTH-5S-YRJ"/>
+                        <outlet property="messageBar" destination="f5r-af-vh7" id="FTb-dj-Klr"/>
+                        <outlet property="messageBarLabel" destination="t9r-H8-nBu" id="VkU-Qb-abR"/>
                         <outlet property="redoEditGraphicsButton" destination="Gvk-jZ-oLg" id="DfC-v9-Hip"/>
                         <outlet property="routeEndButton" destination="dHw-9u-cX9" id="Cxu-tf-cRh"/>
                         <outlet property="routeEndLabel" destination="bY0-AZ-alK" id="3pt-6d-mGk"/>
@@ -466,7 +508,106 @@
     </scenes>
     <resources>
         <image name="06-map-pin.png" width="11" height="19"/>
+        <image name="X.png" width="16" height="16"/>
+        <image name="closeX.png" width="16" height="16"/>
     </resources>
+    <classes>
+        <class className="AGSMapView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AGSMapView.h"/>
+        </class>
+        <class className="EQSBasemapDetailsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSBasemapDetailsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="doneButtonClicked:"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
+            </relationships>
+        </class>
+        <class className="EQSBasemapPickerView" superclassName="EQSPortalItemPickerView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSBasemapPickerView.h"/>
+        </class>
+        <class className="EQSPortalItemListView" superclassName="UIScrollView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSPortalItemListView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="viewController" candidateClass="EQSPortalItemListViewController"/>
+            </relationships>
+        </class>
+        <class className="EQSPortalItemListViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSPortalItemListViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="portalItemsListView" candidateClass="EQSPortalItemListView"/>
+            </relationships>
+        </class>
+        <class className="EQSPortalItemPickerView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSPortalItemPickerView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="topLevelView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="viewController" candidateClass="EQSPortalItemPickerViewController"/>
+            </relationships>
+        </class>
+        <class className="EQSPortalItemPickerViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSPortalItemPickerViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="portalItemDetailsDescriptionWebView" candidateClass="UIWebView"/>
+                <relationship kind="outlet" name="portalItemDetailsImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="portalItemDetailsTitleLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="portalItemListView" candidateClass="EQSPortalItemListView"/>
+                <relationship kind="outlet" name="portalItemPickerView" candidateClass="EQSPortalItemPickerView"/>
+            </relationships>
+        </class>
+        <class className="EQSSampleViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSSampleViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addGraphics:"/>
+                <relationship kind="action" name="cancelEditingGraphic:"/>
+                <relationship kind="action" name="clearLines:"/>
+                <relationship kind="action" name="clearPoints:"/>
+                <relationship kind="action" name="clearPolygons:"/>
+                <relationship kind="action" name="clearRoute:"/>
+                <relationship kind="action" name="doneEditingGraphic:"/>
+                <relationship kind="action" name="findMe:"/>
+                <relationship kind="action" name="findScaleChanged:"/>
+                <relationship kind="action" name="functionChanged:"/>
+                <relationship kind="action" name="messageBarCloseTapped:"/>
+                <relationship kind="action" name="newLnGraphic:"/>
+                <relationship kind="action" name="newMultiPtGraphic:"/>
+                <relationship kind="action" name="newPgGraphic:"/>
+                <relationship kind="action" name="newPtGraphic:"/>
+                <relationship kind="action" name="redoEditingGraphic:"/>
+                <relationship kind="action" name="toFromTapped:"/>
+                <relationship kind="action" name="undoEditingGraphic:"/>
+                <relationship kind="action" name="zoomToEditingGeometry:"/>
+                <relationship kind="action" name="zoomToLevel:"/>
+                <relationship kind="outlet" name="basemapsPicker" candidateClass="EQSBasemapPickerView"/>
+                <relationship kind="outlet" name="cancelButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="clearLinesButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="clearPointsButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="clearPolysButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="clearRouteButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="editGraphicsToolbar" candidateClass="UIToolbar"/>
+                <relationship kind="outlet" name="findAddressPanel" candidateClass="UIView"/>
+                <relationship kind="outlet" name="findAddressSearchBar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="findPlacePanel" candidateClass="UIView"/>
+                <relationship kind="outlet" name="findScaleLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="findToolbar" candidateClass="UIToolbar"/>
+                <relationship kind="outlet" name="findbutton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="functionToolBar" candidateClass="UIToolbar"/>
+                <relationship kind="outlet" name="geolocationPanel" candidateClass="UIView"/>
+                <relationship kind="outlet" name="graphicButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="graphicsPanel" candidateClass="UIView"/>
+                <relationship kind="outlet" name="mapView" candidateClass="AGSMapView"/>
+                <relationship kind="outlet" name="messageBar" candidateClass="UIView"/>
+                <relationship kind="outlet" name="messageBarLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="redoEditGraphicsButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="routeEndButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="routeEndLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="routeStartButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="routeStartLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="routingPanel" candidateClass="UIView"/>
+                <relationship kind="outlet" name="undoEditGraphicsButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

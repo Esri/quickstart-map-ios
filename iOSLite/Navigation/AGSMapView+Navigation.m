@@ -8,6 +8,9 @@
 
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSMapView+Navigation.h"
+
+#import "AGSPoint+GeneralUtilities.h"
+
 #import "EQSHelper.h"
 #import <CoreLocation/CoreLocation.h>
 
@@ -15,17 +18,17 @@
 NSInteger __eqsScaleForGeolocation = -1;
 
 #pragma mark - Center
-- (void) centerAtLat:(double) latitude Long:(double) longitude withScaleLevel:(NSInteger)scaleLevel
+- (void) centerAtLat:(double) latitude Lon:(double) longitude withScaleLevel:(NSInteger)scaleLevel
 {
     // Build an AGSPoint using the Lat and Long
-    AGSPoint *webMercatorCenterPt = [EQSHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
+    AGSPoint *webMercatorCenterPt = [AGSPoint pointFromLat:latitude Lon:longitude];
     
     [self centerAtPoint:webMercatorCenterPt withScaleLevel:scaleLevel];
 }
 
-- (void) centerAtLat:(double) latitude Long:(double) longitude
+- (void) centerAtLat:(double) latitude Lon:(double) longitude
 {
-    AGSPoint *p = [EQSHelper getWebMercatorAuxSpherePointFromLat:latitude Long:longitude];
+    AGSPoint *p = [AGSPoint pointFromLat:latitude Lon:longitude];
     
     // Here's the code to do the zoom, but we don't know whether we want to run it now, or
     // need to queue it up until the AGSMapView is loaded.
@@ -74,7 +77,7 @@ NSInteger __eqsScaleForGeolocation = -1;
 #pragma mark - Centerpoint of map
 - (AGSPoint *) getCenterPoint
 {
-    return [EQSHelper getWGS84PointFromPoint:self.visibleArea.envelope.center];
+    return [self.visibleArea.envelope.center getWGS84Point];
 }
 
 #pragma mark - Internal
@@ -91,12 +94,12 @@ NSInteger __eqsScaleForGeolocation = -1;
         if (__eqsScaleForGeolocation == -1)
         {
             [self centerAtLat:newLocation.coordinate.latitude
-                         Long:newLocation.coordinate.longitude];
+                          Lon:newLocation.coordinate.longitude];
         }
         else
         {
             [self centerAtLat:newLocation.coordinate.latitude
-                         Long:newLocation.coordinate.longitude
+                          Lon:newLocation.coordinate.longitude
                withScaleLevel:__eqsScaleForGeolocation];
         }
         __eqsScaleForGeolocation = -1;
