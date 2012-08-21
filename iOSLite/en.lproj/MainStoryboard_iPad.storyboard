@@ -20,6 +20,11 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                 <gestureRecognizers/>
                             </view>
+                            <view hidden="YES" contentMode="scaleToFill" id="nFC-pu-wbq" customClass="EQSRouteResultsView">
+                                <rect key="frame" x="20" y="59" width="400" height="400"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+                            </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackOpaque" id="ea8-sr-7to" userLabel="Toolbar - Functions">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -45,7 +50,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="a1V-LR-rWz"/>
                                 </items>
                             </toolbar>
-                            <view contentMode="scaleToFill" id="f5r-af-vh7" userLabel="View - MessageBar">
+                            <view hidden="YES" contentMode="scaleToFill" id="f5r-af-vh7" userLabel="View - MessageBar">
                                 <rect key="frame" x="0.0" y="746" width="768" height="25"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
@@ -80,7 +85,7 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="BNi-3I-6yY" userLabel="View - Geolocation">
-                                <rect key="frame" x="0.0" y="220" width="768" height="170"/>
+                                <rect key="frame" x="0.0" y="59" width="768" height="170"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="w9T-wB-hG1">
@@ -132,7 +137,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="jDE-Vd-KbV" userLabel="View - Graphics">
-                                <rect key="frame" x="0.0" y="393" width="768" height="170"/>
+                                <rect key="frame" x="0.0" y="233" width="768" height="170"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="87Z-Xw-kbS" userLabel="Clear Points Button">
@@ -387,21 +392,6 @@
                                                     <action selector="toFromTapped:" destination="2" eventType="touchUpInside" id="oRA-Tf-5Nb"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rQs-Jn-ITb">
-                                                <rect key="frame" x="20" y="72" width="25" height="25"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                <state key="normal" image="X.png">
-                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="highlighted">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="messageBarCloseTapped:" destination="2" eventType="touchUpInside" id="MzM-xI-UMd"/>
-                                                </connections>
-                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     </view>
@@ -437,10 +427,10 @@
                         <outlet property="clearPointsButton" destination="87Z-Xw-kbS" id="uIx-Mu-anO"/>
                         <outlet property="clearPolysButton" destination="lGD-Q1-aDN" id="64f-Jt-JJU"/>
                         <outlet property="clearRouteButton" destination="hNn-FK-cIg" id="VIe-5r-ka8"/>
+                        <outlet property="cloudDataPanel" destination="TRm-6g-wOm" id="T7X-7i-BJI"/>
                         <outlet property="editGraphicsToolbar" destination="vEH-b5-gEY" id="gZr-fA-FNz"/>
-                        <outlet property="findAddressPanel" destination="iAZ-ik-vkL" id="gWZ-mh-gKv"/>
                         <outlet property="findAddressSearchBar" destination="ehD-4C-jip" id="Xcj-UO-NC8"/>
-                        <outlet property="findPlacePanel" destination="TRm-6g-wOm" id="SYZ-A2-uNZ"/>
+                        <outlet property="findPlacePanel" destination="iAZ-ik-vkL" id="QdZ-KL-TFB"/>
                         <outlet property="findScaleLabel" destination="HsG-tn-8xE" id="Qcz-FZ-fDI"/>
                         <outlet property="findToolbar" destination="gcB-3g-Gdh" id="KMC-ZH-Xbt"/>
                         <outlet property="findbutton" destination="GP9-HT-6Rp" id="Uts-K1-x4T"/>
@@ -454,6 +444,7 @@
                         <outlet property="redoEditGraphicsButton" destination="Gvk-jZ-oLg" id="DfC-v9-Hip"/>
                         <outlet property="routeEndButton" destination="dHw-9u-cX9" id="Cxu-tf-cRh"/>
                         <outlet property="routeEndLabel" destination="bY0-AZ-alK" id="3pt-6d-mGk"/>
+                        <outlet property="routeResultsView" destination="nFC-pu-wbq" id="4Xj-Sz-N2s"/>
                         <outlet property="routeStartButton" destination="XcW-rU-ziG" id="Unq-fE-V2P"/>
                         <outlet property="routeStartLabel" destination="krd-T4-cwH" id="CuD-KN-vs4"/>
                         <outlet property="routingPanel" destination="jM8-Ve-X6c" id="spB-a7-HeB"/>
@@ -508,106 +499,8 @@
     </scenes>
     <resources>
         <image name="06-map-pin.png" width="11" height="19"/>
-        <image name="X.png" width="16" height="16"/>
         <image name="closeX.png" width="16" height="16"/>
     </resources>
-    <classes>
-        <class className="AGSMapView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AGSMapView.h"/>
-        </class>
-        <class className="EQSBasemapDetailsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSBasemapDetailsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="doneButtonClicked:"/>
-                <relationship kind="outlet" name="titleLabel" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
-            </relationships>
-        </class>
-        <class className="EQSBasemapPickerView" superclassName="EQSPortalItemPickerView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSBasemapPickerView.h"/>
-        </class>
-        <class className="EQSPortalItemListView" superclassName="UIScrollView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSPortalItemListView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="viewController" candidateClass="EQSPortalItemListViewController"/>
-            </relationships>
-        </class>
-        <class className="EQSPortalItemListViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSPortalItemListViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="portalItemsListView" candidateClass="EQSPortalItemListView"/>
-            </relationships>
-        </class>
-        <class className="EQSPortalItemPickerView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSPortalItemPickerView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="topLevelView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="viewController" candidateClass="EQSPortalItemPickerViewController"/>
-            </relationships>
-        </class>
-        <class className="EQSPortalItemPickerViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSPortalItemPickerViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="portalItemDetailsDescriptionWebView" candidateClass="UIWebView"/>
-                <relationship kind="outlet" name="portalItemDetailsImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="portalItemDetailsTitleLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="portalItemListView" candidateClass="EQSPortalItemListView"/>
-                <relationship kind="outlet" name="portalItemPickerView" candidateClass="EQSPortalItemPickerView"/>
-            </relationships>
-        </class>
-        <class className="EQSSampleViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSSampleViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addGraphics:"/>
-                <relationship kind="action" name="cancelEditingGraphic:"/>
-                <relationship kind="action" name="clearLines:"/>
-                <relationship kind="action" name="clearPoints:"/>
-                <relationship kind="action" name="clearPolygons:"/>
-                <relationship kind="action" name="clearRoute:"/>
-                <relationship kind="action" name="doneEditingGraphic:"/>
-                <relationship kind="action" name="findMe:"/>
-                <relationship kind="action" name="findScaleChanged:"/>
-                <relationship kind="action" name="functionChanged:"/>
-                <relationship kind="action" name="messageBarCloseTapped:"/>
-                <relationship kind="action" name="newLnGraphic:"/>
-                <relationship kind="action" name="newMultiPtGraphic:"/>
-                <relationship kind="action" name="newPgGraphic:"/>
-                <relationship kind="action" name="newPtGraphic:"/>
-                <relationship kind="action" name="redoEditingGraphic:"/>
-                <relationship kind="action" name="toFromTapped:"/>
-                <relationship kind="action" name="undoEditingGraphic:"/>
-                <relationship kind="action" name="zoomToEditingGeometry:"/>
-                <relationship kind="action" name="zoomToLevel:"/>
-                <relationship kind="outlet" name="basemapsPicker" candidateClass="EQSBasemapPickerView"/>
-                <relationship kind="outlet" name="cancelButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="clearLinesButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="clearPointsButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="clearPolysButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="clearRouteButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="editGraphicsToolbar" candidateClass="UIToolbar"/>
-                <relationship kind="outlet" name="findAddressPanel" candidateClass="UIView"/>
-                <relationship kind="outlet" name="findAddressSearchBar" candidateClass="UISearchBar"/>
-                <relationship kind="outlet" name="findPlacePanel" candidateClass="UIView"/>
-                <relationship kind="outlet" name="findScaleLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="findToolbar" candidateClass="UIToolbar"/>
-                <relationship kind="outlet" name="findbutton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="functionToolBar" candidateClass="UIToolbar"/>
-                <relationship kind="outlet" name="geolocationPanel" candidateClass="UIView"/>
-                <relationship kind="outlet" name="graphicButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="graphicsPanel" candidateClass="UIView"/>
-                <relationship kind="outlet" name="mapView" candidateClass="AGSMapView"/>
-                <relationship kind="outlet" name="messageBar" candidateClass="UIView"/>
-                <relationship kind="outlet" name="messageBarLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="redoEditGraphicsButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="routeEndButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="routeEndLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="routeStartButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="routeStartLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="routingPanel" candidateClass="UIView"/>
-                <relationship kind="outlet" name="undoEditGraphicsButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

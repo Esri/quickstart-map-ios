@@ -12,6 +12,7 @@
 		D93C98A5156D8CC000A5F339 /* EQSBasemapDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D93C98A4156D8CC000A5F339 /* EQSBasemapDetailsViewController.m */; };
 		D94431A5156BE1FC00982D5C /* EQSHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D94431A4156BE1FC00982D5C /* EQSHelper.m */; };
 		D9754D7315ACAF840093BF1E /* UIApplication+AppDimensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */; };
+		D97D445615E32E480072457A /* EQSRouteResultsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D97D445515E32E480072457A /* EQSRouteResultsCell.xib */; };
 		D982215B1587C6EB00EF53CC /* 06-map-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D98221591587C6EB00EF53CC /* 06-map-pin.png */; };
 		D982215C1587C6EB00EF53CC /* 06-map-pin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D982215A1587C6EB00EF53CC /* 06-map-pin@2x.png */; };
 		D98221601587C8DD00EF53CC /* 07-map-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = D982215E1587C8DD00EF53CC /* 07-map-marker.png */; };
@@ -27,6 +28,15 @@
 		D9B3D61C15E2BE4C00140C4E /* 298-circlex.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D61A15E2BE4C00140C4E /* 298-circlex.png */; };
 		D9B3D61D15E2BE4C00140C4E /* 298-circlex@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D61B15E2BE4C00140C4E /* 298-circlex@2x.png */; };
 		D9B3D62015E2C86300140C4E /* EQSDefaultSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B3D61F15E2C86300140C4E /* EQSDefaultSymbols.m */; };
+		D9B3D63715E2E2BE00140C4E /* EQSRouteResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B3D63515E2E2BE00140C4E /* EQSRouteResultsViewController.m */; };
+		D9B3D63815E2E2BE00140C4E /* EQSRouteResultsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D63615E2E2BE00140C4E /* EQSRouteResultsView.xib */; };
+		D9B3D63B15E2E2E600140C4E /* EQSRouteResultsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B3D63A15E2E2E600140C4E /* EQSRouteResultsView.m */; };
+		D9B3D63E15E2E91E00140C4E /* EQSRouteResultsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B3D63D15E2E91E00140C4E /* EQSRouteResultsCell.m */; };
+		D9B3D64315E2EDC500140C4E /* 20-circle-east.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D63F15E2EDC300140C4E /* 20-circle-east.png */; };
+		D9B3D64415E2EDC500140C4E /* 20-circle-east@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D64015E2EDC400140C4E /* 20-circle-east@2x.png */; };
+		D9B3D64515E2EDC500140C4E /* 36-circle-west.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D64115E2EDC400140C4E /* 36-circle-west.png */; };
+		D9B3D64615E2EDC500140C4E /* 36-circle-west@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D64215E2EDC400140C4E /* 36-circle-west@2x.png */; };
+		D9B3D64A15E2F14C00140C4E /* EQSRouteResultsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B3D64915E2F14C00140C4E /* EQSRouteResultsTableViewController.m */; };
 		D9E01457158A45A4005DD7D8 /* EQSPortalItemListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E01456158A45A4005DD7D8 /* EQSPortalItemListView.m */; };
 		D9E27C9E155ABDC5008F8CCB /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */; };
 		D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */; };
@@ -73,6 +83,7 @@
 		D94431A4156BE1FC00982D5C /* EQSHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSHelper.m; sourceTree = "<group>"; };
 		D9754D7115ACAF830093BF1E /* UIApplication+AppDimensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+AppDimensions.h"; sourceTree = "<group>"; };
 		D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+AppDimensions.m"; sourceTree = "<group>"; };
+		D97D445515E32E480072457A /* EQSRouteResultsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQSRouteResultsCell.xib; sourceTree = "<group>"; };
 		D98221591587C6EB00EF53CC /* 06-map-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "06-map-pin.png"; sourceTree = "<group>"; };
 		D982215A1587C6EB00EF53CC /* 06-map-pin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "06-map-pin@2x.png"; sourceTree = "<group>"; };
 		D982215E1587C8DD00EF53CC /* 07-map-marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "07-map-marker.png"; sourceTree = "<group>"; };
@@ -91,6 +102,19 @@
 		D9B3D61B15E2BE4C00140C4E /* 298-circlex@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "298-circlex@2x.png"; sourceTree = "<group>"; };
 		D9B3D61E15E2C86300140C4E /* EQSDefaultSymbols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSDefaultSymbols.h; sourceTree = "<group>"; };
 		D9B3D61F15E2C86300140C4E /* EQSDefaultSymbols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSDefaultSymbols.m; sourceTree = "<group>"; };
+		D9B3D63415E2E2BD00140C4E /* EQSRouteResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSRouteResultsViewController.h; sourceTree = "<group>"; };
+		D9B3D63515E2E2BE00140C4E /* EQSRouteResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSRouteResultsViewController.m; sourceTree = "<group>"; };
+		D9B3D63615E2E2BE00140C4E /* EQSRouteResultsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQSRouteResultsView.xib; sourceTree = "<group>"; };
+		D9B3D63915E2E2E600140C4E /* EQSRouteResultsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSRouteResultsView.h; sourceTree = "<group>"; };
+		D9B3D63A15E2E2E600140C4E /* EQSRouteResultsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSRouteResultsView.m; sourceTree = "<group>"; };
+		D9B3D63C15E2E91E00140C4E /* EQSRouteResultsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSRouteResultsCell.h; sourceTree = "<group>"; };
+		D9B3D63D15E2E91E00140C4E /* EQSRouteResultsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSRouteResultsCell.m; sourceTree = "<group>"; };
+		D9B3D63F15E2EDC300140C4E /* 20-circle-east.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "20-circle-east.png"; sourceTree = "<group>"; };
+		D9B3D64015E2EDC400140C4E /* 20-circle-east@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "20-circle-east@2x.png"; sourceTree = "<group>"; };
+		D9B3D64115E2EDC400140C4E /* 36-circle-west.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "36-circle-west.png"; sourceTree = "<group>"; };
+		D9B3D64215E2EDC400140C4E /* 36-circle-west@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "36-circle-west@2x.png"; sourceTree = "<group>"; };
+		D9B3D64815E2F14C00140C4E /* EQSRouteResultsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSRouteResultsTableViewController.h; sourceTree = "<group>"; };
+		D9B3D64915E2F14C00140C4E /* EQSRouteResultsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSRouteResultsTableViewController.m; sourceTree = "<group>"; };
 		D9CCC618156FECBE00EA4353 /* EQSBasemapTypeEnum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EQSBasemapTypeEnum.h; path = iOSLite/EQSBasemapTypeEnum.h; sourceTree = "<group>"; };
 		D9E01455158A45A4005DD7D8 /* EQSPortalItemListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSPortalItemListView.h; sourceTree = "<group>"; };
 		D9E01456158A45A4005DD7D8 /* EQSPortalItemListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSPortalItemListView.m; sourceTree = "<group>"; };
@@ -191,6 +215,35 @@
 			path = iOSLite;
 			sourceTree = "<group>";
 		};
+		D97D445315E32B970072457A /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				D9B3D63615E2E2BE00140C4E /* EQSRouteResultsView.xib */,
+				D97D445515E32E480072457A /* EQSRouteResultsCell.xib */,
+				D9B3D63915E2E2E600140C4E /* EQSRouteResultsView.h */,
+				D9B3D63A15E2E2E600140C4E /* EQSRouteResultsView.m */,
+				D9B3D63415E2E2BD00140C4E /* EQSRouteResultsViewController.h */,
+				D9B3D63515E2E2BE00140C4E /* EQSRouteResultsViewController.m */,
+				D9B3D64815E2F14C00140C4E /* EQSRouteResultsTableViewController.h */,
+				D9B3D64915E2F14C00140C4E /* EQSRouteResultsTableViewController.m */,
+				D9B3D63C15E2E91E00140C4E /* EQSRouteResultsCell.h */,
+				D9B3D63D15E2E91E00140C4E /* EQSRouteResultsCell.m */,
+				D9B3D64715E2EDCA00140C4E /* Resources */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		D9B3D64715E2EDCA00140C4E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D9B3D63F15E2EDC300140C4E /* 20-circle-east.png */,
+				D9B3D64015E2EDC400140C4E /* 20-circle-east@2x.png */,
+				D9B3D64115E2EDC400140C4E /* 36-circle-west.png */,
+				D9B3D64215E2EDC400140C4E /* 36-circle-west@2x.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		D9E27CAF155AE891008F8CCB /* AGS Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -273,6 +326,7 @@
 				D9EAB291156FD1EE008BCE8F /* AGSMapView+RouteDisplay.m */,
 				D9EAB293156FE0AF008BCE8F /* EQSRouteDisplayHelper.h */,
 				D9EAB294156FE0AF008BCE8F /* EQSRouteDisplayHelper.m */,
+				D97D445315E32B970072457A /* UI */,
 			);
 			name = "Route Display";
 			sourceTree = "<group>";
@@ -485,6 +539,12 @@
 				D9B3D61915E2BE3100140C4E /* closeX@2x.png in Resources */,
 				D9B3D61C15E2BE4C00140C4E /* 298-circlex.png in Resources */,
 				D9B3D61D15E2BE4C00140C4E /* 298-circlex@2x.png in Resources */,
+				D9B3D63815E2E2BE00140C4E /* EQSRouteResultsView.xib in Resources */,
+				D9B3D64315E2EDC500140C4E /* 20-circle-east.png in Resources */,
+				D9B3D64415E2EDC500140C4E /* 20-circle-east@2x.png in Resources */,
+				D9B3D64515E2EDC500140C4E /* 36-circle-west.png in Resources */,
+				D9B3D64615E2EDC500140C4E /* 36-circle-west@2x.png in Resources */,
+				D97D445615E32E480072457A /* EQSRouteResultsCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,6 +580,10 @@
 				E141D0E315DB02CE004F81F4 /* EQSPortalItemView.m in Sources */,
 				E1812BDC15DC767E00D3325A /* EQSBasemapPickerView.m in Sources */,
 				D9B3D62015E2C86300140C4E /* EQSDefaultSymbols.m in Sources */,
+				D9B3D63715E2E2BE00140C4E /* EQSRouteResultsViewController.m in Sources */,
+				D9B3D63B15E2E2E600140C4E /* EQSRouteResultsView.m in Sources */,
+				D9B3D63E15E2E91E00140C4E /* EQSRouteResultsCell.m in Sources */,
+				D9B3D64A15E2F14C00140C4E /* EQSRouteResultsTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

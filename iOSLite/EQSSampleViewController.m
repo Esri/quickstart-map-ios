@@ -18,6 +18,8 @@
 
 #import "EQSGeoServices.h"
 
+#import "EQSRouteResultsView.h"
+
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSPoint+GeneralUtilities.h"
 
@@ -33,8 +35,8 @@ typedef enum
     EQSSampleAppStateGeolocation,
     EQSSampleAppStateGraphics,
     EQSSampleAppStateGraphics_Editing,
+    EQSSampleAppStateCloudData,
     EQSSampleAppStateFindPlace,
-    EQSSampleAppStateFindAddress,
 	EQSSampleAppStateDirections,
     EQSSampleAppStateDirections_WaitingForRouteStart,
     EQSSampleAppStateDirections_WaitingForRouteEnd
@@ -51,9 +53,9 @@ EQSSampleAppState;
 // General UI
 @property (weak, nonatomic) IBOutlet UIToolbar *functionToolBar;
 @property (weak, nonatomic) IBOutlet UIView *routingPanel;
-@property (weak, nonatomic) IBOutlet UIView *findAddressPanel;
-@property (weak, nonatomic) IBOutlet UISearchBar *findAddressSearchBar;
 @property (weak, nonatomic) IBOutlet UIView *findPlacePanel;
+@property (weak, nonatomic) IBOutlet UISearchBar *findAddressSearchBar;
+@property (weak, nonatomic) IBOutlet UIView *cloudDataPanel;
 @property (weak, nonatomic) IBOutlet UIView *geolocationPanel;
 @property (weak, nonatomic) IBOutlet UIView *graphicsPanel;
 
@@ -102,8 +104,9 @@ EQSSampleAppState;
 @property (nonatomic, strong) AGSPoint *routeEndPoint;
 @property (nonatomic, retain) NSString *routeStartAddress;
 @property (nonatomic, retain) NSString *routeEndAddress;
-@property (nonatomic, retain) AGSRouteTaskResult *routeResult;
+@property (nonatomic, retain) AGSRouteResult *routeResult;
 
+@property (strong, nonatomic) IBOutlet EQSRouteResultsView *routeResultsView;
 
 // Geolocation UI
 @property (weak, nonatomic) IBOutlet UILabel *findScaleLabel;
@@ -155,9 +158,9 @@ EQSSampleAppState;
 @synthesize clearLinesButton = _clearLinesButton;
 @synthesize clearPolysButton = _clearPolysButton;
 @synthesize routingPanel = _routingPanel;
-@synthesize findAddressPanel = _findAddressPanel;
+@synthesize findPlacePanel = _findAddressPanel;
 @synthesize findAddressSearchBar = _findAddressSearchBar;
-@synthesize findPlacePanel = _findPlacePanel;
+@synthesize cloudDataPanel = _findPlacePanel;
 @synthesize routeStartLabel = _routeStartLabel;
 @synthesize routeEndLabel = _routeStopLabel;
 @synthesize clearRouteButton = _clearRouteButton;
@@ -182,6 +185,7 @@ EQSSampleAppState;
 @synthesize routeEndButton = _routeStopButton;
 
 @synthesize routeResult = _routeResult;
+@synthesize routeResultsView = _routeResultsView;
 
 @synthesize findScale = _findScale;
 
@@ -226,10 +230,6 @@ EQSSampleAppState;
 											 selector:@selector(basemapDidChange:)
 												 name:kEQSNotification_BasemapDidChange
 											   object:self.mapView];
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//											 selector:@selector(basemapSelected:)
-//												 name:kEQSNotification_BasemapSelected
-//											   object:nil];
 	
 	// We need to re-arrange the UI when the keyboard displays and hides, so let's find out when that happens.
 	self.keyboardSize = CGSizeZero;
@@ -289,8 +289,8 @@ EQSSampleAppState;
     [self setRouteEndLabel:nil];
     [self setFindScaleLabel:nil];
     [self setFunctionToolBar:nil];
-    [self setFindAddressPanel:nil];
     [self setFindPlacePanel:nil];
+    [self setCloudDataPanel:nil];
     [self setGeolocationPanel:nil];
     [self setGraphicsPanel:nil];
     [self setEditGraphicsToolbar:nil];
@@ -306,6 +306,7 @@ EQSSampleAppState;
     [self setFindToolbar:nil];
     [self setMessageBar:nil];
     [self setMessageBarLabel:nil];
+    [self setRouteResultsView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -338,7 +339,7 @@ EQSSampleAppState;
             [self didTapEndPoint:mapPoint];
             break;
             
-        case EQSSampleAppStateFindAddress:
+        case EQSSampleAppStateFindPlace:
             [self didTapToReverseGeocode:mapPoint];
             break;
             
@@ -349,13 +350,6 @@ EQSSampleAppState;
             }
             break;
     }
-}
-
-# pragma mark - KVO Events
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    NSLog(@"KeyPath: %@", keyPath);
 }
 
 #pragma mark - Keyboard Events
@@ -429,7 +423,7 @@ EQSSampleAppState;
     CGRect masterFrame = masterView.frame;
     CGRect messageFrame = CGRectMake(masterFrame.origin.x, masterFrame.origin.y - messageHeight, masterFrame.size.width, messageHeight);
     
-    NSLog(@"Master: %@\nMessage: %@", NSStringFromCGRect(masterFrame), NSStringFromCGRect(messageFrame));
+//    NSLog(@"Master: %@\nMessage: %@", NSStringFromCGRect(masterFrame), NSStringFromCGRect(messageFrame));
 
     return messageFrame;
 }
@@ -497,15 +491,20 @@ EQSSampleAppState;
             return @"Zoom to your location";
             break;
         case EQSSampleAppStateGraphics:
-            return @"Click the map to add graphics";
+            return @"Tap the map to add graphics";
             break;
         case EQSSampleAppStateFindPlace:
-            return @"Click the map or enter an address";
+            return @"Tap the map or enter an address";
             break;
         case EQSSampleAppStateDirections:
-            return @"Click the map get directions between start and end points";
+            return @"Tap the map calculate directions";
             break;
-        case EQSSampleAppStateFindAddress:
+        case EQSSampleAppStateDirections_WaitingForRouteStart:
+            return @"Tap the start point for calculating directions";
+            break;
+        case EQSSampleAppStateDirections_WaitingForRouteEnd:
+            return @"Tap the end point for calculating directions";
+        case EQSSampleAppStateCloudData:
             return @"Access World City features in the cloud";
             break;
             
@@ -529,10 +528,10 @@ EQSSampleAppState;
             self.currentState = EQSSampleAppStateGraphics;
             break;
         case 3:
-            self.currentState = EQSSampleAppStateFindPlace;
+            self.currentState = EQSSampleAppStateCloudData;
             break;
         case 4:
-            self.currentState = EQSSampleAppStateFindAddress;
+            self.currentState = EQSSampleAppStateFindPlace;
             break;
         case 5:
             self.currentState = EQSSampleAppStateDirections;
@@ -548,8 +547,8 @@ EQSSampleAppState;
     NSMutableArray *uiViews = [NSMutableArray arrayWithObjects:self.routingPanel,
                                self.basemapsPicker,
                                self.geolocationPanel,
-                               self.findAddressPanel,
                                self.findPlacePanel,
+                               self.cloudDataPanel,
                                self.graphicsPanel, nil];
     return uiViews;
 }
@@ -567,11 +566,11 @@ EQSSampleAppState;
         case EQSSampleAppStateDirections_WaitingForRouteEnd:
             viewToShow = self.routingPanel;
             break;
-        case EQSSampleAppStateFindAddress:
-            viewToShow = self.findAddressPanel;
-            break;
         case EQSSampleAppStateFindPlace:
             viewToShow = self.findPlacePanel;
+            break;
+        case EQSSampleAppStateCloudData:
+            viewToShow = self.cloudDataPanel;
             break;
         case EQSSampleAppStateGeolocation:
             viewToShow = self.geolocationPanel;
@@ -665,6 +664,17 @@ EQSSampleAppState;
                              viewToAnimateOut.hidden = YES;
                              [[UIApplication sharedApplication] endIgnoringInteractionEvents];
                          }];
+        
+        if (self.currentState == EQSSampleAppStateDirections ||
+            self.currentState == EQSSampleAppStateDirections_WaitingForRouteStart ||
+            self.currentState == EQSSampleAppStateDirections_WaitingForRouteEnd)
+        {
+            self.routeResultsView.viewController.hidden = NO;
+        }
+        else
+        {
+            self.routeResultsView.viewController.hidden = YES;
+        }
     }
 }
 
@@ -1026,6 +1036,9 @@ EQSSampleAppState;
 	{
 		self.routeResult = [results.routeResults objectAtIndex:0];
 		[self.mapView.routeDisplayHelper showRouteResults:results];
+        EQSRouteResultsViewController *rrvc = self.routeResultsView.viewController;
+        rrvc.routeResult = [results.routeResults objectAtIndex:0];
+//        self.routeResultsView.viewController.routeResult = [results.routeResults objectAtIndex:0];
 	}
 }
 
@@ -1046,7 +1059,7 @@ EQSSampleAppState;
 
 - (void) routeTask:(AGSRouteTask *)routeTask operation:(NSOperation *)op didSolveWithResult:(AGSRouteTaskResult *)routeTaskResult
 {
-    self.routeResult = routeTaskResult;
+    self.routeResult = [routeTaskResult.routeResults objectAtIndex:0];
 }
 
 - (void) setStartText
@@ -1276,5 +1289,15 @@ EQSSampleAppState;
 }
 - (IBAction)messageBarCloseTapped:(id)sender {
     NSLog(@"Close the message bar now...");
+    self.messageBar.hidden = YES;
+}
+
+
+#pragma mark - TODO review for removal
+# pragma mark - KVO Events
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    NSLog(@"KeyPath: %@", keyPath);
 }
 @end
