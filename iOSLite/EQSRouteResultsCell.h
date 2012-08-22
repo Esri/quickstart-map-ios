@@ -12,4 +12,5 @@
 @interface EQSRouteResultsCell : UITableViewCell
 @property (nonatomic, assign) NSUInteger directionIndex;
 @property (nonatomic, strong) AGSDirectionGraphic *directionGraphic;
+- (CGFloat) getHeight;
 @end

@@ -13,6 +13,24 @@
 		D94431A5156BE1FC00982D5C /* EQSHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D94431A4156BE1FC00982D5C /* EQSHelper.m */; };
 		D9754D7315ACAF840093BF1E /* UIApplication+AppDimensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */; };
 		D97D445615E32E480072457A /* EQSRouteResultsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D97D445515E32E480072457A /* EQSRouteResultsCell.xib */; };
+		D97D445915E45D5D0072457A /* EQSCodeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D97D445815E45D5D0072457A /* EQSCodeView.xib */; };
+		D97D445D15E4643A0072457A /* CodeTab.png in Resources */ = {isa = PBXBuildFile; fileRef = D97D445B15E4643A0072457A /* CodeTab.png */; };
+		D97D445E15E4643A0072457A /* CodeTab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D97D445C15E4643A0072457A /* CodeTab@2x.png */; };
+		D97D446115E464F10072457A /* EQSCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = D97D446015E464F10072457A /* EQSCodeView.m */; };
+		D97D446415E465DD0072457A /* EQSCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97D446315E465DD0072457A /* EQSCodeViewController.m */; };
+		D97D446615E473B20072457A /* codeView.css in Resources */ = {isa = PBXBuildFile; fileRef = D97D446515E473B20072457A /* codeView.css */; };
+		D97D447015E520470072457A /* shAutoloader.js in Sources */ = {isa = PBXBuildFile; fileRef = D97D446D15E520470072457A /* shAutoloader.js */; };
+		D97D447115E520470072457A /* shCore.js in Sources */ = {isa = PBXBuildFile; fileRef = D97D446E15E520470072457A /* shCore.js */; };
+		D97D447215E520470072457A /* shLegacy.js in Sources */ = {isa = PBXBuildFile; fileRef = D97D446F15E520470072457A /* shLegacy.js */; };
+		D97D447415E520930072457A /* shBrushObjC.js in Sources */ = {isa = PBXBuildFile; fileRef = D97D447315E520930072457A /* shBrushObjC.js */; };
+		D97D447615E520C00072457A /* codeTemplate.html in Resources */ = {isa = PBXBuildFile; fileRef = D97D447515E520C00072457A /* codeTemplate.html */; };
+		D97D447715E523840072457A /* shBrushObjC.js in Resources */ = {isa = PBXBuildFile; fileRef = D97D447315E520930072457A /* shBrushObjC.js */; };
+		D97D447815E523840072457A /* shAutoloader.js in Resources */ = {isa = PBXBuildFile; fileRef = D97D446D15E520470072457A /* shAutoloader.js */; };
+		D97D447915E523840072457A /* shCore.js in Resources */ = {isa = PBXBuildFile; fileRef = D97D446E15E520470072457A /* shCore.js */; };
+		D97D447A15E523840072457A /* shLegacy.js in Resources */ = {isa = PBXBuildFile; fileRef = D97D446F15E520470072457A /* shLegacy.js */; };
+		D97D447E15E525D10072457A /* codeSnippets.plist in Resources */ = {isa = PBXBuildFile; fileRef = D97D447D15E525D10072457A /* codeSnippets.plist */; };
+		D97D448015E52CCF0072457A /* shCoreDefault.css in Resources */ = {isa = PBXBuildFile; fileRef = D97D447F15E52CCF0072457A /* shCoreDefault.css */; };
+		D97D448215E53BEA0072457A /* shThemeDefault.css in Resources */ = {isa = PBXBuildFile; fileRef = D97D448115E53BEA0072457A /* shThemeDefault.css */; };
 		D982215B1587C6EB00EF53CC /* 06-map-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D98221591587C6EB00EF53CC /* 06-map-pin.png */; };
 		D982215C1587C6EB00EF53CC /* 06-map-pin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D982215A1587C6EB00EF53CC /* 06-map-pin@2x.png */; };
 		D98221601587C8DD00EF53CC /* 07-map-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = D982215E1587C8DD00EF53CC /* 07-map-marker.png */; };
@@ -84,6 +102,23 @@
 		D9754D7115ACAF830093BF1E /* UIApplication+AppDimensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+AppDimensions.h"; sourceTree = "<group>"; };
 		D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+AppDimensions.m"; sourceTree = "<group>"; };
 		D97D445515E32E480072457A /* EQSRouteResultsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQSRouteResultsCell.xib; sourceTree = "<group>"; };
+		D97D445815E45D5D0072457A /* EQSCodeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQSCodeView.xib; sourceTree = "<group>"; };
+		D97D445B15E4643A0072457A /* CodeTab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CodeTab.png; sourceTree = "<group>"; };
+		D97D445C15E4643A0072457A /* CodeTab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CodeTab@2x.png"; sourceTree = "<group>"; };
+		D97D445F15E464F10072457A /* EQSCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSCodeView.h; sourceTree = "<group>"; };
+		D97D446015E464F10072457A /* EQSCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSCodeView.m; sourceTree = "<group>"; };
+		D97D446215E465DD0072457A /* EQSCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSCodeViewController.h; sourceTree = "<group>"; };
+		D97D446315E465DD0072457A /* EQSCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSCodeViewController.m; sourceTree = "<group>"; };
+		D97D446515E473B20072457A /* codeView.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = codeView.css; sourceTree = "<group>"; };
+		D97D446715E474040072457A /* EQSSampleAppState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSSampleAppState.h; sourceTree = "<group>"; };
+		D97D446D15E520470072457A /* shAutoloader.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = shAutoloader.js; sourceTree = "<group>"; };
+		D97D446E15E520470072457A /* shCore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = shCore.js; sourceTree = "<group>"; };
+		D97D446F15E520470072457A /* shLegacy.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = shLegacy.js; sourceTree = "<group>"; };
+		D97D447315E520930072457A /* shBrushObjC.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = shBrushObjC.js; sourceTree = "<group>"; };
+		D97D447515E520C00072457A /* codeTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = codeTemplate.html; sourceTree = "<group>"; };
+		D97D447D15E525D10072457A /* codeSnippets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = codeSnippets.plist; sourceTree = "<group>"; };
+		D97D447F15E52CCF0072457A /* shCoreDefault.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = shCoreDefault.css; sourceTree = "<group>"; };
+		D97D448115E53BEA0072457A /* shThemeDefault.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = shThemeDefault.css; sourceTree = "<group>"; };
 		D98221591587C6EB00EF53CC /* 06-map-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "06-map-pin.png"; sourceTree = "<group>"; };
 		D982215A1587C6EB00EF53CC /* 06-map-pin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "06-map-pin@2x.png"; sourceTree = "<group>"; };
 		D982215E1587C8DD00EF53CC /* 07-map-marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "07-map-marker.png"; sourceTree = "<group>"; };
@@ -233,6 +268,45 @@
 			name = UI;
 			sourceTree = "<group>";
 		};
+		D97D445715E45D410072457A /* Code Viewer */ = {
+			isa = PBXGroup;
+			children = (
+				D97D445815E45D5D0072457A /* EQSCodeView.xib */,
+				D97D445F15E464F10072457A /* EQSCodeView.h */,
+				D97D446015E464F10072457A /* EQSCodeView.m */,
+				D97D446215E465DD0072457A /* EQSCodeViewController.h */,
+				D97D446315E465DD0072457A /* EQSCodeViewController.m */,
+				D97D445A15E464260072457A /* Resources */,
+			);
+			name = "Code Viewer";
+			sourceTree = "<group>";
+		};
+		D97D445A15E464260072457A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D97D445B15E4643A0072457A /* CodeTab.png */,
+				D97D445C15E4643A0072457A /* CodeTab@2x.png */,
+				D97D447515E520C00072457A /* codeTemplate.html */,
+				D97D446515E473B20072457A /* codeView.css */,
+				D97D447D15E525D10072457A /* codeSnippets.plist */,
+				D97D446815E4879C0072457A /* SyntaxHighlighter */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		D97D446815E4879C0072457A /* SyntaxHighlighter */ = {
+			isa = PBXGroup;
+			children = (
+				D97D446D15E520470072457A /* shAutoloader.js */,
+				D97D447315E520930072457A /* shBrushObjC.js */,
+				D97D446E15E520470072457A /* shCore.js */,
+				D97D446F15E520470072457A /* shLegacy.js */,
+				D97D447F15E52CCF0072457A /* shCoreDefault.css */,
+				D97D448115E53BEA0072457A /* shThemeDefault.css */,
+			);
+			name = SyntaxHighlighter;
+			sourceTree = "<group>";
+		};
 		D9B3D64715E2EDCA00140C4E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -250,7 +324,7 @@
 				D9E27CB1155AEA4D008F8CCB /* Basemaps */,
 				E16C07CD1559B96900776F3E /* Navigation */,
 				D9F9EE6F156DE7DA00C2A15F /* Graphics */,
-				D9FB2CD5156EF6ED0052E2AC /* Route Display */,
+				D9FB2CD5156EF6ED0052E2AC /* Directions Display */,
 				D9F9AE96157D6A76004CFAA8 /* General */,
 			);
 			name = "AGS Categories";
@@ -319,7 +393,7 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
-		D9FB2CD5156EF6ED0052E2AC /* Route Display */ = {
+		D9FB2CD5156EF6ED0052E2AC /* Directions Display */ = {
 			isa = PBXGroup;
 			children = (
 				D9EAB290156FD1EE008BCE8F /* AGSMapView+RouteDisplay.h */,
@@ -328,7 +402,7 @@
 				D9EAB294156FE0AF008BCE8F /* EQSRouteDisplayHelper.m */,
 				D97D445315E32B970072457A /* UI */,
 			);
-			name = "Route Display";
+			name = "Directions Display";
 			sourceTree = "<group>";
 		};
 		E16C07CD1559B96900776F3E /* Navigation */ = {
@@ -384,6 +458,7 @@
 				E16C290E15598A5E00E2DB56 /* MainStoryboard_iPad.storyboard */,
 				E16C290815598A5E00E2DB56 /* EQSSampleAppDelegate.h */,
 				E16C290915598A5E00E2DB56 /* EQSSampleAppDelegate.m */,
+				D97D446715E474040072457A /* EQSSampleAppState.h */,
 				E16C291115598A5E00E2DB56 /* EQSSampleViewController.h */,
 				E16C291215598A5E00E2DB56 /* EQSSampleViewController.m */,
 				E1AC7B8615D2E8EA00E4E1BE /* UI */,
@@ -423,6 +498,7 @@
 				E1812BDA15DC767D00D3325A /* EQSBasemapPickerView.h */,
 				E1812BDB15DC767E00D3325A /* EQSBasemapPickerView.m */,
 				E1AC7B8815D2E91E00E4E1BE /* PortalItem Selector */,
+				D97D445715E45D410072457A /* Code Viewer */,
 				E185887715D9C4020015414B /* Categories */,
 			);
 			name = UI;
@@ -545,6 +621,18 @@
 				D9B3D64515E2EDC500140C4E /* 36-circle-west.png in Resources */,
 				D9B3D64615E2EDC500140C4E /* 36-circle-west@2x.png in Resources */,
 				D97D445615E32E480072457A /* EQSRouteResultsCell.xib in Resources */,
+				D97D445915E45D5D0072457A /* EQSCodeView.xib in Resources */,
+				D97D445D15E4643A0072457A /* CodeTab.png in Resources */,
+				D97D445E15E4643A0072457A /* CodeTab@2x.png in Resources */,
+				D97D446615E473B20072457A /* codeView.css in Resources */,
+				D97D447615E520C00072457A /* codeTemplate.html in Resources */,
+				D97D447E15E525D10072457A /* codeSnippets.plist in Resources */,
+				D97D447715E523840072457A /* shBrushObjC.js in Resources */,
+				D97D447815E523840072457A /* shAutoloader.js in Resources */,
+				D97D447915E523840072457A /* shCore.js in Resources */,
+				D97D447A15E523840072457A /* shLegacy.js in Resources */,
+				D97D448015E52CCF0072457A /* shCoreDefault.css in Resources */,
+				D97D448215E53BEA0072457A /* shThemeDefault.css in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,6 +672,12 @@
 				D9B3D63B15E2E2E600140C4E /* EQSRouteResultsView.m in Sources */,
 				D9B3D63E15E2E91E00140C4E /* EQSRouteResultsCell.m in Sources */,
 				D9B3D64A15E2F14C00140C4E /* EQSRouteResultsTableViewController.m in Sources */,
+				D97D446115E464F10072457A /* EQSCodeView.m in Sources */,
+				D97D446415E465DD0072457A /* EQSCodeViewController.m in Sources */,
+				D97D447015E520470072457A /* shAutoloader.js in Sources */,
+				D97D447115E520470072457A /* shCore.js in Sources */,
+				D97D447215E520470072457A /* shLegacy.js in Sources */,
+				D97D447415E520930072457A /* shBrushObjC.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

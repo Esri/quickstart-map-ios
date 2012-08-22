@@ -13,7 +13,7 @@
 
 #import <objc/runtime.h>
 
-@implementation AGSMapView (GeoServices)
+@implementation AGSMapView (EQSGeoServices)
 EQSGeoServices *__agsStarterGeoServices = nil;
 
 - (EQSGeoServices *) geoServices
@@ -23,6 +23,14 @@ EQSGeoServices *__agsStarterGeoServices = nil;
 		__agsStarterGeoServices = [[EQSGeoServices alloc] init];
 	}
 	return __agsStarterGeoServices;
+}
+@end
+
+
+@implementation NSNotification (EQSDirections)
+- (AGSRouteTaskResult *) routeTaskResults
+{
+    return [self.userInfo objectForKey:kEQSGeoServicesNotification_FindRoute_RouteTaskResultsKey];
 }
 @end
 
@@ -42,7 +50,7 @@ EQSGeoServices *__agsStarterGeoServices = nil;
 #define kEQSRoutingRouteTaskUrl @"http://tasks.arcgisonline.com/ArcGIS/rest/services/NetworkAnalysis/ESRI_Route_NA/NAServer/Route"
 
 
-@interface EQSGeoServices () <AGSLocatorDelegate, AGSRouteTaskDelegate>
+@interface EQSGeoServices () <AGSLocatorDelegate, AGSRouteTaskDelegate, CLLocationManagerDelegate>
 @property (nonatomic, retain) AGSLocator *locator;
 
 @property (nonatomic, retain) AGSRouteTask *routeTask;
@@ -51,7 +59,7 @@ EQSGeoServices *__agsStarterGeoServices = nil;
 @property (nonatomic, retain) AGSPoint *routeStartPoint;
 @property (nonatomic, retain) AGSPoint *routeEndPoint;
 
-@property (nonatomic, retain) NSNumber *propertyTest;
+@property (nonatomic, strong) CLLocationManager *locationManager;
 @end
 
 @implementation EQSGeoServices
@@ -62,6 +70,8 @@ EQSGeoServices *__agsStarterGeoServices = nil;
 
 @synthesize routeStartPoint = _routeStartPoint;
 @synthesize routeEndPoint = _routeEndPoint;
+
+@synthesize locationManager = _locationManager;
 
 #pragma mark - Initialization
 - (id) init
@@ -341,5 +351,50 @@ EQSGeoServices *__agsStarterGeoServices = nil;
     params.outSpatialReference = [AGSSpatialReference webMercatorSpatialReference];
     
     return params;
+}
+
+#pragma mark - Geolocation (GPS)
+- (void) findMyLocation
+{
+    if (!self.locationManager)
+    {
+        self.locationManager = [[CLLocationManager alloc] init];
+        self.locationManager.delegate = self;
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        self.locationManager.distanceFilter = 20;
+    }
+    [self.locationManager startUpdatingLocation];
+}
+
+- (BOOL) isGeolocationEnabled
+{
+    return [CLLocationManager locationServicesEnabled];
+}
+
+- (void) locationManager:(CLLocationManager *)manager
+     didUpdateToLocation:(CLLocation *)newLocation
+            fromLocation:(CLLocation *)oldLocation
+{
+    [self.locationManager stopUpdatingLocation];
+	NSLog(@"Located me at %.4f,%.4f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
+    
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:newLocation
+														 forKey:kEQSGeoServicesNotification_Geolocation_LocationKey];
+	
+    [[NSNotificationCenter defaultCenter] postNotificationName:kEQSGeoServicesNotification_Geolocation_OK
+                                                        object:self
+                                                      userInfo:userInfo];
+	self.locationManager = nil;
+}
+
+- (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    [self.locationManager stopUpdatingLocation];
+	NSLog(@"Error getting location: %@", error);
+    [[NSNotificationCenter defaultCenter] postNotificationName:kEQSGeoServicesNotification_Geolocation_Error
+                                                        object:self
+                                                      userInfo:[NSDictionary dictionaryWithObject:error
+                                                                                           forKey:kEQSGeoServicesNotification_ErrorKey]];
+    self.locationManager = nil;
 }
 @end

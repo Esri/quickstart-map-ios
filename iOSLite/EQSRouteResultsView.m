@@ -9,13 +9,17 @@
 #import "EQSRouteResultsView.h"
 
 @interface EQSRouteResultsView ()
-@property (strong, nonatomic) IBOutlet EQSRouteResultsViewController *myVC;
 @property (strong, nonatomic) IBOutlet UIView *topLevelView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *headerView;
+@property (weak, nonatomic) IBOutlet UIView *footerView;
 @end
 
 @implementation EQSRouteResultsView
-@synthesize myVC;
 @synthesize topLevelView;
+@synthesize tableView;
+@synthesize headerView;
+@synthesize footerView;
 @synthesize viewController;
 
 - (id)initWithFrame:(CGRect)frame
@@ -34,17 +38,20 @@
     {
         [[NSBundle mainBundle] loadNibNamed:@"EQSRouteResultsView" owner:self options:nil];
         [self addSubview:self.topLevelView];
+
+        UIColor *bgCol = self.backgroundColor;
+        CGFloat r,g,b,a;
+        [bgCol getRed:&r green:&g blue:&b alpha:&a];
+        self.backgroundColor = [UIColor clearColor];
+        self.topLevelView.backgroundColor = [UIColor clearColor];
+        self.tableView.backgroundColor = bgCol;
+        self.headerView.backgroundColor = [self.headerView.backgroundColor colorWithAlphaComponent:a];
+        self.footerView.backgroundColor = [self.footerView.backgroundColor colorWithAlphaComponent:a];
+
         self.topLevelView.layer.cornerRadius = 7;
-//        self.layer.cornerRadius = 5;
-        self.topLevelView.backgroundColor = self.backgroundColor;
-        self.backgroundColor = [self.backgroundColor colorWithAlphaComponent:0];
+        self.layer.cornerRadius = 7;
     }
     return self;
-}
-
-- (void) awakeFromNib
-{
-    NSLog(@"%@", self.viewController);
 }
 
 /*

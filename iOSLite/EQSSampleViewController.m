@@ -16,9 +16,13 @@
 #import "AGSMapView+Graphics.h"
 #import "AGSMapView+RouteDisplay.h"
 
+#import "EQSSampleAppState.h"
+
 #import "EQSGeoServices.h"
+#import "EQSDefaultSymbols.h"
 
 #import "EQSRouteResultsView.h"
+#import "EQSCodeView.h"
 
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSPoint+GeneralUtilities.h"
@@ -28,20 +32,6 @@
 #import "EQSBasemapPickerView.h"
 #import "EQSBasemapDetailsViewController.h"
 #import <objc/runtime.h>
-
-typedef enum 
-{
-    EQSSampleAppStateBasemaps,
-    EQSSampleAppStateGeolocation,
-    EQSSampleAppStateGraphics,
-    EQSSampleAppStateGraphics_Editing,
-    EQSSampleAppStateCloudData,
-    EQSSampleAppStateFindPlace,
-	EQSSampleAppStateDirections,
-    EQSSampleAppStateDirections_WaitingForRouteStart,
-    EQSSampleAppStateDirections_WaitingForRouteEnd
-}
-EQSSampleAppState;
 
 #define kEQSGetAddressReasonKey @"FindAddressReason"
 #define kEQSGetAddressReasonRouteStart @"RouteStartPoint"
@@ -109,6 +99,7 @@ EQSSampleAppState;
 @property (strong, nonatomic) IBOutlet EQSRouteResultsView *routeResultsView;
 
 // Geolocation UI
+@property (weak, nonatomic) IBOutlet UIButton *findMeButton;
 @property (weak, nonatomic) IBOutlet UILabel *findScaleLabel;
 
 // Non UI Properties
@@ -125,6 +116,9 @@ EQSSampleAppState;
 @property (weak, nonatomic) IBOutlet UIToolbar *findToolbar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *findbutton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
+
+@property (weak, nonatomic) IBOutlet EQSCodeView *codeViewer;
+
 
 // Actions
 - (IBAction)addGraphics:(id)sender;
@@ -179,6 +173,7 @@ EQSSampleAppState;
 @synthesize routeStartAddress = _routeStartAddress;
 @synthesize routeEndAddress = _routeEndAddress;
 
+@synthesize findMeButton = _findMeButton;
 @synthesize findScaleLabel = _findScaleLabel;
 @synthesize functionToolBar = _functionToolBar;
 @synthesize routeStartButton = _routeStartButton;
@@ -195,6 +190,7 @@ EQSSampleAppState;
 @synthesize findToolbar = _findToolbar;
 @synthesize findbutton = _findbutton;
 @synthesize cancelButton = _cancelButton;
+@synthesize codeViewer = _codeViewer;
 
 
 #define kEQSApplicationLocFromState @"ButtonState"
@@ -206,13 +202,20 @@ EQSSampleAppState;
 	// Track the application state
     self.currentState = EQSSampleAppStateBasemaps;
 
+	[self initBasemapPicker];
+    
+    // Initialize the default symbols container. This will load them in the background (some are URL based,
+    // which causes a synchronous HTTP request to block the initializer UIImage initializer).
+    id tmp = self.mapView.defaultSymbols;
+    tmp = nil;
+
     // Store some state on the UI so that we can track when the user is placing points for routing.
     objc_setAssociatedObject(self.routeStartButton, kEQSApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     objc_setAssociatedObject(self.routeEndButton, kEQSApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
     // When we geolocate, what scale level to zoom the map to?
     self.findScale = 13;
-    
+
     // Go through all the various UI component views, hide them and then place them properly
     // in the UI window so that they'll fade in and out properly.
     for (UIView *v in [self allUIViews]) {
@@ -220,6 +223,9 @@ EQSSampleAppState;
         v.hidden = YES;
         v.frame = [self getUIFrameWhenHidden:v];
     }
+    
+    self.routeResultsView.hidden = YES;
+    self.routeResultsView.alpha = 0;
 
     // And show the UI by default. Note, at present the UI is always visible.
     self.uiControlsVisible = YES;
@@ -240,6 +246,7 @@ EQSSampleAppState;
     self.mapView.wrapAround = YES;
     self.mapView.touchDelegate = self;
     
+    self.findMeButton.layer.cornerRadius = 5;
     self.routeStartButton.layer.cornerRadius = 5;
     self.routeEndButton.layer.cornerRadius = 5;
     self.clearRouteButton.layer.cornerRadius = 4;
@@ -251,31 +258,24 @@ EQSSampleAppState;
 {
     [super viewDidLoad];
 
-	[self initUI];
-
     // Initialize our property for tracking the current basemap type.
     self.currentBasemapType = EQSBasemapTypeTopographic;
-	
-	[self populateForDefaultBasemaps];
-    
+
+	[self initUI];
+
 	// Set up our map with a basemap, and jump to a location and scale level.
     [self.mapView setBasemap: self.currentBasemapType];
     [self.mapView centerAtLat:40.7302 Lon:-73.9958 withScaleLevel:13];
+
+	[self registerForGeoServicesNotifications];
+}
+
 //    AGSPoint *nyc = [AGSPoint pointFromLat:40.7302 Lon:-73.9958];
 //    [self.mapView centerAtPoint:nyc withScaleLevel:0];
 //    [self.mapView centerAtLat:40.7302 Long:-73.9958];
 //    [self.mapView zoomToLevel:7];
 //    [self.mapView centerAtMyLocation];
 //    [self.mapView centerAtMyLocationWithScaleLevel:15];
-
-	[self initForDirections];
-	
-	// And let me know when it finds points for an address.
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(gotCandidatesForAddress:)
-                                                 name:kEQSGeoServicesNotification_PointsFromAddress_OK
-                                               object:self.mapView.geoServices];
-}
 
 - (void)viewDidUnload
 {
@@ -307,6 +307,8 @@ EQSSampleAppState;
     [self setMessageBar:nil];
     [self setMessageBarLabel:nil];
     [self setRouteResultsView:nil];
+    [self setCodeViewer:nil];
+    [self setFindMeButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -477,6 +479,8 @@ EQSSampleAppState;
     [self.view endEditing:YES];
 
     [self updateUIDisplayState];
+    
+    self.codeViewer.viewController.currentAppState = _currentState;
 }
 
 #pragma mark - UI Function Selection
@@ -595,6 +599,7 @@ EQSSampleAppState;
 - (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self updateUIDisplayStateOverDuration:0];
+    [self.codeViewer.viewController refreshCodeSnippetViewerPosition];
 }
 
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -744,7 +749,7 @@ EQSSampleAppState;
 #pragma mark - Basemap Selection
 
 // Populate the PortalItemViewer with items based off our Basemap List
-- (void) populateForDefaultBasemaps
+- (void) initBasemapPicker
 {
 	self.basemapsPicker.basemapDelegate = self;
 	self.basemapsPicker.basemapType = self.currentBasemapType;
@@ -933,7 +938,7 @@ EQSSampleAppState;
 
 #pragma mark - Directions
 
-- (void)initForDirections
+- (void)registerForGeoServicesNotifications
 {
 	// Let me know when the Geoservices object finds an address for a point.
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -955,6 +960,19 @@ EQSSampleAppState;
 											 selector:@selector(didFailToSolveRoute:)
 												 name:kEQSGeoServicesNotification_FindRoute_Error
 											   object:self.mapView.geoServices];
+    
+    // And let me know when it finds points for an address.
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(gotCandidatesForAddress:)
+                                                 name:kEQSGeoServicesNotification_PointsFromAddress_OK
+                                               object:self.mapView.geoServices];
+
+    // Or not...
+    // And let me know when it finds points for an address.
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didFailToGetCandidatesForAddress:)
+                                                 name:kEQSGeoServicesNotification_PointsFromAddress_Error
+                                               object:self.mapView.geoServices];
 }
 
 - (void)didTapStartPoint:(AGSPoint *)mapPoint
@@ -1031,14 +1049,26 @@ EQSSampleAppState;
 
 - (void) didSolveRouteOK:(NSNotification *)notification
 {
-	AGSRouteTaskResult *results = [notification.userInfo objectForKey:kEQSGeoServicesNotification_FindRoute_RouteTaskResultsKey];
+    NSLog(@"Entered didSolveRouteOK");
+
+	AGSRouteTaskResult *results = [notification routeTaskResults];
+    NSLog(@"Got UserInfo");
 	if (results)
 	{
 		self.routeResult = [results.routeResults objectAtIndex:0];
+        NSLog(@"Showing results");
 		[self.mapView.routeDisplayHelper showRouteResults:results];
+        NSLog(@"Showed results");
         EQSRouteResultsViewController *rrvc = self.routeResultsView.viewController;
         rrvc.routeResult = [results.routeResults objectAtIndex:0];
-//        self.routeResultsView.viewController.routeResult = [results.routeResults objectAtIndex:0];
+        
+//        AGSGraphic *routeGraphic = rrvc.routeResult.routeGraphic;
+//        AGSGeometry *routeGeom = routeGraphic.geometry;
+//        AGSEnvelope *routeEnv = routeGeom.envelope;
+//        AGSEnvelope *newEnv = [self.mapView getEnvelopeToFitViewAspectRatio:routeEnv];
+//        NSLog(@"%@\n%@",routeEnv, newEnv);
+//        
+//        CGRect rectToZoomTo = [self.mapView getMinOrthoVisibleArea];
 	}
 }
 
@@ -1109,6 +1139,7 @@ EQSSampleAppState;
     {
         self.routeResult = nil;
         [self.mapView.routeDisplayHelper clearRouteDisplay];
+        self.routeResultsView.viewController.routeResult = nil;
 		self.routeStartAddress = nil;
 		self.routeEndAddress = nil;
         self.routeStartPoint = nil;
@@ -1265,6 +1296,12 @@ EQSSampleAppState;
             }
         }
     }
+}
+
+- (void) didFailToGetCandidatesForAddress:(NSNotification *)notification
+{
+	NSError *error = [notification.userInfo objectForKey:kEQSGeoServicesNotification_ErrorKey];
+	NSLog(@"Failed to get candidates for address: %@", error);
 }
 
 #pragma mark - Geolocation

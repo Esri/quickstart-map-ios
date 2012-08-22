@@ -22,30 +22,24 @@
 @end
 
 @interface EQSRouteResultsTableViewController ()
-
+@property (nonatomic, retain) EQSRouteResultsCell *templateCell;
 @end
 
 @implementation EQSRouteResultsTableViewController
 @synthesize routeResult = _routeResult;
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    // Load a template cell. We'll use this when calculating cell heights. Why? See below...
+    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"EQSRouteResultsCell" owner:self options:nil];
+    self.templateCell = (EQSRouteResultsCell *)[nib objectAtIndex:0];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    // Make sure the template cell is the right width for when it comes to calculating each row height.
+    CGRect newRect = self.templateCell.frame;
+    newRect.size = CGSizeMake(self.tableView.frame.size.width, self.templateCell.frame.size.height);
+    self.templateCell.frame = newRect;
 }
 
 - (void)viewDidUnload
@@ -53,11 +47,6 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 #pragma mark - Table view data source
@@ -77,7 +66,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    return 0;
     // Return the number of rows in the section.
     return self.routeResult != nil?self.routeResult.directions.count:0;
 }
@@ -87,63 +75,23 @@
     static NSString *CellIdentifier = @"Cell";
     EQSRouteResultsCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    // Configure the cell...
-    
     if (!cell)
     {
+        // So the TableView didn't have a spare cell handy for us to reuse. Let's create one.
+        // We've defined the cell in its own NIB. Since it's the only thing in there, we know
+        // how to access it. Yes, this is sanctioned code by Apple.
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"EQSRouteResultsCell" owner:self options:nil];
-//        cell = [[EQSRouteResultsCell alloc] initWithStyle:UITableViewCellStyleDefault
-//                                          reuseIdentifier:CellIdentifier];
         cell = (EQSRouteResultsCell *)[nib objectAtIndex:0];
     }
-    
-    // TODO - populate the cell.
+
+    // Now we want to populate the details of the cell using our AGSDirectionGraphic.
+    // Unfortunately, it doesn't store its index in the set of directions. So...
     NSUInteger dataIndex = [indexPath indexAtPosition:indexPath.length-1];
-    NSLog(@"Loading cell for index %d", dataIndex);
     cell.directionIndex = dataIndex;
-    cell.directionGraphic = [self.routeResult.directions.graphics objectAtIndex:dataIndex];
+    cell.directionGraphic = [self graphicForIndexPath:indexPath];
     
     return cell;
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 
@@ -158,4 +106,21 @@
      */
 }
 
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Why not just get the cell for this indexPath? Well, it seems that doing that calls back
+    // into this function, so we end up recursing infinitely and bombing out. I'm sure it makes
+    // sense somewhere deep down in Apple's logic.
+    AGSDirectionGraphic *g = [self graphicForIndexPath:indexPath];
+    self.templateCell.directionGraphic = g;
+    return [self.templateCell getHeight];
+}
+
+#pragma mark - General Table View<>AGSDirectionGraphic stuff...
+
+- (AGSDirectionGraphic *)graphicForIndexPath:(NSIndexPath *)indexPath
+{
+    NSUInteger dataIndex = [indexPath indexAtPosition:indexPath.length-1];
+    return [self.routeResult.directions.graphics objectAtIndex:dataIndex];
+}
 @end

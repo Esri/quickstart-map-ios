@@ -10,10 +10,6 @@
 #import <ArcGIS/ArcGIS.h>
 #import "EQSBasemapTypeEnum.h"
 
-#define kEQSGeolocationSucceeded @"EQSGeolocationSucceeded"
-#define kEQSGeolocationError @"EQSGeolocationError"
-#define kEQSGeolocationSucceededLocationKey @"newLocation"
-
 @interface EQSHelper : NSObject
 // Translate a Google/Bing/ArcGIS Online tiling scheme scale number (1-20) to an actual scale value.
 + (double) getScaleForLevel:(NSUInteger)level;
@@ -25,12 +21,6 @@
 + (EQSBasemapType) getBasemapTypeForPortalItemID:(NSString *)portalItemID;
 + (AGSTiledLayer *) getBasemapTiledLayer:(EQSBasemapType)basemapType;
 + (NSArray *) getBasemapSupplementalTiledLayers:(EQSBasemapType)basemapType;
-
-// Call getLocation and wait for a notification response of either kEQSGeolocationSucceeded or
-// kEQSGeolocationError. In the case of success, read the AGSPoint from the notification's
-// userInfo dictionary using the kEQSGeolocationSucceededLocationKey key.
-+ (void) getGeolocation;
-+ (BOOL) isGeolocationEnabled;
 
 // Queuing...
 + (void) queueBlock:(void (^)(void))block untilMapViewLoaded:(AGSMapView *)mapView;

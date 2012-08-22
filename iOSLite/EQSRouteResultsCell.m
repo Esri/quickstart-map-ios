@@ -31,7 +31,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor blackColor];
+        self.backgroundColor = [UIColor clearColor];
         self.defaultBGCol = self.backgroundColor;
         self.directionIndex = -1;
     }
@@ -43,7 +43,7 @@
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-        self.contentView.backgroundColor = [UIColor blackColor];
+        self.contentView.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
@@ -89,4 +89,9 @@
     self.stepNumberLabel.text = [NSString stringWithFormat:@"%d", _directionIndex];
 }
 
+- (CGFloat) getHeight
+{
+    NSString *text = self.stepDetailsLabel.text;
+    return [text sizeWithFont:self.stepDetailsLabel.font constrainedToSize:self.stepDetailsLabel.frame.size].height + (2 * self.stepDetailsLabel.frame.origin.y);
+}
 @end

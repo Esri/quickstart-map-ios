@@ -46,7 +46,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.hidden = YES;
+    _hidden = YES;
+    [self setHiddenInternal];
 }
 
 - (void)viewDidUnload
@@ -79,26 +80,38 @@
 
 - (void) setHidden:(BOOL)hidden
 {
+    BOOL newHidden = NO;
+    
     if (self.routeResult == nil)
     {
-        _hidden = YES;
+        newHidden = YES;
     }
     else
     {
-        _hidden = hidden;
+        newHidden = hidden;
     }
+    
+    if (newHidden != _hidden)
+    {
+        _hidden = newHidden;
+        [self setHiddenInternal];
+    }
+}
 
+- (void) setHiddenInternal
+{
+    double animationDuration = 0.4;
     if (!_hidden)
     {
         self.view.alpha = 0;
         self.view.hidden = NO;
-        [UIView animateWithDuration:0.4 animations:^{
+        [UIView animateWithDuration:animationDuration animations:^{
             self.view.alpha = 1;
         }];
     }
     else
     {
-        [UIView animateWithDuration:0.4
+        [UIView animateWithDuration:animationDuration
                          animations:^{
                              self.view.alpha = 0;
                          } completion:^(BOOL finished) {

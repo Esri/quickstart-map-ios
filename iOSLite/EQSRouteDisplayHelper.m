@@ -24,6 +24,8 @@
 @interface EQSRouteDisplayHelper ()
 - (id) initForMapView:(AGSMapView *)mapView;
 @property (nonatomic, retain) AGSMapView *mapView;
+@property (nonatomic, retain) AGSCalloutTemplate *startPointCalloutTemplate;
+@property (nonatomic, retain) AGSCalloutTemplate *endPointCalloutTemplate;
 @end
 
 @implementation EQSRouteDisplayHelper
@@ -35,6 +37,9 @@
 
 @synthesize mapView = _mapView;
 
+@synthesize startPointCalloutTemplate = _startPointCalloutTemplate;
+@synthesize endPointCalloutTemplate = _endPointCalloutTemplate;
+
 #pragma mark - Public static shortcut
 + (EQSRouteDisplayHelper *) routeDisplayHelperForMapView:(AGSMapView *)mapView
 {
@@ -44,6 +49,7 @@
 #pragma mark - Public methods
 - (void) showRouteResults:(AGSRouteTaskResult *)routeTaskResults;
 {
+    NSLog(@"Entered showRouteResults");
 	if (routeTaskResults.routeResults.count > 0)
 	{
 		[self.routeGraphicsLayer removeAllGraphics];
@@ -57,13 +63,16 @@
 		
         for (AGSStopGraphic *stopGraphic in result.stopGraphics) {
             NSLog(@"Route Stop Point: \"%@\"", stopGraphic.name);
+            NSLog(@"Stop point attribtues:\n%@", stopGraphic.attributes);
             if ([stopGraphic.name isEqualToString:kEQSRoutingStartPointName])
             {
                 stopGraphic.symbol = self.startSymbol;
+                stopGraphic.infoTemplateDelegate = self.startPointCalloutTemplate;
             }
             else if ([stopGraphic.name isEqualToString:kEQSRoutingEndPointName])
             {
                 stopGraphic.symbol = self.endSymbol;
+                stopGraphic.infoTemplateDelegate = self.endPointCalloutTemplate;
             }
             [self.routeGraphicsLayer addGraphic:stopGraphic];
         }
@@ -105,6 +114,14 @@
         self.endSymbol = mapView.defaultSymbols.routeEnd;
         
 		self.routeSymbol = mapView.defaultSymbols.route;
+        
+        self.startPointCalloutTemplate = [[AGSCalloutTemplate alloc] init];
+        self.startPointCalloutTemplate.titleTemplate = @"Start";
+        self.startPointCalloutTemplate.detailTemplate = @"Oooh";
+        
+        self.endPointCalloutTemplate = [[AGSCalloutTemplate alloc] init];
+        self.endPointCalloutTemplate.titleTemplate = @"End";
+        self.endPointCalloutTemplate.detailTemplate = @"Ahhh";
     }
     
     return self;

@@ -25,7 +25,6 @@
 + (id)defaultHelper;
 - (double) getScaleForLevel:(NSUInteger)level;
 @property (nonatomic, strong) NSMutableDictionary *mapViewQueues;
-@property (nonatomic, strong) CLLocationManager *locationManager;
 @end
 
 
@@ -37,8 +36,6 @@ NSDictionary * __eqsBasemapWebMapIDs = nil;
 NSDictionary * __eqsBasemapURLs = nil;
 
 @synthesize mapViewQueues = _mapViewQueues;
-
-@synthesize locationManager = _locationManager;
 
 #pragma mark - Queued Operations
 + (void) queueBlock:(void (^)(void))block untilMapViewLoaded:(AGSMapView *)mapView
@@ -112,51 +109,6 @@ NSDictionary * __eqsBasemapURLs = nil;
             }
         }
     }
-}
-
-#pragma mark - Geolocation (GPS)
-+ (void) getGeolocation
-{
-	EQSHelper *defaultHelper = [EQSHelper defaultHelper];
-	
-    if (!defaultHelper.locationManager)
-    {
-        defaultHelper.locationManager = [[CLLocationManager alloc] init];
-        defaultHelper.locationManager.delegate = defaultHelper;
-        defaultHelper.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        defaultHelper.locationManager.distanceFilter = 20;
-    }
-    [defaultHelper.locationManager startUpdatingLocation];
-}
-
-+ (BOOL) isGeolocationEnabled
-{
-    return [CLLocationManager locationServicesEnabled];
-}
-
-- (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-    [self.locationManager stopUpdatingLocation];
-	NSLog(@"Located me at %.4f,%.4f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
-    
-	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:newLocation
-														 forKey:kEQSGeolocationSucceededLocationKey];
-	
-    [[NSNotificationCenter defaultCenter] postNotificationName:kEQSGeolocationSucceeded
-                                                        object:[EQSHelper class]
-                                                      userInfo:userInfo];
-	self.locationManager = nil;
-}
-
-- (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
-    [self.locationManager stopUpdatingLocation];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kEQSGeolocationError
-                                                        object:[EQSHelper class]
-                                                      userInfo:[NSDictionary dictionaryWithObject:error
-                                                                                           forKey:@"error"]];
-	NSLog(@"Error getting location: %@", error);
-    self.locationManager = nil;
 }
 
 #pragma mark - Configuration Loading and initialization

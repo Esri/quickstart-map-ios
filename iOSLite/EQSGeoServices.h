@@ -8,13 +8,6 @@
 
 #import <ArcGIS/ArcGIS.h>
 
-@class EQSGeoServices;
-
-@interface AGSMapView (GeoServices)
-// Provide a reference to the geoServices instance for an AGSMapView.
-- (EQSGeoServices *) geoServices;
-@end
-
 @interface EQSGeoServices : NSObject
 // Geocoding
 - (NSOperation *) findPlaces:(NSString *)singleLineAddress;
@@ -25,9 +18,23 @@
 
 // Routing
 - (NSOperation *) findDirectionsFrom:(AGSPoint *)startPoint To:(AGSPoint *)endPoint;
+
+// Geolocation
+- (BOOL) isGeolocationEnabled;
+- (void) findMyLocation;
 @end
 
 
+#pragma mark - Convenience Categories
+@interface AGSMapView (EQSGeoServices)
+// Provide a reference to the geoServices instance for an AGSMapView.
+- (EQSGeoServices *) geoServices;
+@end
+
+
+@interface NSNotification (EQSDirections)
+- (AGSRouteTaskResult *) routeTaskResults;
+@end
 
 
 
@@ -42,6 +49,11 @@
 
 #define kEQSGeoServicesNotification_FindRoute_OK @"EQSGeoservicesFindRouteOK"
 #define kEQSGeoServicesNotification_FindRoute_Error @"EQSGeoservicesFindRouteError"
+
+#define kEQSGeoServicesNotification_Geolocation_OK @"EQSGeolocationSucceeded"
+#define kEQSGeoServicesNotification_Geolocation_Error @"EQSGeolocationError"
+
+
 
 // Each Notification's userInfo dictionary will contain service-specific values, but some are common
 // kEQSGeoServicesNotification_WorkerOperationKey: The NSOperation handling the call.
@@ -58,6 +70,8 @@
 #define kEQSGeoServicesNotification_PointsFromAddress_ExtentKey @"searchExtent"
 
 #define kEQSGeoServicesNotification_FindRoute_RouteTaskResultsKey @"routeResult"
+
+#define kEQSGeoServicesNotification_Geolocation_LocationKey @"newLocation"
 
 // Keys to determine properties of the Route Task results.
 #define kEQSRoutingStartPointName @"Start Point"

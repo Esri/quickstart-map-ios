@@ -8,6 +8,7 @@
 
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSMapView+Navigation.h"
+#import "EQSGeoServices.h"
 
 #import "AGSPoint+GeneralUtilities.h"
 
@@ -64,9 +65,9 @@ NSInteger __eqsScaleForGeolocation = -1;
 {
     [self ensureNavigationHelperInitialized];
     
-    if ([EQSHelper isGeolocationEnabled])
+    if ([self.geoServices isGeolocationEnabled])
     {
-        [EQSHelper getGeolocation];
+        [self.geoServices findMyLocation];
     }
 	else {
 		UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"Cannot Find You" message:@"Location Services Not Enabled" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -89,7 +90,7 @@ NSInteger __eqsScaleForGeolocation = -1;
 
 - (void) gotLocation:(NSNotification *)notification
 {
-    CLLocation *newLocation = [notification.userInfo objectForKey:kEQSGeolocationSucceededLocationKey];
+    CLLocation *newLocation = [notification.userInfo objectForKey:kEQSGeoServicesNotification_Geolocation_LocationKey];
     [self doActionWhenLoaded:^void {
         if (__eqsScaleForGeolocation == -1)
         {
@@ -115,11 +116,11 @@ NSInteger __eqsScaleForGeolocation = -1;
 {
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(gotLocation:)
-												 name:kEQSGeolocationSucceeded
+												 name:kEQSGeoServicesNotification_Geolocation_OK
 											   object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(failedToGetLocation:)
-												 name:kEQSGeolocationError
+												 name:kEQSGeoServicesNotification_Geolocation_Error
 											   object:nil];
 }
 @end
