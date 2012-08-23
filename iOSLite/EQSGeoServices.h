@@ -31,9 +31,10 @@
 - (EQSGeoServices *) geoServices;
 @end
 
-
-@interface NSNotification (EQSDirections)
+@interface NSNotification (EQSGeoServices)
 - (AGSRouteTaskResult *) routeTaskResults;
+- (CLLocation *) geolocation;
+- (NSError *) geoserviceError;
 @end
 
 

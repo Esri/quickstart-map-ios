@@ -81,7 +81,7 @@ NSInteger __eqsScaleForGeolocation = -1;
     return [self.visibleArea.envelope.center getWGS84Point];
 }
 
-#pragma mark - Internal
+#pragma mark - Handle geolocation notifications
 - (void) centerAtMyLocationWithScaleLevel:(NSInteger)scaleLevel
 {
     __eqsScaleForGeolocation = scaleLevel;
@@ -117,10 +117,10 @@ NSInteger __eqsScaleForGeolocation = -1;
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(gotLocation:)
 												 name:kEQSGeoServicesNotification_Geolocation_OK
-											   object:nil];
+											   object:self.geoServices];
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(failedToGetLocation:)
 												 name:kEQSGeoServicesNotification_Geolocation_Error
-											   object:nil];
+											   object:self.geoServices];
 }
 @end

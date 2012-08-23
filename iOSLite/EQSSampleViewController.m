@@ -37,6 +37,7 @@
 #define kEQSGetAddressReasonRouteStart @"RouteStartPoint"
 #define kEQSGetAddressReasonRouteEnd @"RouteEndPoint"
 #define kEQSGetAddressReasonReverseGeocodeForPoint @"FindAddressFunction"
+#define kEQSGetAddressReason_AddressForGeolocation @"AddressForGeolocation"
 
 @interface EQSSampleViewController () <AGSPortalItemDelegate, AGSMapViewTouchDelegate, AGSRouteTaskDelegate, UISearchBarDelegate, AGSLocatorDelegate, UIWebViewDelegate, EQSBasemapPickerDelegate>
 
@@ -100,6 +101,7 @@
 
 // Geolocation UI
 @property (weak, nonatomic) IBOutlet UIButton *findMeButton;
+@property (weak, nonatomic) IBOutlet UILabel *myLocationAddressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *findScaleLabel;
 
 // Non UI Properties
@@ -175,6 +177,7 @@
 
 @synthesize findMeButton = _findMeButton;
 @synthesize findScaleLabel = _findScaleLabel;
+@synthesize myLocationAddressLabel = _myLocationAddressLabel;
 @synthesize functionToolBar = _functionToolBar;
 @synthesize routeStartButton = _routeStartButton;
 @synthesize routeEndButton = _routeStopButton;
@@ -309,6 +312,7 @@
     [self setRouteResultsView:nil];
     [self setCodeViewer:nil];
     [self setFindMeButton:nil];
+    [self setMyLocationAddressLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -926,6 +930,10 @@
 			{
 				self.findAddressSearchBar.text = address;
 			}
+            else if ([source isEqualToString:kEQSGetAddressReason_AddressForGeolocation])
+            {
+                self.myLocationAddressLabel.text = address;
+            }
 		}
 	}
 }
@@ -973,6 +981,42 @@
                                              selector:@selector(didFailToGetCandidatesForAddress:)
                                                  name:kEQSGeoServicesNotification_PointsFromAddress_Error
                                                object:self.mapView.geoServices];
+    
+    
+    // Geolocation Notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didGeolocate:)
+                                                 name:kEQSGeoServicesNotification_Geolocation_OK
+                                               object:self.mapView.geoServices];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didFailToGeolocate:)
+                                                 name:kEQSGeoServicesNotification_Geolocation_Error
+                                               object:self.mapView.geoServices];
+}
+
+- (void) didGeolocate:(NSNotification *)notification
+{
+    CLLocation *location = [notification geolocation];
+    
+    if (location)
+    {
+        self.myLocationAddressLabel.text = location.description;
+        AGSPoint *locPt = [AGSPoint pointFromLat:location.coordinate.latitude Lon:location.coordinate.longitude];
+        NSOperation *op = [self.mapView.geoServices findAddressFromPoint:locPt];
+        objc_setAssociatedObject(op,
+                                 kEQSGetAddressReasonKey, kEQSGetAddressReason_AddressForGeolocation,
+                                 OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+}
+
+- (void) didFailToGeolocate:(NSNotification *)notification
+{
+    self.myLocationAddressLabel.text = @"";
+    NSError *err = [notification geoserviceError];
+    NSString *errorMessage = [NSString stringWithFormat:@"Unable to get geolocation\n\"%@\"", err];
+    [[[UIAlertView alloc] initWithTitle:@"Geolocation Error" message:errorMessage
+                               delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
 }
 
 - (void)didTapStartPoint:(AGSPoint *)mapPoint
@@ -1306,8 +1350,9 @@
 
 #pragma mark - Geolocation
 
-- (IBAction)findMe:(id)sender {
-	[self.mapView centerAtMyLocationWithScaleLevel:self.findScale];
+- (IBAction)findMe:(id)sender
+{
+	[self.mapView centerAtMyLocationWithScaleLevel:16];
 }
 
 - (IBAction)findScaleChanged:(id)sender {

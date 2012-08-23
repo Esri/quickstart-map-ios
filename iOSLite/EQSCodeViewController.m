@@ -163,7 +163,7 @@
 
 - (void) setCodeViewPosition:(BOOL)withAnimation
 {
-    NSTimeInterval animationDuration = withAnimation?0.4:0;
+//    NSTimeInterval animationDuration = withAnimation?0.4:0;
     AGSMapView *mapView = self.codeView.mapView;
     if (mapView)
     {
@@ -175,10 +175,10 @@
                                      mapView.frame.size.width,
                                      self.controlHeight);
         }
-        [UIView animateWithDuration:animationDuration
-                         animations:^{
+//        [UIView animateWithDuration:animationDuration
+//                         animations:^{
                              self.view.frame = targetFrame;
-                         }];
+//                         }];
     }
 }
 

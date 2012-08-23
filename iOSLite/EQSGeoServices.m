@@ -32,6 +32,16 @@ EQSGeoServices *__agsStarterGeoServices = nil;
 {
     return [self.userInfo objectForKey:kEQSGeoServicesNotification_FindRoute_RouteTaskResultsKey];
 }
+
+- (CLLocation *) geolocation
+{
+    return [self.userInfo objectForKey:kEQSGeoServicesNotification_Geolocation_LocationKey];
+}
+
+- (NSError *) geoserviceError
+{
+    return [self.userInfo objectForKey:kEQSGeoServicesNotification_ErrorKey];
+}
 @end
 
 
@@ -384,7 +394,7 @@ EQSGeoServices *__agsStarterGeoServices = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:kEQSGeoServicesNotification_Geolocation_OK
                                                         object:self
                                                       userInfo:userInfo];
-	self.locationManager = nil;
+//	self.locationManager = nil;
 }
 
 - (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
@@ -395,6 +405,6 @@ EQSGeoServices *__agsStarterGeoServices = nil;
                                                         object:self
                                                       userInfo:[NSDictionary dictionaryWithObject:error
                                                                                            forKey:kEQSGeoServicesNotification_ErrorKey]];
-    self.locationManager = nil;
+//    self.locationManager = nil;
 }
 @end
