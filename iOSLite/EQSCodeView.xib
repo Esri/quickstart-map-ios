@@ -44,7 +44,7 @@
 				<bool key="IBUIHorizontal">NO</bool>
 			</object>
 			<object class="IBUIView" id="191373211">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIView" id="272458196">
@@ -156,7 +156,6 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{600, 600}</string>
-				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="272458196"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">10</int>

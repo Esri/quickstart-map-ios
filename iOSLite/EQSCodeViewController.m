@@ -163,7 +163,7 @@
 
 - (void) setCodeViewPosition:(BOOL)withAnimation
 {
-//    NSTimeInterval animationDuration = withAnimation?0.4:0;
+    NSTimeInterval animationDuration = withAnimation?0.4:0;
     AGSMapView *mapView = self.codeView.mapView;
     if (mapView)
     {
@@ -175,10 +175,10 @@
                                      mapView.frame.size.width,
                                      self.controlHeight);
         }
-//        [UIView animateWithDuration:animationDuration
-//                         animations:^{
+        [UIView animateWithDuration:animationDuration
+                         animations:^{
                              self.view.frame = targetFrame;
-//                         }];
+                         }];
     }
 }
 
@@ -280,6 +280,7 @@
 {
     // This is the height we'll display the whole Code View in.
     _controlHeight = controlHeight;
+    
     // However, first we need to resize the height of the Web View to fit properly.
     CGRect frame = self.codeWebView.frame;
     frame.size.height = _controlHeight - self.codeWebView.frame.origin.y;

@@ -38,6 +38,11 @@ EQSGeoServices *__agsStarterGeoServices = nil;
     return [self.userInfo objectForKey:kEQSGeoServicesNotification_Geolocation_LocationKey];
 }
 
+- (NSOperation *) geoServicesOperation
+{
+    return [self.userInfo objectForKey:kEQSGeoServicesNotification_WorkerOperationKey];
+}
+
 - (NSError *) geoserviceError
 {
     return [self.userInfo objectForKey:kEQSGeoServicesNotification_ErrorKey];

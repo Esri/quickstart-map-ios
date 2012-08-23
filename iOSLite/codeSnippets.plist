@@ -64,25 +64,11 @@
 	<key>Graphics</key>
 	<dict>
 		<key>title</key>
-		<string>Setting and changing basemaps</string>
+		<string>Create and edit Graphics</string>
 		<key>codeSnippet</key>
-		<string>- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
-    // Initialize our property for tracking the current basemap type.
-    self.currentBasemapType = EQSBasemapTypeTopographic;
-
-	[self initUI];
-
-	// Set up our map with a basemap, and jump to a location and scale level.
-    [self.mapView setBasemap: self.currentBasemapType];
-    [self.mapView centerAtLat:40.7302 Lon:-73.9958 withScaleLevel:13];
-
-	[self registerForGeoServicesNotifications];
-}</string>
+		<string>// Nothing yet...</string>
 		<key>highlightedLines</key>
-		<string>6,11,12</string>
+		<string></string>
 	</dict>
 	<key>FindPlace</key>
 	<dict>
@@ -100,25 +86,11 @@
 	<key>Data</key>
 	<dict>
 		<key>title</key>
-		<string>Setting and changing basemaps</string>
+		<string>Add and interrogate spatial data stored remotely</string>
 		<key>codeSnippet</key>
-		<string>- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
-    // Initialize our property for tracking the current basemap type.
-    self.currentBasemapType = EQSBasemapTypeTopographic;
-
-	[self initUI];
-
-	// Set up our map with a basemap, and jump to a location and scale level.
-    [self.mapView setBasemap: self.currentBasemapType];
-    [self.mapView centerAtLat:40.7302 Lon:-73.9958 withScaleLevel:13];
-
-	[self registerForGeoServicesNotifications];
-}</string>
+		<string>// Nothing yet…</string>
 		<key>highlightedLines</key>
-		<string>6,11,12</string>
+		<string></string>
 	</dict>
 </dict>
 </plist>

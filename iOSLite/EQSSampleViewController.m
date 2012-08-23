@@ -23,6 +23,7 @@
 
 #import "EQSRouteResultsView.h"
 #import "EQSCodeView.h"
+#import "EQSAddressCandidateView.h"
 
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSPoint+GeneralUtilities.h"
@@ -39,13 +40,20 @@
 #define kEQSGetAddressReasonReverseGeocodeForPoint @"FindAddressFunction"
 #define kEQSGetAddressReason_AddressForGeolocation @"AddressForGeolocation"
 
-@interface EQSSampleViewController () <AGSPortalItemDelegate, AGSMapViewTouchDelegate, AGSRouteTaskDelegate, UISearchBarDelegate, AGSLocatorDelegate, UIWebViewDelegate, EQSBasemapPickerDelegate>
+@interface EQSSampleViewController ()
+                                        <AGSPortalItemDelegate,
+                                        AGSMapViewTouchDelegate,
+                                        AGSRouteTaskDelegate,
+                                        UISearchBarDelegate,
+                                        AGSLocatorDelegate,
+                                        UIWebViewDelegate,
+                                        EQSBasemapPickerDelegate,
+                                        AGSMapViewCalloutDelegate>
 
 // General UI
 @property (weak, nonatomic) IBOutlet UIToolbar *functionToolBar;
 @property (weak, nonatomic) IBOutlet UIView *routingPanel;
 @property (weak, nonatomic) IBOutlet UIView *findPlacePanel;
-@property (weak, nonatomic) IBOutlet UISearchBar *findAddressSearchBar;
 @property (weak, nonatomic) IBOutlet UIView *cloudDataPanel;
 @property (weak, nonatomic) IBOutlet UIView *geolocationPanel;
 @property (weak, nonatomic) IBOutlet UIView *graphicsPanel;
@@ -53,6 +61,8 @@
 @property (weak, nonatomic) IBOutlet UIView *messageBar;
 @property (weak, nonatomic) IBOutlet UILabel *messageBarLabel;
 - (IBAction)messageBarCloseTapped:(id)sender;
+
+@property (weak, nonatomic) IBOutlet UISearchBar *findAddressSearchBar;
 
 
 // Basemaps
@@ -71,6 +81,11 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *editGraphicsToolbar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *undoEditGraphicsButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *redoEditGraphicsButton;
+
+@property (weak, nonatomic) IBOutlet UIButton *graphicPointButton;
+@property (weak, nonatomic) IBOutlet UIButton *graphicLineButton;
+@property (weak, nonatomic) IBOutlet UIButton *graphicPolygonButton;
+
 - (IBAction)doneEditingGraphic:(id)sender;
 - (IBAction)cancelEditingGraphic:(id)sender;
 - (IBAction)undoEditingGraphic:(id)sender;
@@ -84,13 +99,13 @@
 
 
 
-// Routing UI
+// Directions UI
 @property (weak, nonatomic) IBOutlet UIButton *routeStartButton;
 @property (weak, nonatomic) IBOutlet UIButton *routeEndButton;
 @property (weak, nonatomic) IBOutlet UILabel *routeStartLabel;
 @property (weak, nonatomic) IBOutlet UILabel *routeEndLabel;
 @property (weak, nonatomic) IBOutlet UIButton *clearRouteButton;
-// Routing Properties
+// Directions Properties
 @property (nonatomic, strong) AGSPoint *routeStartPoint;
 @property (nonatomic, strong) AGSPoint *routeEndPoint;
 @property (nonatomic, retain) NSString *routeStartAddress;
@@ -114,12 +129,17 @@
 
 @property (nonatomic, assign) CGSize keyboardSize;
 
-
+// Find Places
 @property (weak, nonatomic) IBOutlet UIToolbar *findToolbar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *findbutton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
+@property (weak, nonatomic) IBOutlet UIScrollView *findPlacesScrollView;
+@property (weak, nonatomic) IBOutlet UILabel *findPlacesNoResultsLabel;
+
+@property (nonatomic, strong) id<AGSInfoTemplateDelegate> geocodeInfoTemplateDelegate;
 
 @property (weak, nonatomic) IBOutlet EQSCodeView *codeViewer;
+- (IBAction)findPlacesTapped:(id)sender;
 
 
 // Actions
@@ -144,6 +164,9 @@
 @synthesize editGraphicsToolbar = _editGraphicsToolbar;
 @synthesize undoEditGraphicsButton = _undoEditGraphicsButton;
 @synthesize redoEditGraphicsButton = _redoEditGraphicsButton;
+@synthesize graphicPointButton = _graphicPointButton;
+@synthesize graphicLineButton = _graphicLineButton;
+@synthesize graphicPolygonButton = _graphicPolygonButton;
 @synthesize geolocationPanel = _geolocationPanel;
 @synthesize graphicsPanel = _graphicsPanel;
 @synthesize messageBar = _messageBar;
@@ -193,8 +216,11 @@
 @synthesize findToolbar = _findToolbar;
 @synthesize findbutton = _findbutton;
 @synthesize cancelButton = _cancelButton;
+@synthesize findPlacesScrollView = _findPlacesScrollView;
+@synthesize findPlacesNoResultsLabel = _findPlacesNoResultsLabel;
 @synthesize codeViewer = _codeViewer;
 
+@synthesize geocodeInfoTemplateDelegate = _geocodeInfoTemplateDelegate;
 
 #define kEQSApplicationLocFromState @"ButtonState"
 
@@ -202,6 +228,14 @@
 
 - (void)initUI
 {
+    // Go through all the various UI component views, hide them and then place them properly
+    // in the UI window so that they'll fade in and out properly.
+    for (UIView *v in [self allUIViews]) {
+        v.alpha = 0;
+        v.hidden = YES;
+        v.frame = [self getUIFrame:v];
+    }
+    
 	// Track the application state
     self.currentState = EQSSampleAppStateBasemaps;
 
@@ -219,14 +253,6 @@
     // When we geolocate, what scale level to zoom the map to?
     self.findScale = 13;
 
-    // Go through all the various UI component views, hide them and then place them properly
-    // in the UI window so that they'll fade in and out properly.
-    for (UIView *v in [self allUIViews]) {
-        v.alpha = 0;
-        v.hidden = YES;
-        v.frame = [self getUIFrameWhenHidden:v];
-    }
-    
     self.routeResultsView.hidden = YES;
     self.routeResultsView.alpha = 0;
 
@@ -248,11 +274,16 @@
     // Set up the map UI a little.
     self.mapView.wrapAround = YES;
     self.mapView.touchDelegate = self;
+    self.mapView.calloutDelegate = self;
     
     self.findMeButton.layer.cornerRadius = 5;
     self.routeStartButton.layer.cornerRadius = 5;
     self.routeEndButton.layer.cornerRadius = 5;
     self.clearRouteButton.layer.cornerRadius = 4;
+    
+    self.graphicPointButton.layer.cornerRadius = 5;
+    self.graphicLineButton.layer.cornerRadius = 5;
+    self.graphicPolygonButton.layer.cornerRadius = 5;
 }
 
 #pragma mark - UIView Events
@@ -313,6 +344,11 @@
     [self setCodeViewer:nil];
     [self setFindMeButton:nil];
     [self setMyLocationAddressLabel:nil];
+    [self setGraphicPointButton:nil];
+    [self setGraphicLineButton:nil];
+    [self setGraphicPolygonButton:nil];
+    [self setFindPlacesScrollView:nil];
+    [self setFindPlacesNoResultsLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -323,6 +359,11 @@
 }
 
 #pragma mark - AGSMapView Events
+
+- (void)mapView:(AGSMapView *)mapView didShowCalloutForGraphic:(AGSGraphic *)graphic
+{
+    NSLog(@"Showed callout");
+}
 
 - (void)mapView:(AGSMapView *)mapView didClickAtPoint:(CGPoint)screen mapPoint:(AGSPoint *)mapPoint graphics:(NSDictionary *)graphics
 {
@@ -384,7 +425,7 @@
 
 - (CGRect) getUIFrame:(UIView *)viewToDisplay
 {
-    return [self getUIFrameWhenHidden:viewToDisplay
+    return [self getUIFrame:viewToDisplay
                        forOrientation:[UIApplication sharedApplication].statusBarOrientation];
 }
 
@@ -1013,7 +1054,7 @@
 - (void) didFailToGeolocate:(NSNotification *)notification
 {
     self.myLocationAddressLabel.text = @"";
-    NSError *err = [notification geoserviceError];
+    NSError *err = [notification geoServicesError];
     NSString *errorMessage = [NSString stringWithFormat:@"Unable to get geolocation\n\"%@\"", err];
     [[[UIAlertView alloc] initWithTitle:@"Geolocation Error" message:errorMessage
                                delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
@@ -1229,11 +1270,21 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
 	NSString *searchString = searchBar.text;
+    [self findPlaces:searchString];
+    [searchBar resignFirstResponder];
+}
+
+- (IBAction)findPlacesTapped:(id)sender {
+    NSString *searchString = self.findAddressSearchBar.text;
+    [self findPlaces:searchString];
+}
+
+- (void)findPlaces:(NSString *)searchString
+{
 	NSLog(@"Searching for: %@", searchString);
     AGSPolygon *v = self.mapView.visibleArea;
     AGSEnvelope *env = v.envelope;
 	[self.mapView.geoServices findPlaces:searchString withinEnvelope:env];
-    [searchBar resignFirstResponder];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -1279,6 +1330,18 @@
     return YES;
 }
 
+- (id<AGSInfoTemplateDelegate>) geocodeInfoTemplateDelegate
+{
+    if (!_geocodeInfoTemplateDelegate)
+    {
+        AGSCalloutTemplate *template = [[AGSCalloutTemplate alloc] init];
+        template.detailTemplate = @"Stuff goes here\nAnd here";
+        template.titleTemplate = @"${Addr_Type}";
+        _geocodeInfoTemplateDelegate = template;
+    }
+    return _geocodeInfoTemplateDelegate;
+}
+
 - (void) gotCandidatesForAddress:(NSNotification *)notification
 {
     NSDictionary *userInfo = notification.userInfo;
@@ -1297,25 +1360,34 @@
             return NO;
         }];
         
+        for (UIView *subView in self.findPlacesScrollView.subviews) {
+            [subView removeFromSuperview];
+        }
+        
         NSArray *candidates = [userInfo objectForKey:kEQSGeoServicesNotification_PointsFromAddress_LocationCandidatesKey];
+        EQSAddressCandidateView *prevView = nil;
         if (candidates.count > 0)
         {
+            self.findPlacesNoResultsLabel.hidden = YES;
             NSArray *sortedCandidates = [candidates sortedArrayUsingComparator:^(id obj1, id obj2) {
                 AGSAddressCandidate *c1 = obj1;
                 AGSAddressCandidate *c2 = obj2;
                 return (c1.score==c2.score)?NSOrderedSame:(c1.score > c2.score)?NSOrderedAscending:NSOrderedDescending;
             }];
             double maxScore = ((AGSAddressCandidate *)[sortedCandidates objectAtIndex:0]).score;
+            maxScore = maxScore * 0.8;
             AGSMutableEnvelope *totalEnv = nil;
             NSUInteger count = 0;
             for (AGSAddressCandidate *c in sortedCandidates) {
-                if (c.score == maxScore)
+                if (c.score >= maxScore)
                 {
                     count++;
-                    NSLog(@"Address found: %@", c.attributes);
                     AGSPoint *p = [c.location getWebMercatorAuxSpherePoint];
                     AGSGraphic *g = [self.mapView addPoint:p];
                     [g.attributes setObject:@"Geocoded" forKey:@"Source"];
+                    [g.attributes addEntriesFromDictionary:c.attributes];
+//                    g.infoTemplateDelegate = self.geocodeInfoTemplateDelegate;
+                    NSLog(@"Address found: %@", g.attributes);
                     if (!totalEnv)
                     {
                         totalEnv = [AGSMutableEnvelope envelopeWithXmin:p.x-1 ymin:p.y-1 xmax:p.x+1 ymax:p.y+1 spatialReference:p.spatialReference];
@@ -1324,12 +1396,23 @@
                     {
                         [totalEnv unionWithPoint:p];
                     }
+                    
+                    EQSAddressCandidateView *candidateView = [[EQSAddressCandidateView alloc] init];
+                    [candidateView.viewController addToParentView:self.findPlacesScrollView relativeTo:prevView];
+                    candidateView.viewController.candidate = c;
+                    prevView = candidateView;
+                    
+                    EQSAddressCandidateView *candidatePopupView = [[EQSAddressCandidateView alloc] init];
+                    candidatePopupView.viewController.candidate = c;
+                    g.infoTemplateDelegate = candidatePopupView.viewController;
                 }
                 else
                 {
                     break;
                 }
             }
+            [EQSAddressCandidateViewController setContentWidthOfScrollViewContainingCandidateViews:self.findPlacesScrollView UsingTemplate:prevView];
+            prevView = nil;
             if (count == 1)
             {
                 [self.mapView centerAtPoint:[totalEnv center] withScaleLevel:17];
@@ -1338,6 +1421,10 @@
             {
                 [self.mapView zoomToEnvelope:totalEnv animated:YES];
             }
+        }
+        else
+        {
+            self.findPlacesNoResultsLabel.hidden = NO;
         }
     }
 }
