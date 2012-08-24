@@ -10,6 +10,8 @@
 #import "EQSAddressCandidateView.h"
 #import "AGSPoint+GeneralUtilities.h"
 
+#import "EQSGeoServicesNotifications.h"
+
 #define kEQSAddressCandidateViewSpacing 10
 
 @interface EQSAddressCandidateView (Internal)
@@ -30,6 +32,13 @@
 - (IBAction)zoomButtonTapped:(id)sender;
 
 @property (nonatomic, assign) BOOL isAGSCalloutView;
+
+
+@property (weak, nonatomic) IBOutlet UILabel *revColRefView;
+@property (weak, nonatomic) IBOutlet UILabel *fwdColRefView;
+@property (weak, nonatomic) IBOutlet UILabel *geolocColRefView;
+@property (weak, nonatomic) IBOutlet UILabel *routeStartColRefView;
+@property (weak, nonatomic) IBOutlet UILabel *routeEndColRefView;
 @end
 
 @implementation EQSAddressCandidateViewController
@@ -46,8 +55,25 @@
 
 @synthesize candidateViewDelegate = _candidateViewDelegate;
 @synthesize isAGSCalloutView = _isAGSCalloutView;
+@synthesize revColRefView;
+@synthesize fwdColRefView;
+@synthesize geolocColRefView;
+@synthesize routeStartColRefView;
+@synthesize routeEndColRefView;
+
+@synthesize viewType = _viewType;
 
 @dynamic nextPosition;
+
+- (id) init
+{
+    self = [super init];
+    if (self)
+    {
+        self.viewType = EQSCandidateTypeForwardGeocode;
+    }
+    return self;
+}
 
 - (UIView *) customViewForGraphic:(AGSGraphic *)graphic screenPoint:(CGPoint)screen mapPoint:(AGSPoint *)mapPoint
 {
@@ -55,6 +81,52 @@
     [acv setupForCalloutTemplate];
     self.isAGSCalloutView = YES;
     return self.view;
+}
+
+- (void) setViewType:(EQSCandidateType)viewType
+{
+    if (_viewType != viewType)
+    {
+        _viewType = viewType;
+        
+        UILabel *refView = nil;
+        switch (_viewType) {
+            case EQSCandidateTypeForwardGeocode:
+                refView = self.fwdColRefView;
+                self.candidateLocatorLabel.hidden = NO;
+                break;
+            case EQSCandidateTypeReverseGeocode:
+                refView = self.revColRefView;
+                self.candidateLocatorLabel.hidden = YES;
+                break;
+            case EQSCandidateTypeGeolocation:
+                refView = self.geolocColRefView;
+                self.candidateLocatorLabel.hidden = YES;
+                break;
+            case EQSCandidateTypeDirectionsStart:
+                refView = self.routeStartColRefView;
+                self.candidateLocatorLabel.hidden = YES;
+                break;
+            case EQSCandidateTypeDirectionsEnd:
+                refView = self.routeEndColRefView;
+                self.candidateLocatorLabel.hidden = NO;
+                break;
+            default:
+                NSLog(@"Unexpected EQSCandidateType: %d", _viewType);
+                break;
+        }
+        
+        self.addressPrimaryLabel.textColor =
+        self.addressSecondaryLabel.textColor =
+        self.candidateLatLonLabel.textColor =
+        self.candidateLocatorLabel.textColor =
+        self.candidateScoreLabel.textColor =
+        refView.textColor;
+        
+        self.topLevelView.backgroundColor = refView.backgroundColor;
+        
+        [self refreshCandidateDisplay];
+    }
 }
 
 - (CGRect) nextPosition
@@ -138,16 +210,53 @@
 - (void)setCandidate:(AGSAddressCandidate *)candidate
 {
     _candidate = candidate;
-    if (candidate)
+    [self refreshCandidateDisplay];
+}
+
+- (void) refreshCandidateDisplay
+{
+    if (self.candidate)
     {
-        self.addressPrimaryLabel.text = self.candidate.addressString;
-        self.addressSecondaryLabel.text = @"";
-        self.candidateLatLonLabel.text = [NSString stringWithFormat:@"%4.4f,%4.4f",
-                                          _candidate.location.latitude,
-                                          _candidate.location.longitude];
-        self.candidateScoreLabel.text = [NSString stringWithFormat:@"Score: %.2f", _candidate.score];
-        NSString *locatorName = [_candidate.attributes objectForKey:@"Addr_Type"];
-        self.candidateLocatorLabel.text = locatorName;
+        switch (self.viewType) {
+            case EQSCandidateTypeForwardGeocode:
+            {
+                self.addressPrimaryLabel.text = self.candidate.addressString;
+                self.addressSecondaryLabel.text = @"";
+                self.candidateLatLonLabel.text = [NSString stringWithFormat:@"%4.4f,%4.4f",
+                                                  self.candidate.location.latitude,
+                                                  self.candidate.location.longitude];
+                self.candidateScoreLabel.text = [NSString stringWithFormat:@"Score: %.2f", self.candidate.score];
+                NSString *locatorName = [self.candidate.attributes objectForKey:@"Addr_Type"];
+                self.candidateLocatorLabel.text = locatorName;
+            }
+                break;
+                
+            case EQSCandidateTypeReverseGeocode:
+            case EQSCandidateTypeGeolocation:
+            case EQSCandidateTypeDirectionsStart:
+            case EQSCandidateTypeDirectionsEnd:
+            {
+                NSDictionary *addData = self.candidate.address;
+                NSString *addStr = [NSString stringWithFormat:@"%@, %@, %@ %@",
+                                    [addData objectForKey:kEQSAddressCandidateAddressField],
+                                    [addData objectForKey:kEQSAddressCandidateCityField],
+                                    [addData objectForKey:kEQSAddressCandidateStateField],
+                                    [addData objectForKey:kEQSAddressCandidateZipField]];
+                self.addressPrimaryLabel.text = addStr;
+                self.addressSecondaryLabel.text = @"";
+                self.candidateLatLonLabel.text = [NSString stringWithFormat:@"%4.4f,%4.4f",
+                                                  self.candidate.location.latitude,
+                                                  self.candidate.location.longitude];
+                self.candidateLocatorLabel.text = @"";
+                NSString *locatorName = [self.candidate.address objectForKey:@"Loc_name"];
+                self.candidateScoreLabel.text = locatorName;
+            }
+                break;
+                
+            default:
+                NSLog(@"Unknown Candidate View Type");
+                break;
+        }
     }
     else
     {

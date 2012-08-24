@@ -13,6 +13,8 @@
 
 #import <objc/runtime.h>
 
+
+#pragma mark - AGSMapView Category
 @implementation AGSMapView (EQSGeoServices)
 EQSGeoServices *__agsStarterGeoServices = nil;
 
@@ -27,13 +29,49 @@ EQSGeoServices *__agsStarterGeoServices = nil;
 @end
 
 
-@implementation NSNotification (EQSDirections)
+#pragma mark - NSNotification Category
+@implementation NSNotification (EQSGeoServices)
+// kEQSGeoServicesNotification_PointsFromAddress_OK
+// kEQSGeoServicesNotification_PointsFromAddress_Error
+- (NSArray *) findPlacesCandidates
+{
+    return [self.userInfo objectForKey:kEQSGeoServicesNotification_PointsFromAddress_LocationCandidatesKey];
+}
+- (NSString *) findPlacesSearchString
+{
+    return [self.userInfo objectForKey:kEQSGeoServicesNotification_PointsFromAddress_AddressKey];
+}
+- (AGSEnvelope *) findPlacesSearchExtent
+{
+    return [self.userInfo objectForKey:kEQSGeoServicesNotification_PointsFromAddress_ExtentKey];
+}
+
+// kEQSGeoServicesNotification_AddressFromPoint_OK
+// kEQSGeoServicesNotification_AddressFromPoint_Error
+- (AGSAddressCandidate *) findAddressCandidate
+{
+    return [self.userInfo objectForKey:kEQSGeoServicesNotification_AddressFromPoint_AddressCandidateKey];
+}
+- (AGSPoint *) findAddressSearchPoint
+{
+    return [self.userInfo objectForKey:kEQSGeoServicesNotification_AddressFromPoint_MapPointKey];
+}
+- (double) findAddressSearchDistance
+{
+    NSNumber *distanceNum = [self.userInfo objectForKey:kEQSGeoServicesNotification_AddressFromPoint_DistanceKey];
+    return (double)distanceNum.doubleValue;
+}
+
+// kEQSGeoServicesNotification_FindRoute_OK
+// kEQSGeoServicesNotification_FindRoute_Error
 - (AGSRouteTaskResult *) routeTaskResults
 {
     return [self.userInfo objectForKey:kEQSGeoServicesNotification_FindRoute_RouteTaskResultsKey];
 }
 
-- (CLLocation *) geolocation
+// kEQSGeoServicesNotification_Geolocation_OK
+// kEQSGeoServicesNotification_Geolocation_Error
+- (CLLocation *) geolocationResult
 {
     return [self.userInfo objectForKey:kEQSGeoServicesNotification_Geolocation_LocationKey];
 }
@@ -50,12 +88,16 @@ EQSGeoServices *__agsStarterGeoServices = nil;
 @end
 
 
+
+#pragma mark - Constant Definitions
 //#define kEQSNALocatorURL @"http://tasks.arcgisonline.com/ArcGIS/rest/services/Locators/TA_Address_NA_10/GeocodeServer"
 #define kEQSNALocatorURL @"http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
 #define kEQSFindAddress_AddressKey @"SingleLine"
 #define kEQSFindAddress_ReturnFields @"Loc_name", @"Shape", @"Country", @"Addr_Type", @"Type", @"Match_Addr"
 #define kEQSFindAddress_AssociatedAddressKey "address"
 #define kEQSFindAddress_AssociatedExtentKey "extent"
+
+#define kEQSNewStyleGeocoderURL @"http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
 
 #define kEQSFindLocation_AssociatedLocationKey "location"
 #define kEQSFindLocation_AssociatedDistanceKey "searchDistance"
@@ -65,7 +107,9 @@ EQSGeoServices *__agsStarterGeoServices = nil;
 #define kEQSRoutingRouteTaskUrl @"http://tasks.arcgisonline.com/ArcGIS/rest/services/NetworkAnalysis/ESRI_Route_NA/NAServer/Route"
 
 
+
 @interface EQSGeoServices () <AGSLocatorDelegate, AGSRouteTaskDelegate, CLLocationManagerDelegate>
+// Properties to store the geoservices…
 @property (nonatomic, retain) AGSLocator *locator;
 
 @property (nonatomic, retain) AGSRouteTask *routeTask;
@@ -76,6 +120,7 @@ EQSGeoServices *__agsStarterGeoServices = nil;
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @end
+
 
 @implementation EQSGeoServices
 @synthesize locator = _locator;
@@ -93,12 +138,14 @@ EQSGeoServices *__agsStarterGeoServices = nil;
 {
 	if (self = [super init])
 	{
+        // Set up the locator and route task.
 		self.locator = [AGSLocator locatorWithURL:[NSURL URLWithString:kEQSNALocatorURL]];
         self.locator.delegate = self;
 		
 		self.routeTask = [AGSRouteTask routeTaskWithURL:[NSURL URLWithString:kEQSRoutingRouteTaskUrl]];
 		self.routeTask.delegate = self;
 		
+        // Try to get the default parameters for the route task.
 		[self.routeTask retrieveDefaultRouteTaskParameters];
 	}
 	
@@ -133,8 +180,10 @@ EQSGeoServices *__agsStarterGeoServices = nil;
     // List the fields we want back.
     NSArray *outFields = [NSArray arrayWithObjects:kEQSFindAddress_ReturnFields, nil];
     
-    // Set off the request, and get a handle on the processing operation.
-    NSOperation *op = [self.locator locationsForAddress:params returnFields:outFields];
+    // Set off the request, using Web Mercator
+    NSOperation *op = [self.locator locationsForAddress:params
+                                           returnFields:outFields
+                                    outSpatialReference:[AGSSpatialReference webMercatorSpatialReference]];
     
     // Associate the requested address with the operation - we'll read this later.
     objc_setAssociatedObject(op, kEQSFindAddress_AssociatedAddressKey, singleLineAddress, OBJC_ASSOCIATION_RETAIN);
@@ -145,12 +194,15 @@ EQSGeoServices *__agsStarterGeoServices = nil;
 
 - (NSOperation *) findAddressFromPoint:(AGSPoint *)mapPoint
 {
-	return [self pointToAddress:mapPoint withMaxSearchDistance:kEQSMaxDistanceForReverseGeocode];
+	return [self findAddressFromPoint:mapPoint withMaxSearchDistance:kEQSMaxDistanceForReverseGeocode];
 }
 
-- (NSOperation *) pointToAddress:(AGSPoint *)mapPoint withMaxSearchDistance:(double) searchDistance
+- (NSOperation *) findAddressFromPoint:(AGSPoint *)mapPoint withMaxSearchDistance:(double) searchDistance
 {
-	NSOperation *op = [self.locator addressForLocation:mapPoint maxSearchDistance:searchDistance];
+    // Fire off the request (using Web Mercator for return results)
+	NSOperation *op = [self.locator addressForLocation:mapPoint
+                                     maxSearchDistance:searchDistance
+                                   outSpatialReference:[AGSSpatialReference webMercatorSpatialReference]];
     
     // Associate the request params with the operation - we'll read these later.
     objc_setAssociatedObject(op, kEQSFindLocation_AssociatedLocationKey, mapPoint, OBJC_ASSOCIATION_RETAIN);
@@ -184,7 +236,8 @@ EQSGeoServices *__agsStarterGeoServices = nil;
         
         // Log to the console.
         NSLog(@"Found address at %@\nwithin %@ units of %@:\n%@\n%@", candidate.location, distance,
-              [location getWebMercatorAuxSpherePoint], candidate.address, candidate.attributes);
+              location, candidate.address, candidate.attributes);
+        // webMercatorAuxSpherePoint
         
         // Build the UserInfo package that goes on the NSNotification
         NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -308,7 +361,7 @@ EQSGeoServices *__agsStarterGeoServices = nil;
 #pragma mark - RouteTask Deletegate
 - (void) routeTask:(AGSRouteTask *)routeTask operation:(NSOperation *)op didRetrieveDefaultRouteTaskParameters:(AGSRouteTaskParameters *)routeParams
 {
-	NSLog(@"Got Default Route Task Parameters");
+//	NSLog(@"Got Default Route Task Parameters");
 	self.defaultParameters = routeParams;
 }
 
@@ -322,11 +375,7 @@ EQSGeoServices *__agsStarterGeoServices = nil;
 
 - (void) routeTask:(AGSRouteTask *)routeTask operation:(NSOperation *)op didSolveWithResult:(AGSRouteTaskResult *)routeTaskResult
 {
-	NSLog(@"Got route results");
-	// Reset our internal status.
-
-//	AGSRouteResult *result = [routeTaskResult.routeResults objectAtIndex:0];
-        
+//	NSLog(@"Got route results");
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:routeTaskResult
 														 forKey:kEQSGeoServicesNotification_FindRoute_RouteTaskResultsKey];
 	
@@ -370,13 +419,14 @@ EQSGeoServices *__agsStarterGeoServices = nil;
     lastStop.name = endName;
     
     // Add them to the parameters.
-    NSArray *routeStops = [NSArray arrayWithObjects:firstStop, lastStop, nil];
     AGSRouteTaskParameters *params = self.defaultParameters;
 	if (!params)
 	{
 		NSLog(@"Couldn't get default Route Task Parameters - using blank");
 		params = [AGSRouteTaskParameters routeTaskParameters];
 	}
+
+    NSArray *routeStops = [NSArray arrayWithObjects:firstStop, lastStop, nil];
     [params setStopsWithFeatures:routeStops];
     params.returnStopGraphics = YES;
     params.outSpatialReference = [AGSSpatialReference webMercatorSpatialReference];

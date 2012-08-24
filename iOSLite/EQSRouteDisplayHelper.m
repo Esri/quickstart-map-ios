@@ -64,12 +64,12 @@
         for (AGSStopGraphic *stopGraphic in result.stopGraphics) {
             NSLog(@"Route Stop Point: \"%@\"", stopGraphic.name);
             NSLog(@"Stop point attribtues:\n%@", stopGraphic.attributes);
-            if ([stopGraphic.name isEqualToString:kEQSRoutingStartPointName])
+            if (stopGraphic.sequence == 1)//.name isEqualToString:kEQSRoutingStartPointName])
             {
                 stopGraphic.symbol = self.startSymbol;
                 stopGraphic.infoTemplateDelegate = self.startPointCalloutTemplate;
             }
-            else if ([stopGraphic.name isEqualToString:kEQSRoutingEndPointName])
+            else if (stopGraphic.sequence == result.stopGraphics.count)//.name isEqualToString:kEQSRoutingEndPointName])
             {
                 stopGraphic.symbol = self.endSymbol;
                 stopGraphic.infoTemplateDelegate = self.endPointCalloutTemplate;

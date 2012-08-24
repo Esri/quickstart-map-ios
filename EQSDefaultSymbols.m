@@ -131,9 +131,31 @@ EQSDefaultSymbols *__eqsDefaultSymbols = nil;
             NSLog(@"Symbols loaded");
         }];
         op.queuePriority = NSOperationQueuePriorityNormal;
+        // When the symbols have finished loading, let's delete the OperationQueue
+        [self.loadingQueue addObserver:self
+                            forKeyPath:@"operationCount"
+                               options:NSKeyValueObservingOptionNew context:nil];
+        
+        // And fire off a background task to load the symbols. Vive L'NSOperation!!
         [self.loadingQueue addOperation:op];
     }
     return self;
+}
+
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (self.loadingQueue)
+    {
+        if (self.loadingQueue == object)
+        {
+            if (self.loadingQueue.operationCount == 0)
+            {
+                // Death to L'NSOperation! Down with that sort of thing.
+                self.loadingQueue = nil;
+                NSLog(@"Cleaned up after Symbol Load");
+            }
+        }
+    }
 }
 
 - (void) populateSymbols

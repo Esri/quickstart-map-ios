@@ -15,17 +15,18 @@
 // Notification Definitions - subscribe to these to be notified when GeoServices have completed.
 // Each geoservices has an OK and an Error notification. See the keys below for getting information
 // about those notifications.
-#define kEQSGeoServicesNotification_AddressFromPoint_OK @"EQSGeocodingGetAddressOK"
-#define kEQSGeoServicesNotification_AddressFromPoint_Error @"EQSGeocodingGetAddressError"
-
 #define kEQSGeoServicesNotification_PointsFromAddress_OK @"EQSGeocodingAddressSearchOK"
 #define kEQSGeoServicesNotification_PointsFromAddress_Error @"EQSGeocodingAddressSearchError"
+
+#define kEQSGeoServicesNotification_AddressFromPoint_OK @"EQSGeocodingGetAddressOK"
+#define kEQSGeoServicesNotification_AddressFromPoint_Error @"EQSGeocodingGetAddressError"
 
 #define kEQSGeoServicesNotification_FindRoute_OK @"EQSGeoservicesFindRouteOK"
 #define kEQSGeoServicesNotification_FindRoute_Error @"EQSGeoservicesFindRouteError"
 
 #define kEQSGeoServicesNotification_Geolocation_OK @"EQSGeolocationSucceeded"
 #define kEQSGeoServicesNotification_Geolocation_Error @"EQSGeolocationError"
+
 
 
 
@@ -40,14 +41,16 @@
 
 
 
+
 #pragma mark - Dictionary Keys for reading values from specific EQSGeoServices Notification UserInfos
-#define kEQSGeoServicesNotification_AddressFromPoint_AddressCandidateKey @"candidate"
-#define kEQSGeoServicesNotification_AddressFromPoint_MapPointKey @"mapPoint"
-#define kEQSGeoServicesNotification_AddressFromPoint_DistanceKey @"distance"
 
 #define kEQSGeoServicesNotification_PointsFromAddress_LocationCandidatesKey @"candidates"
 #define kEQSGeoServicesNotification_PointsFromAddress_AddressKey @"address"
 #define kEQSGeoServicesNotification_PointsFromAddress_ExtentKey @"searchExtent"
+
+#define kEQSGeoServicesNotification_AddressFromPoint_AddressCandidateKey @"candidate"
+#define kEQSGeoServicesNotification_AddressFromPoint_MapPointKey @"mapPoint"
+#define kEQSGeoServicesNotification_AddressFromPoint_DistanceKey @"distance"
 
 #define kEQSGeoServicesNotification_FindRoute_RouteTaskResultsKey @"routeResult"
 
@@ -65,13 +68,37 @@
 
 
 
+
+
 #pragma mark - Categories to help read information from EQSGeoServices Notifications
 @interface NSNotification (EQSGeoServices)
-- (AGSRouteTaskResult *) routeTaskResults;
-- (CLLocation *) geolocation;
+// All notifications include the worker NSOperation
+- (NSOperation *) geoServicesOperation;
 
-- (NSOperation *) workerOperation;
+// Error notifications also include an NSError object.
 - (NSError *) geoServicesError;
-@end
 
+
+// Additional values can be retrieved according to geoservice request.
+
+// kEQSGeoServicesNotification_PointsFromAddress_OK
+// kEQSGeoServicesNotification_PointsFromAddress_Error
+- (NSArray *) findPlacesCandidates;
+- (NSString *) findPlacesSearchString;
+- (AGSEnvelope *) findPlacesSearchExtent; // optional
+
+// kEQSGeoServicesNotification_AddressFromPoint_OK
+// kEQSGeoServicesNotification_AddressFromPoint_Error
+- (AGSAddressCandidate *) findAddressCandidate;
+- (AGSPoint *) findAddressSearchPoint;
+- (double) findAddressSearchDistance;
+
+// kEQSGeoServicesNotification_FindRoute_OK
+// kEQSGeoServicesNotification_FindRoute_Error
+- (AGSRouteTaskResult *) routeTaskResults;
+
+// kEQSGeoServicesNotification_Geolocation_OK
+// kEQSGeoServicesNotification_Geolocation_Error
+- (CLLocation *) geolocationResult;
+@end
 #endif

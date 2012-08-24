@@ -39,6 +39,7 @@
 #define kEQSGetAddressReasonRouteEnd @"RouteEndPoint"
 #define kEQSGetAddressReasonReverseGeocodeForPoint @"FindAddressFunction"
 #define kEQSGetAddressReason_AddressForGeolocation @"AddressForGeolocation"
+#define kEQSGetAddressData_SearchPoint @"EQSGeoServices_ReverseGeocode_Data_SearchPoint"
 
 @interface EQSSampleViewController ()
                                         <AGSPortalItemDelegate,
@@ -378,8 +379,10 @@
             if (graphics.count > 0)
             {
                 // The user selected a graphic. Let's edit it.
-                [self.mapView editGraphicFromMapViewDidClickAtPoint:graphics];
-                self.currentState = EQSSampleAppStateGraphics_Editing;
+                if ([self.mapView editGraphicFromMapViewDidClickAtPoint:graphics])
+                {
+                    self.currentState = EQSSampleAppStateGraphics_Editing;
+                }
             }
             break;
 
@@ -877,8 +880,8 @@
 
 - (void)basemapDidChange:(NSNotification *)notification
 {
-    AGSPortalItem *pi = [notification.userInfo objectForKey:@"PortalItem"];
-    EQSBasemapType basemapType = [(NSNumber *)[notification.userInfo objectForKey:@"BasemapType"] intValue];
+    AGSPortalItem *pi = [notification basemapPortalItem];
+    EQSBasemapType basemapType = [notification basemapType];
     self.currentBasemapType = basemapType;
     if (pi)
     {
@@ -988,12 +991,11 @@
 #pragma mark - Geocoding
 - (void) didGetAddressFromPoint:(NSNotification *)notification
 {
-	NSDictionary *userInfo = notification.userInfo;
-	NSOperation *op = [userInfo objectForKey:kEQSGeoServicesNotification_WorkerOperationKey];
+	NSOperation *op = [notification geoServicesOperation];
 	
 	if (op)
 	{
-		AGSAddressCandidate *candidate = [userInfo objectForKey:kEQSGeoServicesNotification_AddressFromPoint_AddressCandidateKey];
+		AGSAddressCandidate *candidate = [notification findAddressCandidate];
 		
 		NSDictionary *ad = candidate.address;
 		NSString *street = [ad objectForKey:kEQSAddressCandidateAddressField];
@@ -1030,10 +1032,36 @@
 			}
 			else if ([source isEqualToString:kEQSGetAddressReasonReverseGeocodeForPoint])
 			{
-				self.findAddressSearchBar.text = address;
+                AGSPoint *p = candidate.location;//] getWebMercatorAuxSpherePoint];
+                AGSGraphic *g = [self.mapView addPoint:p WithSymbol:self.mapView.defaultSymbols.reverseGeocode];
+                [g.attributes setObject:@"ReverseGeocoded" forKey:@"Source"];
+                [g.attributes addEntriesFromDictionary:candidate.attributes];
+                
+                EQSAddressCandidateView *candidatePopupView = [[EQSAddressCandidateView alloc] init];
+                candidatePopupView.viewController.candidate = candidate;
+                candidatePopupView.viewController.candidateViewDelegate = self;
+                candidatePopupView.viewController.viewType = EQSCandidateTypeReverseGeocode;
+                g.infoTemplateDelegate = candidatePopupView.viewController;
+                
+                [self.mapView showCalloutAtPoint:p forGraphic:g animated:YES];
+
+//				self.findAddressSearchBar.text = address;
 			}
             else if ([source isEqualToString:kEQSGetAddressReason_AddressForGeolocation])
             {
+                AGSPoint *geoLocation = [notification findAddressSearchPoint];
+//                geoLocation = [geoLocation getWebMercatorAuxSpherePoint];
+//                AGSPoint *p = [candidate.location getWebMercatorAuxSpherePoint];
+                AGSGraphic *g = [self.mapView addPoint:geoLocation WithSymbol:self.mapView.defaultSymbols.geolocation];
+                [g.attributes setObject:@"GeoLocation" forKey:@"Source"];
+                [g.attributes addEntriesFromDictionary:candidate.attributes];
+
+                EQSAddressCandidateView *candidatePopupView = [[EQSAddressCandidateView alloc] init];
+                candidatePopupView.viewController.candidate = candidate;
+                candidatePopupView.viewController.candidateViewDelegate = self;
+                candidatePopupView.viewController.viewType = EQSCandidateTypeGeolocation;
+                g.infoTemplateDelegate = candidatePopupView.viewController;
+
                 self.myLocationAddressLabel.text = address;
             }
 		}
@@ -1042,12 +1070,13 @@
 
 - (void) didFailToGetAddressFromPoint:(NSNotification *)notification
 {
-	NSError *error = [notification.userInfo objectForKey:kEQSGeoServicesNotification_ErrorKey];
+	NSError *error = [notification geoServicesError];
 	NSLog(@"Failed to get address for location: %@", error);
 }
 
-#pragma mark - Directions
 
+
+#pragma mark - GeoServices Registration
 - (void)registerForGeoServicesNotifications
 {
 	// Let me know when the Geoservices object finds an address for a point.
@@ -1055,17 +1084,18 @@
 											 selector:@selector(didGetAddressFromPoint:)
 												 name:kEQSGeoServicesNotification_AddressFromPoint_OK
 											   object:self.mapView.geoServices];
-
+    // Or not...
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(didFailToGetAddressFromPoint:)
 												 name:kEQSGeoServicesNotification_AddressFromPoint_Error
 											   object:self.mapView.geoServices];
-
+    
+    // And I also want to know when it found directions we asked for.
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(didSolveRouteOK:)
 												 name:kEQSGeoServicesNotification_FindRoute_OK
 											   object:self.mapView.geoServices];
-	
+    // Or not...
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(didFailToSolveRoute:)
 												 name:kEQSGeoServicesNotification_FindRoute_Error
@@ -1076,30 +1106,29 @@
                                              selector:@selector(gotCandidatesForAddress:)
                                                  name:kEQSGeoServicesNotification_PointsFromAddress_OK
                                                object:self.mapView.geoServices];
-
     // Or not...
-    // And let me know when it finds points for an address.
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didFailToGetCandidatesForAddress:)
                                                  name:kEQSGeoServicesNotification_PointsFromAddress_Error
                                                object:self.mapView.geoServices];
     
     
-    // Geolocation Notifications
+    // If I ask where I am, let me know it's foudn me
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didGeolocate:)
                                                  name:kEQSGeoServicesNotification_Geolocation_OK
                                                object:self.mapView.geoServices];
-    
+    // Or not...
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didFailToGeolocate:)
                                                  name:kEQSGeoServicesNotification_Geolocation_Error
                                                object:self.mapView.geoServices];
 }
 
+#pragma mark - Directions
 - (void) didGeolocate:(NSNotification *)notification
 {
-    CLLocation *location = [notification geolocation];
+    CLLocation *location = [notification geolocationResult];
     
     if (location)
     {
@@ -1221,7 +1250,7 @@
 
 - (void) didFailToSolveRoute:(NSNotification *)notification
 {
-	NSError *error = [notification.userInfo objectForKey:kEQSGeoServicesNotification_ErrorKey];
+	NSError *error = [notification geoServicesError];
 	if (error)
 	{
 		NSLog(@"Failed to solve route: %@", error);
@@ -1368,13 +1397,11 @@
 
 - (void) gotCandidatesForAddress:(NSNotification *)notification
 {
-    NSDictionary *userInfo = notification.userInfo;
-    
-    NSOperation *op = [userInfo objectForKey:kEQSGeoServicesNotification_WorkerOperationKey];
+    NSOperation *op = [notification geoServicesOperation];
 	
     if (op)
     {
-        NSArray *candidates = [userInfo objectForKey:kEQSGeoServicesNotification_PointsFromAddress_LocationCandidatesKey];
+        NSArray *candidates = [notification findPlacesCandidates];
         EQSAddressCandidateView *prevView = nil;
         if (candidates.count > 0)
         {
@@ -1409,7 +1436,7 @@
                 if (c.score >= maxScore)
                 {
                     count++;
-                    AGSPoint *p = [c.location getWebMercatorAuxSpherePoint];
+                    AGSPoint *p = c.location; // getWebMercatorAuxSpherePoint];
                     AGSGraphic *g = [self.mapView addPoint:p WithSymbol:self.mapView.defaultSymbols.geocode];
                     [g.attributes setObject:@"Geocoded" forKey:@"Source"];
                     [g.attributes addEntriesFromDictionary:c.attributes];
@@ -1457,7 +1484,7 @@
         else
         {
             self.findPlacesNoResultsLabel.hidden = NO;
-            AGSEnvelope *constraintEnv = [userInfo objectForKey:kEQSGeoServicesNotification_PointsFromAddress_ExtentKey];
+            AGSEnvelope *constraintEnv = [notification findPlacesSearchExtent];
             if (constraintEnv)
             {
                 UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"No results found!"
@@ -1465,7 +1492,7 @@
                                                            delegate:self
                                                   cancelButtonTitle:@"No thanks"
                                                   otherButtonTitles:@"OK", nil];
-                objc_setAssociatedObject(v, @"SearchUserInfo", userInfo, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+                objc_setAssociatedObject(v, @"SearchUserInfo", notification, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
                 [v show];
             }
         }
@@ -1474,12 +1501,12 @@
 
 - (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    NSDictionary *userInfo = objc_getAssociatedObject(alertView, @"SearchUserInfo");
-    if (userInfo)
+    NSNotification *notification = objc_getAssociatedObject(alertView, @"SearchUserInfo");
+    if (notification)
     {
         if (buttonIndex == 1)
         {
-            NSString *searchText = [userInfo objectForKey:kEQSGeoServicesNotification_PointsFromAddress_AddressKey];
+            NSString *searchText = [notification findPlacesSearchString];
             [self.mapView.geoServices findPlaces:searchText];
         }
     }
@@ -1487,13 +1514,13 @@
 
 - (void) didFailToGetCandidatesForAddress:(NSNotification *)notification
 {
-	NSError *error = [notification.userInfo objectForKey:kEQSGeoServicesNotification_ErrorKey];
+	NSError *error = [notification geoServicesError];
 	NSLog(@"Failed to get candidates for address: %@", error);
 }
 
 - (void) candidateView:(EQSAddressCandidateView *)candidateView DidTapZoomToCandidate:(AGSAddressCandidate *)candidate
 {
-    AGSPoint *location = [candidate.location getWebMercatorAuxSpherePoint];
+    AGSPoint *location = candidate.location;// getWebMercatorAuxSpherePoint];
     if (location)
     {
         [self.mapView centerAtPoint:location animated:YES];

@@ -33,4 +33,3 @@
 @interface AGSMapView (EQSGeoServices)
 - (EQSGeoServices *) geoServices;
 @end
-

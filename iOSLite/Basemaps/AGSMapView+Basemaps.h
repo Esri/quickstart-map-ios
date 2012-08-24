@@ -8,8 +8,7 @@
 
 #import <ArcGIS/ArcGIS.h>
 #import "EQSBasemapTypeEnum.h"
-
-#define kEQSNotification_BasemapDidChange @"BasemapDidChange"
+#import "EQSBasemapsNotifications.h"
 
 @interface AGSMapView (Basemaps)
 - (void) setBasemap:(EQSBasemapType)basemapType;

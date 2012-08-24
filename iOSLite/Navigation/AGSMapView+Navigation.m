@@ -91,7 +91,7 @@ NSInteger __eqsScaleForGeolocation = -1;
 
 - (void) gotLocation:(NSNotification *)notification
 {
-    CLLocation *newLocation = [notification.userInfo objectForKey:kEQSGeoServicesNotification_Geolocation_LocationKey];
+    CLLocation *newLocation = [notification geolocationResult];
     [self doActionWhenLoaded:^void {
         if (__eqsScaleForGeolocation == -1)
         {
@@ -110,7 +110,7 @@ NSInteger __eqsScaleForGeolocation = -1;
 
 - (void) failedToGetLocation:(NSNotification *)notification
 {
-    NSLog(@"Error getting location: %@", [notification.userInfo objectForKey:@"error"]);
+    NSLog(@"Error getting location: %@", [notification geoServicesError]);
 }
 
 - (void) ensureNavigationHelperInitialized

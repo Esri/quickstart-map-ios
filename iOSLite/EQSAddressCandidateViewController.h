@@ -11,6 +11,14 @@
 
 @class EQSAddressCandidateView;
 
+typedef enum {
+    EQSCandidateTypeForwardGeocode,
+    EQSCandidateTypeReverseGeocode,
+    EQSCandidateTypeGeolocation,
+    EQSCandidateTypeDirectionsStart,
+    EQSCandidateTypeDirectionsEnd
+} EQSCandidateType;
+
 @protocol EQSAddressCandidateViewDelegate
 - (void) candidateView:(EQSAddressCandidateView *)candidateView
  DidTapZoomToCandidate:(AGSAddressCandidate *)candidate;
@@ -21,7 +29,11 @@
 }
 @property (weak, nonatomic) IBOutlet EQSAddressCandidateView *addressCandidateView;
 @property (nonatomic, strong) AGSAddressCandidate *candidate;
+@property (nonatomic, strong) AGSGraphic *graphic;
+
 @property (nonatomic, weak) id candidateViewDelegate;
+
+@property (nonatomic, assign) EQSCandidateType viewType;
 
 - (void) addToParentView:(UIView *)parentView relativeTo:(EQSAddressCandidateView *)previousView;
 + (void) setContentWidthOfScrollViewContainingCandidateViews:(UIScrollView *)containingScrollView UsingTemplate:(EQSAddressCandidateView *)templateView;
