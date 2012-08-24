@@ -48,6 +48,22 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
     return g;
 }
 
+- (AGSGraphic *) addPointAtLat:(double)latitude Long:(double)longitude WithSymbol:(AGSMarkerSymbol *)markerSymbol
+{
+    AGSPoint *pt = [AGSPoint pointFromLat:latitude Lon:longitude];
+
+    return [self addPoint:pt WithSymbol:markerSymbol];
+}
+
+- (AGSGraphic *) addPoint:(AGSPoint *)point WithSymbol:(AGSMarkerSymbol *)markerSymbol
+{
+    AGSGraphic *g = [self __eqsGetDefaultGraphicForGeometry:[point getWebMercatorAuxSpherePoint]];
+    g.symbol = markerSymbol;
+    [self __eqsAddGraphicToAppropriateGraphicsLayer:g];
+    return g;
+}
+
+
 - (AGSGraphic *) addLineFromPoints:(NSArray *) points
 {
 	NSAssert1(points.count > 1, @"Must provide at least 2 points!", points.count);
@@ -126,7 +142,9 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
 	{
 		if (graphic.layer)
 		{
+            AGSGraphicsLayer *owningLayer = graphic.layer;
 			[graphic.layer removeGraphic:graphic];
+            [owningLayer dataChanged];
 		}
 	}
 }
@@ -254,16 +272,20 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
 }
 
 #pragma mark - Cancel edit/create
-- (void) cancelCurrentEdit
+- (AGSGraphic *) cancelCurrentEdit
 {
     if (__eqsSketchGraphicsLayer)
     {
+        AGSGraphic *graphicToReturn = __eqsCurrentEditingGraphic;
         // Set the UI interaction back to how it was before.
         __eqsSketchGraphicsLayer.geometry = nil;
         __eqsCurrentEditingGraphic = nil;
         self.touchDelegate = __eqsTempTouchDelegate;
         __eqsTempTouchDelegate = nil;
+        return graphicToReturn;
     }
+    
+    return nil;
 }
 
 #pragma mark - Accessors to useful objects for UI feedback during editing
@@ -283,6 +305,11 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
         return __eqsSketchGraphicsLayer.geometry;
     }
     return nil;
+}
+
+- (AGSGraphic *) getCurrentEditGraphic
+{
+    return __eqsCurrentEditingGraphic;
 }
 
 - (AGSGraphicsLayer *) getGraphicsLayer:(EQSGraphicsLayerType)layerType

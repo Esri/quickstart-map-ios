@@ -15,7 +15,7 @@
 #define kEQSOrangePinURL @"http://static.arcgis.com/images/Symbols/Shapes/OrangePin1LargeB.png"
 
 #define kEQSPinXOffset 0
-#define kEQSPinYOffset 11
+#define kEQSPinYOffset 14
 #define kEQSPinSize CGSizeMake(28,28)
 
 #define kEQSGreenCircleURL @"http://static.arcgis.com/images/Symbols/Shapes/GreenCircleLargeB.png"

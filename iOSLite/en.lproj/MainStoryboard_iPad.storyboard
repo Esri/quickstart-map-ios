@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2549" systemVersion="12A269" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2549" systemVersion="12B19" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="2">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1498"/>
@@ -24,6 +24,14 @@
                                 <rect key="frame" x="20" y="59" width="400" height="400"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="Sen-rs-mDz" userLabel="View - Code View" customClass="EQSCodeView">
+                                <rect key="frame" x="555" y="465" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="mapView" destination="jAh-IA-P6U" id="MmQ-Wv-zJj"/>
+                                </connections>
                             </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackOpaque" id="ea8-sr-7to" userLabel="Toolbar - Functions">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -148,7 +156,7 @@
                                 <rect key="frame" x="0.0" y="233" width="768" height="170"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="87Z-Xw-kbS" userLabel="Clear Points Button">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="87Z-Xw-kbS" userLabel="Clear Points Button">
                                         <rect key="frame" x="5" y="74" width="49" height="28"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" size="button"/>
@@ -163,7 +171,7 @@
                                             <action selector="clearPoints:" destination="2" eventType="touchUpInside" id="llE-t6-zWZ"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bB5-aq-ZRt" userLabel="Clear Lines Button">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bB5-aq-ZRt" userLabel="Clear Lines Button">
                                         <rect key="frame" x="4" y="106" width="51" height="28"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -178,7 +186,7 @@
                                             <action selector="clearLines:" destination="2" eventType="touchUpInside" id="BA6-bT-dBO"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lGD-Q1-aDN" userLabel="Clear Polys Button">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lGD-Q1-aDN" userLabel="Clear Polys Button">
                                         <rect key="frame" x="3" y="137" width="52" height="28"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -193,7 +201,7 @@
                                             <action selector="clearPolygons:" destination="2" eventType="touchUpInside" id="Nrf-NE-95u"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="phz-y9-cDK" userLabel="Load Graphics Button">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="phz-y9-cDK" userLabel="Load Graphics Button">
                                         <rect key="frame" x="6" y="43" width="49" height="28"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -222,13 +230,20 @@
                                                     <action selector="redoEditingGraphic:" destination="2" id="tRy-xv-2Cy"/>
                                                 </connections>
                                             </barButtonItem>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="08h-eq-n4h"/>
+                                            <barButtonItem systemItem="trash" id="1PS-gU-YXE">
+                                                <color key="tintColor" red="0.60405373569999998" green="0.15019468959999999" blue="0.1370830834" alpha="1" colorSpace="calibratedRGB"/>
+                                                <connections>
+                                                    <action selector="deleteSelectedGraphic:" destination="2" id="Xp8-5W-g3l"/>
+                                                </connections>
+                                            </barButtonItem>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="gZI-gi-8Bb"/>
                                             <barButtonItem title="Zoom To Graphic" id="EFh-Rm-eAI">
                                                 <connections>
                                                     <action selector="zoomToEditingGeometry:" destination="2" id="1aK-TX-wWC"/>
                                                 </connections>
                                             </barButtonItem>
-                                            <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="1rk-tn-6FP"/>
+                                            <barButtonItem width="37" style="plain" systemItem="fixedSpace" id="1rk-tn-6FP"/>
                                             <barButtonItem systemItem="cancel" id="n0Q-km-JJJ">
                                                 <connections>
                                                     <action selector="cancelEditingGraphic:" destination="2" id="JmN-L8-LSq"/>
@@ -241,55 +256,7 @@
                                             </barButtonItem>
                                         </items>
                                     </toolbar>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="T6R-qz-YDu" userLabel="Load Graphics Button">
-                                        <rect key="frame" x="200" y="60" width="90" height="90"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.84793526789999996" green="0.32706345640000001" blue="0.043589206540000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="New Pt">
-                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="newPtGraphic:" destination="2" eventType="touchUpInside" id="bGK-gu-gaZ"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="A2H-dj-njm" userLabel="Load Graphics Button">
-                                        <rect key="frame" x="329" y="60" width="90" height="90"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.84793526789999996" green="0.32706345640000001" blue="0.043589206540000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="New Ln">
-                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="newLnGraphic:" destination="2" eventType="touchUpInside" id="4fq-Df-j2f"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pDt-KN-QUE" userLabel="Load Graphics Button">
-                                        <rect key="frame" x="458" y="60" width="90" height="90"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.84793526789999996" green="0.32706345640000001" blue="0.043589206540000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="New Pg">
-                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="newPgGraphic:" destination="2" eventType="touchUpInside" id="Td5-hD-KKv"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7O3-se-8EX" userLabel="Load Graphics Button">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7O3-se-8EX" userLabel="Load Graphics Button">
                                         <rect key="frame" x="655" y="140" width="111" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -304,6 +271,60 @@
                                             <action selector="newMultiPtGraphic:" destination="2" eventType="touchUpInside" id="FrG-Ik-ldK"/>
                                         </connections>
                                     </button>
+                                    <view contentMode="scaleToFill" id="X3c-ZP-FuY">
+                                        <rect key="frame" x="175" y="44" width="419" height="126"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="T6R-qz-YDu" userLabel="Load Graphics Button">
+                                                <rect key="frame" x="35" y="18" width="90" height="90"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.1327368445374067" green="0.55391023596938771" blue="0.45365086602074672" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" title="New Pt">
+                                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="newPtGraphic:" destination="2" eventType="touchUpInside" id="bGK-gu-gaZ"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="A2H-dj-njm" userLabel="Load Graphics Button">
+                                                <rect key="frame" x="164" y="18" width="90" height="90"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.1327368445374067" green="0.55391023596938771" blue="0.45365086602074672" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" title="New Ln">
+                                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="newLnGraphic:" destination="2" eventType="touchUpInside" id="4fq-Df-j2f"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pDt-KN-QUE" userLabel="Load Graphics Button">
+                                                <rect key="frame" x="293" y="18" width="90" height="90"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.1327368445374067" green="0.55391023596938771" blue="0.45365086602074672" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" title="New Pg">
+                                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="newPgGraphic:" destination="2" eventType="touchUpInside" id="Td5-hD-KKv"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                             </view>
@@ -322,7 +343,7 @@
                                         <items>
                                             <barButtonItem style="plain" id="hMF-ZN-lvS">
                                                 <searchBar key="customView" contentMode="redraw" barStyle="blackOpaque" text="6 Stuyvesant Oval, New York" id="ehD-4C-jip" userLabel="Search Bar - Address">
-                                                    <rect key="frame" x="12" y="0.0" width="616" height="44"/>
+                                                    <rect key="frame" x="12" y="0.0" width="679" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                                     <connections>
@@ -330,9 +351,7 @@
                                                     </connections>
                                                 </searchBar>
                                             </barButtonItem>
-                                            <barButtonItem width="7" style="plain" systemItem="fixedSpace" id="Hd0-64-Htn"/>
-                                            <barButtonItem title="Cancel" id="7md-MA-r1B"/>
-                                            <barButtonItem title="Find" id="GP9-HT-6Rp">
+                                            <barButtonItem title="Search" id="GP9-HT-6Rp">
                                                 <connections>
                                                     <action selector="findPlacesTapped:" destination="2" id="wyJ-FL-2B3"/>
                                                 </connections>
@@ -343,7 +362,7 @@
                                         <rect key="frame" x="0.0" y="44" width="768" height="126"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="No current results…" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="EIH-nV-nGp">
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Enter a search term above and click Search…" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="EIH-nV-nGp">
                                                 <rect key="frame" x="0.0" y="33" width="768" height="60"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="34"/>
@@ -358,14 +377,6 @@
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" id="Sen-rs-mDz" userLabel="View - Code View" customClass="EQSCodeView">
-                                <rect key="frame" x="555" y="465" width="50" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="mapView" destination="jAh-IA-P6U" id="MmQ-Wv-zJj"/>
-                                </connections>
                             </view>
                             <view contentMode="scaleToFill" id="jM8-Ve-X6c" userLabel="View - Directions">
                                 <rect key="frame" x="0.0" y="582" width="768" height="170"/>
@@ -462,13 +473,13 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="basemapsPicker" destination="48v-Ui-wix" id="Sim-5T-VL1"/>
-                        <outlet property="cancelButton" destination="7md-MA-r1B" id="6aw-MG-0uX"/>
                         <outlet property="clearLinesButton" destination="bB5-aq-ZRt" id="qqj-xh-ZPE"/>
                         <outlet property="clearPointsButton" destination="87Z-Xw-kbS" id="uIx-Mu-anO"/>
                         <outlet property="clearPolysButton" destination="lGD-Q1-aDN" id="64f-Jt-JJU"/>
                         <outlet property="clearRouteButton" destination="hNn-FK-cIg" id="VIe-5r-ka8"/>
                         <outlet property="cloudDataPanel" destination="TRm-6g-wOm" id="T7X-7i-BJI"/>
                         <outlet property="codeViewer" destination="Sen-rs-mDz" id="L6d-5Y-ToX"/>
+                        <outlet property="deleteGraphicButton" destination="1PS-gU-YXE" id="wUE-ek-r73"/>
                         <outlet property="editGraphicsToolbar" destination="vEH-b5-gEY" id="gZr-fA-FNz"/>
                         <outlet property="findAddressSearchBar" destination="ehD-4C-jip" id="Xcj-UO-NC8"/>
                         <outlet property="findMeButton" destination="w9T-wB-hG1" id="ifW-Sz-rTV"/>
@@ -646,6 +657,7 @@
                 <relationship kind="action" name="clearPoints:"/>
                 <relationship kind="action" name="clearPolygons:"/>
                 <relationship kind="action" name="clearRoute:"/>
+                <relationship kind="action" name="deleteSelectedGraphic:"/>
                 <relationship kind="action" name="doneEditingGraphic:"/>
                 <relationship kind="action" name="findMe:"/>
                 <relationship kind="action" name="findPlacesTapped:"/>
@@ -662,13 +674,13 @@
                 <relationship kind="action" name="zoomToEditingGeometry:"/>
                 <relationship kind="action" name="zoomToLevel:"/>
                 <relationship kind="outlet" name="basemapsPicker" candidateClass="EQSBasemapPickerView"/>
-                <relationship kind="outlet" name="cancelButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="clearLinesButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="clearPointsButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="clearPolysButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="clearRouteButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="cloudDataPanel" candidateClass="UIView"/>
                 <relationship kind="outlet" name="codeViewer" candidateClass="EQSCodeView"/>
+                <relationship kind="outlet" name="deleteGraphicButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="editGraphicsToolbar" candidateClass="UIToolbar"/>
                 <relationship kind="outlet" name="findAddressSearchBar" candidateClass="UISearchBar"/>
                 <relationship kind="outlet" name="findMeButton" candidateClass="UIButton"/>

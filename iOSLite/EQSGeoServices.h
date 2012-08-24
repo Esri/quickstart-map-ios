@@ -19,6 +19,8 @@
 
 // Routing
 - (NSOperation *) findDirectionsFrom:(AGSPoint *)startPoint To:(AGSPoint *)endPoint;
+- (NSOperation *) findDirectionsFrom:(AGSPoint *)startPoint Named:(NSString *)startPointName
+                                  To:(AGSPoint *)endPoint Named:(NSString *)endPointName;
 
 // Geolocation
 - (BOOL) isGeolocationEnabled;

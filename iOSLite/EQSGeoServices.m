@@ -43,7 +43,7 @@ EQSGeoServices *__agsStarterGeoServices = nil;
     return [self.userInfo objectForKey:kEQSGeoServicesNotification_WorkerOperationKey];
 }
 
-- (NSError *) geoserviceError
+- (NSError *) geoServicesError
 {
     return [self.userInfo objectForKey:kEQSGeoServicesNotification_ErrorKey];
 }
@@ -162,6 +162,14 @@ EQSGeoServices *__agsStarterGeoServices = nil;
 - (NSOperation *) findDirectionsFrom:(AGSPoint *)startPoint To:(AGSPoint *)endPoint
 {
 	AGSRouteTaskParameters *routeTaskParams = [self getParametersToRouteFromStart:startPoint ToStop:endPoint];
+	return [self.routeTask solveWithParameters:routeTaskParams];
+}
+
+- (NSOperation *) findDirectionsFrom:(AGSPoint *)startPoint Named:(NSString *)startPointName
+                                  To:(AGSPoint *)endPoint Named:(NSString *)endPointName
+{
+	AGSRouteTaskParameters *routeTaskParams = [self getParametersToRouteFromStart:startPoint Named:startPointName
+                                                                           ToStop:endPoint Named:endPointName];
 	return [self.routeTask solveWithParameters:routeTaskParams];
 }
 
@@ -337,7 +345,15 @@ EQSGeoServices *__agsStarterGeoServices = nil;
 }
 
 #pragma mark - Routing General
-- (AGSRouteTaskParameters *) getParametersToRouteFromStart:(AGSPoint *)startPoint ToStop:(AGSPoint *)stopPoint
+- (AGSRouteTaskParameters *) getParametersToRouteFromStart:(AGSPoint *)startPoint 
+                                                    ToStop:(AGSPoint *)stopPoint
+{
+    return [self getParametersToRouteFromStart:startPoint Named:kEQSRoutingStartPointName
+                                        ToStop:stopPoint Named:kEQSRoutingEndPointName];
+}
+            
+- (AGSRouteTaskParameters *) getParametersToRouteFromStart:(AGSPoint *)startPoint Named:(NSString *)startName
+                                                    ToStop:(AGSPoint *)stopPoint Named:(NSString *)endName
 {
     // Set up and name a couple of stops.
     AGSStopGraphic *firstStop = [AGSStopGraphic graphicWithGeometry:startPoint
@@ -350,8 +366,8 @@ EQSGeoServices *__agsStarterGeoServices = nil;
                                                         attributes:nil
                                               infoTemplateDelegate:nil];
     
-    firstStop.name = kEQSRoutingStartPointName;
-    lastStop.name = kEQSRoutingEndPointName;
+    firstStop.name = startName;
+    lastStop.name = endName;
     
     // Add them to the parameters.
     NSArray *routeStops = [NSArray arrayWithObjects:firstStop, lastStop, nil];

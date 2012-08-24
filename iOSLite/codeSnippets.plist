@@ -7,11 +7,12 @@
 		<key>title</key>
 		<string>Zoom to current location</string>
 		<key>codeSnippet</key>
-		<string>- (IBAction)findMe:(id)sender {
-	[self.mapView centerAtMyLocationWithScaleLevel:self.findScale];
+		<string>- (IBAction)findMe:(id)sender
+{
+	[self.mapView centerAtMyLocationWithScaleLevel:15];
 }</string>
 		<key>highlightedLines</key>
-		<string>2</string>
+		<string>3</string>
 	</dict>
 	<key>Basemaps</key>
 	<dict>
@@ -50,16 +51,19 @@
 	}
 }
 
+
+
+
+// Call from viewDidLoad to register our listener (see above) for route notifications
 - (void)registerForGeoServicesNotifications
 {
-	// Call from viewDidLoad to register our listener (see above) for route notifications
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(didSolveRouteOK:)
 												 name:kEQSGeoServicesNotification_FindRoute_OK
 											   object:self.mapView.geoServices];
 }</string>
 		<key>highlightedLines</key>
-		<string>3,4,9,13,19,20,21,22,23</string>
+		<string>3,4,9,13,23,24,25,26</string>
 	</dict>
 	<key>Graphics</key>
 	<dict>

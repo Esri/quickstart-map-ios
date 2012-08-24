@@ -48,7 +48,9 @@
                                         AGSLocatorDelegate,
                                         UIWebViewDelegate,
                                         EQSBasemapPickerDelegate,
-                                        AGSMapViewCalloutDelegate>
+                                        AGSMapViewCalloutDelegate,
+                                        EQSAddressCandidateViewDelegate,
+                                        UIAlertViewDelegate>
 
 // General UI
 @property (weak, nonatomic) IBOutlet UIToolbar *functionToolBar;
@@ -82,6 +84,8 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *undoEditGraphicsButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *redoEditGraphicsButton;
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteGraphicButton;
+
 @property (weak, nonatomic) IBOutlet UIButton *graphicPointButton;
 @property (weak, nonatomic) IBOutlet UIButton *graphicLineButton;
 @property (weak, nonatomic) IBOutlet UIButton *graphicPolygonButton;
@@ -91,6 +95,7 @@
 - (IBAction)undoEditingGraphic:(id)sender;
 - (IBAction)redoEditingGraphic:(id)sender;
 - (IBAction)zoomToEditingGeometry:(id)sender;
+- (IBAction)deleteSelectedGraphic:(id)sender;
 
 - (IBAction)newPtGraphic:(id)sender;
 - (IBAction)newLnGraphic:(id)sender;
@@ -132,7 +137,6 @@
 // Find Places
 @property (weak, nonatomic) IBOutlet UIToolbar *findToolbar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *findbutton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *findPlacesScrollView;
 @property (weak, nonatomic) IBOutlet UILabel *findPlacesNoResultsLabel;
 
@@ -175,6 +179,7 @@
 @synthesize graphicButton = _graphicButton;
 @synthesize clearPointsButton = _clearPointsButton;
 @synthesize clearLinesButton = _clearLinesButton;
+@synthesize deleteGraphicButton = _deleteGraphicButton;
 @synthesize clearPolysButton = _clearPolysButton;
 @synthesize routingPanel = _routingPanel;
 @synthesize findPlacePanel = _findAddressPanel;
@@ -215,7 +220,6 @@
 @synthesize keyboardSize = _keyboardSize;
 @synthesize findToolbar = _findToolbar;
 @synthesize findbutton = _findbutton;
-@synthesize cancelButton = _cancelButton;
 @synthesize findPlacesScrollView = _findPlacesScrollView;
 @synthesize findPlacesNoResultsLabel = _findPlacesNoResultsLabel;
 @synthesize codeViewer = _codeViewer;
@@ -336,7 +340,6 @@
 	[self setFindAddressSearchBar:nil];
 	[self setBasemapsPicker:nil];
     [self setFindbutton:nil];
-    [self setCancelButton:nil];
     [self setFindToolbar:nil];
     [self setMessageBar:nil];
     [self setMessageBarLabel:nil];
@@ -349,6 +352,7 @@
     [self setGraphicPolygonButton:nil];
     [self setFindPlacesScrollView:nil];
     [self setFindPlacesNoResultsLabel:nil];
+    [self setDeleteGraphicButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -360,12 +364,13 @@
 
 #pragma mark - AGSMapView Events
 
-- (void)mapView:(AGSMapView *)mapView didShowCalloutForGraphic:(AGSGraphic *)graphic
+- (BOOL) mapView:(AGSMapView *)mapView shouldShowCalloutForGraphic:(AGSGraphic *)graphic
 {
     NSLog(@"Showed callout");
+    return YES;
 }
 
-- (void)mapView:(AGSMapView *)mapView didClickAtPoint:(CGPoint)screen mapPoint:(AGSPoint *)mapPoint graphics:(NSDictionary *)graphics
+- (void) mapView:(AGSMapView *)mapView didClickAtPoint:(CGPoint)screen mapPoint:(AGSPoint *)mapPoint graphics:(NSDictionary *)graphics
 {
     NSLog(@"Clicked on map!");
     switch (self.currentState) {
@@ -387,7 +392,19 @@
             break;
             
         case EQSSampleAppStateFindPlace:
-            [self didTapToReverseGeocode:mapPoint];
+        {
+            BOOL shouldReverseGeocode = YES;
+            AGSGraphic *g = [self nearestGraphicToPoint:mapPoint FromMapViewClickedGraphics:graphics];
+            if (g && g.infoTemplateDelegate)
+            {
+                [self.mapView showCalloutAtPoint:mapPoint forGraphic:g animated:YES];
+                shouldReverseGeocode = NO;
+            }
+            if (shouldReverseGeocode)
+            {
+                [self didTapToReverseGeocode:mapPoint];
+            }
+        }
             break;
             
         default:
@@ -397,6 +414,38 @@
             }
             break;
     }
+}
+
+- (AGSGraphic *) nearestGraphicToPoint:(AGSPoint *)mapPoint FromMapViewClickedGraphics:(NSDictionary *)graphics
+{
+    if (graphics.count > 0)
+    {
+        // The AGS SDK has already worked out which graphics are candidates.
+        double minDistance = -1;
+        AGSGraphic *nearestGraphic = nil;
+        NSArray *graphicsForLayer = nil;
+        for (NSArray *layerGraphics in [graphics allValues])
+        {
+            if (layerGraphics.count > 0)
+            {
+                // The first layer with anything returned for it is what we'll focus on.
+                graphicsForLayer = layerGraphics;
+                break;
+            }
+        }
+        // Now find the closest geometry to where we tapped.
+        for (AGSGraphic *graphic in graphicsForLayer)
+        {
+            double dist = [[AGSGeometryEngine defaultGeometryEngine] distanceFromGeometry:mapPoint toGeometry:graphic.geometry];
+            if (minDistance == -1 || dist < minDistance)
+            {
+                minDistance = dist;
+                nearestGraphic = graphic;
+            }
+        }
+        return nearestGraphic;
+    }
+    return nil;
 }
 
 #pragma mark - Keyboard Events
@@ -506,6 +555,10 @@
             for (UIBarButtonItem *buttonItem in self.editGraphicsToolbar.items) {
                 buttonItem.enabled = YES;
             }
+            if (![self.mapView getCurrentEditGraphic])
+            {
+                self.deleteGraphicButton.enabled = NO;
+            }
             [self setUndoRedoButtonStates];
             [self listenToEditingUndoManager];
             self.mapView.showMagnifierOnTapAndHold = YES;
@@ -540,6 +593,7 @@
             return @"Zoom to your location";
             break;
         case EQSSampleAppStateGraphics:
+        case EQSSampleAppStateGraphics_Editing:
             return @"Tap the map to add graphics";
             break;
         case EQSSampleAppStateFindPlace:
@@ -920,8 +974,15 @@
     AGSGeometry *editGeom = [self.mapView getCurrentEditGeometry];
     if (editGeom)
     {
-        [self.mapView zoomToGeometry:editGeom withPadding:25 animated:YES];
+        [self.mapView zoomToGeometry:editGeom withPadding:100 animated:YES];
     }
+}
+
+- (IBAction)deleteSelectedGraphic:(id)sender
+{
+    AGSGraphic *graphicToDelete = [self.mapView cancelCurrentEdit];
+    [self.mapView removeGraphic:graphicToDelete];
+    self.currentState = EQSSampleAppStateGraphics;
 }
 
 #pragma mark - Geocoding
@@ -959,13 +1020,13 @@
 			
 			if ([source isEqualToString:kEQSGetAddressReasonRouteStart])
 			{
-				self.routeStartPoint = candidate.location;
 				self.routeStartAddress = address;
+				self.routeStartPoint = candidate.location;
 			}
 			else if ([source isEqualToString:kEQSGetAddressReasonRouteEnd])
 			{
-				self.routeEndPoint = candidate.location;
 				self.routeEndAddress = address;
+				self.routeEndPoint = candidate.location;
 			}
 			else if ([source isEqualToString:kEQSGetAddressReasonReverseGeocodeForPoint])
 			{
@@ -1125,8 +1186,9 @@
     if (self.routeStartPoint &&
         self.routeEndPoint)
     {
-        NSLog(@"Start and end points set...");
-        [self.mapView.geoServices findDirectionsFrom:self.routeStartPoint To:self.routeEndPoint];
+        NSLog(@"Start and end points set... %@ %@", self.routeStartAddress, self.routeEndAddress);
+        [self.mapView.geoServices findDirectionsFrom:self.routeStartPoint Named:self.routeStartAddress
+                                                  To:self.routeEndPoint Named:self.routeEndAddress];
         return YES;
     }
     return NO;
@@ -1292,44 +1354,6 @@
     [searchBar resignFirstResponder];
 }
 
-- (BOOL) searchBarShouldBeginEditing:(UISearchBar *)searchBar
-{
-    NSArray *currentItems = self.findToolbar.items;
-    NSMutableArray *newItems = [NSMutableArray array];
-    for (UIBarButtonItem *bbi in currentItems) {
-        if (bbi != self.findbutton &&
-            bbi != self.cancelButton)
-        {
-            [newItems addObject:bbi];
-        }
-    }
-    
-    [newItems addObject:self.cancelButton];
-    
-    [self.findToolbar setItems:newItems animated:YES];
-    
-    return YES;
-}
-
-- (BOOL) searchBarShouldEndEditing:(UISearchBar *)searchBar
-{
-    NSArray *currentItems = self.findToolbar.items;
-    NSMutableArray *newItems = [NSMutableArray array];
-    for (UIBarButtonItem *bbi in currentItems) {
-        if (bbi != self.findbutton &&
-            bbi != self.cancelButton)
-        {
-            [newItems addObject:bbi];
-        }
-    }
-    
-    [newItems addObject:self.findbutton];
-    
-    [self.findToolbar setItems:newItems animated:YES];
-    
-    return YES;
-}
-
 - (id<AGSInfoTemplateDelegate>) geocodeInfoTemplateDelegate
 {
     if (!_geocodeInfoTemplateDelegate)
@@ -1350,25 +1374,28 @@
 	
     if (op)
     {
-        // First, let's remove all the old items (if any)
-        [self.mapView removeGraphicsMatchingCriteria:^BOOL(AGSGraphic *g) {
-            if ([g.attributes objectForKey:@"Source"])
-            {
-                NSLog(@"Removing graphic!");
-                return YES;
-            }
-            return NO;
-        }];
-        
-        for (UIView *subView in self.findPlacesScrollView.subviews) {
-            [subView removeFromSuperview];
-        }
-        
         NSArray *candidates = [userInfo objectForKey:kEQSGeoServicesNotification_PointsFromAddress_LocationCandidatesKey];
         EQSAddressCandidateView *prevView = nil;
         if (candidates.count > 0)
         {
+            // First, let's remove all the old items (if any)
+            [self.mapView removeGraphicsMatchingCriteria:^BOOL(AGSGraphic *g) {
+                if ([g.attributes objectForKey:@"Source"])
+                {
+                    NSLog(@"Removing graphic!");
+                    return YES;
+                }
+                return NO;
+            }];
+            
+            for (UIView *subView in self.findPlacesScrollView.subviews) {
+                [subView removeFromSuperview];
+            }
+            
+            self.mapView.callout.hidden = YES;
+            
             self.findPlacesNoResultsLabel.hidden = YES;
+
             NSArray *sortedCandidates = [candidates sortedArrayUsingComparator:^(id obj1, id obj2) {
                 AGSAddressCandidate *c1 = obj1;
                 AGSAddressCandidate *c2 = obj2;
@@ -1383,7 +1410,7 @@
                 {
                     count++;
                     AGSPoint *p = [c.location getWebMercatorAuxSpherePoint];
-                    AGSGraphic *g = [self.mapView addPoint:p];
+                    AGSGraphic *g = [self.mapView addPoint:p WithSymbol:self.mapView.defaultSymbols.geocode];
                     [g.attributes setObject:@"Geocoded" forKey:@"Source"];
                     [g.attributes addEntriesFromDictionary:c.attributes];
 //                    g.infoTemplateDelegate = self.geocodeInfoTemplateDelegate;
@@ -1400,10 +1427,14 @@
                     EQSAddressCandidateView *candidateView = [[EQSAddressCandidateView alloc] init];
                     [candidateView.viewController addToParentView:self.findPlacesScrollView relativeTo:prevView];
                     candidateView.viewController.candidate = c;
+                    candidateView.viewController.candidateViewDelegate = self;
+                    objc_setAssociatedObject(candidateView.viewController, @"AssociatedGraphic", g,
+                                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
                     prevView = candidateView;
                     
                     EQSAddressCandidateView *candidatePopupView = [[EQSAddressCandidateView alloc] init];
                     candidatePopupView.viewController.candidate = c;
+                    candidatePopupView.viewController.candidateViewDelegate = self;
                     g.infoTemplateDelegate = candidatePopupView.viewController;
                 }
                 else
@@ -1419,12 +1450,37 @@
             }
             else if (totalEnv)
             {
+                [totalEnv expandByFactor:1.1];
                 [self.mapView zoomToEnvelope:totalEnv animated:YES];
             }
         }
         else
         {
             self.findPlacesNoResultsLabel.hidden = NO;
+            AGSEnvelope *constraintEnv = [userInfo objectForKey:kEQSGeoServicesNotification_PointsFromAddress_ExtentKey];
+            if (constraintEnv)
+            {
+                UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"No results found!"
+                                                            message:[NSString stringWithFormat:@"No results were found in the current extent. Try again with no geographic constraint?"]
+                                                           delegate:self
+                                                  cancelButtonTitle:@"No thanks"
+                                                  otherButtonTitles:@"OK", nil];
+                objc_setAssociatedObject(v, @"SearchUserInfo", userInfo, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+                [v show];
+            }
+        }
+    }
+}
+
+- (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    NSDictionary *userInfo = objc_getAssociatedObject(alertView, @"SearchUserInfo");
+    if (userInfo)
+    {
+        if (buttonIndex == 1)
+        {
+            NSString *searchText = [userInfo objectForKey:kEQSGeoServicesNotification_PointsFromAddress_AddressKey];
+            [self.mapView.geoServices findPlaces:searchText];
         }
     }
 }
@@ -1433,6 +1489,21 @@
 {
 	NSError *error = [notification.userInfo objectForKey:kEQSGeoServicesNotification_ErrorKey];
 	NSLog(@"Failed to get candidates for address: %@", error);
+}
+
+- (void) candidateView:(EQSAddressCandidateView *)candidateView DidTapZoomToCandidate:(AGSAddressCandidate *)candidate
+{
+    AGSPoint *location = [candidate.location getWebMercatorAuxSpherePoint];
+    if (location)
+    {
+        [self.mapView centerAtPoint:location animated:YES];
+        
+        AGSGraphic *g = objc_getAssociatedObject(candidateView.viewController, @"AssociatedGraphic");
+        if (g)
+        {
+            [self.mapView showCalloutAtPoint:location forGraphic:g animated:YES];
+        }
+    }
 }
 
 #pragma mark - Geolocation

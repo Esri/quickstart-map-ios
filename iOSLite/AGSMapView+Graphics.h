@@ -28,6 +28,9 @@ typedef enum {
 - (AGSGraphic *) addLineFromPoints:(NSArray *) points;
 - (AGSGraphic *) addPolygonFromPoints:(NSArray *) points;
 
+- (AGSGraphic *) addPointAtLat:(double)latitude Long:(double)longitude WithSymbol:(AGSMarkerSymbol *)markerSymbol;
+- (AGSGraphic *) addPoint:(AGSPoint *)point WithSymbol:(AGSMarkerSymbol *)markerSymbol;
+
 //TODO - (AGSGraphic *) addLine:(AGSPolyline *) line;
 //TODO - (AGSGraphic *) addPolygon:(AGSPolygon *) polygon;
 
@@ -72,8 +75,8 @@ typedef enum {
 // by editGraphicFromDidClickAtPointEvent
 - (AGSGraphic *) saveCurrentEdit;
 
-// Cancel the current edit, if any.
-- (void) cancelCurrentEdit;
+// Cancel the current edit, if any. If this was an Edit rather than a Create, the unmodified graphic is returned.
+- (AGSGraphic *) cancelCurrentEdit;
 
 
 
@@ -85,6 +88,7 @@ typedef enum {
 // read it's canUndo and canRedo properties to update the UI appropriately.
 - (NSUndoManager *) getUndoManagerForGraphicsEdits;
 - (AGSGeometry *) getCurrentEditGeometry;
+- (AGSGraphic *) getCurrentEditGraphic;
 - (AGSGraphicsLayer *) getGraphicsLayer:(EQSGraphicsLayerType)layerType;
 
 @end

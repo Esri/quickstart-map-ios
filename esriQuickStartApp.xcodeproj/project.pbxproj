@@ -10,6 +10,8 @@
 		D9086DA0158B90D800FC1D43 /* description.css in Resources */ = {isa = PBXBuildFile; fileRef = D9086D9F158B90D800FC1D43 /* description.css */; };
 		D927EBEA15A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D927EBE915A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.m */; };
 		D93C98A5156D8CC000A5F339 /* EQSBasemapDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D93C98A4156D8CC000A5F339 /* EQSBasemapDetailsViewController.m */; };
+		D940585A15E6C2D300F4A320 /* 74-location.png in Resources */ = {isa = PBXBuildFile; fileRef = D940585815E6C2D300F4A320 /* 74-location.png */; };
+		D940585B15E6C2D300F4A320 /* 74-location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D940585915E6C2D300F4A320 /* 74-location@2x.png */; };
 		D94431A5156BE1FC00982D5C /* EQSHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D94431A4156BE1FC00982D5C /* EQSHelper.m */; };
 		D964FA1E15E67E970013B4D7 /* EQSAddressCandidateView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D964FA1D15E67E970013B4D7 /* EQSAddressCandidateView.xib */; };
 		D964FA2115E67EAA0013B4D7 /* EQSAddressCandidateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D964FA2015E67EAA0013B4D7 /* EQSAddressCandidateViewController.m */; };
@@ -96,6 +98,8 @@
 		D927EBE915A4D81F008CF54C /* AGSGraphicsLayer+GeneralUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSGraphicsLayer+GeneralUtilities.m"; sourceTree = "<group>"; };
 		D93C98A3156D8CC000A5F339 /* EQSBasemapDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSBasemapDetailsViewController.h; sourceTree = "<group>"; };
 		D93C98A4156D8CC000A5F339 /* EQSBasemapDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSBasemapDetailsViewController.m; sourceTree = "<group>"; };
+		D940585815E6C2D300F4A320 /* 74-location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "74-location.png"; sourceTree = "<group>"; };
+		D940585915E6C2D300F4A320 /* 74-location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "74-location@2x.png"; sourceTree = "<group>"; };
 		D94431A3156BE1FC00982D5C /* EQSHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSHelper.h; sourceTree = "<group>"; };
 		D94431A4156BE1FC00982D5C /* EQSHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSHelper.m; sourceTree = "<group>"; };
 		D964FA1915E6783A0013B4D7 /* EQSGeoServicesNotifications.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSGeoServicesNotifications.h; sourceTree = "<group>"; };
@@ -244,6 +248,15 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		D940585215E6C25900F4A320 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D940585815E6C2D300F4A320 /* 74-location.png */,
+				D940585915E6C2D300F4A320 /* 74-location@2x.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		D94431A7156C1EEC00982D5C /* Helper */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,6 +276,7 @@
 				D964FA2315E67EBD0013B4D7 /* EQSAddressCandidateView.m */,
 				D964FA1F15E67EAA0013B4D7 /* EQSAddressCandidateViewController.h */,
 				D964FA2015E67EAA0013B4D7 /* EQSAddressCandidateViewController.m */,
+				D940585215E6C25900F4A320 /* Resources */,
 			);
 			name = "Address Candidate Views";
 			sourceTree = "<group>";
@@ -661,6 +675,8 @@
 				D97D448015E52CCF0072457A /* shCoreDefault.css in Resources */,
 				D97D448215E53BEA0072457A /* shThemeDefault.css in Resources */,
 				D964FA1E15E67E970013B4D7 /* EQSAddressCandidateView.xib in Resources */,
+				D940585A15E6C2D300F4A320 /* 74-location.png in Resources */,
+				D940585B15E6C2D300F4A320 /* 74-location@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,7 @@
 
 @interface EQSAddressCandidateView ()
 @property (strong, nonatomic) IBOutlet UIView *topLevelView;
-
+@property (nonatomic, assign) CGSize originalSize;
 @end
 
 @implementation EQSAddressCandidateView
@@ -29,6 +29,7 @@
         self.autoresizesSubviews = YES;
         self.backgroundColor = [UIColor clearColor];
         self.topLevelView.layer.cornerRadius = 7;
+        self.originalSize = self.frame.size;
     }
     return self;
 }
@@ -47,6 +48,11 @@
 - (void) setupForCalloutTemplate
 {
     self.topLevelView.backgroundColor = [self.topLevelView.backgroundColor colorWithAlphaComponent:1];
+    self.exclusiveTouch = YES;
+    CGSize mySize = self.originalSize;
+    mySize.height = mySize.height / 2;
+    CGRect myFrame = CGRectMake(0, 0, mySize.width, mySize.height);
+    self.frame = myFrame;
+//    [self layoutSubviews];
 }
-
 @end

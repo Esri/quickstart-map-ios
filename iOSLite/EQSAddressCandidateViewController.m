@@ -17,6 +17,7 @@
 @end
 
 @interface EQSAddressCandidateViewController ()
+
 @property (weak, nonatomic) IBOutlet UIView *topLevelView;
 @property (nonatomic, readonly) CGRect nextPosition;
 
@@ -25,6 +26,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *candidateLatLonLabel;
 @property (weak, nonatomic) IBOutlet UILabel *candidateScoreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *candidateLocatorLabel;
+
+- (IBAction)zoomButtonTapped:(id)sender;
+
+@property (nonatomic, assign) BOOL isAGSCalloutView;
 @end
 
 @implementation EQSAddressCandidateViewController
@@ -39,12 +44,16 @@
 
 @synthesize candidate = _candidate;
 
+@synthesize candidateViewDelegate = _candidateViewDelegate;
+@synthesize isAGSCalloutView = _isAGSCalloutView;
+
 @dynamic nextPosition;
 
 - (UIView *) customViewForGraphic:(AGSGraphic *)graphic screenPoint:(CGPoint)screen mapPoint:(AGSPoint *)mapPoint
 {
     EQSAddressCandidateView *acv = (EQSAddressCandidateView *)self.view;
     [acv setupForCalloutTemplate];
+    self.isAGSCalloutView = YES;
     return self.view;
 }
 
@@ -72,6 +81,19 @@
 
     [parentView addSubview:self.view];
     self.view.frame = proposedPosition;
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    self.view.alpha = 0;
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    NSTimeInterval animationDuration = self.isAGSCalloutView?0:0.4;
+    [UIView animateWithDuration:animationDuration animations:^{
+        self.view.alpha = 1;
+    }];
 }
 
 + (void) setContentWidthOfScrollViewContainingCandidateViews:(UIScrollView *)containingScrollView UsingTemplate:(EQSAddressCandidateView *)templateView
@@ -103,6 +125,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.isAGSCalloutView = NO;
 }
 
 - (void)viewDidUnload
@@ -132,6 +155,17 @@
         self.addressSecondaryLabel.text = @"";
         self.candidateLatLonLabel.text = @"";
         self.candidateScoreLabel.text = @"";
+    }
+}
+
+- (IBAction)zoomButtonTapped:(id)sender {
+    if (self.candidateViewDelegate)
+    {
+        if ([self.candidateViewDelegate respondsToSelector:@selector(candidateView:DidTapZoomToCandidate:)])
+        {
+            [self.candidateViewDelegate candidateView:(EQSAddressCandidateView *)self.view
+                                DidTapZoomToCandidate:self.candidate];
+        }
     }
 }
 @end

@@ -11,9 +11,17 @@
 
 @class EQSAddressCandidateView;
 
-@interface EQSAddressCandidateViewController : UIViewController <AGSInfoTemplateDelegate>
+@protocol EQSAddressCandidateViewDelegate
+- (void) candidateView:(EQSAddressCandidateView *)candidateView
+ DidTapZoomToCandidate:(AGSAddressCandidate *)candidate;
+@end
+
+@interface EQSAddressCandidateViewController : UIViewController <AGSInfoTemplateDelegate> {
+    id <EQSAddressCandidateViewDelegate> candidateViewDelegate;
+}
 @property (weak, nonatomic) IBOutlet EQSAddressCandidateView *addressCandidateView;
 @property (nonatomic, strong) AGSAddressCandidate *candidate;
+@property (nonatomic, weak) id candidateViewDelegate;
 
 - (void) addToParentView:(UIView *)parentView relativeTo:(EQSAddressCandidateView *)previousView;
 + (void) setContentWidthOfScrollViewContainingCandidateViews:(UIScrollView *)containingScrollView UsingTemplate:(EQSAddressCandidateView *)templateView;

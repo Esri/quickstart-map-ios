@@ -46,7 +46,8 @@ NSInteger __eqsScaleForGeolocation = -1;
     double scaleForLevel = [EQSHelper getScaleForLevel:scaleLevel];
     
     [self doActionWhenLoaded:^void {
-        [self zoomToScale:scaleForLevel withCenterPoint:point animated:YES];
+        AGSPoint *zoomPoint = [point getWebMercatorAuxSpherePoint];
+        [self zoomToScale:scaleForLevel withCenterPoint:zoomPoint animated:YES];
     }];
 }
 

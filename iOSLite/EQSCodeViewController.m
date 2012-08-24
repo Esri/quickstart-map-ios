@@ -228,7 +228,7 @@
 	
 	// Set the HTML
     NSString *htmlToShow = [NSString stringWithFormat:self.htmlTemplate, linesToHighlight, codeSnippet];
-    NSLog(@"%@", htmlToShow);
+//    NSLog(@"%@", htmlToShow);
     [self.codeWebView loadHTMLString:htmlToShow baseURL:baseURL];
 }
 
