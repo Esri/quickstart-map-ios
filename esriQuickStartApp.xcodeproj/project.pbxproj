@@ -64,6 +64,8 @@
 		D9EAB295156FE0AF008BCE8F /* EQSRouteDisplayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EAB294156FE0AF008BCE8F /* EQSRouteDisplayHelper.m */; };
 		D9F9AE99157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9AE98157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m */; };
 		D9F9EE72156DE7FA00C2A15F /* AGSMapView+Graphics.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9EE71156DE7FA00C2A15F /* AGSMapView+Graphics.m */; };
+		D9FAAECF15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9FAAECE15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m */; };
+		D9FAAED515E84C87003E3F5B /* EQSAddressCandidateCalloutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9FAAED415E84C86003E3F5B /* EQSAddressCandidateCalloutViewController.m */; };
 		E11C2FB41593AC830004EBB6 /* AGSPoint+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E11C2FB31593AC830004EBB6 /* AGSPoint+GeneralUtilities.m */; };
 		E141D0E315DB02CE004F81F4 /* EQSPortalItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = E141D0E215DB02CD004F81F4 /* EQSPortalItemView.m */; };
 		E16C07CC1559B39C00776F3E /* ArcGIS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E16C07CB1559B39C00776F3E /* ArcGIS.bundle */; };
@@ -175,6 +177,10 @@
 		D9F9EE70156DE7FA00C2A15F /* AGSMapView+Graphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+Graphics.h"; sourceTree = "<group>"; };
 		D9F9EE71156DE7FA00C2A15F /* AGSMapView+Graphics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+Graphics.m"; sourceTree = "<group>"; };
 		D9FAAECC15E82211003E3F5B /* EQSBasemapsNotifications.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSBasemapsNotifications.h; sourceTree = "<group>"; };
+		D9FAAECD15E83D88003E3F5B /* EQSAddressCandidateCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSAddressCandidateCalloutView.h; sourceTree = "<group>"; };
+		D9FAAECE15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSAddressCandidateCalloutView.m; sourceTree = "<group>"; };
+		D9FAAED315E84C86003E3F5B /* EQSAddressCandidateCalloutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSAddressCandidateCalloutViewController.h; sourceTree = "<group>"; };
+		D9FAAED415E84C86003E3F5B /* EQSAddressCandidateCalloutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSAddressCandidateCalloutViewController.m; sourceTree = "<group>"; };
 		E11C2FB21593AC830004EBB6 /* AGSPoint+GeneralUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSPoint+GeneralUtilities.h"; sourceTree = "<group>"; };
 		E11C2FB31593AC830004EBB6 /* AGSPoint+GeneralUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSPoint+GeneralUtilities.m"; sourceTree = "<group>"; };
 		E141D0E115DB02CD004F81F4 /* EQSPortalItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSPortalItemView.h; sourceTree = "<group>"; };
@@ -275,8 +281,12 @@
 				D964FA1D15E67E970013B4D7 /* EQSAddressCandidateView.xib */,
 				D964FA2215E67EBD0013B4D7 /* EQSAddressCandidateView.h */,
 				D964FA2315E67EBD0013B4D7 /* EQSAddressCandidateView.m */,
+				D9FAAECD15E83D88003E3F5B /* EQSAddressCandidateCalloutView.h */,
+				D9FAAECE15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m */,
 				D964FA1F15E67EAA0013B4D7 /* EQSAddressCandidateViewController.h */,
 				D964FA2015E67EAA0013B4D7 /* EQSAddressCandidateViewController.m */,
+				D9FAAED315E84C86003E3F5B /* EQSAddressCandidateCalloutViewController.h */,
+				D9FAAED415E84C86003E3F5B /* EQSAddressCandidateCalloutViewController.m */,
 				D940585215E6C25900F4A320 /* Resources */,
 			);
 			name = "Address Candidate Views";
@@ -722,6 +732,8 @@
 				D97D446415E465DD0072457A /* EQSCodeViewController.m in Sources */,
 				D964FA2115E67EAA0013B4D7 /* EQSAddressCandidateViewController.m in Sources */,
 				D964FA2415E67EBD0013B4D7 /* EQSAddressCandidateView.m in Sources */,
+				D9FAAECF15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m in Sources */,
+				D9FAAED515E84C87003E3F5B /* EQSAddressCandidateCalloutViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

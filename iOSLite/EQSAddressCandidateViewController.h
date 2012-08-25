@@ -10,6 +10,7 @@
 #import <ArcGIS/ArcGIS.h>
 
 @class EQSAddressCandidateView;
+@class EQSAddressCandidateViewController;
 
 typedef enum {
     EQSCandidateTypeForwardGeocode,
@@ -19,25 +20,44 @@ typedef enum {
     EQSCandidateTypeDirectionsEnd
 } EQSCandidateType;
 
+typedef enum {
+    EQSCandidateViewTypeView,
+    EQSCandidateViewTypeCalloutView
+} EQSCandidateViewType;
+
+
+
 @protocol EQSAddressCandidateViewDelegate
-- (void) candidateView:(EQSAddressCandidateView *)candidateView
- DidTapZoomToCandidate:(AGSAddressCandidate *)candidate;
+- (void) candidateViewController:(EQSAddressCandidateViewController *)candidateVC
+           DidTapViewType:(EQSCandidateViewType)viewType;
 @end
+
+
+
 
 @interface EQSAddressCandidateViewController : UIViewController <AGSInfoTemplateDelegate> {
     id <EQSAddressCandidateViewDelegate> candidateViewDelegate;
 }
-@property (weak, nonatomic) IBOutlet EQSAddressCandidateView *addressCandidateView;
+
 @property (nonatomic, strong) AGSAddressCandidate *candidate;
+@property (nonatomic, assign) EQSCandidateType candidateType;
 @property (nonatomic, strong) AGSGraphic *graphic;
 
 @property (nonatomic, weak) id candidateViewDelegate;
 
-@property (nonatomic, assign) EQSCandidateType viewType;
 
-- (void) addToParentView:(UIView *)parentView relativeTo:(EQSAddressCandidateView *)previousView;
-+ (void) setContentWidthOfScrollViewContainingCandidateViews:(UIScrollView *)containingScrollView UsingTemplate:(EQSAddressCandidateView *)templateView;
-+ (CGFloat) getWidthOfNumber:(NSUInteger)numberOfViews OfAddressCandidateViews:(EQSAddressCandidateView *)templateView;
+- (id) initWithAddressCandidate:(AGSAddressCandidate *)candidate OfType:(EQSCandidateType)candidateType;
 
-//+ (EQSAddressCandidateViewController *) addressCandidateViewControllerForCandidate:(AGSAddressCandidate *)candidate;
+
+- (void) addToParentView:(UIView *)parentView relativeTo:(EQSAddressCandidateViewController *)previousView;
+
++ (EQSAddressCandidateViewController *) findRightmostItemIn:(UIScrollView *)parentView;
+
+- (void) ensureMainViewVisibleInParentUIScrollView;
+
+
++ (void) setContentWidthOfScrollViewContainingCandidateViews:(UIScrollView *)containingScrollView
+                                               UsingTemplate:(EQSAddressCandidateView *)templateView;
++ (CGFloat) getWidthOfNumber:(NSUInteger)numberOfViews
+     OfAddressCandidateViews:(EQSAddressCandidateView *)templateView;
 @end

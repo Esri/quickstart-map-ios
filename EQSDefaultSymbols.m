@@ -188,6 +188,7 @@ EQSDefaultSymbols *__eqsDefaultSymbols = nil;
     pms.xoffset = kEQSPinXOffset;
     pms.yoffset = kEQSPinYOffset;
     pms.size = kEQSPinSize;
+    pms.hotspot = CGPointMake(-pms.xoffset, -pms.yoffset);
     
     return pms;
 }
@@ -199,6 +200,7 @@ EQSDefaultSymbols *__eqsDefaultSymbols = nil;
     pms.xoffset = kEQSCircleXOffset;
     pms.yoffset = kEQSCircleYOffset;
     pms.size = kEQSCircleSize;
+    pms.hotspot = CGPointMake(-pms.xoffset, -pms.yoffset);
     
     return pms;
 }

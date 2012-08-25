@@ -8,6 +8,8 @@
 
 #import "EQSAddressCandidateViewController.h"
 #import "EQSAddressCandidateView.h"
+#import "EQSAddressCandidateCalloutView.h"
+#import "EQSAddressCandidateCalloutViewController.h"
 #import "AGSPoint+GeneralUtilities.h"
 
 #import "EQSGeoServicesNotifications.h"
@@ -19,115 +21,261 @@
 @end
 
 @interface EQSAddressCandidateViewController ()
-
-@property (weak, nonatomic) IBOutlet UIView *topLevelView;
 @property (nonatomic, readonly) CGRect nextPosition;
 
-@property (weak, nonatomic) IBOutlet UILabel *addressPrimaryLabel;
-@property (weak, nonatomic) IBOutlet UILabel *addressSecondaryLabel;
+@property (weak, nonatomic) IBOutlet UILabel *candidatePrimaryLabel;
+@property (weak, nonatomic) IBOutlet UILabel *candidateSecondaryLabel;
 @property (weak, nonatomic) IBOutlet UILabel *candidateLatLonLabel;
-@property (weak, nonatomic) IBOutlet UILabel *candidateScoreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *candidateLocatorLabel;
+@property (weak, nonatomic) IBOutlet UILabel *candidateScoreLabel;
 
-- (IBAction)zoomButtonTapped:(id)sender;
-
-@property (nonatomic, assign) BOOL isAGSCalloutView;
-
+@property (weak, nonatomic) IBOutlet UILabel *calloutPrimaryLabel;
+@property (weak, nonatomic) IBOutlet UILabel *calloutLatLonLabel;
+@property (weak, nonatomic) IBOutlet UILabel *calloutLocatorLabel;
+@property (weak, nonatomic) IBOutlet UILabel *calloutScoreLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *revColRefView;
 @property (weak, nonatomic) IBOutlet UILabel *fwdColRefView;
 @property (weak, nonatomic) IBOutlet UILabel *geolocColRefView;
 @property (weak, nonatomic) IBOutlet UILabel *routeStartColRefView;
 @property (weak, nonatomic) IBOutlet UILabel *routeEndColRefView;
+
+- (IBAction)zoomButtonTapped:(id)sender;
+
+@property (strong, nonatomic) IBOutlet EQSAddressCandidateCalloutView *calloutView;
+@property (strong, nonatomic) IBOutlet EQSAddressCandidateCalloutViewController *calloutViewController;
+
+@property (weak, nonatomic) IBOutlet UIButton *candidateViewButton;
+@property (weak, nonatomic) IBOutlet UIButton *calloutViewButton;
+
 @end
 
 @implementation EQSAddressCandidateViewController
-@synthesize candidateScoreLabel;
-@synthesize candidateLocatorLabel;
-@synthesize topLevelView;
-@synthesize addressCandidateView;
-
-@synthesize addressPrimaryLabel;
-@synthesize addressSecondaryLabel;
+@synthesize calloutView;
+@synthesize calloutViewController;
+@synthesize candidateViewButton;
+@synthesize calloutViewButton;
+@synthesize candidatePrimaryLabel;
+@synthesize candidateSecondaryLabel;
 @synthesize candidateLatLonLabel;
+@synthesize candidateLocatorLabel;
+@synthesize candidateScoreLabel;
+
+@synthesize calloutPrimaryLabel;
+@synthesize calloutLatLonLabel;
+@synthesize calloutLocatorLabel;
+@synthesize calloutScoreLabel;
 
 @synthesize candidate = _candidate;
 
 @synthesize candidateViewDelegate = _candidateViewDelegate;
-@synthesize isAGSCalloutView = _isAGSCalloutView;
 @synthesize revColRefView;
 @synthesize fwdColRefView;
 @synthesize geolocColRefView;
 @synthesize routeStartColRefView;
 @synthesize routeEndColRefView;
 
-@synthesize viewType = _viewType;
+@synthesize candidateType = _candidateType;
 
 @dynamic nextPosition;
 
-- (id) init
+- (id) initWithAddressCandidate:(AGSAddressCandidate *)candidate OfType:(EQSCandidateType)candidateType
 {
-    self = [super init];
+    self = [super initWithNibName:@"EQSAddressCandidateView" bundle:nil];
+    
     if (self)
     {
-        self.viewType = EQSCandidateTypeForwardGeocode;
+        self.candidate = candidate;
+        self.candidateType = candidateType;
     }
     return self;
 }
 
 - (UIView *) customViewForGraphic:(AGSGraphic *)graphic screenPoint:(CGPoint)screen mapPoint:(AGSPoint *)mapPoint
 {
-    EQSAddressCandidateView *acv = (EQSAddressCandidateView *)self.view;
-    [acv setupForCalloutTemplate];
-    self.isAGSCalloutView = YES;
-    return self.view;
+    return self.calloutView;
 }
 
-- (void) setViewType:(EQSCandidateType)viewType
+- (void) setCandidateType:(EQSCandidateType)candidateType
 {
-    if (_viewType != viewType)
+    _candidateType = candidateType;
+    if (self.view)
     {
-        _viewType = viewType;
-        
-        UILabel *refView = nil;
-        switch (_viewType) {
-            case EQSCandidateTypeForwardGeocode:
-                refView = self.fwdColRefView;
-                self.candidateLocatorLabel.hidden = NO;
-                break;
-            case EQSCandidateTypeReverseGeocode:
-                refView = self.revColRefView;
-                self.candidateLocatorLabel.hidden = YES;
-                break;
-            case EQSCandidateTypeGeolocation:
-                refView = self.geolocColRefView;
-                self.candidateLocatorLabel.hidden = YES;
-                break;
-            case EQSCandidateTypeDirectionsStart:
-                refView = self.routeStartColRefView;
-                self.candidateLocatorLabel.hidden = YES;
-                break;
-            case EQSCandidateTypeDirectionsEnd:
-                refView = self.routeEndColRefView;
-                self.candidateLocatorLabel.hidden = NO;
-                break;
-            default:
-                NSLog(@"Unexpected EQSCandidateType: %d", _viewType);
-                break;
-        }
-        
-        self.addressPrimaryLabel.textColor =
-        self.addressSecondaryLabel.textColor =
-        self.candidateLatLonLabel.textColor =
-        self.candidateLocatorLabel.textColor =
-        self.candidateScoreLabel.textColor =
-        refView.textColor;
-        
-        self.topLevelView.backgroundColor = refView.backgroundColor;
-        
-        [self refreshCandidateDisplay];
+        [self updateCandidateDisplay];
     }
 }
+
+- (void)setCandidate:(AGSAddressCandidate *)candidate
+{
+    _candidate = candidate;
+    [self updateCandidateDisplay];
+}
+
+- (void) updateCandidateDisplay
+{
+    UILabel *refView = nil;
+    switch (self.candidateType) {
+        case EQSCandidateTypeForwardGeocode:
+            refView = self.fwdColRefView;
+            self.candidateLocatorLabel.hidden = NO;
+            break;
+        case EQSCandidateTypeReverseGeocode:
+            refView = self.revColRefView;
+            self.candidateLocatorLabel.hidden = YES;
+            break;
+        case EQSCandidateTypeGeolocation:
+            refView = self.geolocColRefView;
+            self.candidateLocatorLabel.hidden = YES;
+            break;
+        case EQSCandidateTypeDirectionsStart:
+            refView = self.routeStartColRefView;
+            self.candidateLocatorLabel.hidden = YES;
+            break;
+        case EQSCandidateTypeDirectionsEnd:
+            refView = self.routeEndColRefView;
+            self.candidateLocatorLabel.hidden = NO;
+            break;
+        default:
+            NSLog(@"Unexpected EQSCandidateType: %d", self.candidateType);
+            break;
+    }
+    
+    self.candidatePrimaryLabel.textColor =
+    self.candidateSecondaryLabel.textColor =
+    self.candidateLatLonLabel.textColor =
+    self.candidateLocatorLabel.textColor =
+    self.candidateScoreLabel.textColor =
+    self.calloutPrimaryLabel.textColor =
+    self.calloutLatLonLabel.textColor =
+    self.calloutLocatorLabel.textColor =
+    self.calloutScoreLabel.textColor =
+    refView.textColor;
+    
+    self.view.backgroundColor = self.calloutView.backgroundColor = refView.backgroundColor;
+    
+    if (self.candidate)
+    {
+        NSString *latLonString = [NSString stringWithFormat:@"%4.4f,%4.4f",
+                                  self.candidate.location.latitude,
+                                  self.candidate.location.longitude];
+        NSString *scoreString = [NSString stringWithFormat:@"Score: %.2f", self.candidate.score];
+        
+        switch (self.candidateType)
+        {
+            case EQSCandidateTypeForwardGeocode:
+            {
+                NSString *locatorName = [self.candidate.attributes objectForKey:@"Addr_Type"];
+
+                self.candidatePrimaryLabel.text =self.candidate.addressString;
+                self.candidateSecondaryLabel.text = @"";
+                self.candidateLatLonLabel.text = latLonString;
+                self.candidateLocatorLabel.text = locatorName;
+                self.candidateScoreLabel.text = scoreString;
+                
+                self.calloutPrimaryLabel.text = self.candidatePrimaryLabel.text;
+                self.calloutLatLonLabel.text = self.candidateLatLonLabel.text;
+                self.calloutLocatorLabel.text = self.candidateLocatorLabel.text;
+                self.calloutScoreLabel.text = self.candidateScoreLabel.text;
+            }
+                break;
+                
+            case EQSCandidateTypeReverseGeocode:
+            case EQSCandidateTypeGeolocation:
+            case EQSCandidateTypeDirectionsStart:
+            case EQSCandidateTypeDirectionsEnd:
+            {
+                NSDictionary *addData = self.candidate.address;
+                NSString *addStr = [NSString stringWithFormat:@"%@, %@, %@ %@",
+                                    [addData objectForKey:kEQSAddressCandidateAddressField],
+                                    [addData objectForKey:kEQSAddressCandidateCityField],
+                                    [addData objectForKey:kEQSAddressCandidateStateField],
+                                    [addData objectForKey:kEQSAddressCandidateZipField]];
+                NSString *locatorName = [self.candidate.address objectForKey:@"Loc_name"];
+
+                self.candidatePrimaryLabel.text =addStr;
+                self.candidateSecondaryLabel.text = @"";
+                self.candidateLatLonLabel.text = latLonString;
+                self.candidateLocatorLabel.text = @"";
+                self.candidateScoreLabel.text = locatorName;
+                
+                self.calloutPrimaryLabel.text = self.candidatePrimaryLabel.text;
+                self.calloutLatLonLabel.text = self.candidateLatLonLabel.text;
+                self.calloutLocatorLabel.text = self.candidateLocatorLabel.text;
+                self.calloutScoreLabel.text = self.candidateScoreLabel.text;
+            }
+                break;
+                
+            default:
+                NSLog(@"Unknown Candidate View Type");
+                break;
+        }
+    }
+    else
+    {
+        self.candidatePrimaryLabel.text = @"";
+        self.candidateSecondaryLabel.text = @"";
+        self.candidateLatLonLabel.text = @"";
+        self.candidateScoreLabel.text = @"";
+    }
+}
+
+
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view.
+}
+
+- (void)viewDidUnload
+{
+    [self setCandidatePrimaryLabel:nil];
+    [self setCandidateSecondaryLabel:nil];
+    [self setCandidateLatLonLabel:nil];
+    [self setCandidateLocatorLabel:nil];
+    [self setCandidateScoreLabel:nil];
+    
+    [self setCalloutPrimaryLabel:nil];
+    [self setCalloutLatLonLabel:nil];
+    [self setCalloutLocatorLabel:nil];
+    [self setCalloutScoreLabel:nil];
+    
+    [self setCalloutView:nil];
+    
+    [self setCandidate:nil];
+    [self setGraphic:nil];
+    
+    [self setCalloutViewController:nil];
+    [self setCandidateViewButton:nil];
+    [self setCalloutViewButton:nil];
+    [super viewDidUnload];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    self.view.alpha = 0;
+    [self updateCandidateDisplay];
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    NSTimeInterval animationDuration = 0.4;
+    [UIView animateWithDuration:animationDuration animations:^{
+        self.view.alpha = 1;
+    }];
+}
+
+- (void) setGraphic:(AGSGraphic *)graphic
+{
+    _graphic = graphic;
+    if (graphic.infoTemplateDelegate == nil)
+    {
+        graphic.infoTemplateDelegate = self;
+    }
+}
+
+
+
 
 - (CGRect) nextPosition
 {
@@ -135,40 +283,78 @@
     return CGRectOffset(myFrame, myFrame.size.width + kEQSAddressCandidateViewSpacing, 0);
 }
 
-- (void) addToParentView:(UIView *)parentView relativeTo:(EQSAddressCandidateView *)previousView
+- (void) addToParentView:(UIView *)parentView relativeTo:(EQSAddressCandidateViewController *)previousCandidate
 {
     CGRect proposedPosition = CGRectNull;
-    if (previousView)
+    if (previousCandidate)
     {
-        proposedPosition = previousView.viewController.nextPosition;
+        proposedPosition = previousCandidate.nextPosition;
     }
     else
     {
-        CGSize mySize = self.view.frame.size;
-        CGSize parentSize = parentView.frame.size;
-        proposedPosition = CGRectMake(kEQSAddressCandidateViewSpacing,
-                                      (parentSize.height - mySize.height)/2,
-                                      mySize.width, mySize.height);
+        // Add at end.
+        EQSAddressCandidateViewController *rightmostCandidateVC =
+        [EQSAddressCandidateViewController findRightmostItemIn:(UIScrollView *)parentView];
+        if (rightmostCandidateVC)
+        {
+            proposedPosition = rightmostCandidateVC.nextPosition;
+        }
+        else
+        {
+            CGSize mySize = self.view.frame.size;
+            CGSize parentSize = parentView.frame.size;
+            proposedPosition = CGRectMake(kEQSAddressCandidateViewSpacing,
+                                          (parentSize.height - mySize.height)/2,
+                                          mySize.width, mySize.height);
+        }
     }
-
+    
     [parentView addSubview:self.view];
+    if ([parentView isKindOfClass:[UIScrollView class]])
+    {
+        [EQSAddressCandidateViewController setContentWidthOfScrollViewContainingCandidateViews:(UIScrollView *)parentView
+                                                                                 UsingTemplate:(EQSAddressCandidateView *)self.view];
+    }
     self.view.frame = proposedPosition;
 }
 
-- (void) viewWillAppear:(BOOL)animated
+- (void) ensureMainViewVisibleInParentUIScrollView
 {
-    self.view.alpha = 0;
+    UIView *parentView = self.view.superview;
+    if ([parentView isKindOfClass:[UIScrollView class]])
+    {
+        UIScrollView *parentScrollView = (UIScrollView *)parentView;
+        CGSize parentSize = parentScrollView.frame.size;
+        CGFloat xOffset = (parentSize.width - self.view.frame.size.width) / 2;
+        CGRect newRect = CGRectInset(self.view.frame, -xOffset, 0);
+        NSLog(@"Old Rect %@ [%.2f] New Rect %@", NSStringFromCGRect(self.view.frame) , xOffset, NSStringFromCGRect(newRect));
+        [parentScrollView scrollRectToVisible:newRect animated:YES];
+    }
 }
 
-- (void) viewDidAppear:(BOOL)animated
++ (EQSAddressCandidateViewController *) findRightmostItemIn:(UIScrollView *)parentView
 {
-    NSTimeInterval animationDuration = self.isAGSCalloutView?0:0.4;
-    [UIView animateWithDuration:animationDuration animations:^{
-        self.view.alpha = 1;
-    }];
+    CGFloat maxOriginX = CGFLOAT_MIN;
+    EQSAddressCandidateView *rightmostView = nil;
+    
+    for (UIView *subView in parentView.subviews)
+    {
+        if ([subView isKindOfClass:[EQSAddressCandidateView class]])
+        {
+            EQSAddressCandidateView *v = (EQSAddressCandidateView *)subView;
+            if (v.frame.origin.x + v.frame.size.width > maxOriginX)
+            {
+                maxOriginX = v.frame.origin.x + v.frame.size.width;
+                rightmostView = v;
+            }
+        }
+    }
+    
+    return rightmostView.viewController;
 }
 
-+ (void) setContentWidthOfScrollViewContainingCandidateViews:(UIScrollView *)containingScrollView UsingTemplate:(EQSAddressCandidateView *)templateView
++ (void) setContentWidthOfScrollViewContainingCandidateViews:(UIScrollView *)containingScrollView
+                                               UsingTemplate:(EQSAddressCandidateView *)templateView
 {
     CGFloat newWidth = containingScrollView.frame.size.width;
     if (templateView)
@@ -184,96 +370,27 @@
     return numberOfViews==0?0:kEQSAddressCandidateViewSpacing + (numberOfViews * (templateView.frame.size.width + kEQSAddressCandidateViewSpacing));
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    self.isAGSCalloutView = NO;
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    self.candidate = nil;
-}
-
-- (void)setCandidate:(AGSAddressCandidate *)candidate
-{
-    _candidate = candidate;
-    [self refreshCandidateDisplay];
-}
-
-- (void) refreshCandidateDisplay
-{
-    if (self.candidate)
-    {
-        switch (self.viewType) {
-            case EQSCandidateTypeForwardGeocode:
-            {
-                self.addressPrimaryLabel.text = self.candidate.addressString;
-                self.addressSecondaryLabel.text = @"";
-                self.candidateLatLonLabel.text = [NSString stringWithFormat:@"%4.4f,%4.4f",
-                                                  self.candidate.location.latitude,
-                                                  self.candidate.location.longitude];
-                self.candidateScoreLabel.text = [NSString stringWithFormat:@"Score: %.2f", self.candidate.score];
-                NSString *locatorName = [self.candidate.attributes objectForKey:@"Addr_Type"];
-                self.candidateLocatorLabel.text = locatorName;
-            }
-                break;
-                
-            case EQSCandidateTypeReverseGeocode:
-            case EQSCandidateTypeGeolocation:
-            case EQSCandidateTypeDirectionsStart:
-            case EQSCandidateTypeDirectionsEnd:
-            {
-                NSDictionary *addData = self.candidate.address;
-                NSString *addStr = [NSString stringWithFormat:@"%@, %@, %@ %@",
-                                    [addData objectForKey:kEQSAddressCandidateAddressField],
-                                    [addData objectForKey:kEQSAddressCandidateCityField],
-                                    [addData objectForKey:kEQSAddressCandidateStateField],
-                                    [addData objectForKey:kEQSAddressCandidateZipField]];
-                self.addressPrimaryLabel.text = addStr;
-                self.addressSecondaryLabel.text = @"";
-                self.candidateLatLonLabel.text = [NSString stringWithFormat:@"%4.4f,%4.4f",
-                                                  self.candidate.location.latitude,
-                                                  self.candidate.location.longitude];
-                self.candidateLocatorLabel.text = @"";
-                NSString *locatorName = [self.candidate.address objectForKey:@"Loc_name"];
-                self.candidateScoreLabel.text = locatorName;
-            }
-                break;
-                
-            default:
-                NSLog(@"Unknown Candidate View Type");
-                break;
-        }
-    }
-    else
-    {
-        self.addressPrimaryLabel.text = @"";
-        self.addressSecondaryLabel.text = @"";
-        self.candidateLatLonLabel.text = @"";
-        self.candidateScoreLabel.text = @"";
-    }
-}
-
 - (IBAction)zoomButtonTapped:(id)sender {
     if (self.candidateViewDelegate)
     {
-        if ([self.candidateViewDelegate respondsToSelector:@selector(candidateView:DidTapZoomToCandidate:)])
+        if ([self.candidateViewDelegate respondsToSelector:@selector(candidateViewController:DidTapViewType:)])
         {
-            [self.candidateViewDelegate candidateView:(EQSAddressCandidateView *)self.view
-                                DidTapZoomToCandidate:self.candidate];
+            EQSCandidateViewType viewType;
+            if (sender == self.calloutViewButton)
+            {
+                viewType = EQSCandidateViewTypeView;
+            }
+            else if (sender == self.candidateViewButton)
+            {
+                viewType = EQSCandidateViewTypeCalloutView;
+            }
+            else
+            {
+                NSLog(@"Unknown sender for CandidateView zoomButtonTapped!");
+                return;
+            }
+
+            [self.candidateViewDelegate candidateViewController:self DidTapViewType:viewType];
         }
     }
 }
