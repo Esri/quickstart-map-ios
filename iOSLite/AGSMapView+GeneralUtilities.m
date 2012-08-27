@@ -107,7 +107,7 @@
     double a3 = remY1.size.width * remY1.size.height;
     if (a3 > maxA) { maxRect = remY1; maxA = a3; };
     double a4 = remY2.size.width * remY2.size.height;
-    if (a4 > maxA) { maxRect = remY2; maxA = a4; };
+    if (a4 > maxA) { maxRect = remY2; };
     
     return maxRect;
 }

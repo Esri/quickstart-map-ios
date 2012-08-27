@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "EQSAddressCandidateViewController.h"
+#import "EQSAddressCandidatePanelViewController.h"
 
 @interface EQSAddressCandidateCalloutView : UIView
 @end

@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "EQSAddressCandidateViewController.h"
+#import "EQSAddressCandidatePanelViewController.h"
 
 @interface EQSAddressCandidateView : UIView
-@property (strong, nonatomic) IBOutlet EQSAddressCandidateViewController *viewController;
+@property (strong, nonatomic) IBOutlet EQSAddressCandidatePanelViewController *viewController;
 @end

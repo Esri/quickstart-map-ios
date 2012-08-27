@@ -21,6 +21,7 @@
 
 @property (nonatomic, strong) AGSMarkerSymbol *geocode;
 @property (nonatomic, strong) AGSMarkerSymbol *reverseGeocode;
+@property (nonatomic, strong) AGSMarkerSymbol *failedGeocode;
 
 @property (nonatomic, strong) AGSSimpleLineSymbol *route;
 @property (nonatomic, strong) AGSMarkerSymbol *routeStart;

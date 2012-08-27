@@ -35,9 +35,9 @@
 #import <objc/runtime.h>
 
 #define kEQSGetAddressReasonKey @"FindAddressReason"
-#define kEQSGetAddressReasonRouteStart @"RouteStartPoint"
-#define kEQSGetAddressReasonRouteEnd @"RouteEndPoint"
-#define kEQSGetAddressReasonReverseGeocodeForPoint @"FindAddressFunction"
+#define kEQSGetAddressReason_RouteStart @"RouteStartPoint"
+#define kEQSGetAddressReason_RouteEnd @"RouteEndPoint"
+#define kEQSGetAddressReason_ReverseGeocodeForPoint @"FindAddressFunction"
 #define kEQSGetAddressReason_AddressForGeolocation @"AddressForGeolocation"
 #define kEQSGetAddressData_SearchPoint @"EQSGeoServices_ReverseGeocode_Data_SearchPoint"
 
@@ -52,6 +52,8 @@
                                         AGSMapViewCalloutDelegate,
                                         EQSAddressCandidateViewDelegate,
                                         UIAlertViewDelegate>
+
+@property (nonatomic, strong) NSMutableOrderedSet *geocodeResults;
 
 // General UI
 @property (weak, nonatomic) IBOutlet UIToolbar *functionToolBar;
@@ -240,6 +242,8 @@
         v.hidden = YES;
         v.frame = [self getUIFrame:v];
     }
+    
+    self.geocodeResults = [NSMutableOrderedSet orderedSet];
     
 	// Track the application state
     self.currentState = EQSSampleAppStateBasemaps;
@@ -1024,60 +1028,46 @@
 			// OK, this is something we requested and so we should be able to work
 			// out what to do with it.
 			
-			if ([source isEqualToString:kEQSGetAddressReasonRouteStart])
+			if ([source isEqualToString:kEQSGetAddressReason_RouteStart])
 			{
 				self.routeStartAddress = address;
 				self.routeStartPoint = candidate.location;
 			}
-			else if ([source isEqualToString:kEQSGetAddressReasonRouteEnd])
+			else if ([source isEqualToString:kEQSGetAddressReason_RouteEnd])
 			{
 				self.routeEndAddress = address;
 				self.routeEndPoint = candidate.location;
 			}
-			else if ([source isEqualToString:kEQSGetAddressReasonReverseGeocodeForPoint])
+			else if ([source isEqualToString:kEQSGetAddressReason_ReverseGeocodeForPoint])
 			{
                 AGSPoint *p = candidate.location;//] getWebMercatorAuxSpherePoint];
                 AGSGraphic *g = [self.mapView addPoint:p WithSymbol:self.mapView.defaultSymbols.reverseGeocode];
                 [g.attributes setObject:@"ReverseGeocoded" forKey:@"Source"];
                 [g.attributes addEntriesFromDictionary:candidate.attributes];
                 
-                EQSAddressCandidateViewController *cvc =
-                [[EQSAddressCandidateViewController alloc] initWithAddressCandidate:candidate
+                EQSAddressCandidatePanelViewController *cvc =
+                [[EQSAddressCandidatePanelViewController alloc] initWithAddressCandidate:candidate
                                                                              OfType:EQSCandidateTypeReverseGeocode];
                 cvc.candidateViewDelegate = self;
                 cvc.graphic = g;
-                [cvc addToParentView:self.findPlacesScrollView relativeTo:nil];
+                [cvc addToScrollView:self.findPlacesScrollView];
+                [self.geocodeResults addObject:cvc];
 
-//                EQSAddressCandidateView *candidatePopupView = [[EQSAddressCandidateView alloc] init];
-//                candidatePopupView.viewController.candidate = candidate;
-//                candidatePopupView.viewController.candidateViewDelegate = self;
-//                candidatePopupView.viewController.candidateType = EQSCandidateTypeReverseGeocode;
-//                g.infoTemplateDelegate = candidatePopupView.viewController;
-                
                 [self.mapView showCalloutAtPoint:p forGraphic:g animated:YES];
-
-//				self.findAddressSearchBar.text = address;
 			}
             else if ([source isEqualToString:kEQSGetAddressReason_AddressForGeolocation])
             {
                 AGSPoint *geoLocation = [notification findAddressSearchPoint];
-//                geoLocation = [geoLocation getWebMercatorAuxSpherePoint];
-//                AGSPoint *p = [candidate.location getWebMercatorAuxSpherePoint];
                 AGSGraphic *g = [self.mapView addPoint:geoLocation WithSymbol:self.mapView.defaultSymbols.geolocation];
                 [g.attributes setObject:@"GeoLocation" forKey:@"Source"];
                 [g.attributes addEntriesFromDictionary:candidate.attributes];
 
-                EQSAddressCandidateViewController *cvc =
-                [[EQSAddressCandidateViewController alloc] initWithAddressCandidate:candidate
+                EQSAddressCandidatePanelViewController *cvc =
+                [[EQSAddressCandidatePanelViewController alloc] initWithAddressCandidate:candidate
                                                                              OfType:EQSCandidateTypeGeolocation];
                 cvc.candidateViewDelegate = self;
                 cvc.graphic = g;
-                
-//                EQSAddressCandidateView *candidatePopupView = [[EQSAddressCandidateView alloc] init];
-//                candidatePopupView.viewController.candidate = candidate;
-//                candidatePopupView.viewController.candidateViewDelegate = self;
-//                candidatePopupView.viewController.candidateType = EQSCandidateTypeGeolocation;
-//                g.infoTemplateDelegate = candidatePopupView.viewController;
+                [self.geocodeResults addObject:cvc];
 
                 self.myLocationAddressLabel.text = address;
             }
@@ -1089,6 +1079,22 @@
 {
 	NSError *error = [notification geoServicesError];
 	NSLog(@"Failed to get address for location: %@", error);
+
+    AGSPoint *failedPoint = [notification findAddressSearchPoint];
+    AGSGraphic *g = [self.mapView addPoint:failedPoint WithSymbol:self.mapView.defaultSymbols.failedGeocode];
+    [g.attributes setObject:@"FailedGeocode" forKey:@"Source"];
+    
+    EQSDummyAddressCandidate *dummyCandidate =
+        [[EQSDummyAddressCandidate alloc] initWithLocation:failedPoint
+                                           AndSearchRadius:[notification findAddressSearchDistance]];
+    EQSAddressCandidatePanelViewController *acvc =
+        [EQSAddressCandidatePanelViewController viewControllerWithCandidate:dummyCandidate
+                                                                OfType:EQSCandidateTypeFailedGeocode];
+    acvc.candidateViewDelegate = self;
+    acvc.graphic =g;
+    [acvc addToScrollView:self.findPlacesScrollView];
+    [self.geocodeResults addObject:acvc];
+    [self.mapView showCalloutAtPoint:failedPoint forGraphic:g animated:YES];
 }
 
 
@@ -1170,19 +1176,19 @@
 - (void)didTapStartPoint:(AGSPoint *)mapPoint
 {
     NSOperation *op = [self.mapView.geoServices findAddressFromPoint:mapPoint];
-    objc_setAssociatedObject(op, kEQSGetAddressReasonKey, kEQSGetAddressReasonRouteStart, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(op, kEQSGetAddressReasonKey, kEQSGetAddressReason_RouteStart, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)didTapEndPoint:(AGSPoint *)mapPoint
 {
     NSOperation *op = [self.mapView.geoServices findAddressFromPoint:mapPoint];
-    objc_setAssociatedObject(op, kEQSGetAddressReasonKey, kEQSGetAddressReasonRouteEnd, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(op, kEQSGetAddressReasonKey, kEQSGetAddressReason_RouteEnd, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)didTapToReverseGeocode:(AGSPoint *)mapPoint
 {
 	NSOperation *op = [self.mapView.geoServices findAddressFromPoint:mapPoint];
-    objc_setAssociatedObject(op, kEQSGetAddressReasonKey, kEQSGetAddressReasonReverseGeocodeForPoint, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(op, kEQSGetAddressReasonKey, kEQSGetAddressReason_ReverseGeocodeForPoint, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void) setRouteStartPoint:(AGSPoint *)routeStartPoint
@@ -1419,31 +1425,21 @@
     if (op)
     {
         NSArray *candidates = [notification findPlacesCandidates];
-        EQSAddressCandidateViewController *prevVC = nil;
         if (candidates.count > 0)
         {
             // First, let's remove all the old items (if any)
-            [self.mapView removeGraphicsMatchingCriteria:^BOOL(AGSGraphic *g) {
-                if ([[g.attributes objectForKey:@"Source"] isEqualToString:@"Geocoded"])
-                {
-                    NSLog(@"Removing graphic!");
-                    return YES;
-                }
-                return NO;
-            }];
-            
-            for (UIView *subView in self.findPlacesScrollView.subviews)
+            NSMutableArray *geocodeResultsToDiscard = [NSMutableArray array];
+            for (EQSAddressCandidatePanelViewController *gcvc in self.geocodeResults)
             {
-                if ([subView isKindOfClass:[EQSAddressCandidateView class]])
+                if (gcvc.candidateType == EQSCandidateTypeForwardGeocode)
                 {
-                    EQSAddressCandidateView *eqsSubV = (EQSAddressCandidateView *)subView;
-                    if (eqsSubV.viewController.candidateType == EQSCandidateTypeForwardGeocode)
-                    {
-                        [subView removeFromSuperview];
-                    }
+                    [gcvc.graphic.layer removeGraphic:gcvc.graphic];
+                    [gcvc removeFromParentScrollView];
+                    [geocodeResultsToDiscard addObject:gcvc];
                 }
             }
-            
+            [self.geocodeResults removeObjectsInArray:geocodeResultsToDiscard];
+
             self.mapView.callout.hidden = YES;
             
             self.findPlacesNoResultsLabel.hidden = YES;
@@ -1476,33 +1472,19 @@
                         [totalEnv unionWithPoint:p];
                     }
                     
-                    EQSAddressCandidateViewController *cvc = [[EQSAddressCandidateViewController alloc] initWithAddressCandidate:c OfType:EQSCandidateTypeForwardGeocode];
-                    [cvc addToParentView:self.findPlacesScrollView relativeTo:prevVC];
+                    EQSAddressCandidatePanelViewController *cvc =
+                        [EQSAddressCandidatePanelViewController viewControllerWithCandidate:c
+                                                                                OfType:EQSCandidateTypeForwardGeocode];
+                    [cvc addToScrollView:self.findPlacesScrollView];
+                    [self.geocodeResults addObject:cvc];
                     cvc.candidateViewDelegate = self;
                     cvc.graphic = g;
-//                    g.infoTemplateDelegate = cvc;
-                    prevVC = cvc;
-//                    
-//                    EQSAddressCandidateView *candidateView = [[EQSAddressCandidateView alloc] init];
-//                    [candidateView.viewController addToParentView:self.findPlacesScrollView relativeTo:prevView];
-//                    candidateView.viewController.candidate = c;
-//                    candidateView.viewController.candidateViewDelegate = self;
-//                    objc_setAssociatedObject(candidateView.viewController, @"AssociatedGraphic", g,
-//                                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-//                    prevView = candidateView;
-//                    
-//                    EQSAddressCandidateView *candidatePopupView = [[EQSAddressCandidateView alloc] init];
-//                    candidatePopupView.viewController.candidate = c;
-//                    candidatePopupView.viewController.candidateViewDelegate = self;
-//                    g.infoTemplateDelegate = candidatePopupView.viewController;
                 }
                 else
                 {
                     break;
                 }
             }
-            [EQSAddressCandidateViewController setContentWidthOfScrollViewContainingCandidateViews:self.findPlacesScrollView UsingTemplate:(EQSAddressCandidateView *)prevVC.view];
-            prevVC = nil;
             if (count == 1)
             {
                 [self.mapView centerAtPoint:[totalEnv center] withScaleLevel:17];
@@ -1550,9 +1532,10 @@
 	NSLog(@"Failed to get candidates for address: %@", error);
 }
 
-- (void) candidateViewController:(EQSAddressCandidateViewController *)candidateVC DidTapViewType:(EQSCandidateViewType)viewType
+- (void) candidateViewController:(EQSAddressCandidatePanelViewController *)candidateVC
+                  DidTapViewType:(EQSCandidateViewType)viewType
 {
-    AGSPoint *location = candidateVC.candidate.location;
+    AGSPoint *location = candidateVC.candidateLocation;
     if (location)
     {
         [self.mapView centerAtPoint:location animated:YES];
@@ -1563,7 +1546,7 @@
             [self.mapView showCalloutAtPoint:location forGraphic:g animated:YES];
         }
     }
-    [candidateVC ensureMainViewVisibleInParentUIScrollView];
+    [candidateVC ensureVisibleInParentUIScrollView];
 }
 
 #pragma mark - Geolocation

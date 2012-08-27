@@ -13,6 +13,7 @@
 #define kEQSRedPinURL @"http://static.arcgis.com/images/Symbols/Shapes/RedPin1LargeB.png"
 #define kEQSYellowPinURL @"http://static.arcgis.com/images/Symbols/Shapes/YellowPin1LargeB.png"
 #define kEQSOrangePinURL @"http://static.arcgis.com/images/Symbols/Shapes/OrangePin1LargeB.png"
+#define kEQSBlackPinURL @"http://static.arcgis.com/images/Symbols/Shapes/BlackPin1LargeB.png"
 
 #define kEQSPinXOffset 0
 #define kEQSPinYOffset 14
@@ -48,6 +49,7 @@ EQSDefaultSymbols *__eqsDefaultSymbols = nil;
 
 @synthesize geocode = _geocode;
 @synthesize reverseGeocode = _reverseGeocode;
+@synthesize failedGeocode = _failedGeocode;
 
 @synthesize route = _route;
 @synthesize routeStart = _routeStart;
@@ -74,6 +76,12 @@ EQSDefaultSymbols *__eqsDefaultSymbols = nil;
 {
     [self waitUntilLoaded];
     return _reverseGeocode;
+}
+
+- (AGSMarkerSymbol *)failedGeocode
+{
+    [self waitUntilLoaded];
+    return _failedGeocode;
 }
 
 - (AGSSimpleLineSymbol *)route
@@ -173,6 +181,7 @@ EQSDefaultSymbols *__eqsDefaultSymbols = nil;
     
     self.geocode = [self getPinSizedPictureMarkerSymbolForURL:kEQSOrangePinURL];
     self.reverseGeocode = [self getPinSizedPictureMarkerSymbolForURL:kEQSYellowPinURL];
+    self.failedGeocode = [self getPinSizedPictureMarkerSymbolForURL:kEQSBlackPinURL];
 }
                             
 - (AGSPictureMarkerSymbol *)pictureMarkerSymbol:(NSString *)url
@@ -184,7 +193,6 @@ EQSDefaultSymbols *__eqsDefaultSymbols = nil;
 - (AGSPictureMarkerSymbol *) getPinSizedPictureMarkerSymbolForURL:(NSString *)url
 {
     AGSPictureMarkerSymbol *pms = [self pictureMarkerSymbol:url];
-    pms = [self pictureMarkerSymbol:url];
     pms.xoffset = kEQSPinXOffset;
     pms.yoffset = kEQSPinYOffset;
     pms.size = kEQSPinSize;
@@ -196,7 +204,6 @@ EQSDefaultSymbols *__eqsDefaultSymbols = nil;
 - (AGSPictureMarkerSymbol *) getCircleSizedPictureMarkerSymbolForURL:(NSString *)url
 {
     AGSPictureMarkerSymbol *pms = [self pictureMarkerSymbol:url];
-    pms = [self pictureMarkerSymbol:url];
     pms.xoffset = kEQSCircleXOffset;
     pms.yoffset = kEQSCircleYOffset;
     pms.size = kEQSCircleSize;

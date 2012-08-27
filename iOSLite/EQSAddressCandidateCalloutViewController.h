@@ -8,9 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
-#import "EQSAddressCandidateCalloutView.h"
+#import "EQSAddressCandidateBaseViewController.h"
 
-@interface EQSAddressCandidateCalloutViewController : UIViewController
-@property (nonatomic, strong) AGSAddressCandidate *candidate;
-@property (nonatomic, strong) AGSGraphic *graphic;
+@interface EQSAddressCandidateCalloutViewController : EQSAddressCandidateBaseViewController <AGSInfoTemplateDelegate>
 @end

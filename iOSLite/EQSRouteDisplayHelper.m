@@ -94,7 +94,8 @@
 #pragma mark - Internal init/dealloc, etc.
 - (id) initForMapView:(AGSMapView *)mapView
 {
-    if ([self init])
+    self = [self init];
+    if (self)
     {
 		// Create a new Graphics Layer
         self.routeGraphicsLayer = [AGSGraphicsLayer graphicsLayer];

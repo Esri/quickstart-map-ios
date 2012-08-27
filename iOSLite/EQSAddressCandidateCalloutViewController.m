@@ -7,24 +7,30 @@
 //
 
 #import "EQSAddressCandidateCalloutViewController.h"
+#import "EQSAddressCandidatePanelViewController.h"
+#import "AGSPoint+GeneralUtilities.h"
 
-@interface EQSAddressCandidateCalloutViewController ()
-@property (weak, nonatomic) IBOutlet EQSAddressCandidateViewController *mainViewController;
-
+@interface EQSAddressCandidateCalloutViewController () 
+@property (weak, nonatomic) IBOutlet EQSAddressCandidatePanelViewController *mainViewController;
 @end
 
 @implementation EQSAddressCandidateCalloutViewController
 @synthesize mainViewController = _mainViewController;
 
-@synthesize candidate = _candidate;
-@synthesize graphic = _graphic;
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
++ (id) viewControllerWithCandidate:(AGSAddressCandidate *)candidate OfType:(EQSCandidateType)candidateType
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    return [[EQSAddressCandidateCalloutViewController alloc] initWithAddressCandidate:candidate
+                                                                               OfType:candidateType];
+}
+
+- (id) initWithAddressCandidate:(AGSAddressCandidate *)candidate OfType:(EQSCandidateType)candidateType
+{
+    if (self)
+    {
+        self.candidate = candidate;
+        self.candidateType = candidateType;
     }
+    
     return self;
 }
 
@@ -40,14 +46,41 @@
     // Release any retained subviews of the main view.
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
 - (void) viewDidAppear:(BOOL)animated
 {
-    [self.mainViewController ensureMainViewVisibleInParentUIScrollView];
+    [super viewDidAppear:animated];
+
+    [self.mainViewController ensureVisibleInParentUIScrollView];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (void) setGraphic:(AGSGraphic *)graphic
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    super.graphic = graphic;
+    
+    if (self.graphic)
+    {
+        self.graphic.infoTemplateDelegate = self;
+    }
 }
 
+#pragma mark - AGSCalloutDelegate
+- (UIView *) customViewForGraphic:(AGSGraphic *)graphic screenPoint:(CGPoint)screen mapPoint:(AGSPoint *)mapPoint
+{
+    return self.view;
+}
+
+- (IBAction)zoomButtonTapped:(id)sender {
+    if (self.candidateViewDelegate)
+    {
+        if ([self.candidateViewDelegate respondsToSelector:@selector(candidateViewController:DidTapViewType:)])
+        {
+            [self.candidateViewDelegate candidateViewController:self DidTapViewType:EQSCandidateViewTypeCalloutView];
+        }
+    }
+}
 @end

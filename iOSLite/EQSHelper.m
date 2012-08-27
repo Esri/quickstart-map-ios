@@ -145,7 +145,8 @@ NSDictionary * __eqsBasemapURLs = nil;
 }
 
 - (id) init {
-    if ([super init])
+    self = [super init];
+    if (self)
     {
         [self LoadConfigData];
     }
