@@ -1,6 +1,6 @@
 //
 //  EQSSampleViewController.h
-//  iOSLite
+//  EsriQuickStartApp
 //
 //  Created by Nicholas Furness on 5/8/12.
 //  Copyright (c) 2012 ESRI. All rights reserved.
@@ -10,7 +10,5 @@
 #import <ArcGIS/ArcGIS.h>
 
 @interface EQSSampleViewController : UIViewController
-
 @property (weak, nonatomic) IBOutlet AGSMapView *mapView;
-
 @end

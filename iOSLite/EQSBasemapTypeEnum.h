@@ -1,13 +1,13 @@
 //
 //  EQSBasemapTypeEnum.h
-//  iOSLite
+//  EsriQuickStartApp
 //
 //  Created by Nicholas Furness on 5/25/12.
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#ifndef iOSLite_EQSBasemapTypeEnum_h
-#define iOSLite_EQSBasemapTypeEnum_h
+#ifndef esriQuickStartApp_EQSBasemapTypeEnum_h
+#define esriQuickStartApp_EQSBasemapTypeEnum_h
 
 typedef enum {
     EQSBasemapTypeStreet = 1,

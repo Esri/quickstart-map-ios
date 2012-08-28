@@ -112,11 +112,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "iOSLite/EQSSampleViewController.m"
-         timestampString = "367788804.41036"
+         timestampString = "367865707.376011"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "450"
-         endingLineNumber = "450"
+         startingLineNumber = "454"
+         endingLineNumber = "454"
          landmarkName = "-nearestGraphicToPoint:FromMapViewClickedGraphics:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -125,11 +125,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "iOSLite/EQSSampleViewController.m"
-         timestampString = "367788804.41036"
+         timestampString = "367865422.352206"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "408"
-         endingLineNumber = "408"
+         startingLineNumber = "409"
+         endingLineNumber = "409"
          landmarkName = "-mapView:didClickAtPoint:mapPoint:graphics:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -138,11 +138,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "iOSLite/EQSSampleViewController.m"
-         timestampString = "367788804.41036"
+         timestampString = "367865707.376011"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "438"
-         endingLineNumber = "438"
+         startingLineNumber = "442"
+         endingLineNumber = "442"
          landmarkName = "-nearestGraphicToPoint:FromMapViewClickedGraphics:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -151,11 +151,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "iOSLite/EQSSampleViewController.m"
-         timestampString = "367794993.426937"
+         timestampString = "367865707.376011"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1547"
-         endingLineNumber = "1547"
+         startingLineNumber = "1583"
+         endingLineNumber = "1583"
          landmarkName = "-candidateViewController:DidTapViewType:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -164,11 +164,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "iOSLite/EQSSampleViewController.m"
-         timestampString = "367788804.41036"
+         timestampString = "367865707.376011"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "994"
-         endingLineNumber = "994"
+         startingLineNumber = "1014"
+         endingLineNumber = "1014"
          landmarkName = "-deleteSelectedGraphic:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -190,11 +190,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "iOSLite/EQSSampleViewController.m"
-         timestampString = "367788804.41036"
+         timestampString = "367865707.376011"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "996"
-         endingLineNumber = "996"
+         startingLineNumber = "1016"
+         endingLineNumber = "1016"
          landmarkName = "-deleteSelectedGraphic:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -216,11 +216,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "iOSLite/EQSSampleViewController.m"
-         timestampString = "367788804.41036"
+         timestampString = "367865707.376011"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1025"
-         endingLineNumber = "1025"
+         startingLineNumber = "1049"
+         endingLineNumber = "1049"
          landmarkName = "-didGetAddressFromPoint:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -229,11 +229,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "iOSLite/EQSSampleViewController.m"
-         timestampString = "367788804.41036"
+         timestampString = "367865707.376011"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1043"
-         endingLineNumber = "1043"
+         startingLineNumber = "1067"
+         endingLineNumber = "1067"
          landmarkName = "-didGetAddressFromPoint:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -320,11 +320,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "iOSLite/EQSSampleViewController.m"
-         timestampString = "367794993.426937"
+         timestampString = "367865707.376011"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1539"
-         endingLineNumber = "1539"
+         startingLineNumber = "1575"
+         endingLineNumber = "1575"
          landmarkName = "-candidateViewController:DidTapViewType:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -333,11 +333,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "iOSLite/EQSSampleViewController.m"
-         timestampString = "367788804.41036"
+         timestampString = "367865707.376011"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1048"
-         endingLineNumber = "1048"
+         startingLineNumber = "1072"
+         endingLineNumber = "1072"
          landmarkName = "-didGetAddressFromPoint:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -515,11 +515,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "iOSLite/EQSSampleViewController.m"
-         timestampString = "367794928.116801"
+         timestampString = "367865707.376011"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1060"
-         endingLineNumber = "1060"
+         startingLineNumber = "1084"
+         endingLineNumber = "1084"
          landmarkName = "-didGetAddressFromPoint:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -541,12 +541,51 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "iOSLite/EQSSampleViewController.m"
-         timestampString = "367800524.757793"
+         timestampString = "367865707.376011"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1557"
-         endingLineNumber = "1557"
+         startingLineNumber = "1593"
+         endingLineNumber = "1593"
          landmarkName = "-findMe:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "iOSLite/EQSSampleViewController.m"
+         timestampString = "367865523.378481"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "412"
+         endingLineNumber = "412"
+         landmarkName = "-mapView:didClickAtPoint:mapPoint:graphics:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "iOSLite/EQSSampleViewController.m"
+         timestampString = "367865848.427507"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "428"
+         endingLineNumber = "428"
+         landmarkName = "-mapView:didClickAtPoint:mapPoint:graphics:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "iOSLite/EQSSampleViewController.m"
+         timestampString = "367867047.868206"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "378"
+         endingLineNumber = "378"
+         landmarkName = "-mapView:shouldShowCalloutForGraphic:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

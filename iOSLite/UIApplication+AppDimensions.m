@@ -1,6 +1,6 @@
 //
 //  UIApplication+AppDimensions.m
-//  iOSLite
+//  EsriQuickStartApp
 //
 //  Created by Nicholas Furness on 7/10/12.
 //

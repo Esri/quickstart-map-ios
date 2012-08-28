@@ -1,6 +1,6 @@
 //
 //  EQSSampleViewController.m
-//  iOSLite
+//  EsriQuickStartApp
 //
 //  Created by Nicholas Furness on 5/8/12.
 //  Copyright (c) 2012 ESRI. All rights reserved.
@@ -375,13 +375,14 @@
 
 - (BOOL) mapView:(AGSMapView *)mapView shouldShowCalloutForGraphic:(AGSGraphic *)graphic
 {
-    NSLog(@"Showed callout");
-    return YES;
+    return (graphic.infoTemplateDelegate != nil);
 }
 
-- (void) mapView:(AGSMapView *)mapView didClickAtPoint:(CGPoint)screen mapPoint:(AGSPoint *)mapPoint graphics:(NSDictionary *)graphics
+- (void) mapView:(AGSMapView *)mapView
+ didClickAtPoint:(CGPoint)screen
+        mapPoint:(AGSPoint *)mapPoint
+        graphics:(NSDictionary *)graphics
 {
-    NSLog(@"Clicked on map!");
     switch (self.currentState) {
         case EQSSampleAppStateGraphics:
             if (graphics.count > 0)
@@ -419,9 +420,12 @@
             break;
             
         default:
-            NSLog(@"Click on %d graphics", graphics.count);
+//            NSLog(@"Click on %d graphics", graphics.count);
             for (id key in graphics.allKeys) {
-                NSLog(@"Graphic '%@' = %@", key, [graphics objectForKey:key]);
+                NSArray *graphicsInLayer = [graphics objectForKey:key];
+                for (AGSGraphic *g in graphicsInLayer) {
+                    NSLog(@"Graphic '%@' = %@", key, g);
+                }
             }
             break;
     }
@@ -804,6 +808,10 @@
     [self updateUIDisplayState];
 }
 
+
+
+
+
 #pragma mark - Undo/Redo
 
 - (void) setUndoRedoButtonStatesForUndoManager:(NSUndoManager *)um
@@ -856,6 +864,10 @@
     }
 }
 
+
+
+
+
 #pragma mark - Basemap Selection
 
 // Populate the PortalItemViewer with items based off our Basemap List
@@ -899,6 +911,10 @@
 	self.basemapsPicker.currentPortalItemID = pi.itemId;
 }
 
+
+
+
+
 #pragma mark - Basemap Info
 
 - (void)basemapsPickerDidTapInfoButton:(id)basemapsPicker
@@ -919,6 +935,10 @@
         destVC.portalItem = self.currentPortalItem;
     }
 }
+
+
+
+
 
 #pragma mark - Graphics
 
@@ -996,6 +1016,10 @@
     self.currentState = EQSSampleAppStateGraphics;
 }
 
+
+
+
+
 #pragma mark - Geocoding
 - (void) didGetAddressFromPoint:(NSNotification *)notification
 {
@@ -1071,6 +1095,8 @@
                 [self.geocodeResults addObject:cvc];
 
                 self.myLocationAddressLabel.text = address;
+
+                [self.mapView showCalloutAtPoint:geoLocation forGraphic:g animated:YES];
             }
 		}
 	}
@@ -1454,6 +1480,7 @@
             maxScore = maxScore * 0.8;
             AGSMutableEnvelope *totalEnv = nil;
             NSUInteger count = 0;
+            EQSAddressCandidatePanelViewController *firstResultVC = nil;
             for (AGSAddressCandidate *c in sortedCandidates) {
                 if (c.score >= maxScore)
                 {
@@ -1479,11 +1506,20 @@
                     [self.geocodeResults addObject:cvc];
                     cvc.candidateViewDelegate = self;
                     cvc.graphic = g;
+                    
+                    if (!firstResultVC)
+                    {
+                        firstResultVC = cvc;
+                    }
                 }
                 else
                 {
                     break;
                 }
+            }
+            if (firstResultVC)
+            {
+                [firstResultVC ensureVisibleInParentUIScrollView];
             }
             if (count == 1)
             {

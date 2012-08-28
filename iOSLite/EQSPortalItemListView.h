@@ -1,6 +1,6 @@
 //
 //  EQSPortalItemListView.h
-//  iOSLite
+//  EsriQuickStartApp
 //
 //  Created by Nicholas Furness on 6/14/12.
 //  Copyright (c) 2012 ESRI. All rights reserved.

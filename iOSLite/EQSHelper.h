@@ -1,6 +1,6 @@
 //
 //  EQSHelper.h
-//  iOSLite
+//  EsriQuickStartApp
 //
 //  Created by Nicholas Furness on 5/22/12.
 //  Copyright (c) 2012 ESRI. All rights reserved.
@@ -11,18 +11,18 @@
 #import "EQSBasemapTypeEnum.h"
 
 @interface EQSHelper : NSObject
-// Translate a Google/Bing/ArcGIS Online tiling scheme scale number (1-20) to an actual scale value.
+// Translate between ArcGIS Online/Bing/Google tiling scheme scale levels (1-20) and actual scale value.
 + (double) getScaleForLevel:(NSUInteger)level;
 + (NSUInteger) getLevelForScale:(double)scale;
 
-// Basemap Helpers
+// Basemap functions
 + (NSString *) getBasemapName:(EQSBasemapType)basemapType;
 + (AGSWebMap *) getBasemapWebMap:(EQSBasemapType)basemapType;
 + (NSString *) getPortalItemIDForBasemap:(EQSBasemapType)basemapType;
 + (EQSBasemapType) getBasemapTypeForPortalItemID:(NSString *)portalItemID;
-+ (AGSTiledLayer *) getBasemapTiledLayer:(EQSBasemapType)basemapType;
-+ (NSArray *) getBasemapSupplementalTiledLayers:(EQSBasemapType)basemapType;
 
-// Queuing...
+// Queuing. Some operations cannot be performed until the AGSMapView has loaded.
+// This single function takes a code block and only executes it once the provided
+// AGSMapView enters a loaded state.
 + (void) queueBlock:(void (^)(void))block untilMapViewLoaded:(AGSMapView *)mapView;
 @end

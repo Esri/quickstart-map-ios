@@ -1,6 +1,6 @@
 //
 //  AGSGraphicsLayer+GeneralUtilities.h
-//  iOSLite
+//  EsriQuickStartApp
 //
 //  Created by Nicholas Furness on 7/4/12.
 //  Copyright (c) 2012 ESRI. All rights reserved.

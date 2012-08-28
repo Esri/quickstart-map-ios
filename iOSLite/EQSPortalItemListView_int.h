@@ -1,6 +1,6 @@
 //
 //  EQSPortalItemListView_int.h
-//  iOSLite
+//  EsriQuickStartApp
 //
 //  Created by Nicholas Furness on 8/15/12.
 //  Copyright (c) 2012 ESRI. All rights reserved.
@@ -8,8 +8,8 @@
 
 #include "EQSPortalItemListView.h"
 
-#ifndef iOSLite_EQSPortalItemListView_int_h
-#define iOSLite_EQSPortalItemListView_int_h
+#ifndef esriQuickStartApp_EQSPortalItemListView_int_h
+#define esriQuickStartApp_EQSPortalItemListView_int_h
 
 @interface EQSPortalItemListView ()
 // Internal - for use by the PortalItemListViewController only

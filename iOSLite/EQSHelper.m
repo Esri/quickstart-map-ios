@@ -1,6 +1,6 @@
 //
 //  EQSHelper.m
-//  iOSLite
+//  EsriQuickStartApp
 //
 //  Created by Nicholas Furness on 5/22/12.
 //  Copyright (c) 2012 ESRI. All rights reserved.
@@ -11,7 +11,6 @@
 #define kEQSConfigKey_ScaleLevels @"DefaultScaleLevels"
 #define kEQSConfigKey_DefaultScaleLevel @"DefaultScaleLevel"
 #define kEQSConfigKey_BasemapPortalItemIDs @"Basemaps"
-#define kEQSConfigKey_BasemapURLs @"BasemapURLs"
 
 #define kEQSConfigKey_Basemap_Street @"Street"
 #define kEQSConfigKey_Basemap_Satellite @"Satellite"
@@ -24,20 +23,24 @@
 @interface EQSHelper () <CLLocationManagerDelegate>
 + (id)defaultHelper;
 - (double) getScaleForLevel:(NSUInteger)level;
-@property (nonatomic, strong) NSMutableDictionary *mapViewQueues;
+
+@property (nonatomic, assign) BOOL isInitialized;
 
 @property (nonatomic, strong) NSDictionary *scaleLevels;
+@property (nonatomic, strong) NSString *defaultScale;
+
+@property (nonatomic, strong) NSDictionary *basemapPortalItemIDs;
+
+@property (nonatomic, strong) NSMutableDictionary *mapViewQueues;
 @end
 
 
 @implementation EQSHelper
 @synthesize scaleLevels = _scaleLevels;
 
-BOOL __isInitialized = NO;
-
-NSString * __eqsDefaultScaleLevel = nil;
-NSDictionary * __eqsBasemapWebMapIDs = nil;
-NSDictionary * __eqsBasemapURLs = nil;
+@synthesize isInitialized;
+@synthesize defaultScale;
+@synthesize basemapPortalItemIDs;
 
 @synthesize mapViewQueues = _mapViewQueues;
 
@@ -116,9 +119,18 @@ NSDictionary * __eqsBasemapURLs = nil;
 }
 
 #pragma mark - Configuration Loading and initialization
+- (id) init {
+    self = [super init];
+    if (self)
+    {
+        [self LoadConfigData];
+    }
+    return self;
+}
+
 - (void)LoadConfigData
 {
-	if (!__isInitialized)
+	if (!self.isInitialized)
 	{
 		NSString *path = [[NSBundle mainBundle] pathForResource:@"EQSConfig" ofType:@"plist"];
 		NSData *pListData = [NSData dataWithContentsOfFile:path];
@@ -135,10 +147,9 @@ NSDictionary * __eqsBasemapURLs = nil;
 			{
 				NSDictionary *d = (NSDictionary *)pList;
 				self.scaleLevels = [d objectForKey:kEQSConfigKey_ScaleLevels];
-				__eqsDefaultScaleLevel = [d objectForKey:kEQSConfigKey_DefaultScaleLevel];
-                __eqsBasemapWebMapIDs = [d objectForKey:kEQSConfigKey_BasemapPortalItemIDs];
-                __eqsBasemapURLs = [d objectForKey:kEQSConfigKey_BasemapURLs];
-                __isInitialized = YES;
+				self.defaultScale = [d objectForKey:kEQSConfigKey_DefaultScaleLevel];
+                self.basemapPortalItemIDs = [d objectForKey:kEQSConfigKey_BasemapPortalItemIDs];
+                self.isInitialized = YES;
 			}
 		}
 		else 
@@ -148,22 +159,10 @@ NSDictionary * __eqsBasemapURLs = nil;
 	}
 }
 
-- (id) init {
-    self = [super init];
-    if (self)
-    {
-        [self LoadConfigData];
-    }
-    return self;
-}
+
 
 
 #pragma mark - Property accessors
-- (NSString *) getEdnDefaultScaleLevel
-{
-	return __eqsDefaultScaleLevel;
-}
-
 - (NSString *) getBasemapKeyForEnum:(EQSBasemapType)basemapType
 {
     NSString *key;
@@ -205,8 +204,8 @@ NSDictionary * __eqsBasemapURLs = nil;
     }
     else
     {
-        NSLog(@"Scale level %@ is invalid. Using default of %@.", key, [self getEdnDefaultScaleLevel]);
-        return [[self.scaleLevels objectForKey:[self getEdnDefaultScaleLevel]] doubleValue];
+        NSLog(@"Scale level %@ is invalid. Using default of %@.", key, self.defaultScale);
+        return [[self.scaleLevels objectForKey:self.defaultScale] doubleValue];
     }
 }
 
@@ -256,10 +255,10 @@ NSDictionary * __eqsBasemapURLs = nil;
     NSString *key = [self getBasemapKeyForEnum:basemapType];
     NSAssert1(key != nil, @"Could not figure out which basemap you're after!", basemapType);
     
-    NSString *webMapID = [__eqsBasemapWebMapIDs objectForKey:key];
-    NSAssert1(webMapID != nil, @"The basemap hasn't been configured properly!", key);
+    NSString *portalItemID = [self.basemapPortalItemIDs objectForKey:key];
+    NSAssert1(portalItemID != nil, @"The basemap hasn't been configured properly!", key);
     
-	return webMapID;
+	return portalItemID;
 }
 
 + (EQSBasemapType) getBasemapTypeForPortalItemID:(NSString *)portalItemID
@@ -270,9 +269,9 @@ NSDictionary * __eqsBasemapURLs = nil;
 - (EQSBasemapType) getBasemapTypeForPortalItemID:(NSString *)portalItemID
 {
 	NSString *foundKey = nil;
-	for (int i=0; i < __eqsBasemapWebMapIDs.count; i++) {
-		NSString *key = [__eqsBasemapWebMapIDs.allKeys objectAtIndex:i];
-		NSString *val = [__eqsBasemapWebMapIDs objectForKey:key];
+	for (int i=0; i < self.basemapPortalItemIDs.count; i++) {
+		NSString *key = [self.basemapPortalItemIDs.allKeys objectAtIndex:i];
+		NSString *val = [self.basemapPortalItemIDs objectForKey:key];
 		if ([val isEqualToString:portalItemID])
 		{
 			foundKey = key;
@@ -311,75 +310,8 @@ NSDictionary * __eqsBasemapURLs = nil;
     return r;
 }
 
-- (BOOL) basemapLayerHasSupplementLayers:(EQSBasemapType)basemapType
-{
-    switch (basemapType) {
-        case EQSBasemapTypeHybrid:
-        case EQSBasemapTypeCanvas:
-            return YES;
-            
-        default:
-            return NO;
-    }
-}
 
-- (AGSTiledLayer *) getBasemapTiledLayer:(EQSBasemapType)basemapType
-{
-    switch (basemapType) {
-        case EQSBasemapTypeOpenStreetMap:
-            return [AGSOpenStreetMapLayer openStreetMapLayer];
-            break;
 
-        default:
-            {
-                NSString *key = [self getBasemapKeyForEnum:basemapType];
-                NSAssert1(key != nil, @"Could not figure out which basemap you're after!", basemapType);
-                
-                NSString *basemapURL = nil;
-                if ([self basemapLayerHasSupplementLayers:basemapType])
-                {
-                    // The value is a dictionary of layer IDs
-                    NSArray *allBasemapLayers = [__eqsBasemapURLs objectForKey:key];
-                    basemapURL = [allBasemapLayers objectAtIndex:0];
-                }
-                else
-                {
-                    // The value is a string.
-                    basemapURL = [__eqsBasemapURLs objectForKey:key];
-                }
-                NSAssert1(basemapURL != nil, @"The basemap hasn't been configured properly!", key);
-                
-                AGSTiledMapServiceLayer *basemapLayer = [AGSTiledMapServiceLayer tiledMapServiceLayerWithURL:[NSURL URLWithString:basemapURL]];
-                return basemapLayer;
-            }
-            break;
-    }
-}
-
-- (NSArray *) getBasemapSupplementalTiledLayers:(EQSBasemapType)basemapType
-{
-    if ([self basemapLayerHasSupplementLayers:basemapType])
-    {
-        NSString *key = [self getBasemapKeyForEnum:basemapType];
-        NSAssert1(key != nil, @"Could not figure out which basemap you're after!", basemapType);
-
-        // The value is a dictionary of layer IDs
-        NSArray *allBasemapLayers = [__eqsBasemapURLs objectForKey:key];
-        NSMutableArray *results = [NSMutableArray array];
-        for (int i = 1; i < allBasemapLayers.count; i++)
-        {
-            NSString *url = [allBasemapLayers objectAtIndex:i];
-            AGSTiledMapServiceLayer *newlayer = [AGSTiledMapServiceLayer
-                                                 tiledMapServiceLayerWithURL:[NSURL URLWithString:url]];
-            [results addObject:newlayer];
-        }
-        return results;
-    }
-    else
-    {
-        return nil;
-    }
-}
 
 #pragma mark - Static Helper functions
 + (EQSHelper *)defaultHelper {

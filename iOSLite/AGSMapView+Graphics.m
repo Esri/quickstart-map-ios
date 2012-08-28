@@ -1,6 +1,6 @@
 //
 //  AGSMapView+Graphics.m
-//  iOSLite
+//  EsriQuickStartApp
 //
 //  Created by Nicholas Furness on 5/23/12.
 //  Copyright (c) 2012 ESRI. All rights reserved.

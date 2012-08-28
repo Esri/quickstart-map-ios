@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'iOSLite' target in the 'iOSLite' project
+// Prefix header for all source files of the 'eqsQuickStartApp' target in the 'eqsQuickStart' project
 //
 
 #import <Availability.h>
