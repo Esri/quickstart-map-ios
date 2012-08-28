@@ -47,7 +47,7 @@ EQSDefaultSymbols *__eqsDefaultSymbols = nil;
 
 @synthesize geolocation = _geolocation;
 
-@synthesize geocode = _geocode;
+@synthesize findPlace = _geocode;
 @synthesize reverseGeocode = _reverseGeocode;
 @synthesize failedGeocode = _failedGeocode;
 
@@ -66,7 +66,7 @@ EQSDefaultSymbols *__eqsDefaultSymbols = nil;
     return _geolocation;
 }
 
-- (AGSMarkerSymbol *)geocode
+- (AGSMarkerSymbol *)findPlace
 {
     [self waitUntilLoaded];
     return _geocode;
@@ -179,7 +179,7 @@ EQSDefaultSymbols *__eqsDefaultSymbols = nil;
     self.routeSegment = [AGSSimpleLineSymbol simpleLineSymbolWithColor:[[UIColor greenColor] colorWithAlphaComponent:0.5f]
                                                                  width:10.0f];
     
-    self.geocode = [self getPinSizedPictureMarkerSymbolForURL:kEQSOrangePinURL];
+    self.findPlace = [self getPinSizedPictureMarkerSymbolForURL:kEQSOrangePinURL];
     self.reverseGeocode = [self getPinSizedPictureMarkerSymbolForURL:kEQSYellowPinURL];
     self.failedGeocode = [self getPinSizedPictureMarkerSymbolForURL:kEQSBlackPinURL];
 }

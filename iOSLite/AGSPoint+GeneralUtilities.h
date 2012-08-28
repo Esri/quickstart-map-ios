@@ -8,9 +8,9 @@
 
 #import <ArcGIS/ArcGIS.h>
 
-@interface AGSPoint (GeneralUtilities)
+@interface AGSPoint (EQSGeneral)
 // Convenience function to return a new AGSPoint given a Lat and Lon.
-+ (AGSPoint *) pointFromLat:(double)latitude Lon:(double)longitude;
++ (AGSPoint *) pointFromLat:(double)latitude lon:(double)longitude;
 
 // Read the Lat and Lon values from any point, regardless of its internal spatial reference.
 - (double) latitude;

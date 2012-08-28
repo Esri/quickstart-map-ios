@@ -13,7 +13,7 @@
 
 #import "EQSHelper.h"
 
-@implementation AGSMapView (Graphics)
+@implementation AGSMapView (EQSGraphics)
 AGSGraphicsLayer * __eqsPointGraphicsLayer = nil;
 AGSGraphicsLayer * __eqsPolylineGraphicsLayer = nil;
 AGSGraphicsLayer * __eqsPolygonGraphicsLayer = nil;
@@ -32,9 +32,9 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
 #define kEQSSketchGraphicsLayerName @"eqsSketchGraphcisLayer"
 
 #pragma mark - Add Graphics Programatically
-- (AGSGraphic *) addPointAtLat:(double)latitude Long:(double)longitude
+- (AGSGraphic *) addPointAtLat:(double)latitude lon:(double)longitude
 {
-    AGSPoint *pt = [AGSPoint pointFromLat:latitude Lon:longitude];
+    AGSPoint *pt = [AGSPoint pointFromLat:latitude lon:longitude];
     
 	return [self addPoint:pt];
 }
@@ -48,14 +48,14 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
     return g;
 }
 
-- (AGSGraphic *) addPointAtLat:(double)latitude Long:(double)longitude WithSymbol:(AGSMarkerSymbol *)markerSymbol
+- (AGSGraphic *) addPointAtLat:(double)latitude lon:(double)longitude withSymbol:(AGSMarkerSymbol *)markerSymbol
 {
-    AGSPoint *pt = [AGSPoint pointFromLat:latitude Lon:longitude];
+    AGSPoint *pt = [AGSPoint pointFromLat:latitude lon:longitude];
 
-    return [self addPoint:pt WithSymbol:markerSymbol];
+    return [self addPoint:pt withSymbol:markerSymbol];
 }
 
-- (AGSGraphic *) addPoint:(AGSPoint *)point WithSymbol:(AGSMarkerSymbol *)markerSymbol
+- (AGSGraphic *) addPoint:(AGSPoint *)point withSymbol:(AGSMarkerSymbol *)markerSymbol
 {
     AGSGraphic *g = [self __eqsGetDefaultGraphicForGeometry:[point getWebMercatorAuxSpherePoint]];
     g.symbol = markerSymbol;

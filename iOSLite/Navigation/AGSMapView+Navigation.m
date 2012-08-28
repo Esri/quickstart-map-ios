@@ -15,50 +15,46 @@
 #import "EQSHelper.h"
 #import <CoreLocation/CoreLocation.h>
 
-@implementation AGSMapView (Navigation)
+@implementation AGSMapView (EQSNavigation)
 NSInteger __eqsScaleForGeolocation = -1;
 
 #pragma mark - Center
-- (void) centerAtLat:(double) latitude Lon:(double) longitude withScaleLevel:(NSInteger)scaleLevel
+- (void) centerAtLat:(double) latitude lon:(double) longitude animated:(BOOL)animated
 {
-    // Build an AGSPoint using the Lat and Long
-    AGSPoint *webMercatorCenterPt = [AGSPoint pointFromLat:latitude Lon:longitude];
-    
-    [self centerAtPoint:webMercatorCenterPt withScaleLevel:scaleLevel];
-}
-
-- (void) centerAtLat:(double) latitude Lon:(double) longitude
-{
-    AGSPoint *p = [AGSPoint pointFromLat:latitude Lon:longitude];
+    AGSPoint *p = [AGSPoint pointFromLat:latitude lon:longitude];
     
     // Here's the code to do the zoom, but we don't know whether we want to run it now, or
     // need to queue it up until the AGSMapView is loaded.
     
     [self doActionWhenLoaded:^void {
-        [self centerAtPoint:p animated:YES];
-    }];
-
-}
-
-- (void) centerAtPoint:(AGSPoint *)point withScaleLevel:(NSInteger)scaleLevel
-{
-    // Get the map scale represented by the integer level
-    double scaleForLevel = [EQSHelper getScaleForLevel:scaleLevel];
-    
-    [self doActionWhenLoaded:^void {
-        AGSPoint *zoomPoint = [point getWebMercatorAuxSpherePoint];
-        [self zoomToScale:scaleForLevel withCenterPoint:zoomPoint animated:YES];
+        [self centerAtPoint:p animated:animated];
     }];
 }
 
 #pragma mark - Zoom
-- (void) zoomToLevel:(NSInteger)level
+- (void) zoomToLevel:(NSUInteger)level animated:(BOOL)animated
 {
     AGSPoint *currentCenterPoint = self.visibleArea.envelope.center;
+    [self zoomToLevel:level withCenterPoint:currentCenterPoint animated:animated];
+}
+
+- (void) zoomToLevel:(NSUInteger)level withCenterPoint:(AGSPoint *)centerPoint animated:(BOOL)animated
+{
+    // Get the map scale represented by the integer level
     double scaleForLevel = [EQSHelper getScaleForLevel:level];
+    
     [self doActionWhenLoaded:^void {
-        [self zoomToScale:scaleForLevel withCenterPoint:currentCenterPoint animated:YES];
+        AGSPoint *zoomPoint = [centerPoint getWebMercatorAuxSpherePoint];
+        [self zoomToScale:scaleForLevel withCenterPoint:zoomPoint animated:animated];
     }];
+}
+
+- (void) zoomToLevel:(NSUInteger)level withLat:(double)latitude lon:(double)longitude animated:(BOOL)animated
+{
+    // Build an AGSPoint using the Lat and Long
+    AGSPoint *p = [AGSPoint pointFromLat:latitude lon:longitude];
+    
+    [self zoomToLevel:level withCenterPoint:p animated:animated];
 }
 
 #pragma mark - Geolocation (GPS)
@@ -79,13 +75,18 @@ NSInteger __eqsScaleForGeolocation = -1;
 #pragma mark - Centerpoint of map
 - (AGSPoint *) getCenterPoint
 {
-    return [self.visibleArea.envelope.center getWGS84Point];
+    return [self.visibleArea.envelope.center getWebMercatorAuxSpherePoint];
+}
+
+- (NSUInteger) getZoomLevel
+{
+    return [EQSHelper getLevelForScale:self.mapScale];
 }
 
 #pragma mark - Handle geolocation notifications
-- (void) centerAtMyLocationWithScaleLevel:(NSInteger)scaleLevel
+- (void) centerAtMyLocationWithZoomLevel:(NSUInteger)level
 {
-    __eqsScaleForGeolocation = scaleLevel;
+    __eqsScaleForGeolocation = level;
     [self centerAtMyLocation];
 }
 
@@ -96,13 +97,15 @@ NSInteger __eqsScaleForGeolocation = -1;
         if (__eqsScaleForGeolocation == -1)
         {
             [self centerAtLat:newLocation.coordinate.latitude
-                          Lon:newLocation.coordinate.longitude];
+                          lon:newLocation.coordinate.longitude
+                     animated:YES];
         }
         else
         {
-            [self centerAtLat:newLocation.coordinate.latitude
-                          Lon:newLocation.coordinate.longitude
-               withScaleLevel:__eqsScaleForGeolocation];
+            [self zoomToLevel:__eqsScaleForGeolocation
+                      withLat:newLocation.coordinate.latitude
+                          lon:newLocation.coordinate.longitude
+                     animated:YES];
         }
         __eqsScaleForGeolocation = -1;
     }];

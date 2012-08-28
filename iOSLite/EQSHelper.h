@@ -13,6 +13,7 @@
 @interface EQSHelper : NSObject
 // Translate a Google/Bing/ArcGIS Online tiling scheme scale number (1-20) to an actual scale value.
 + (double) getScaleForLevel:(NSUInteger)level;
++ (NSUInteger) getLevelForScale:(double)scale;
 
 // Basemap Helpers
 + (NSString *) getBasemapName:(EQSBasemapType)basemapType;

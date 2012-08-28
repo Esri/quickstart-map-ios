@@ -19,7 +19,7 @@
 @interface EQSDefaultSymbols : NSObject
 @property (nonatomic, strong) AGSMarkerSymbol *geolocation;
 
-@property (nonatomic, strong) AGSMarkerSymbol *geocode;
+@property (nonatomic, strong) AGSMarkerSymbol *findPlace;
 @property (nonatomic, strong) AGSMarkerSymbol *reverseGeocode;
 @property (nonatomic, strong) AGSMarkerSymbol *failedGeocode;
 

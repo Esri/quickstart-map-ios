@@ -3,7 +3,6 @@
 //  iOSLite
 //
 //  Created by Nicholas Furness on 7/10/12.
-//  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
 #import "UIApplication+AppDimensions.h"

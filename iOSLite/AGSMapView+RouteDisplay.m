@@ -12,7 +12,7 @@
 #import "EQSRouteDisplayHelper.h"
 #import "EQSGeoServices.h"
 
-@implementation AGSMapView (RouteDisplay)
+@implementation AGSMapView (EQSDirections)
 EQSRouteDisplayHelper *_eqsRouteHelper = nil;
 
 #pragma mark - Properties

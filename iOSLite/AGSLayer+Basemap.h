@@ -8,7 +8,7 @@
 
 #import <ArcGIS/ArcGIS.h>
 
-@interface AGSLayer (Basemap)
+@interface AGSLayer (EQSBasemaps)
 - (BOOL) isEQSBasemapLayer;
 - (void) setIsEQSBasemapLayer:(BOOL)isBasemapLayer;
 @end

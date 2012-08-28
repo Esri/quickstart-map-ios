@@ -110,13 +110,10 @@ EQSGeoServices *__agsStarterGeoServices = nil;
 
 @interface EQSGeoServices () <AGSLocatorDelegate, AGSRouteTaskDelegate, CLLocationManagerDelegate>
 // Properties to store the geoservices…
-@property (nonatomic, retain) AGSLocator *locator;
+@property (nonatomic, strong) AGSLocator *locator;
 
-@property (nonatomic, retain) AGSRouteTask *routeTask;
-@property (nonatomic, retain) AGSRouteTaskParameters *defaultParameters;
-
-@property (nonatomic, retain) AGSPoint *routeStartPoint;
-@property (nonatomic, retain) AGSPoint *routeEndPoint;
+@property (nonatomic, strong) AGSRouteTask *routeTask;
+@property (nonatomic, strong) AGSRouteTaskParameters *defaultParameters;
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @end
@@ -127,9 +124,6 @@ EQSGeoServices *__agsStarterGeoServices = nil;
 
 @synthesize routeTask = _routeTask;
 @synthesize defaultParameters = _defaultParameters;
-
-@synthesize routeStartPoint = _routeStartPoint;
-@synthesize routeEndPoint = _routeEndPoint;
 
 @synthesize locationManager = _locationManager;
 
@@ -211,14 +205,14 @@ EQSGeoServices *__agsStarterGeoServices = nil;
     return op;
 }
 
-- (NSOperation *) findDirectionsFrom:(AGSPoint *)startPoint To:(AGSPoint *)endPoint
+- (NSOperation *) findDirectionsFrom:(AGSPoint *)startPoint to:(AGSPoint *)endPoint
 {
 	AGSRouteTaskParameters *routeTaskParams = [self getParametersToRouteFromStart:startPoint ToStop:endPoint];
 	return [self.routeTask solveWithParameters:routeTaskParams];
 }
 
-- (NSOperation *) findDirectionsFrom:(AGSPoint *)startPoint Named:(NSString *)startPointName
-                                  To:(AGSPoint *)endPoint Named:(NSString *)endPointName
+- (NSOperation *) findDirectionsFrom:(AGSPoint *)startPoint named:(NSString *)startPointName
+                                  to:(AGSPoint *)endPoint named:(NSString *)endPointName
 {
 	AGSRouteTaskParameters *routeTaskParams = [self getParametersToRouteFromStart:startPoint Named:startPointName
                                                                            ToStop:endPoint Named:endPointName];
@@ -465,7 +459,6 @@ EQSGeoServices *__agsStarterGeoServices = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:kEQSGeoServicesNotification_Geolocation_OK
                                                         object:self
                                                       userInfo:userInfo];
-//	self.locationManager = nil;
 }
 
 - (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
@@ -476,6 +469,5 @@ EQSGeoServices *__agsStarterGeoServices = nil;
                                                         object:self
                                                       userInfo:[NSDictionary dictionaryWithObject:error
                                                                                            forKey:kEQSGeoServicesNotification_ErrorKey]];
-//    self.locationManager = nil;
 }
 @end

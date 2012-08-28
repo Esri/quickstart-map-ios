@@ -8,7 +8,7 @@
 
 #import <ArcGIS/ArcGIS.h>
 
-@interface AGSGraphicsLayer (GeneralUtilities)
+@interface AGSGraphicsLayer (EQSGeneral)
 - (void) addGraphic:(AGSGraphic *)graphic withID:(NSString *)graphicID;
 - (AGSGraphic *) getGraphicForID:(NSString *)graphicID;
 @end

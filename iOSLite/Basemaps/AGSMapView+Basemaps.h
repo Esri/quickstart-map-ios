@@ -10,6 +10,6 @@
 #import "EQSBasemapTypeEnum.h"
 #import "EQSBasemapsNotifications.h"
 
-@interface AGSMapView (Basemaps)
+@interface AGSMapView (EQSBasemaps)
 - (void) setBasemap:(EQSBasemapType)basemapType;
 @end

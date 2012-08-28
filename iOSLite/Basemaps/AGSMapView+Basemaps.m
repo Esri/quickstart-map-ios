@@ -9,12 +9,10 @@
 #import "AGSMapView+Basemaps.h"
 #import "EQSHelper.h"
 
-#define kEQSBasemapLayerName @"EQSBasemapLayer"
-
 @interface AGSMapView()<AGSWebMapDelegate>
 @end
 
-@implementation AGSMapView (Basemaps)
+@implementation AGSMapView (EQSBasemaps)
 
 AGSEnvelope *__eqsBasemaps_oldExtent = nil;
 EQSBasemapType __eqsCurrentBasemapType = 0;

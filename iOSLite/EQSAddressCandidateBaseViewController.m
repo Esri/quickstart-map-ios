@@ -58,13 +58,6 @@
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
                                  userInfo:nil];
-//    self = [super init];
-//    if (self)
-//    {
-//        _candidateType = candidateType;
-//        _candidate = candidate;
-//    }
-//    return self;
 }
 
 - (AGSPoint *)candidateLocation
@@ -81,27 +74,13 @@
 - (void) setCandidateType:(EQSCandidateType)candidateType
 {
     _candidateType = candidateType;
-//    if (self.view)
-//    {
-//        [self prepareView];
-//    }
 }
 
 - (void)setCandidate:(AGSAddressCandidate *)candidate
 {
     _candidate = candidate;
-//    [self prepareView];
 }
 
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {

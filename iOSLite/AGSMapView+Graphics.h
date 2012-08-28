@@ -8,7 +8,7 @@
 
 #import <ArcGIS/ArcGIS.h>
 
-@interface AGSMapView (Graphics)
+@interface AGSMapView (EQSGraphics)
 
 typedef enum {
     EQSGraphicsLayerTypePoint = 1,
@@ -23,13 +23,13 @@ typedef enum {
 // ADD & REMOVE Graphics
 
 // Create graphics using sequences of lat/long coordinates.
-- (AGSGraphic *) addPointAtLat:(double)latitude Long:(double)longitude;
+- (AGSGraphic *) addPointAtLat:(double)latitude lon:(double)longitude;
 - (AGSGraphic *) addPoint:(AGSPoint *)point;
 - (AGSGraphic *) addLineFromPoints:(NSArray *) points;
 - (AGSGraphic *) addPolygonFromPoints:(NSArray *) points;
 
-- (AGSGraphic *) addPointAtLat:(double)latitude Long:(double)longitude WithSymbol:(AGSMarkerSymbol *)markerSymbol;
-- (AGSGraphic *) addPoint:(AGSPoint *)point WithSymbol:(AGSMarkerSymbol *)markerSymbol;
+- (AGSGraphic *) addPointAtLat:(double)latitude lon:(double)longitude withSymbol:(AGSMarkerSymbol *)markerSymbol;
+- (AGSGraphic *) addPoint:(AGSPoint *)point withSymbol:(AGSMarkerSymbol *)markerSymbol;
 
 //TODO - (AGSGraphic *) addLine:(AGSPolyline *) line;
 //TODO - (AGSGraphic *) addPolygon:(AGSPolygon *) polygon;

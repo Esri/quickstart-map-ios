@@ -9,6 +9,6 @@
 #import <ArcGIS/ArcGIS.h>
 #import "EQSRouteDisplayHelper.h"
 
-@interface AGSMapView (RouteDisplay)
+@interface AGSMapView (EQSDirections)
 - (EQSRouteDisplayHelper *)routeDisplayHelper;
 @end

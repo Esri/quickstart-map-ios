@@ -70,9 +70,27 @@
 		<key>title</key>
 		<string>Create and edit Graphics</string>
 		<key>codeSnippet</key>
-		<string>// Nothing yet...</string>
+		<string>- (IBAction)newPgGraphic:(id)sender {
+    [self.mapView createAndEditNewPolygon];
+}
+
+- (IBAction)doneEditingGraphic:(id)sender {
+    [self.mapView saveCurrentEdit];
+}
+
+- (IBAction)cancelEditingGraphic:(id)sender {
+    [self.mapView cancelCurrentEdit];
+}
+
+- (IBAction)undoEditingGraphic:(id)sender {
+    [[self.mapView getUndoManagerForGraphicsEdits] undo];
+}
+
+- (IBAction)redoEditingGraphic:(id)sender {
+    [[self.mapView getUndoManagerForGraphicsEdits] redo];
+}</string>
 		<key>highlightedLines</key>
-		<string></string>
+		<string>2,6,10,14,18</string>
 	</dict>
 	<key>FindPlace</key>
 	<dict>

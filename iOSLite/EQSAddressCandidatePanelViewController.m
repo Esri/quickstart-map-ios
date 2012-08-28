@@ -255,7 +255,6 @@
         // Add spacing to left and right of the AddressCandidateViews
         totalRect = CGRectMake(totalRect.origin.x, totalRect.origin.y,
                                totalRect.size.width + kEQSAddressCandidateViewSpacing, totalRect.size.height);
-//        totalRect = CGRectInset(totalRect, 0,0);//-kEQSAddressCandidateViewSpacing, 0);
     }
     else
     {

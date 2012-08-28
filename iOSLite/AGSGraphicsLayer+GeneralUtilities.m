@@ -8,7 +8,7 @@
 
 #import "AGSGraphicsLayer+GeneralUtilities.h"
 
-@implementation AGSGraphicsLayer (GeneralUtilities)
+@implementation AGSGraphicsLayer (EQSGeneral)
 #define kEQSGraphicsLayerIDAttribute @"EQSGraphicID"
 
 - (void) addGraphic:(AGSGraphic *)graphic withID:(NSString *)graphicID

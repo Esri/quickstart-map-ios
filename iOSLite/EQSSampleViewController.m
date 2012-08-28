@@ -143,7 +143,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *findPlacesScrollView;
 @property (weak, nonatomic) IBOutlet UILabel *findPlacesNoResultsLabel;
 
-@property (nonatomic, strong) id<AGSInfoTemplateDelegate> geocodeInfoTemplateDelegate;
+//@property (nonatomic, strong) id<AGSInfoTemplateDelegate> geocodeInfoTemplateDelegate;
 
 @property (weak, nonatomic) IBOutlet EQSCodeView *codeViewer;
 - (IBAction)findPlacesTapped:(id)sender;
@@ -227,7 +227,7 @@
 @synthesize findPlacesNoResultsLabel = _findPlacesNoResultsLabel;
 @synthesize codeViewer = _codeViewer;
 
-@synthesize geocodeInfoTemplateDelegate = _geocodeInfoTemplateDelegate;
+//@synthesize geocodeInfoTemplateDelegate = _geocodeInfoTemplateDelegate;
 
 #define kEQSApplicationLocFromState @"ButtonState"
 
@@ -312,7 +312,7 @@
 
 	// Set up our map with a basemap, and jump to a location and scale level.
     [self.mapView setBasemap: self.currentBasemapType];
-    [self.mapView centerAtLat:40.7302 Lon:-73.9958 withScaleLevel:13];
+    [self.mapView zoomToLevel:13 withLat:40.7302 lon:-73.9958 animated:YES];
 
 	[self registerForGeoServicesNotifications];
 }
@@ -923,12 +923,12 @@
 #pragma mark - Graphics
 
 - (IBAction)addGraphics:(id)sender {
-    [self.mapView addPointAtLat:40.7302 Long:-73.9958];
-    [self.mapView addLineFromPoints:[NSArray arrayWithObjects:[AGSPoint pointFromLat:40.7302 Lon:-73.9958],
-									 [AGSPoint pointFromLat:41.0 Lon:-73.9], nil]];
-    [self.mapView addPolygonFromPoints:[NSArray arrayWithObjects:[AGSPoint pointFromLat:40.7302 Lon:-73.9958],
-										[AGSPoint pointFromLat:40.85 Lon:-73.65],
-										[AGSPoint pointFromLat:41.0 Lon:-73.7],nil]];
+    [self.mapView addPointAtLat:40.7302 lon:-73.9958];
+    [self.mapView addLineFromPoints:[NSArray arrayWithObjects:[AGSPoint pointFromLat:40.7302 lon:-73.9958],
+									 [AGSPoint pointFromLat:41.0 lon:-73.9], nil]];
+    [self.mapView addPolygonFromPoints:[NSArray arrayWithObjects:[AGSPoint pointFromLat:40.7302 lon:-73.9958],
+										[AGSPoint pointFromLat:40.85 lon:-73.65],
+										[AGSPoint pointFromLat:41.0 lon:-73.7],nil]];
 }
 
 - (IBAction)newPtGraphic:(id)sender {
@@ -1041,7 +1041,7 @@
 			else if ([source isEqualToString:kEQSGetAddressReason_ReverseGeocodeForPoint])
 			{
                 AGSPoint *p = candidate.location;//] getWebMercatorAuxSpherePoint];
-                AGSGraphic *g = [self.mapView addPoint:p WithSymbol:self.mapView.defaultSymbols.reverseGeocode];
+                AGSGraphic *g = [self.mapView addPoint:p withSymbol:self.mapView.defaultSymbols.reverseGeocode];
                 [g.attributes setObject:@"ReverseGeocoded" forKey:@"Source"];
                 [g.attributes addEntriesFromDictionary:candidate.attributes];
                 
@@ -1058,7 +1058,7 @@
             else if ([source isEqualToString:kEQSGetAddressReason_AddressForGeolocation])
             {
                 AGSPoint *geoLocation = [notification findAddressSearchPoint];
-                AGSGraphic *g = [self.mapView addPoint:geoLocation WithSymbol:self.mapView.defaultSymbols.geolocation];
+                AGSGraphic *g = [self.mapView addPoint:geoLocation withSymbol:self.mapView.defaultSymbols.geolocation];
                 [g.attributes setObject:@"GeoLocation" forKey:@"Source"];
                 [g.attributes addEntriesFromDictionary:candidate.attributes];
 
@@ -1067,6 +1067,7 @@
                                                                              OfType:EQSCandidateTypeGeolocation];
                 cvc.candidateViewDelegate = self;
                 cvc.graphic = g;
+                [cvc addToScrollView:self.findPlacesScrollView];
                 [self.geocodeResults addObject:cvc];
 
                 self.myLocationAddressLabel.text = address;
@@ -1081,7 +1082,7 @@
 	NSLog(@"Failed to get address for location: %@", error);
 
     AGSPoint *failedPoint = [notification findAddressSearchPoint];
-    AGSGraphic *g = [self.mapView addPoint:failedPoint WithSymbol:self.mapView.defaultSymbols.failedGeocode];
+    AGSGraphic *g = [self.mapView addPoint:failedPoint withSymbol:self.mapView.defaultSymbols.failedGeocode];
     [g.attributes setObject:@"FailedGeocode" forKey:@"Source"];
     
     EQSDummyAddressCandidate *dummyCandidate =
@@ -1156,7 +1157,7 @@
     if (location)
     {
         self.myLocationAddressLabel.text = location.description;
-        AGSPoint *locPt = [AGSPoint pointFromLat:location.coordinate.latitude Lon:location.coordinate.longitude];
+        AGSPoint *locPt = [AGSPoint pointFromLat:location.coordinate.latitude lon:location.coordinate.longitude];
         NSOperation *op = [self.mapView.geoServices findAddressFromPoint:locPt];
         objc_setAssociatedObject(op,
                                  kEQSGetAddressReasonKey, kEQSGetAddressReason_AddressForGeolocation,
@@ -1239,8 +1240,8 @@
         self.routeEndPoint)
     {
         NSLog(@"Start and end points set... %@ %@", self.routeStartAddress, self.routeEndAddress);
-        [self.mapView.geoServices findDirectionsFrom:self.routeStartPoint Named:self.routeStartAddress
-                                                  To:self.routeEndPoint Named:self.routeEndAddress];
+        [self.mapView.geoServices findDirectionsFrom:self.routeStartPoint named:self.routeStartAddress
+                                                  to:self.routeEndPoint named:self.routeEndAddress];
         return YES;
     }
     return NO;
@@ -1406,18 +1407,18 @@
     [searchBar resignFirstResponder];
 }
 
-- (id<AGSInfoTemplateDelegate>) geocodeInfoTemplateDelegate
-{
-    if (!_geocodeInfoTemplateDelegate)
-    {
-        AGSCalloutTemplate *template = [[AGSCalloutTemplate alloc] init];
-        template.detailTemplate = @"Stuff goes here\nAnd here";
-        template.titleTemplate = @"${Addr_Type}";
-        _geocodeInfoTemplateDelegate = template;
-    }
-    return _geocodeInfoTemplateDelegate;
-}
-
+//- (id<AGSInfoTemplateDelegate>) geocodeInfoTemplateDelegate
+//{
+//    if (!_geocodeInfoTemplateDelegate)
+//    {
+//        AGSCalloutTemplate *template = [[AGSCalloutTemplate alloc] init];
+//        template.detailTemplate = @"Stuff goes here\nAnd here";
+//        template.titleTemplate = @"${Addr_Type}";
+//        _geocodeInfoTemplateDelegate = template;
+//    }
+//    return _geocodeInfoTemplateDelegate;
+//}
+//
 - (void) gotCandidatesForAddress:(NSNotification *)notification
 {
     NSOperation *op = [notification geoServicesOperation];
@@ -1457,12 +1458,11 @@
                 if (c.score >= maxScore)
                 {
                     count++;
-                    AGSPoint *p = c.location; // getWebMercatorAuxSpherePoint];
-                    AGSGraphic *g = [self.mapView addPoint:p WithSymbol:self.mapView.defaultSymbols.geocode];
+                    AGSPoint *p = c.location;
+                    AGSGraphic *g = [self.mapView addPoint:p withSymbol:self.mapView.defaultSymbols.findPlace];
                     [g.attributes setObject:@"Geocoded" forKey:@"Source"];
                     [g.attributes addEntriesFromDictionary:c.attributes];
-//                    g.infoTemplateDelegate = self.geocodeInfoTemplateDelegate;
-                    NSLog(@"Address found: %@", g.attributes);
+
                     if (!totalEnv)
                     {
                         totalEnv = [AGSMutableEnvelope envelopeWithXmin:p.x-1 ymin:p.y-1 xmax:p.x+1 ymax:p.y+1 spatialReference:p.spatialReference];
@@ -1487,7 +1487,7 @@
             }
             if (count == 1)
             {
-                [self.mapView centerAtPoint:[totalEnv center] withScaleLevel:17];
+                [self.mapView zoomToLevel:17 withCenterPoint:[totalEnv center] animated:YES];
             }
             else if (totalEnv)
             {
@@ -1553,7 +1553,8 @@
 
 - (IBAction)findMe:(id)sender
 {
-	[self.mapView centerAtMyLocationWithScaleLevel:16];
+    NSUInteger zoom = [self.mapView getZoomLevel];
+	[self.mapView centerAtMyLocationWithZoomLevel:zoom];
 }
 
 - (IBAction)findScaleChanged:(id)sender {
@@ -1562,7 +1563,7 @@
 }
 
 - (IBAction)zoomToLevel:(id)sender {
-    [self.mapView zoomToLevel:self.findScale];
+    [self.mapView zoomToLevel:self.findScale animated:YES];
 }
 
 - (void)setFindScale:(NSUInteger)findScale

@@ -8,7 +8,7 @@
 
 #import <ArcGIS/ArcGIS.h>
 
-@interface AGSMapView (GeneralUtilities)
+@interface AGSMapView (EQSGeneral)
 // Get layer based off the name.
 - (AGSLayer *) getLayerForName:(NSString *)layerName;
 

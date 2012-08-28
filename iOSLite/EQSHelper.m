@@ -25,12 +25,16 @@
 + (id)defaultHelper;
 - (double) getScaleForLevel:(NSUInteger)level;
 @property (nonatomic, strong) NSMutableDictionary *mapViewQueues;
+
+@property (nonatomic, strong) NSDictionary *scaleLevels;
 @end
 
 
 @implementation EQSHelper
+@synthesize scaleLevels = _scaleLevels;
+
 BOOL __isInitialized = NO;
-NSDictionary * __eqsScales = nil;
+
 NSString * __eqsDefaultScaleLevel = nil;
 NSDictionary * __eqsBasemapWebMapIDs = nil;
 NSDictionary * __eqsBasemapURLs = nil;
@@ -130,7 +134,7 @@ NSDictionary * __eqsBasemapURLs = nil;
 			if ([pList isKindOfClass:[NSDictionary class]])
 			{
 				NSDictionary *d = (NSDictionary *)pList;
-				__eqsScales = [d objectForKey:kEQSConfigKey_ScaleLevels];
+				self.scaleLevels = [d objectForKey:kEQSConfigKey_ScaleLevels];
 				__eqsDefaultScaleLevel = [d objectForKey:kEQSConfigKey_DefaultScaleLevel];
                 __eqsBasemapWebMapIDs = [d objectForKey:kEQSConfigKey_BasemapPortalItemIDs];
                 __eqsBasemapURLs = [d objectForKey:kEQSConfigKey_BasemapURLs];
@@ -155,11 +159,6 @@ NSDictionary * __eqsBasemapURLs = nil;
 
 
 #pragma mark - Property accessors
-- (NSDictionary *) getEdnScales
-{
-	return __eqsScales;
-}
-
 - (NSString *) getEdnDefaultScaleLevel
 {
 	return __eqsDefaultScaleLevel;
@@ -199,7 +198,7 @@ NSDictionary * __eqsBasemapURLs = nil;
 - (double) getScaleForLevel:(NSUInteger)level
 {	
     NSString *key = [NSString stringWithFormat:@"%d", level];
-    id scaleVal = [[self getEdnScales] objectForKey:key];
+    id scaleVal = [self.scaleLevels objectForKey:key];
     if (scaleVal)
     {
         return [scaleVal doubleValue];
@@ -207,8 +206,44 @@ NSDictionary * __eqsBasemapURLs = nil;
     else
     {
         NSLog(@"Scale level %@ is invalid. Using default of %@.", key, [self getEdnDefaultScaleLevel]);
-        return [[[self getEdnScales] objectForKey:[self getEdnDefaultScaleLevel]] doubleValue];
+        return [[self.scaleLevels objectForKey:[self getEdnDefaultScaleLevel]] doubleValue];
     }
+}
+
+- (NSUInteger) getLevelForScale:(double)scale
+{
+    NSDictionary *sl = self.scaleLevels;
+
+    NSArray *orderedKeys = [sl.allKeys sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        int i1 = [obj1 integerValue];
+        int i2 = [obj2 integerValue];
+        // We know we want to sort descending, so reverse the ordering...
+        return i1 == i2?NSOrderedSame:i1>i2?NSOrderedAscending:NSOrderedDescending;
+    }];
+    
+    NSString *lastLevel = [orderedKeys objectAtIndex:0];
+    double lastScale = 0;
+    for (NSString *currentLevel in orderedKeys)
+    {
+        id scaleVal = [sl objectForKey:currentLevel];
+        double currentScale = [scaleVal doubleValue];
+
+        if (currentScale > scale &&
+            scale >= lastScale)
+        {
+            NSUInteger retVal = abs(lastLevel.integerValue);
+            return retVal;
+        }
+        else if (currentScale == scale)
+        {
+            NSUInteger retVal = abs(currentLevel.integerValue);
+            return retVal;
+        }
+        lastScale = currentScale;
+        lastLevel = currentLevel;
+    }
+    NSLog(@"Could not determine level for scale %.4f!!!!", scale);
+    return [[orderedKeys lastObject] integerValue];
 }
 
 + (NSString *) getPortalItemIDForBasemap:(EQSBasemapType)basemapType
@@ -361,6 +396,11 @@ NSDictionary * __eqsBasemapURLs = nil;
 + (double) getScaleForLevel:(NSUInteger)level
 {
     return [[EQSHelper defaultHelper] getScaleForLevel:level];
+}
+
++ (NSUInteger) getLevelForScale:(double)scale
+{
+    return [[EQSHelper defaultHelper] getLevelForScale:scale];
 }
 
 + (AGSWebMap *) getBasemapWebMap:(EQSBasemapType)basemapType

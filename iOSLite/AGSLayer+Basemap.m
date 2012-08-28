@@ -8,7 +8,7 @@
 
 #import "AGSLayer+Basemap.h"
 
-@implementation AGSLayer (Basemap)
+@implementation AGSLayer (EQSBasemaps)
 BOOL __eqsIsBasemapLayer = NO;
 
 - (BOOL) isEQSBasemapLayer

@@ -9,7 +9,7 @@
 #import "AGSMapView+GeneralUtilities.h"
 #import "EQSHelper.h"
 
-@implementation AGSMapView (GeneralUtilities)
+@implementation AGSMapView (General)
 - (AGSLayer *) getLayerForName:(NSString *)layerName
 {
     for (AGSLayer *l in self.mapLayers) {

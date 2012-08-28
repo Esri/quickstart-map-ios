@@ -9,8 +9,8 @@
 #import "AGSPoint+GeneralUtilities.h"
 #import "EQSHelper.h"
 
-@implementation AGSPoint (GeneralUtilities)
-+ (AGSPoint *) pointFromLat:(double)latitude Lon:(double)longitude
+@implementation AGSPoint (EQSGeneral)
++ (AGSPoint *) pointFromLat:(double)latitude lon:(double)longitude
 {
     // Ensure we're passed sensible values for lat and long
     NSAssert1((-90 <= latitude) && (latitude <= 90), @"Latitude %f must be between -90 and 90 degrees", latitude);
@@ -65,7 +65,7 @@
                                                                        toSpatialReference:[AGSSpatialReference wgs84SpatialReference]];
         }
         @catch (NSException *e) {
-            NSLog(@"Error getting Web Mercator Point from %@: %@",self, e);
+            NSLog(@"Error getting WGS84 Point from %@: %@",self, e);
         }
     }
 }
