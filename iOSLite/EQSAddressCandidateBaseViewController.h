@@ -63,7 +63,7 @@ typedef enum {
 
 
 @interface EQSDummyAddressCandidate : AGSAddressCandidate
-- (id) initWithLocation:(AGSPoint *)location AndSearchRadius:(double)searchRadius;
+- (id) initWithLocation:(AGSPoint *)location andSearchRadius:(double)searchRadius;
 @property (nonatomic, strong, readonly) AGSPoint *dummyLocation;
 @property (nonatomic, assign, readonly) double searchRadius;
 @end

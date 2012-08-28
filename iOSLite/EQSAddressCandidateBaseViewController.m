@@ -234,7 +234,7 @@
 @synthesize dummyLocation = _dummyLocation;
 @synthesize searchRadius = _searchRadius;
 
-- (id) initWithLocation:(AGSPoint *)location AndSearchRadius:(double)searchRadius
+- (id) initWithLocation:(AGSPoint *)location andSearchRadius:(double)searchRadius
 {
     self = [self init];
     if (self)

@@ -54,6 +54,7 @@
                                         UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSMutableOrderedSet *geocodeResults;
+@property (nonatomic, strong) NSMutableOrderedSet *geolocationResults;
 
 // General UI
 @property (weak, nonatomic) IBOutlet UIToolbar *functionToolBar;
@@ -126,6 +127,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *findMeButton;
 @property (weak, nonatomic) IBOutlet UILabel *myLocationAddressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *findScaleLabel;
+@property (weak, nonatomic) IBOutlet UIScrollView *findMeScrollView;
 
 // Non UI Properties
 @property (assign) EQSBasemapType currentBasemapType;
@@ -138,7 +140,7 @@
 @property (nonatomic, assign) CGSize keyboardSize;
 
 // Find Places
-@property (weak, nonatomic) IBOutlet UIToolbar *findToolbar;
+@property (weak, nonatomic) IBOutlet UIToolbar *findPlacesToolbar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *findbutton;
 @property (weak, nonatomic) IBOutlet UIScrollView *findPlacesScrollView;
 @property (weak, nonatomic) IBOutlet UILabel *findPlacesNoResultsLabel;
@@ -208,6 +210,7 @@
 
 @synthesize findMeButton = _findMeButton;
 @synthesize findScaleLabel = _findScaleLabel;
+@synthesize findMeScrollView = _findMeScrollView;
 @synthesize myLocationAddressLabel = _myLocationAddressLabel;
 @synthesize functionToolBar = _functionToolBar;
 @synthesize routeStartButton = _routeStartButton;
@@ -221,11 +224,14 @@
 @synthesize basemapVCs = _basemapVCs;
 
 @synthesize keyboardSize = _keyboardSize;
-@synthesize findToolbar = _findToolbar;
+@synthesize findPlacesToolbar = _findToolbar;
 @synthesize findbutton = _findbutton;
 @synthesize findPlacesScrollView = _findPlacesScrollView;
 @synthesize findPlacesNoResultsLabel = _findPlacesNoResultsLabel;
 @synthesize codeViewer = _codeViewer;
+
+@synthesize geocodeResults = _geocodeResults;
+@synthesize geolocationResults = _geolocationResults;
 
 //@synthesize geocodeInfoTemplateDelegate = _geocodeInfoTemplateDelegate;
 
@@ -244,6 +250,7 @@
     }
     
     self.geocodeResults = [NSMutableOrderedSet orderedSet];
+    self.geolocationResults = [NSMutableOrderedSet orderedSet];
     
 	// Track the application state
     self.currentState = EQSSampleAppStateBasemaps;
@@ -349,7 +356,7 @@
 	[self setFindAddressSearchBar:nil];
 	[self setBasemapsPicker:nil];
     [self setFindbutton:nil];
-    [self setFindToolbar:nil];
+    [self setFindPlacesToolbar:nil];
     [self setMessageBar:nil];
     [self setMessageBarLabel:nil];
     [self setRouteResultsView:nil];
@@ -362,6 +369,7 @@
     [self setFindPlacesScrollView:nil];
     [self setFindPlacesNoResultsLabel:nil];
     [self setDeleteGraphicButton:nil];
+    [self setFindMeScrollView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -1091,8 +1099,8 @@
                                                                              OfType:EQSCandidateTypeGeolocation];
                 cvc.candidateViewDelegate = self;
                 cvc.graphic = g;
-                [cvc addToScrollView:self.findPlacesScrollView];
-                [self.geocodeResults addObject:cvc];
+                [cvc addToScrollView:self.findMeScrollView];
+                [self.geolocationResults addObject:cvc];
 
                 self.myLocationAddressLabel.text = address;
 
@@ -1113,7 +1121,7 @@
     
     EQSDummyAddressCandidate *dummyCandidate =
         [[EQSDummyAddressCandidate alloc] initWithLocation:failedPoint
-                                           AndSearchRadius:[notification findAddressSearchDistance]];
+                                           andSearchRadius:[notification findAddressSearchDistance]];
     EQSAddressCandidatePanelViewController *acvc =
         [EQSAddressCandidatePanelViewController viewControllerWithCandidate:dummyCandidate
                                                                 OfType:EQSCandidateTypeFailedGeocode];
