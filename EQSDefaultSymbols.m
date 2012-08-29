@@ -22,7 +22,7 @@
 #define kEQSGreenCircleURL @"http://static.arcgis.com/images/Symbols/Shapes/GreenCircleLargeB.png"
 #define kEQSCircleXOffset 0
 #define kEQSCircleYOffset 0
-#define kEQSCircleSize CGSizeMake(14,14)
+#define kEQSCircleSize CGSizeMake(20,20)
 
 @implementation AGSMapView (EQSDisplay)
 EQSDefaultSymbols *__eqsDefaultSymbols = nil;

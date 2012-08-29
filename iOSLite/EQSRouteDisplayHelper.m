@@ -24,8 +24,8 @@
 @interface EQSRouteDisplayHelper ()
 - (id) initForMapView:(AGSMapView *)mapView;
 @property (nonatomic, retain) AGSMapView *mapView;
-@property (nonatomic, retain) AGSCalloutTemplate *startPointCalloutTemplate;
-@property (nonatomic, retain) AGSCalloutTemplate *endPointCalloutTemplate;
+@property (nonatomic, strong) AGSCalloutTemplate *startPointCalloutTemplate;
+@property (nonatomic, strong) AGSCalloutTemplate *endPointCalloutTemplate;
 @end
 
 @implementation EQSRouteDisplayHelper
@@ -55,13 +55,14 @@
 		[self.routeGraphicsLayer removeAllGraphics];
 		
         AGSRouteResult *result = [routeTaskResults.routeResults objectAtIndex:0];
-        AGSGraphic *routeGraphic = result.routeGraphic;
-        AGSSimpleLineSymbol *routeSymbol = self.routeSymbol;
-        routeGraphic.symbol = routeSymbol;
-        
+        AGSGraphic *routeGraphic = [AGSGraphic graphicWithGeometry:result.directions.mergedGeometry
+                                                            symbol:self.routeSymbol
+                                                        attributes:nil
+                                              infoTemplateDelegate:nil];
         [self.routeGraphicsLayer addGraphic:routeGraphic];
 		
-        for (AGSStopGraphic *stopGraphic in result.stopGraphics) {
+        for (AGSStopGraphic *stopGraphic in result.stopGraphics)
+        {
             NSLog(@"Route Stop Point: \"%@\"", stopGraphic.name);
             NSLog(@"Stop point attribtues:\n%@", stopGraphic.attributes);
             if (stopGraphic.sequence == 1)//.name isEqualToString:kEQSRoutingStartPointName])

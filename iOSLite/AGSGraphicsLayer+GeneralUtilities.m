@@ -35,4 +35,46 @@
     }
     return nil;
 }
+
+- (void) addGraphic:(AGSGraphic *)graphic withAttribute:(id)attribute withValue:(id)value
+{
+    if (!graphic.attributes)
+    {
+        graphic.attributes = [NSMutableDictionary dictionaryWithCapacity:1];
+    }
+    [graphic.attributes setObject:value forKey:attribute];
+    [self addGraphic:graphic];
+    [self dataChanged];
+}
+
+
+- (NSSet *) removeGraphicsMatchingCriteria:(BOOL (^)(AGSGraphic *graphic))checkBlock
+{
+    // Get the graphics to remove from this layer
+    NSMutableSet *graphicsToRemove = [NSMutableSet set];
+    for (AGSGraphic *g in self.graphics) {
+        if (checkBlock(g))
+        {
+            [graphicsToRemove addObject:g];
+        }
+    }
+    
+    // Remove each graphic from its layer, and remember the set of layers affected
+    for (AGSGraphic *g in graphicsToRemove)
+    {
+        [self removeGraphic:g];
+    }
+    
+    [self dataChanged];
+    
+    return graphicsToRemove;
+}
+
+- (NSSet *) removeGraphicsByAttribute:(id)attribute withValue:(id)value
+{
+    return [self removeGraphicsMatchingCriteria:^BOOL(AGSGraphic *graphic) {
+        return [[graphic.attributes objectForKey:attribute] isEqual:value];
+    }];
+}
+
 @end

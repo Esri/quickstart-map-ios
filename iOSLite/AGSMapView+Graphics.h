@@ -34,12 +34,18 @@ typedef enum {
 //TODO - (AGSGraphic *) addLine:(AGSPolyline *) line;
 //TODO - (AGSGraphic *) addPolygon:(AGSPolygon *) polygon;
 
-// Remove individual graphics
-- (void) removeGraphic:(AGSGraphic *)graphic;
-- (void) removeGraphicsMatchingCriteria:(BOOL(^)(AGSGraphic *))checkBlock;
+- (AGSGraphicsLayer *) addGraphic:(AGSGraphic *)graphic;
+// Shortcut to populate the AGSGraphic.attributes dictionary with a key/value
+// See also removeGraphicsByAttribute:withValue
+- (AGSGraphicsLayer *) addGraphic:(AGSGraphic *)graphic withAttribute:(id)attribute withValue:(id)value;
 
-// TODO - (void) removeGraphicByID:(NSString *)graphicID;
+// Remove individual graphic
+- (AGSGraphicsLayer *) removeGraphic:(AGSGraphic *)graphic;
 
+// Remove graphics by matching some criteria. The NSSet will contain AGSGraphicsLayers that were updated.
+- (NSSet *) removeGraphicsMatchingCriteria:(BOOL(^)(AGSGraphic *graphic))checkBlock;
+// See also addGraphic:withAttribute:withValue
+- (NSSet *) removeGraphicsByAttribute:(id)attribute withValue:(id)value;
 
 #pragma mark - Clear graphics
 // Clear graphics from the map. Optionally specify what type or types of graphics to clear.

@@ -9,7 +9,7 @@
 #import "EQSRouteResultsViewController.h"
 #import "EQSRouteResultsTableViewController.h"
 
-@interface EQSRouteResultsViewController ()
+@interface EQSRouteResultsViewController () <EQSRouteDisplayTableViewDelegate>
 @property (strong, nonatomic) IBOutlet EQSRouteResultsTableViewController *tableViewController;
 @property (strong, nonatomic) IBOutlet UILabel *routeResultsDistanceLabel;
 @property (strong, nonatomic) IBOutlet UILabel *routeResultsTimeLabel;
@@ -20,9 +20,10 @@
 @synthesize routeResultsDistanceLabel;
 @synthesize routeResultsTimeLabel;
 
+@synthesize mapView = _mapView;
 @synthesize routeResult = _routeResult;
-
 @synthesize hidden = _hidden;
+@synthesize routeDisplayDelegate = _routeDisplayDelegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -73,6 +74,7 @@
                                            routeResult.directions.totalDriveTime == 1.0f?@"":@"s"];
         
         self.tableViewController.routeResult = routeResult;
+        self.tableViewController.directionsDelegate = self;
     }
     
     self.hidden = (_routeResult == nil);
@@ -119,5 +121,17 @@
                          }];
     }
 }
+
+- (void) direction:(AGSDirectionGraphic *)direction selectedFromRouteResult:(AGSRouteResult *)routeResult
+{
+    if (self.routeDisplayDelegate)
+    {
+        if ([self.routeDisplayDelegate respondsToSelector:@selector(direction:selectedFromRouteResult:)])
+        {
+            [self.routeDisplayDelegate direction:direction selectedFromRouteResult:routeResult];
+        }
+    }
+}
+
 
 @end

@@ -9,11 +9,14 @@
 #import "EQSRouteResultsCell.h"
 
 @interface EQSRouteResultsCell ()
-@property (unsafe_unretained, nonatomic) IBOutlet UILabel *stepNumberLabel;
-@property (unsafe_unretained, nonatomic) IBOutlet UILabel *stepDetailsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *stepNumberLabel;
+@property (weak, nonatomic) IBOutlet UILabel *stepDetailsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *stepDistanceLabel;
 
 @property (nonatomic, retain) UIColor *defaultBGCol;
 
+@property (nonatomic, assign) CGFloat topPadding;
+@property (nonatomic, assign) CGFloat bottomPadding;
 @end
 
 @implementation EQSRouteResultsCell
@@ -23,6 +26,7 @@
 
 @synthesize stepNumberLabel = _stepNumberLabel;
 @synthesize stepDetailsLabel = _stepDetailsLabel;
+@synthesize stepDistanceLabel = _stepDistanceLabel;
 
 @synthesize defaultBGCol = _defaultBGCol;
 
@@ -33,7 +37,8 @@
         // Initialization code
         self.backgroundColor = [UIColor clearColor];
         self.defaultBGCol = self.backgroundColor;
-        self.directionIndex = -1;
+        self.topPadding = -1;
+        self.bottomPadding = -1;
     }
     return self;
 }
@@ -44,24 +49,12 @@
     if (self)
     {
         self.contentView.backgroundColor = [UIColor clearColor];
+        self.topPadding = -1;
+        self.bottomPadding = -1;
     }
     return self;
 }
 
-//- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-//   directionGraphic:(AGSDirectionGraphic *)directionGraphic
-//         stepNumber:(NSInteger)stepNumber
-//{
-//    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-//    if (self)
-//    {
-//        self.defaultBGCol = self.stepDetailsLabel.backgroundColor;
-//        
-//        self.directionGraphic = directionGraphic;
-//    }
-//    return self;
-//}
-//
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
@@ -69,18 +62,36 @@
     // Configure the view for the selected state
     if (selected)
     {
-        self.stepDetailsLabel.backgroundColor = [UIColor greenColor];
+        self.backgroundColor = [[UIColor greenColor] colorWithAlphaComponent:0.3];
     }
     else
     {
-        self.stepDetailsLabel.backgroundColor = self.defaultBGCol;
+        self.backgroundColor = [UIColor clearColor];
     }
 }
 
 - (void) setDirectionGraphic:(AGSDirectionGraphic *)directionGraphic
 {
+    self.defaultBGCol = self.backgroundColor;
+    if (self.topPadding == -1)
+    {
+        self.topPadding = self.stepDetailsLabel.frame.origin.y;
+        self.bottomPadding = self.frame.size.height - (self.stepDetailsLabel.frame.size.height +
+                                                       self.stepDetailsLabel.frame.origin.y);
+    }
+    
+    self.stepDistanceLabel.hidden = (directionGraphic.maneuverType == AGSNADirectionsManeuverDepart ||
+                                     directionGraphic.maneuverType == AGSNADirectionsManeuverStop);
+    
+    self.stepNumberLabel.hidden = directionGraphic.maneuverType == AGSNADirectionsManeuverDepart;
+
     _directionGraphic = directionGraphic;
     self.stepDetailsLabel.text = directionGraphic.text;
+    if (!self.stepDistanceLabel.hidden)
+    {
+        self.stepDistanceLabel.text =
+        [NSString stringWithFormat:@"%0.2f miles (%0.2f mins)", directionGraphic.length, directionGraphic.time];
+    }
 }
 
 - (void) setDirectionIndex:(NSUInteger)directionIndex
@@ -92,6 +103,7 @@
 - (CGFloat) getHeight
 {
     NSString *text = self.stepDetailsLabel.text;
-    return [text sizeWithFont:self.stepDetailsLabel.font constrainedToSize:self.stepDetailsLabel.frame.size].height + (2 * self.stepDetailsLabel.frame.origin.y);
+    CGFloat labelHeight = [text sizeWithFont:self.stepDetailsLabel.font constrainedToSize:self.stepDetailsLabel.frame.size].height;
+    return labelHeight + self.topPadding + self.bottomPadding;
 }
 @end

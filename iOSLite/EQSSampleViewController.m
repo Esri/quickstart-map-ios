@@ -27,6 +27,7 @@
 
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSPoint+GeneralUtilities.h"
+#import "AGSGraphicsLayer+GeneralUtilities.h"
 
 #import "UIApplication+AppDimensions.h"
 
@@ -51,6 +52,7 @@
                                         EQSBasemapPickerDelegate,
                                         AGSMapViewCalloutDelegate,
                                         EQSAddressCandidateViewDelegate,
+                                        EQSRouteDisplayViewDelegate,
                                         UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSMutableOrderedSet *geocodeResults;
@@ -1290,19 +1292,10 @@
 	if (results)
 	{
 		self.routeResult = [results.routeResults objectAtIndex:0];
-        NSLog(@"Showing results");
 		[self.mapView.routeDisplayHelper showRouteResults:results];
-        NSLog(@"Showed results");
         EQSRouteResultsViewController *rrvc = self.routeResultsView.viewController;
         rrvc.routeResult = [results.routeResults objectAtIndex:0];
-        
-//        AGSGraphic *routeGraphic = rrvc.routeResult.routeGraphic;
-//        AGSGeometry *routeGeom = routeGraphic.geometry;
-//        AGSEnvelope *routeEnv = routeGeom.envelope;
-//        AGSEnvelope *newEnv = [self.mapView getEnvelopeToFitViewAspectRatio:routeEnv];
-//        NSLog(@"%@\n%@",routeEnv, newEnv);
-//        
-//        CGRect rectToZoomTo = [self.mapView getMinOrthoVisibleArea];
+        rrvc.routeDisplayDelegate = self;
 	}
 }
 
@@ -1319,6 +1312,34 @@
 											  otherButtonTitles:nil];
 		[alert show];
 	}
+}
+
+- (void) direction:(AGSDirectionGraphic *)direction selectedFromRouteResult:(AGSRouteResult *)routeResult
+{
+    NSLog(@"%@", direction);
+    AGSGraphicsLayer *routeDisplayLayer = self.mapView.routeDisplayHelper.routeGraphicsLayer;
+    [routeDisplayLayer removeGraphicsMatchingCriteria:^BOOL(AGSGraphic *graphic) {
+        return [graphic.attributes objectForKey:@"DirectionStepGraphic"] != nil;
+    }];
+    
+    if ([direction.geometry isKindOfClass:[AGSPolyline class]])
+    {
+        AGSPolyline *directionLine = (AGSPolyline *)direction.geometry;
+        AGSPoint *startPoint = (AGSPoint *)[directionLine pointOnPath:0 atIndex:0];
+        
+        direction.symbol = self.mapView.defaultSymbols.routeSegment;
+        [routeDisplayLayer addGraphic:direction
+                        withAttribute:@"DirectionStepGraphic"
+                            withValue:@"Segment"];
+        AGSGraphic *dirStartGraphic = [AGSGraphic graphicWithGeometry:startPoint
+                                                               symbol:self.mapView.defaultSymbols.routeSegmentStart
+                                                           attributes:nil
+                                                 infoTemplateDelegate:nil];
+        [routeDisplayLayer addGraphic:dirStartGraphic
+                        withAttribute:@"DirectionStepGraphic"
+                            withValue:@"StartPoint"];
+        [self.mapView zoomToGeometry:direction.geometry withPadding:100 animated:YES];
+    }
 }
 
 - (void) routeTask:(AGSRouteTask *)routeTask operation:(NSOperation *)op didSolveWithResult:(AGSRouteTaskResult *)routeTaskResult

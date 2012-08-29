@@ -9,6 +9,9 @@
 #ifndef esriQuickStartApp_EQSBasemapsNotifications_h
 #define esriQuickStartApp_EQSBasemapsNotifications_h
 
+#import <ArcGIS/ArcGIS.h>
+#import "EQSBasemapTypeEnum.h"
+
 #define kEQSNotification_BasemapDidChange @"BasemapDidChange"
 #define kEQSNotification_BasemapDidChange_PortalItemKey @"PortalItem"
 #define kEQSNotification_BasemapDidChange_BasemapsTypeKey @"BasemapType"

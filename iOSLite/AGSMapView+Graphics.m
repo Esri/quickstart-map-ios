@@ -6,10 +6,11 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
+#import "EQSBasemapsNotifications.h"
 #import "AGSMapView+Graphics.h"
 #import "AGSMapView+GeneralUtilities.h"
-#import "AGSMapView+Basemaps.h"
 #import "AGSPoint+GeneralUtilities.h"
+#import "AGSGraphicsLayer+GeneralUtilities.h"
 
 #import "EQSHelper.h"
 
@@ -135,8 +136,39 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
                          EQSGraphicsLayerTypePolygon)];
 }
 
-#pragma marl - Remove graphic
-- (void) removeGraphic:(AGSGraphic *)graphic
+#pragma mark - Add graphic
+- (AGSGraphicsLayer *) addGraphic:(AGSGraphic *)graphic
+{
+    return [self __eqsAddGraphicToAppropriateGraphicsLayer:graphic];
+}
+
+- (AGSGraphicsLayer *) addGraphic:(AGSGraphic *)graphic withAttribute:(id)attribute withValue:(id)value
+{
+    AGSGraphicsLayer *targetLayer = [self __eqsGetAppropriateGraphicsLayerForGraphic:graphic];
+    if (!graphic.attributes)
+    {
+        graphic.attributes = [NSMutableDictionary dictionaryWithCapacity:1];
+    }
+    [graphic.attributes setObject:value forKey:attribute];
+    [targetLayer addGraphic:graphic];
+    [targetLayer dataChanged];
+    return targetLayer;
+}
+
+
+#pragma mark - Remove graphic
+- (AGSGraphicsLayer *) removeGraphic:(AGSGraphic *)graphic
+{
+    AGSGraphicsLayer *owningLayer = [self removeGraphicNoRefresh:graphic];
+    if (owningLayer)
+    {
+        [owningLayer dataChanged];
+    }
+    
+    return owningLayer;
+}
+
+- (AGSGraphicsLayer *) removeGraphicNoRefresh:(AGSGraphic *)graphic
 {
 	if (graphic)
 	{
@@ -144,12 +176,13 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
 		{
             AGSGraphicsLayer *owningLayer = graphic.layer;
 			[graphic.layer removeGraphic:graphic];
-            [owningLayer dataChanged];
+            return owningLayer;
 		}
 	}
+    return nil;
 }
 
-- (void) removeGraphicsMatchingCriteria:(BOOL (^)(AGSGraphic *))checkBlock
+- (NSSet *) removeGraphicsMatchingCriteria:(BOOL (^)(AGSGraphic *graphic))checkBlock
 {
     NSArray *layersToCheck = [NSArray arrayWithObjects:__eqsPointGraphicsLayer,
                                                        __eqsPolylineGraphicsLayer, 
@@ -170,7 +203,7 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
     NSMutableSet *layersToUpdate = [NSMutableSet set];
     for (AGSGraphic *g in graphicsToRemove) {
         [layersToUpdate addObject:g.layer];
-        [self removeGraphic:g];
+        [self removeGraphicNoRefresh:g];
     }
     
     // Flag the affected layers for redraw
@@ -178,6 +211,15 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
     {
         [gl dataChanged];
     }
+    
+    return layersToUpdate;
+}
+
+- (NSSet *) removeGraphicsByAttribute:(id)attribute withValue:(id)value
+{
+    return [self removeGraphicsMatchingCriteria:^BOOL(AGSGraphic *graphic) {
+        return [[graphic.attributes objectForKey:attribute] isEqual:value];
+    }];
 }
 
 #pragma mark - Edit graphic
@@ -451,36 +493,45 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
     return g;
 }
 
-- (void) __eqsAddGraphicToAppropriateGraphicsLayer:(AGSGraphic *)graphic
+- (AGSGraphicsLayer *)__eqsGetAppropriateGraphicsLayerForGraphic:(AGSGraphic *)graphic
+{
+    AGSGeometry *geom = graphic.geometry;
+    AGSGraphicsLayer *gLayer = nil;
+    if ([geom isKindOfClass:[AGSPoint class]] ||
+        [geom isKindOfClass:[AGSMultipoint class]])
+    {
+        gLayer = [self getGraphicsLayer:EQSGraphicsLayerTypePoint];
+    }
+    else if ([geom isKindOfClass:[AGSPolyline class]])
+    {
+        gLayer = [self getGraphicsLayer:EQSGraphicsLayerTypePolyline];
+    }
+    else if ([geom isKindOfClass:[AGSPolygon class]])
+    {
+        gLayer = [self getGraphicsLayer:EQSGraphicsLayerTypePolygon];
+    }
+    else {
+        NSLog(@"Unrecognized Geometry Class: %@", geom);
+    }
+    return gLayer;
+}
+
+- (AGSGraphicsLayer *) __eqsAddGraphicToAppropriateGraphicsLayer:(AGSGraphic *)graphic
 {
     // Figure out what type of geometry the graphic is, and add the graphic to the appropriate layer.
     if (graphic)
     {
-        AGSGeometry *geom = graphic.geometry;
-        AGSGraphicsLayer *gLayer = nil;
-        if ([geom isKindOfClass:[AGSPoint class]] ||
-            [geom isKindOfClass:[AGSMultipoint class]])
-        {
-            gLayer = [self getGraphicsLayer:EQSGraphicsLayerTypePoint];
-        }
-        else if ([geom isKindOfClass:[AGSPolyline class]])
-        {
-            gLayer = [self getGraphicsLayer:EQSGraphicsLayerTypePolyline];
-        }
-        else if ([geom isKindOfClass:[AGSPolygon class]])
-        {
-            gLayer = [self getGraphicsLayer:EQSGraphicsLayerTypePolygon];
-        }
-        else {
-            NSLog(@"Unrecognized Geometry Class: %@", geom);
-        }
+        AGSGraphicsLayer *gLayer = [self __eqsGetAppropriateGraphicsLayerForGraphic:graphic];
         
         if (gLayer)
         {
             [gLayer addGraphic:graphic];
             [gLayer dataChanged];
         }
+        
+        return gLayer;
     }
+    return nil;
 }
 
 - (NSArray *) __eqsGetArrayFromArguments:(NSNumber *)first arguments:(va_list)otherArgs

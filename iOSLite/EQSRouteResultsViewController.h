@@ -9,7 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
 
+@protocol EQSRouteDisplayViewDelegate <NSObject>
+- (void) direction:(AGSDirectionGraphic *)direction selectedFromRouteResult:(AGSRouteResult *)routeResult;
+@end
+
 @interface EQSRouteResultsViewController : UIViewController
+@property (nonatomic, strong) AGSMapView *mapView;
 @property (nonatomic, strong) AGSRouteResult *routeResult;
 @property (nonatomic, assign) BOOL hidden;
+@property (nonatomic, weak) id<EQSRouteDisplayViewDelegate> routeDisplayDelegate;
 @end

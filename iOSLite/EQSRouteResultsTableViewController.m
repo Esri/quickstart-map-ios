@@ -28,6 +28,9 @@
 @implementation EQSRouteResultsTableViewController
 @synthesize routeResult = _routeResult;
 
+@synthesize templateCell = _templateCell;
+@synthesize directionsDelegate = _directionsDelegate;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -97,13 +100,19 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    [tableView scrollToRowAtIndexPath:indexPath
+                     atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    if (self.directionsDelegate)
+    {
+        if ([self.directionsDelegate respondsToSelector:@selector(direction:selectedFromRouteResult:)])
+        {
+            AGSDirectionGraphic *dirG = [self graphicForIndexPath:indexPath];
+            if (dirG)
+            {
+                [self.directionsDelegate direction:dirG selectedFromRouteResult:self.routeResult];
+            }
+        }
+    }
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
