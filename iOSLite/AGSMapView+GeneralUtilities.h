@@ -14,6 +14,8 @@
 
 // Perform an operation, but if it needs to wait until the AGSMapView has loaded, wait until then.
 - (void) doActionWhenLoaded:(void (^)(void))actionBlock;
+
+//TODO - Functionality still being developed.
 - (AGSEnvelope *) getEnvelopeToFitViewAspectRatio:(AGSEnvelope *)sourceEnvelope;
 - (CGRect) getMinOrthoVisibleArea;
 @end

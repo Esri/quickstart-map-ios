@@ -13,7 +13,7 @@
 
 #import	"AGSMapView+Navigation.h"
 #import "AGSMapView+Basemaps.h"
-#import "AGSMapView+Graphics.h"
+#import "AGSMapView+EQSGraphics.h"
 #import "AGSMapView+RouteDisplay.h"
 
 #import "EQSSampleAppState.h"
@@ -27,7 +27,6 @@
 
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSPoint+GeneralUtilities.h"
-#import "AGSGraphicsLayer+GeneralUtilities.h"
 
 #import "UIApplication+AppDimensions.h"
 
@@ -846,36 +845,8 @@
 
 - (void)listenToEditingUndoManager
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
-                                                    name:@"NSUndoManagerDidCloseUndoGroupNotification" 
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
-                                                    name:@"NSUndoManagerDidUndoChangeNotification" 
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
-                                                    name:@"NSUndoManagerDidRedoChangeNotification" 
-                                                  object:nil];
-    
-    NSUndoManager *um = [self.mapView getUndoManagerForGraphicsEdits];
-    if (um)
-    {
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(editUndoRedoChanged:)
-                                                     name:@"NSUndoManagerDidCloseUndoGroupNotification"
-                                                   object:um];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(editUndoRedoChanged:)
-                                                     name:@"NSUndoManagerDidUndoChangeNotification"
-                                                   object:um];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(editUndoRedoChanged:)
-                                                     name:@"NSUndoManagerDidRedoChangeNotification"
-                                                   object:um];
-    }
+    [self.mapView registerListener:self ForEditGraphicUndoRedoNotificationsUsing:@selector(editUndoRedoChanged:)];
 }
-
-
-
 
 
 #pragma mark - Basemap Selection
@@ -994,21 +965,21 @@
 }
 
 - (IBAction)doneEditingGraphic:(id)sender {
-    [self.mapView saveCurrentEdit];
+    [self.mapView saveGraphicEdit];
     self.currentState = EQSSampleAppStateGraphics;
 }
 
 - (IBAction)cancelEditingGraphic:(id)sender {
-    [self.mapView cancelCurrentEdit];
+    [self.mapView cancelGraphicEdit];
     self.currentState = EQSSampleAppStateGraphics;
 }
 
 - (IBAction)undoEditingGraphic:(id)sender {
-    [[self.mapView getUndoManagerForGraphicsEdits] undo];
+    [self.mapView undoGraphicEdit];
 }
 
 - (IBAction)redoEditingGraphic:(id)sender {
-    [[self.mapView getUndoManagerForGraphicsEdits] redo];
+    [self.mapView redoGraphicEdit];
 }
 
 - (IBAction)zoomToEditingGeometry:(id)sender {
@@ -1021,7 +992,7 @@
 
 - (IBAction)deleteSelectedGraphic:(id)sender
 {
-    AGSGraphic *graphicToDelete = [self.mapView cancelCurrentEdit];
+    AGSGraphic *graphicToDelete = [self.mapView cancelGraphicEdit];
     [self.mapView removeGraphic:graphicToDelete];
     self.currentState = EQSSampleAppStateGraphics;
 }

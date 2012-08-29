@@ -7,10 +7,9 @@
 //
 
 #import "EQSBasemapsNotifications.h"
-#import "AGSMapView+Graphics.h"
+#import "AGSMapView+EQSGraphics.h"
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSPoint+GeneralUtilities.h"
-#import "AGSGraphicsLayer+GeneralUtilities.h"
 
 #import "EQSHelper.h"
 
@@ -275,7 +274,7 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
 }
 
 #pragma mark - Save edit/create
-- (AGSGraphic *) saveCurrentEdit
+- (AGSGraphic *) saveGraphicEdit
 {
     if (__eqsSketchGraphicsLayer)
     {
@@ -314,7 +313,7 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
 }
 
 #pragma mark - Cancel edit/create
-- (AGSGraphic *) cancelCurrentEdit
+- (AGSGraphic *) cancelGraphicEdit
 {
     if (__eqsSketchGraphicsLayer)
     {
@@ -329,6 +328,54 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
     
     return nil;
 }
+
+#pragma mark - Undo/Redo
+- (void)undoGraphicEdit
+{
+    [[self getUndoManagerForGraphicsEdits] undo];
+}
+
+- (void)redoGraphicEdit
+{
+    [[self getUndoManagerForGraphicsEdits] redo];
+}
+
+- (NSUndoManager *) registerListener:(id)object ForEditGraphicUndoRedoNotificationsUsing:(SEL)handlerMethod
+{
+    [self stop:object ListeningForEditGraphicUndoRedoNotificationsOn:nil];
+    
+    NSUndoManager *um = [self getUndoManagerForGraphicsEdits];
+    if (um)
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:object
+                                                 selector:handlerMethod
+                                                     name:@"NSUndoManagerDidCloseUndoGroupNotification"
+                                                   object:um];
+        [[NSNotificationCenter defaultCenter] addObserver:object
+                                                 selector:handlerMethod
+                                                     name:@"NSUndoManagerDidUndoChangeNotification"
+                                                   object:um];
+        [[NSNotificationCenter defaultCenter] addObserver:object
+                                                 selector:handlerMethod
+                                                     name:@"NSUndoManagerDidRedoChangeNotification"
+                                                   object:um];
+    }
+    return um;
+}
+
+- (void) stop:(id)listener ListeningForEditGraphicUndoRedoNotificationsOn:(NSUndoManager *)manager
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:listener
+                                                    name:@"NSUndoManagerDidCloseUndoGroupNotification"
+                                                  object:manager];
+    [[NSNotificationCenter defaultCenter] removeObserver:listener
+                                                    name:@"NSUndoManagerDidUndoChangeNotification"
+                                                  object:manager];
+    [[NSNotificationCenter defaultCenter] removeObserver:listener
+                                                    name:@"NSUndoManagerDidRedoChangeNotification"
+                                                  object:manager];
+}
+
 
 #pragma mark - Accessors to useful objects for UI feedback during editing
 - (NSUndoManager *) getUndoManagerForGraphicsEdits

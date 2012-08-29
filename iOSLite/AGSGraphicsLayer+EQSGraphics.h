@@ -1,5 +1,5 @@
 //
-//  AGSGraphicsLayer+GeneralUtilities.h
+//  AGSGraphicsLayer+EQSGraphics.h
 //  EsriQuickStartApp
 //
 //  Created by Nicholas Furness on 7/4/12.
@@ -8,7 +8,7 @@
 
 #import <ArcGIS/ArcGIS.h>
 
-@interface AGSGraphicsLayer (EQSGeneral)
+@interface AGSGraphicsLayer (EQSGraphics)
 - (void) addGraphic:(AGSGraphic *)graphic withID:(NSString *)graphicID;
 - (AGSGraphic *) getGraphicForID:(NSString *)graphicID;
 

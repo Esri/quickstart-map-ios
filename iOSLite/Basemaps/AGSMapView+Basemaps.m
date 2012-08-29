@@ -60,15 +60,17 @@ EQSBasemapType __eqsCurrentBasemapType = 0;
     // TODO - Refactor into #define constants and make public.
     NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] init];
     
-    // Return the basemap type
-    [userInfo setObject:[NSNumber numberWithInt:basemapType] forKey:kEQSNotification_BasemapDidChange_BasemapsTypeKey];
+    // Pass the basemap type with the notification
+    [userInfo setObject:[NSNumber numberWithInt:basemapType]
+                 forKey:kEQSNotification_BasemapDidChange_BasemapsTypeKey];
 
-    // If we have a portal item, return that too.
+    // If we have a portal item, pass that back too.
     if (portalItem != nil)
     {
         [userInfo setObject:portalItem forKey:kEQSNotification_BasemapDidChange_PortalItemKey];
     }
     
+    // Raise the notification
     [[NSNotificationCenter defaultCenter] postNotificationName:kEQSNotification_BasemapDidChange
                                                         object:self 
                                                       userInfo:userInfo];
@@ -78,11 +80,13 @@ EQSBasemapType __eqsCurrentBasemapType = 0;
 @implementation NSNotification (EQSBasemaps)
 - (AGSPortalItem *) basemapPortalItem
 {
+    // Return the AGSPortalItem that represents this basemap type.
     return [self.userInfo objectForKey:kEQSNotification_BasemapDidChange_PortalItemKey];
 }
 
 - (EQSBasemapType) basemapType
 {
+    // And return the basemap type itself.
     NSNumber *basemapNum = [self.userInfo objectForKey:kEQSNotification_BasemapDidChange_BasemapsTypeKey];
     return (EQSBasemapType)basemapNum.intValue;
 }

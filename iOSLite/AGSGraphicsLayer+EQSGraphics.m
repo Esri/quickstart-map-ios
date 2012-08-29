@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "AGSGraphicsLayer+GeneralUtilities.h"
+#import "AGSGraphicsLayer+EQSGraphics.h"
 
-@implementation AGSGraphicsLayer (EQSGeneral)
+@implementation AGSGraphicsLayer (EQSGraphics)
 #define kEQSGraphicsLayerIDAttribute @"EQSGraphicID"
 
 - (void) addGraphic:(AGSGraphic *)graphic withID:(NSString *)graphicID

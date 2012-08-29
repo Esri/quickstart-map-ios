@@ -11,7 +11,7 @@
 #import "EQSHelper.h"
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSMapView+Basemaps.h"
-#import "AGSGraphicsLayer+GeneralUtilities.h"
+#import "AGSGraphicsLayer+EQSGraphics.h"
 #import "EQSGeoServices.h"
 #import "EQSDefaultSymbols.h"
 

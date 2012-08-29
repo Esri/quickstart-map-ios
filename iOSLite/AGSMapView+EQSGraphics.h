@@ -7,8 +7,7 @@
 //
 
 #import <ArcGIS/ArcGIS.h>
-
-@interface AGSMapView (EQSGraphics)
+#import "AGSGraphicsLayer+EQSGraphics.h"
 
 typedef enum {
     EQSGraphicsLayerTypePoint = 1,
@@ -17,37 +16,45 @@ typedef enum {
 } EQSGraphicsLayerType;
 
 
+@interface AGSMapView (EQSGraphics)
 
-
-#pragma mark - Add and Remove Graphics
-// ADD & REMOVE Graphics
-
-// Create graphics using sequences of lat/long coordinates.
+#pragma mark - Add Graphics from Geometries
+// Create graphics using sequences of lat/long coordinates and default symbols.
 - (AGSGraphic *) addPointAtLat:(double)latitude lon:(double)longitude;
 - (AGSGraphic *) addPoint:(AGSPoint *)point;
 - (AGSGraphic *) addLineFromPoints:(NSArray *) points;
 - (AGSGraphic *) addPolygonFromPoints:(NSArray *) points;
 
+// Create graphics and specify a symbol
 - (AGSGraphic *) addPointAtLat:(double)latitude lon:(double)longitude withSymbol:(AGSMarkerSymbol *)markerSymbol;
 - (AGSGraphic *) addPoint:(AGSPoint *)point withSymbol:(AGSMarkerSymbol *)markerSymbol;
 
 //TODO - (AGSGraphic *) addLine:(AGSPolyline *) line;
 //TODO - (AGSGraphic *) addPolygon:(AGSPolygon *) polygon;
 
+
+
+
+#pragma mark - Add Graphics
+// Add an existing graphic to the map.
 - (AGSGraphicsLayer *) addGraphic:(AGSGraphic *)graphic;
 // Shortcut to populate the AGSGraphic.attributes dictionary with a key/value
 // See also removeGraphicsByAttribute:withValue
 - (AGSGraphicsLayer *) addGraphic:(AGSGraphic *)graphic withAttribute:(id)attribute withValue:(id)value;
 
+
+
+
+#pragma mark - Remove Graphics
 // Remove individual graphic
 - (AGSGraphicsLayer *) removeGraphic:(AGSGraphic *)graphic;
 
+//TODO - Improve the return values. Should include layers and graphics.
 // Remove graphics by matching some criteria. The NSSet will contain AGSGraphicsLayers that were updated.
 - (NSSet *) removeGraphicsMatchingCriteria:(BOOL(^)(AGSGraphic *graphic))checkBlock;
 // See also addGraphic:withAttribute:withValue
 - (NSSet *) removeGraphicsByAttribute:(id)attribute withValue:(id)value;
 
-#pragma mark - Clear graphics
 // Clear graphics from the map. Optionally specify what type or types of graphics to clear.
 - (void) clearGraphics:(EQSGraphicsLayerType)layerType;
 - (void) clearGraphics;
@@ -56,8 +63,6 @@ typedef enum {
 
 
 #pragma mark - Create and Edit Graphics
-// CREATE & EDIT Graphics
-
 // To create and start editing a new graphic, just call one of these methods. Call saveCurrentEdit to
 // commit the new graphic and get a handle to it. Note, until a geometry is saved, it doesn't become a
 // graphic, hence these functions all return VOID.
@@ -79,10 +84,32 @@ typedef enum {
 // saveCurrentEdit will commit the current geometry edits. The returned graphic is the graphic
 // that was edited. If this is an existing graphic, the object will be the same as returned
 // by editGraphicFromDidClickAtPointEvent
-- (AGSGraphic *) saveCurrentEdit;
+- (AGSGraphic *) saveGraphicEdit;
 
 // Cancel the current edit, if any. If this was an Edit rather than a Create, the unmodified graphic is returned.
-- (AGSGraphic *) cancelCurrentEdit;
+- (AGSGraphic *) cancelGraphicEdit;
+
+
+
+
+#pragma mark - Undo/Redo
+// Undo and redo - call these when you want to undo/redo something.
+// See also registerListener:ForEditGraphicUndoRedoNotificationsUsing: to be notified that an undo or redo
+// has happened so you can check the state of the NSUndoManager and update the UI appropriately.
+- (void) undoGraphicEdit;
+- (void) redoGraphicEdit;
+
+// Undo/Redo registration
+// Use these helper methods to register yourself as interested in knowing when the undo/redo stack has changed.
+// Pass in an object and selector for a method of that object that takes a single NSNotification parameter.
+// When that method is called, check the canUndo and canRedo state of the NSUndoManager (which you can get
+// using the getUndoManagerForGraphicsEdits) to update your UI.
+- (NSUndoManager *) registerListener:(id)object ForEditGraphicUndoRedoNotificationsUsing:(SEL)handlerMethod;
+// To stop listening to all NSUndoManagers, just pass in nil for the manager.
+- (void) stop:(id)listener ListeningForEditGraphicUndoRedoNotificationsOn:(NSUndoManager *)manager;
+// Get a handle on the NSUndoManager (returned from registerListener:ForEditGraphicUndoRedoNotificationsUsing:)
+// in case you don't want to hold on to it yourself. And why would you?
+- (NSUndoManager *) getUndoManagerForGraphicsEdits;
 
 
 
@@ -92,9 +119,7 @@ typedef enum {
 // iOS undo/redo functionality of the NSUndoManager. Listen to NSUndoManagerDidCloseUndoGroupNotification,
 // NSUndoManagerDidUndoChangeNotification and NSUndoManagerDidRedoChangeNotification to determine when to
 // read it's canUndo and canRedo properties to update the UI appropriately.
-- (NSUndoManager *) getUndoManagerForGraphicsEdits;
 - (AGSGeometry *) getCurrentEditGeometry;
 - (AGSGraphic *) getCurrentEditGraphic;
 - (AGSGraphicsLayer *) getGraphicsLayer:(EQSGraphicsLayerType)layerType;
-
 @end
