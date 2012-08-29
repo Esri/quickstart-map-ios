@@ -22,7 +22,7 @@
 #define kEQSGreenCircleURL @"http://static.arcgis.com/images/Symbols/Shapes/GreenCircleLargeB.png"
 #define kEQSCircleXOffset 0
 #define kEQSCircleYOffset 0
-#define kEQSCircleSize CGSizeMake(20,20)
+#define kEQSCircleSize CGSizeMake(28,28)
 
 @implementation AGSMapView (EQSDisplay)
 EQSDefaultSymbols *__eqsDefaultSymbols = nil;
@@ -168,16 +168,24 @@ EQSDefaultSymbols *__eqsDefaultSymbols = nil;
 
 - (void) populateSymbols
 {
+    // Where we modify a symbol once it's returned, we must do so on the iVar since we've
+    // written the property getters to block on this thread...
     self.geolocation = [self getPinSizedPictureMarkerSymbolForURL:kEQSBluePinURL];
     
     self.route = [AGSSimpleLineSymbol simpleLineSymbolWithColor:[[UIColor orangeColor] colorWithAlphaComponent:0.7f]
-                                                          width:8.0f];
+                                                          width:6.0f];
+    _route.lineCap = kCGLineCapRound;
+    _route.lineJoin = kCGLineJoinRound;
+
     self.routeStart = [self getPinSizedPictureMarkerSymbolForURL:kEQSGreenPinURL];
     self.routeEnd = [self getPinSizedPictureMarkerSymbolForURL:kEQSRedPinURL];
     
     self.routeSegmentStart = [self getCircleSizedPictureMarkerSymbolForURL:kEQSGreenCircleURL];
     self.routeSegment = [AGSSimpleLineSymbol simpleLineSymbolWithColor:[[UIColor greenColor] colorWithAlphaComponent:0.5f]
                                                                  width:10.0f];
+    
+    _routeSegment.lineCap = kCGLineCapRound;
+    _routeSegment.lineJoin = kCGLineJoinRound;
     
     self.findPlace = [self getPinSizedPictureMarkerSymbolForURL:kEQSOrangePinURL];
     self.reverseGeocode = [self getPinSizedPictureMarkerSymbolForURL:kEQSYellowPinURL];

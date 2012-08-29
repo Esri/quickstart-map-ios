@@ -9,6 +9,32 @@
 #import "EQSRouteResultsViewController.h"
 #import "EQSRouteResultsTableViewController.h"
 
+@interface UITableView (EQSRouteResults)
+- (void) selectRowCallingDelegateAtIndexPath:(NSIndexPath *)indexPath
+                                    animated:(BOOL)animated
+                              scrollPosition:(UITableViewScrollPosition)scrollPosition;
+@end
+
+@implementation UITableView (EQSRouteResults)
+- (void) selectRowCallingDelegateAtIndexPath:(NSIndexPath *)indexPath
+                                    animated:(BOOL)animated
+                              scrollPosition:(UITableViewScrollPosition)scrollPosition
+{
+    // Why isn't this part of UITableView? I suppose it ended up with too many circular references?
+    if ([self.delegate respondsToSelector:@selector(tableView:willSelectRowAtIndexPath:)])
+    {
+        [self.delegate tableView:self willSelectRowAtIndexPath:indexPath];
+    }
+    
+    [self selectRowAtIndexPath:indexPath animated:animated scrollPosition:scrollPosition];
+
+    if ([self.delegate respondsToSelector:@selector(tableView:didSelectRowAtIndexPath:)])
+    {
+        [self.delegate tableView:self didSelectRowAtIndexPath:indexPath];
+    }
+}
+@end
+
 @interface EQSRouteResultsViewController () <EQSRouteDisplayTableViewDelegate>
 @property (strong, nonatomic) IBOutlet EQSRouteResultsTableViewController *tableViewController;
 @property (strong, nonatomic) IBOutlet UILabel *routeResultsDistanceLabel;
@@ -24,6 +50,69 @@
 @synthesize routeResult = _routeResult;
 @synthesize hidden = _hidden;
 @synthesize routeDisplayDelegate = _routeDisplayDelegate;
+
+- (IBAction)selectPreviousDirection:(id)sender
+{
+    NSIndexPath *currentIP = [self.tableViewController.tableView indexPathForSelectedRow];
+    NSIndexPath *newSelectIP = nil;
+    if (currentIP)
+    {
+        NSUInteger currentRow = currentIP.row;
+        if (currentRow > 0)
+        {
+            newSelectIP = [NSIndexPath indexPathForRow:currentIP.row-1 inSection:currentIP.section];
+        }
+        else
+        {
+            newSelectIP = currentIP;
+        }
+    }
+    else
+    {
+        NSUInteger numRows = [self.tableViewController.tableView numberOfRowsInSection:0];
+        newSelectIP = [NSIndexPath indexPathForRow:numRows-1
+                                         inSection:0];
+    }
+
+    [self.tableViewController.tableView selectRowCallingDelegateAtIndexPath:newSelectIP
+                                                    animated:YES
+                                              scrollPosition:UITableViewScrollPositionMiddle];
+}
+
+- (IBAction)selectNextDirection:(id)sender {
+    NSIndexPath *currentIP = [self.tableViewController.tableView indexPathForSelectedRow];
+    NSIndexPath *newSelectIP = nil;
+    if (currentIP)
+    {
+        NSUInteger currentRow = currentIP.row;
+        if (currentRow < [self.tableViewController.tableView numberOfRowsInSection:0]-1)
+        {
+            newSelectIP = [NSIndexPath indexPathForRow:currentIP.row+1 inSection:currentIP.section];
+        }
+        else
+        {
+            newSelectIP = currentIP;
+        }
+    }
+    else
+    {
+        newSelectIP = [NSIndexPath indexPathForRow:0 inSection:0];
+    }
+    [self.tableViewController.tableView selectRowCallingDelegateAtIndexPath:newSelectIP
+                                                                   animated:YES
+                                                             scrollPosition:UITableViewScrollPositionMiddle];
+//    }
+}
+- (IBAction)zoomToRoute:(id)sender
+{
+    if (self.routeDisplayDelegate)
+    {
+        if ([self.routeDisplayDelegate respondsToSelector:@selector(zoomToRouteResult)])
+        {
+            [self.routeDisplayDelegate zoomToRouteResult];
+        }
+    }
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

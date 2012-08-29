@@ -16,6 +16,8 @@
 - (void) showRouteResults:(AGSRouteTaskResult *)routeTaskResults;
 - (void) clearRouteDisplay;
 
+- (void) zoomToRouteResult;
+
 @property (nonatomic, retain) AGSGraphicsLayer *routeGraphicsLayer;
 @property (nonatomic, retain) AGSMarkerSymbol *startSymbol;
 @property (nonatomic, retain) AGSMarkerSymbol *endSymbol;

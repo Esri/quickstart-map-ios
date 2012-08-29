@@ -11,6 +11,7 @@
 
 @protocol EQSRouteDisplayViewDelegate <NSObject>
 - (void) direction:(AGSDirectionGraphic *)direction selectedFromRouteResult:(AGSRouteResult *)routeResult;
+- (void) zoomToRouteResult;
 @end
 
 @interface EQSRouteResultsViewController : UIViewController

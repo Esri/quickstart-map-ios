@@ -384,6 +384,8 @@
 
 - (BOOL) mapView:(AGSMapView *)mapView shouldShowCalloutForGraphic:(AGSGraphic *)graphic
 {
+    NSLog(@"SSC: %@", graphic);
+    NSLog(@"SSC ITD: %@", graphic.infoTemplateDelegate);
     return (graphic.infoTemplateDelegate != nil);
 }
 
@@ -433,7 +435,8 @@
             for (id key in graphics.allKeys) {
                 NSArray *graphicsInLayer = [graphics objectForKey:key];
                 for (AGSGraphic *g in graphicsInLayer) {
-                    NSLog(@"Graphic '%@' = %@", key, g);
+                    NSLog(@"MVCAP: %@", g);
+                    NSLog(@"MVCAP ITD: %@", g.infoTemplateDelegate);
                 }
             }
             break;
@@ -457,9 +460,41 @@
                 break;
             }
         }
+        
+        // Now sort the array of graphics based on geometry type. We want to consider points over lines over polygons.
+        NSArray *sortedGraphics = [graphicsForLayer sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            AGSGraphic *g1 = obj1;
+            AGSGraphic *g2 = obj2;
+            AGSGeometryType t1 = AGSGeometryTypeForGeometry(g1.geometry);
+            AGSGeometryType t2 = AGSGeometryTypeForGeometry(g2.geometry);
+            
+            if (t1 == AGSGeometryTypeMultipoint) t1 = AGSGeometryTypePoint;
+            if (t2 == AGSGeometryTypeMultipoint) t2 = AGSGeometryTypePoint;
+            
+            NSNumber *n1 = [NSNumber numberWithInt:t1];
+            NSNumber *n2 = [NSNumber numberWithInt:t2];
+            
+            NSLog(@"%d %d - %@ %@", t1, t2, n1, n2);
+            
+            return [n1 compare:n2];
+        }];
+        
+        double immediateScreenThreshold = 10;
+        CGPoint screenPt = [self.mapView toScreenPoint:mapPoint];
+
         // Now find the closest geometry to where we tapped.
-        for (AGSGraphic *graphic in graphicsForLayer)
+        for (AGSGraphic *graphic in sortedGraphics)
         {
+            AGSProximityResult *r = [[AGSGeometryEngine defaultGeometryEngine] nearestCoordinateInGeometry:graphic.geometry toPoint:mapPoint];
+            CGPoint screenR = [self.mapView toScreenPoint:r.point];
+            double dx = (screenR.x - screenPt.x);
+            double dy = (screenR.y - screenPt.y);
+            double screenDist = sqrt(dx*dx + dy*dy);
+            if (screenDist < immediateScreenThreshold)
+            {
+                return graphic;
+            }
+            
             double dist = [[AGSGeometryEngine defaultGeometryEngine] distanceFromGeometry:mapPoint toGeometry:graphic.geometry];
             if (minDistance == -1 || dist < minDistance)
             {
@@ -1311,6 +1346,11 @@
                             withValue:@"StartPoint"];
         [self.mapView zoomToGeometry:direction.geometry withPadding:100 animated:YES];
     }
+}
+
+- (void) zoomToRouteResult
+{
+    [self.mapView.routeDisplayHelper zoomToRouteResult];
 }
 
 - (void) routeTask:(AGSRouteTask *)routeTask operation:(NSOperation *)op didSolveWithResult:(AGSRouteTaskResult *)routeTaskResult

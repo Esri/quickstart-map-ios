@@ -11,6 +11,7 @@
 #import "EQSHelper.h"
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSMapView+Basemaps.h"
+#import "AGSMapView+EQSGraphics.h"
 #import "AGSGraphicsLayer+EQSGraphics.h"
 #import "EQSGeoServices.h"
 #import "EQSDefaultSymbols.h"
@@ -59,7 +60,7 @@
                                                             symbol:self.routeSymbol
                                                         attributes:nil
                                               infoTemplateDelegate:nil];
-        [self.routeGraphicsLayer addGraphic:routeGraphic];
+        [self.routeGraphicsLayer addGraphic:routeGraphic withID:@"RouteShape"];
 		
         for (AGSStopGraphic *stopGraphic in result.stopGraphics)
         {
@@ -90,7 +91,14 @@
     [self.routeGraphicsLayer dataChanged];
 }
 
-
+- (void) zoomToRouteResult
+{
+    AGSGraphic *routeGraphic = [self.routeGraphicsLayer getGraphicForID:@"RouteShape"];
+    if (routeGraphic)
+    {
+        [self.mapView zoomToGeometry:routeGraphic.geometry withPadding:100 animated:YES];
+    }
+}
 
 #pragma mark - Internal init/dealloc, etc.
 - (id) initForMapView:(AGSMapView *)mapView
@@ -136,6 +144,9 @@
 	self.endSymbol = nil;
 	self.routeSymbol = nil;
 	self.mapView = nil;
+    
+    self.startPointCalloutTemplate = nil;
+    self.endPointCalloutTemplate = nil;
 }
 
 - (void) addRouteResultsLayer
