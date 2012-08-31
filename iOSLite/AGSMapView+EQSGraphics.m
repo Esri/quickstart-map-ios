@@ -11,6 +11,8 @@
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSPoint+GeneralUtilities.h"
 
+#import "EQSGraphicCallout.h"
+
 #import "EQSHelper.h"
 
 @implementation AGSMapView (EQSGraphics)
@@ -21,6 +23,8 @@ AGSSketchGraphicsLayer * __eqsSketchGraphicsLayer = nil;
 id<AGSMapViewTouchDelegate> __eqsTempTouchDelegate = nil;
 
 AGSGraphic * __eqsCurrentEditingGraphic = nil;
+
+EQSGraphicCallout *__eqsTheGraphicCallout = nil;
 
 #define kEQSGraphicsLayerName_Point @"eqsPointGraphicsLayer"
 #define kEQSGraphicsLayerName_Polyline @"eqsPolylineGraphicsLayer"
@@ -296,6 +300,13 @@ AGSGraphic * __eqsCurrentEditingGraphic = nil;
             // Creating a new graphic
             AGSGraphic *g = [self __eqsGetDefaultGraphicForGeometry:editedGeometry];
             [self __eqsAddGraphicToAppropriateGraphicsLayer:g];
+
+            // Set the info template delegate
+            if (!__eqsTheGraphicCallout)
+            {
+                __eqsTheGraphicCallout = [[EQSGraphicCallout alloc] init];
+            }
+            g.infoTemplateDelegate = __eqsTheGraphicCallout;
             
             editedGraphic = g;
         }

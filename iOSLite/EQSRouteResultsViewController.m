@@ -8,6 +8,7 @@
 
 #import "EQSRouteResultsViewController.h"
 #import "EQSRouteResultsTableViewController.h"
+#import "EQSHelper.h"
 
 @interface UITableView (EQSRouteResults)
 - (void) selectRowCallingDelegateAtIndexPath:(NSIndexPath *)indexPath
@@ -158,9 +159,10 @@
     
     if (_routeResult)
     {
-        self.routeResultsDistanceLabel.text = [NSString stringWithFormat:@"Distance: %.2f", routeResult.directions.totalLength];
-        self.routeResultsTimeLabel.text = [NSString stringWithFormat:@"Time: %.2f minute%@", routeResult.directions.totalDriveTime,
-                                           routeResult.directions.totalDriveTime == 1.0f?@"":@"s"];
+        self.routeResultsDistanceLabel.text = [NSString stringWithFormat:@"Distance: %@",
+                                               NSStringFromAGSDirectionSetDistance(_routeResult.directions)];
+        self.routeResultsTimeLabel.text = [NSString stringWithFormat:@"Time: %@",
+                                           NSStringFromAGSDirectionSetTime(_routeResult.directions)];
         
         self.tableViewController.routeResult = routeResult;
         self.tableViewController.directionsDelegate = self;

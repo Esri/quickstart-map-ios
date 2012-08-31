@@ -9,14 +9,17 @@
 #import <Foundation/Foundation.h>
 #import <ArcGIS/ArcGIS.h>
 
+@class EQSRouteResultsViewController;
+
 @interface EQSRouteDisplayHelper : NSObject
 // Use this method to instantiate a new RouteDisplayHelper for a given AGSMapView
 + (EQSRouteDisplayHelper *) routeDisplayHelperForMapView:(AGSMapView *)mapView;
 
-- (void) showRouteResults:(AGSRouteTaskResult *)routeTaskResults;
-- (void) clearRouteDisplay;
-
+- (void) showRouteResult:(AGSRouteTaskResult *)routeTaskResult;
 - (void) zoomToRouteResult;
+- (void) clearRouteResult;
+
+@property (nonatomic, retain) EQSRouteResultsViewController *tableVC;
 
 @property (nonatomic, retain) AGSGraphicsLayer *routeGraphicsLayer;
 @property (nonatomic, retain) AGSMarkerSymbol *startSymbol;

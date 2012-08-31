@@ -44,14 +44,13 @@
 @interface EQSSampleViewController ()
                                         <AGSPortalItemDelegate,
                                         AGSMapViewTouchDelegate,
-                                        AGSRouteTaskDelegate,
+//                                        AGSRouteTaskDelegate,
                                         UISearchBarDelegate,
-                                        AGSLocatorDelegate,
+//                                        AGSLocatorDelegate,
                                         UIWebViewDelegate,
                                         EQSBasemapPickerDelegate,
                                         AGSMapViewCalloutDelegate,
                                         EQSAddressCandidateViewDelegate,
-                                        EQSRouteDisplayViewDelegate,
                                         UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSMutableOrderedSet *geocodeResults;
@@ -146,8 +145,6 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *findPlacesScrollView;
 @property (weak, nonatomic) IBOutlet UILabel *findPlacesNoResultsLabel;
 
-//@property (nonatomic, strong) id<AGSInfoTemplateDelegate> geocodeInfoTemplateDelegate;
-
 @property (weak, nonatomic) IBOutlet EQSCodeView *codeViewer;
 - (IBAction)findPlacesTapped:(id)sender;
 
@@ -233,8 +230,6 @@
 
 @synthesize geocodeResults = _geocodeResults;
 @synthesize geolocationResults = _geolocationResults;
-
-//@synthesize geocodeInfoTemplateDelegate = _geocodeInfoTemplateDelegate;
 
 #define kEQSApplicationLocFromState @"ButtonState"
 
@@ -384,9 +379,16 @@
 
 - (BOOL) mapView:(AGSMapView *)mapView shouldShowCalloutForGraphic:(AGSGraphic *)graphic
 {
-    NSLog(@"SSC: %@", graphic);
-    NSLog(@"SSC ITD: %@", graphic.infoTemplateDelegate);
-    return (graphic.infoTemplateDelegate != nil);
+    switch (self.currentState) {
+        case EQSSampleAppStateGraphics:
+        case EQSSampleAppStateGraphics_Editing:
+            return NO;
+            
+        default:
+            NSLog(@"SSC: %@", graphic);
+            NSLog(@"SSC ITD: %@", graphic.infoTemplateDelegate);
+            return (graphic.infoTemplateDelegate != nil);
+    }
 }
 
 - (void) mapView:(AGSMapView *)mapView
@@ -431,7 +433,6 @@
             break;
             
         default:
-//            NSLog(@"Click on %d graphics", graphics.count);
             for (id key in graphics.allKeys) {
                 NSArray *graphicsInLayer = [graphics objectForKey:key];
                 for (AGSGraphic *g in graphicsInLayer) {
@@ -821,7 +822,6 @@
                              viewToShow.frame = [self getUIFrame:viewToShow forOrientation:orientation];
                              self.messageBar.frame = [self getMessageFrameForMasterFrame:viewToShow];
                              self.messageBarLabel.text = [self getMessageForCurrentFunction];
-//                             viewToAnimateOut.frame = [self getUIFrameWhenHidden:viewToAnimateOut ];
                          }
                          completion:^(BOOL finished) {
                              viewToAnimateOut.hidden = YES;
@@ -1191,7 +1191,7 @@
                                                object:self.mapView.geoServices];
 }
 
-#pragma mark - Directions
+#pragma mark - Geolocation
 - (void) didGeolocate:(NSNotification *)notification
 {
     CLLocation *location = [notification geolocationResult];
@@ -1216,6 +1216,20 @@
                                delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
 }
 
+
+
+
+#pragma mark - Reverse Geocode
+- (void)didTapToReverseGeocode:(AGSPoint *)mapPoint
+{
+	NSOperation *op = [self.mapView.geoServices findAddressFromPoint:mapPoint];
+    objc_setAssociatedObject(op, kEQSGetAddressReasonKey, kEQSGetAddressReason_ReverseGeocodeForPoint, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+
+
+
+#pragma mark - Directions
 - (void)didTapStartPoint:(AGSPoint *)mapPoint
 {
     NSOperation *op = [self.mapView.geoServices findAddressFromPoint:mapPoint];
@@ -1226,12 +1240,6 @@
 {
     NSOperation *op = [self.mapView.geoServices findAddressFromPoint:mapPoint];
     objc_setAssociatedObject(op, kEQSGetAddressReasonKey, kEQSGetAddressReason_RouteEnd, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (void)didTapToReverseGeocode:(AGSPoint *)mapPoint
-{
-	NSOperation *op = [self.mapView.geoServices findAddressFromPoint:mapPoint];
-    objc_setAssociatedObject(op, kEQSGetAddressReasonKey, kEQSGetAddressReason_ReverseGeocodeForPoint, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void) setRouteStartPoint:(AGSPoint *)routeStartPoint
@@ -1297,11 +1305,12 @@
     NSLog(@"Got UserInfo");
 	if (results)
 	{
+        // Store the route result for ourselves.
 		self.routeResult = [results.routeResults objectAtIndex:0];
-		[self.mapView.routeDisplayHelper showRouteResults:results];
-        EQSRouteResultsViewController *rrvc = self.routeResultsView.viewController;
-        rrvc.routeResult = [results.routeResults objectAtIndex:0];
-        rrvc.routeDisplayDelegate = self;
+        
+        // Tell our RouteDisplayHelper about the object we've created in our NIB for the table view.
+        self.mapView.routeDisplayHelper.tableVC = self.routeResultsView.viewController;
+		[self.mapView.routeDisplayHelper showRouteResult:results];
 	}
 }
 
@@ -1318,44 +1327,6 @@
 											  otherButtonTitles:nil];
 		[alert show];
 	}
-}
-
-- (void) direction:(AGSDirectionGraphic *)direction selectedFromRouteResult:(AGSRouteResult *)routeResult
-{
-    NSLog(@"%@", direction);
-    AGSGraphicsLayer *routeDisplayLayer = self.mapView.routeDisplayHelper.routeGraphicsLayer;
-    [routeDisplayLayer removeGraphicsMatchingCriteria:^BOOL(AGSGraphic *graphic) {
-        return [graphic.attributes objectForKey:@"DirectionStepGraphic"] != nil;
-    }];
-    
-    if ([direction.geometry isKindOfClass:[AGSPolyline class]])
-    {
-        AGSPolyline *directionLine = (AGSPolyline *)direction.geometry;
-        AGSPoint *startPoint = (AGSPoint *)[directionLine pointOnPath:0 atIndex:0];
-        
-        direction.symbol = self.mapView.defaultSymbols.routeSegment;
-        [routeDisplayLayer addGraphic:direction
-                        withAttribute:@"DirectionStepGraphic"
-                            withValue:@"Segment"];
-        AGSGraphic *dirStartGraphic = [AGSGraphic graphicWithGeometry:startPoint
-                                                               symbol:self.mapView.defaultSymbols.routeSegmentStart
-                                                           attributes:nil
-                                                 infoTemplateDelegate:nil];
-        [routeDisplayLayer addGraphic:dirStartGraphic
-                        withAttribute:@"DirectionStepGraphic"
-                            withValue:@"StartPoint"];
-        [self.mapView zoomToGeometry:direction.geometry withPadding:100 animated:YES];
-    }
-}
-
-- (void) zoomToRouteResult
-{
-    [self.mapView.routeDisplayHelper zoomToRouteResult];
-}
-
-- (void) routeTask:(AGSRouteTask *)routeTask operation:(NSOperation *)op didSolveWithResult:(AGSRouteTaskResult *)routeTaskResult
-{
-    self.routeResult = [routeTaskResult.routeResults objectAtIndex:0];
 }
 
 - (void) setStartText
@@ -1404,7 +1375,7 @@
     if (self.routeResult)
     {
         self.routeResult = nil;
-        [self.mapView.routeDisplayHelper clearRouteDisplay];
+        [self.mapView.routeDisplayHelper clearRouteResult];
         self.routeResultsView.viewController.routeResult = nil;
 		self.routeStartAddress = nil;
 		self.routeEndAddress = nil;

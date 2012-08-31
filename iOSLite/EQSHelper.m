@@ -193,7 +193,7 @@
     return key;
 }
 
-#pragma mark - Helper functions
+#pragma mark - Helper Methods
 - (double) getScaleForLevel:(NSUInteger)level
 {	
     NSString *key = [NSString stringWithFormat:@"%d", level];
@@ -313,7 +313,7 @@
 
 
 
-#pragma mark - Static Helper functions
+#pragma mark - Static Helper Methods
 + (EQSHelper *)defaultHelper {
     static EQSHelper *sharedInstance = nil;
     
@@ -354,5 +354,176 @@
 {
     return [[EQSHelper defaultHelper] getBasemapKeyForEnum:basemapType];
 }
-
 @end
+
+
+#pragma mark - Functions
+AGSAreaUnits AGSAreaUnitsFromAGSUnits(AGSUnits units)
+{
+    switch (units) {
+        case AGSUnitsMillimeters:
+            return AGSAreaUnitsSquareMillimeters;
+            break;
+        case AGSUnitsCentimeters:
+            return AGSAreaUnitsSquareCentimeters;
+            break;
+        case AGSUnitsDecimeters:
+            return AGSAreaUnitsSquareDecimeters;
+            break;
+        case AGSUnitsMeters:
+            return AGSAreaUnitsSquareMeters;
+            break;
+        case AGSUnitsKilometers:
+            return AGSAreaUnitsSquareKilometers;
+            break;
+            
+        case AGSUnitsInches:
+            return AGSAreaUnitsSquareInches;
+            break;
+        case AGSUnitsFeet:
+            return AGSAreaUnitsSquareFeet;
+            break;
+        case AGSUnitsYards:
+            return AGSAreaUnitsSquareYards;
+            break;
+        case AGSUnitsMiles:
+            return AGSAreaUnitsSquareMiles;
+            break;
+            
+            
+        case AGSUnitsPoints:
+            // A point is 1/72 of an inch. Close enough.
+            return AGSAreaUnitsSquareInches;
+            break;
+            
+            
+        case AGSUnitsNauticalMiles:
+            // "Imperial" to "metric"??
+            // Nautical mile is exactly 1852m, so least bad choice
+            return AGSAreaUnitsHectares;
+            break;
+        case AGSUnitsDecimalDegrees:
+            // See Nautical Miles. Basically, least bad choice.
+            return AGSAreaUnitsSquareKilometers;
+            break;
+            
+            
+        default:
+            // Fall back to S.I.
+            return AGSAreaUnitsSquareMeters;
+            break;
+    }
+}
+
+NSString* NSStringFromNSTimeInterval(NSTimeInterval interval)
+{
+    unsigned long seconds = interval;
+    unsigned long minutes = seconds / 60;
+    seconds %= 60;
+    unsigned long hours = minutes / 60;
+    minutes %= 60;
+    
+    if (!hours && !minutes)
+    {
+        return @"<1 min";
+    }
+
+    NSMutableString * result = [NSMutableString string];
+    
+    if(hours)
+        [result appendFormat: @"%ld hours", hours];
+    
+    if (minutes)
+    {
+        if (seconds >= 30)
+            minutes++;
+        [result appendFormat:hours?@" %ld min":@"%ld min", minutes];
+        if (minutes != 1)
+            [result appendString:@"s"];
+    }
+
+    return result;
+}
+
+AGSUnits AGSUnitsSmallAlternative(AGSUnits sourceUnit)
+{
+    switch (sourceUnit) {
+        case AGSUnitsMiles:
+        case AGSUnitsYards:
+            return AGSUnitsFeet;
+            break;
+        case AGSUnitsFeet:
+            return AGSUnitsInches;
+        case AGSUnitsInches:
+        case AGSUnitsPoints:
+            return AGSUnitsPoints;
+            
+        case AGSUnitsNauticalMiles:
+        case AGSUnitsDecimalDegrees:
+        case AGSUnitsKilometers:
+            return AGSUnitsMeters;
+        case AGSUnitsMeters:
+        case AGSUnitsDecimeters:
+            return AGSUnitsCentimeters;
+        case AGSUnitsCentimeters:
+        case AGSUnitsMillimeters:
+            return AGSUnitsMillimeters;
+            
+        default:
+            return AGSUnitsUnknown;
+    }
+}
+
+NSString* NSStringFromLengthAndUnit(double length, AGSUnits unit)
+{
+    AGSUnits displayUnit = unit;
+    NSString *formatter = nil;
+    if (length < 0.05f)
+    {
+        displayUnit = AGSUnitsSmallAlternative(unit);
+        length = AGSUnitsToUnits(length, unit, displayUnit);
+        formatter = @"%.0f %@";
+    }
+    else
+    {
+        formatter = @"%.1f %@";
+    }
+    NSString *unitStr = AGSUnitsAbbreviatedString(displayUnit);
+    return [NSString stringWithFormat:formatter, length, unitStr];
+}
+
+NSString* NSStringFromAGSDirectionGraphicDistance(AGSDirectionGraphic *graphic)
+{
+    if (graphic.geometry)
+    {
+        return NSStringFromLengthAndUnit(graphic.length, AGSUnitsMiles);
+    }
+    return nil;
+}
+
+NSString* NSStringFromAGSDirectionSetDistance(AGSDirectionSet *directions)
+{
+    if (directions)
+    {
+        return NSStringFromLengthAndUnit(directions.totalLength, AGSUnitsMiles);
+    }
+    return nil;
+}
+
+NSString* NSStringFromAGSDirectionSetTime(AGSDirectionSet *directions)
+{
+    if (directions)
+    {
+        return NSStringFromNSTimeInterval(directions.totalTime * 60);
+    }
+    return nil;
+}
+
+NSString* NSStringFromAGSDirectionGraphicTime(AGSDirectionGraphic *graphic)
+{
+    if (graphic)
+    {
+        return NSStringFromNSTimeInterval(graphic.time * 60);
+    }
+    return nil;
+}

@@ -7,6 +7,7 @@
 //
 
 #import "EQSRouteResultsCell.h"
+#import "EQSHelper.h"
 
 @interface EQSRouteResultsCell ()
 @property (weak, nonatomic) IBOutlet UILabel *stepNumberLabel;
@@ -73,31 +74,37 @@
 - (void) setDirectionGraphic:(AGSDirectionGraphic *)directionGraphic
 {
     self.defaultBGCol = self.backgroundColor;
+    self.stepDistanceLabel.hidden = (directionGraphic.maneuverType == AGSNADirectionsManeuverDepart ||
+                                     directionGraphic.maneuverType == AGSNADirectionsManeuverStop);
+    
     if (self.topPadding == -1)
     {
         self.topPadding = self.stepDetailsLabel.frame.origin.y;
         self.bottomPadding = self.frame.size.height - (self.stepDetailsLabel.frame.size.height +
                                                        self.stepDetailsLabel.frame.origin.y);
+//        if (self.stepDistanceLabel.hidden)
+//        {
+//            CGFloat distanceLabelHeightAndPadding = self.frame.size.height - self.stepDistanceLabel.frame.origin.y;
+//            self.bottomPadding = self.bottomPadding - distanceLabelHeightAndPadding;
+//        }
     }
     
-    self.stepDistanceLabel.hidden = (directionGraphic.maneuverType == AGSNADirectionsManeuverDepart ||
-                                     directionGraphic.maneuverType == AGSNADirectionsManeuverStop);
-    
-    self.stepNumberLabel.hidden = directionGraphic.maneuverType == AGSNADirectionsManeuverDepart;
+    self.stepNumberLabel.hidden = NO; //directionGraphic.maneuverType == AGSNADirectionsManeuverDepart;
 
     _directionGraphic = directionGraphic;
     self.stepDetailsLabel.text = directionGraphic.text;
     if (!self.stepDistanceLabel.hidden)
     {
-        self.stepDistanceLabel.text =
-        [NSString stringWithFormat:@"%0.2f miles (%0.2f mins)", directionGraphic.length, directionGraphic.time];
+        self.stepDistanceLabel.text = [NSString stringWithFormat:@"%@ (%@)",
+                                       NSStringFromAGSDirectionGraphicDistance(directionGraphic),
+                                       NSStringFromAGSDirectionGraphicTime(directionGraphic)];
     }
 }
 
 - (void) setDirectionIndex:(NSUInteger)directionIndex
 {
     _directionIndex = directionIndex;
-    self.stepNumberLabel.text = [NSString stringWithFormat:@"%d", _directionIndex];
+    self.stepNumberLabel.text = [NSString stringWithFormat:@"%d", _directionIndex + 1];
 }
 
 - (CGFloat) getHeight
