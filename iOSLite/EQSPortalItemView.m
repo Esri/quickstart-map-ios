@@ -22,7 +22,15 @@
 
 - (void)doSetup
 {
-	self.layer.cornerRadius = 10;
+    switch ([[UIDevice currentDevice] userInterfaceIdiom])
+    {
+        case UIUserInterfaceIdiomPad:
+            self.layer.cornerRadius = 10;
+            break;
+        case UIUserInterfaceIdiomPhone:
+            self.layer.cornerRadius = 4;
+            break;
+    }
 	
 	// Read the default background color to be used when not highlighted.
     self.defaultBackgroundColor = self.backgroundColor;	

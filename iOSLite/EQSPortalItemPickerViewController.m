@@ -12,6 +12,8 @@
 #import "EQSBasemapTypeEnum.h"
 #import "EQSHelper.h"
 
+#import "UIViewController+MJPopupViewController.h"
+
 @interface EQSPortalItemPickerViewController () <EQSPortalItemListViewDelegate, AGSPortalItemDelegate>
 @property (weak, nonatomic) IBOutlet EQSPortalItemPickerView *portalItemPickerView;
 @property (weak, nonatomic) IBOutlet EQSPortalItemListView *portalItemListView;
@@ -19,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *portalItemDetailsTitleLabel;
 @property (weak, nonatomic) IBOutlet UIWebView *portalItemDetailsDescriptionWebView;
 @property (weak, nonatomic) IBOutlet UIImageView *portalItemDetailsImageView;
+@property (strong, nonatomic) IBOutlet UIViewController *portalItemDetailsViewController;
 @end
 
 @implementation EQSPortalItemPickerViewController
@@ -31,6 +34,7 @@
 @synthesize portalItemDetailsTitleLabel = _currentBasemapNameLabel;
 @synthesize portalItemDetailsDescriptionWebView = _currentBasemapDescriptionWebView;
 @synthesize portalItemDetailsImageView = _currentBasemapImageView;
+@synthesize portalItemDetailsViewController = _portalItemDetailsViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -46,6 +50,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	self.portalItemListView.viewController.portalItemDelegate = self;
+    self.portalItemDetailsViewController.view.layer.cornerRadius = 7;
 }
 
 - (void)viewDidUnload
@@ -63,6 +68,10 @@
 			break;
 		}
 	}
+}
+
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
+    return YES;
 }
 
 - (void)selectedPortalItemChanged:(AGSPortalItem *)selectedPortalItem
@@ -216,5 +225,15 @@
 - (void) ensureItemVisible:(NSString *)portalItemID Highlighted:(BOOL)highlight
 {
 	[self.portalItemListView ensureItemVisible:portalItemID Highlighted:highlight];
+}
+
+- (IBAction)iPhoneShowDetails:(id)sender
+{
+    [self presentPopupViewController:self.portalItemDetailsViewController
+                       animationType:MJPopupViewAnimationSlideBottomBottom];
+}
+- (IBAction)closePopup:(id)sender
+{
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
 }
 @end
