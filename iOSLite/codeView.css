@@ -17,3 +17,7 @@ a
     -webkit-touch-callout: none;
     -webkit-user-select: none;
 }*/
+
+body {
+background-color: red;
+}

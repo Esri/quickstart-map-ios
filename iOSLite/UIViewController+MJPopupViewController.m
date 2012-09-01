@@ -89,8 +89,8 @@
     MJPopupBackgroundView *backgroundView = [[MJPopupBackgroundView alloc] initWithFrame:sourceView.bounds];
     backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     backgroundView.tag = kMJBackgroundViewTag;
-    backgroundView.backgroundColor = [UIColor clearColor];
-    backgroundView.alpha = 0.0f;
+    backgroundView.backgroundColor = [UIColor blackColor];
+    backgroundView.alpha = 0.5f;
     [overlayView addSubview:backgroundView];
     
     // Make the Background Clickable
@@ -279,7 +279,7 @@
     popupView.alpha = 0.0f;
     
     [UIView animateWithDuration:kPopupModalAnimationDuration animations:^{
-        backgroundView.alpha = 0.7f;
+        backgroundView.alpha = 0.5f;
         popupView.alpha = 1.0f;
     } completion:^(BOOL finished) {
     }];

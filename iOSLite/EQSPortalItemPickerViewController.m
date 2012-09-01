@@ -22,6 +22,9 @@
 @property (weak, nonatomic) IBOutlet UIWebView *portalItemDetailsDescriptionWebView;
 @property (weak, nonatomic) IBOutlet UIImageView *portalItemDetailsImageView;
 @property (strong, nonatomic) IBOutlet UIViewController *portalItemDetailsViewController;
+
+@property (nonatomic, assign) CGSize portalItemDetailsPortraitSize;
+@property (nonatomic, assign) CGSize portalItemDetailsLandscapeSize;
 @end
 
 @implementation EQSPortalItemPickerViewController
@@ -51,13 +54,51 @@
 	// Do any additional setup after loading the view.
 	self.portalItemListView.viewController.portalItemDelegate = self;
     self.portalItemDetailsViewController.view.layer.cornerRadius = 7;
+	
+//	self.portalItemDetailsPortraitSize = CGSizeMake(self.portalItemDetailsViewController.view.frame.size.width,
+//													self.portalItemDetailsViewController.view.frame.size.height);
+//	self.portalItemDetailsLandscapeSize = CGSizeMake(self.portalItemDetailsViewController.view.frame.size.height,
+//													 self.portalItemDetailsViewController.view.frame.size.width);
+//
+//	[[NSNotificationCenter defaultCenter] addObserver:self
+//											 selector:@selector(orientationDidChange:)
+//												 name:UIDeviceOrientationDidChangeNotification
+//											   object:[UIDevice currentDevice]];
+//	[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
+//	[[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
 }
+
+//- (void) orientationDidChange:(NSNotification *)notification
+//{
+//	UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+////	CGRect parentFrame = self.portalItemDetailsViewController.view.superview.frame;
+//	CGPoint parentCenter = self.portalItemDetailsViewController.view.superview.center;
+//	if (UIDeviceOrientationIsLandscape(orientation))
+//	{
+//		self.portalItemDetailsViewController.view.frame =
+//			CGRectMake(parentCenter.x - (self.portalItemDetailsLandscapeSize.width/2),
+//					   parentCenter.y - (self.portalItemDetailsLandscapeSize.height/2),
+//					   self.portalItemDetailsLandscapeSize.width,
+//					   self.portalItemDetailsLandscapeSize.height);
+//	}
+//	else
+//	{
+//		self.portalItemDetailsViewController.view.frame =
+//		CGRectMake(parentCenter.x - (self.portalItemDetailsPortraitSize.width/2),
+//				   parentCenter.y - (self.portalItemDetailsPortraitSize.height/2),
+//				   self.portalItemDetailsPortraitSize.width,
+//				   self.portalItemDetailsPortraitSize.height);
+//
+//	}
+//	
+////	[self.portalItemDetailsViewController.view.superview layoutSubviews];
+//}
 
 - (void)setCurrentPortalItemID:(NSString *)currentPortalItemID
 {
@@ -230,10 +271,10 @@
 - (IBAction)iPhoneShowDetails:(id)sender
 {
     [self presentPopupViewController:self.portalItemDetailsViewController
-                       animationType:MJPopupViewAnimationSlideBottomBottom];
+                       animationType:MJPopupViewAnimationFade];
 }
 - (IBAction)closePopup:(id)sender
 {
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
 }
 @end

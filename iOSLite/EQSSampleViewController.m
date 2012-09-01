@@ -68,6 +68,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *messageBarLabel;
 - (IBAction)messageBarCloseTapped:(id)sender;
 
+
+@property (weak, nonatomic) IBOutlet UIButton *cancelKeyboardButton;
+- (IBAction)cancelKeyboardPressed:(id)sender;
+
+
+
+
 @property (weak, nonatomic) IBOutlet UISearchBar *findAddressSearchBar;
 
 
@@ -185,9 +192,10 @@
 @synthesize deleteGraphicButton = _deleteGraphicButton;
 @synthesize clearPolysButton = _clearPolysButton;
 @synthesize routingPanel = _routingPanel;
-@synthesize findPlacePanel = _findAddressPanel;
+@synthesize findPlacePanel = _findPlacePanel;
+@synthesize cancelKeyboardButton = _cancelKeyboardButton;
 @synthesize findAddressSearchBar = _findAddressSearchBar;
-@synthesize cloudDataPanel = _findPlacePanel;
+@synthesize cloudDataPanel = _cloudDataPanel;
 @synthesize routeStartLabel = _routeStartLabel;
 @synthesize routeEndLabel = _routeStopLabel;
 @synthesize clearRouteButton = _clearRouteButton;
@@ -281,6 +289,7 @@
 	// We need to re-arrange the UI when the keyboard displays and hides, so let's find out when that happens.
 	self.keyboardSize = CGSizeZero;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
     // Set up the map UI a little.
@@ -366,6 +375,7 @@
     [self setFindPlacesNoResultsLabel:nil];
     [self setDeleteGraphicButton:nil];
     [self setFindMeScrollView:nil];
+	[self setCancelKeyboardButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -513,13 +523,24 @@
 - (void)keyboardWillShow:(NSNotification *)notification
 {
     self.keyboardSize = [[notification.userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    NSLog(@"Keyboard will show: %@", NSStringFromCGSize(self.keyboardSize));
+//    NSLog(@"Keyboard will show: %@", NSStringFromCGSize(self.keyboardSize));
     [self updateUIDisplayState:notification];
+}
+
+- (void)keyboardDidShow:(NSNotification *)notification
+{
+	self.cancelKeyboardButton.hidden = NO;
+}
+
+- (IBAction)cancelKeyboardPressed:(id)sender
+{
+	[self.view endEditing:YES];
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification
 {
     self.keyboardSize = CGSizeZero;
+	self.cancelKeyboardButton.hidden = YES;
     [self updateUIDisplayState:notification];
 }
 
@@ -542,8 +563,19 @@
 {
     CGRect screenFrame = [UIApplication frameInOrientation:orientation];
     CGRect viewFrame = viewToDisplay.frame;
-	
     double keyboardHeight = self.keyboardSize.height;
+	if (self.currentState == EQSSampleAppStateFindPlace &&
+		[[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+	{
+		CGFloat frameHeight = 144;
+		if (keyboardHeight > 0)
+		{
+			// We want to hide the scrollview.
+			frameHeight = 44;
+		}
+		viewFrame = CGRectMake(viewFrame.origin.x, viewFrame.origin.y, viewFrame.size.width, frameHeight);
+	}
+	
     if (UIInterfaceOrientationIsLandscape(orientation))
     {
         // Why? WHY!!!? But OK. If I have to.
@@ -820,6 +852,11 @@
                              viewToShow.alpha = 1;
                              viewToAnimateOut.alpha = 0;
                              viewToShow.frame = [self getUIFrame:viewToShow forOrientation:orientation];
+							 if (self.currentState == EQSSampleAppStateFindPlace)
+							 {
+								 // We need to show or hide the scrollview area...
+								 
+							 }
                              self.messageBar.frame = [self getMessageFrameForMasterFrame:viewToShow];
                              self.messageBarLabel.text = [self getMessageForCurrentFunction];
                          }
@@ -1433,6 +1470,7 @@
 
 - (void)findPlaces:(NSString *)searchString
 {
+	[self.findAddressSearchBar resignFirstResponder];
 	NSLog(@"Searching for: %@", searchString);
     AGSPolygon *v = self.mapView.visibleArea;
     AGSEnvelope *env = v.envelope;
