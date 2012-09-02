@@ -46,6 +46,8 @@
 
 @synthesize candidateViewDelegate = _candidateViewDelegate;
 
+@synthesize latLonFormatString = _latLonFormatString;
+
 + (id) viewControllerWithCandidate:(AGSAddressCandidate *)candidate OfType:(EQSCandidateType)candidateType
 {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
@@ -86,6 +88,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.latLonFormatString = @"%.4f,%.4f";
 }
 
 - (void)viewDidUnload
@@ -160,10 +163,10 @@
         
         if (self.candidate)
         {
-            NSString *latLonString = [NSString stringWithFormat:@"%4.4f,%4.4f",
+            NSString *latLonString = [NSString stringWithFormat:self.latLonFormatString,
                                       self.candidateLocation.latitude,
                                       self.candidateLocation.longitude];
-            NSString *scoreString = [NSString stringWithFormat:@"Score: %.2f", self.candidate.score];
+            NSString *scoreString = [NSString stringWithFormat:@"%.2f%%", self.candidate.score];
             
             switch (self.candidateType)
             {
@@ -195,8 +198,8 @@
                     self.primaryLabel.text =addStr;
                     //                self.secondaryLabel.text = @"";
                     self.latLonLabel.text = latLonString;
-                    self.locatorLabel.text = @"";
-                    self.scoreLabel.text = locatorName;
+                    self.locatorLabel.text = locatorName;
+                    self.scoreLabel.text = @"";
                 }
                     break;
                     

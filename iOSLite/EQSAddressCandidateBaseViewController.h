@@ -51,6 +51,8 @@ typedef enum {
 
 + (id) viewControllerWithCandidate:(AGSAddressCandidate *)candidate OfType:(EQSCandidateType)candidateType;
 - (id) initWithAddressCandidate:(AGSAddressCandidate *)candidate OfType:(EQSCandidateType)candidateType;
+
+@property (nonatomic, strong) NSString *latLonFormatString;
 @end
 
 

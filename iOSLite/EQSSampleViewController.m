@@ -564,18 +564,36 @@
     CGRect screenFrame = [UIApplication frameInOrientation:orientation];
     CGRect viewFrame = viewToDisplay.frame;
     double keyboardHeight = self.keyboardSize.height;
-	if (self.currentState == EQSSampleAppStateFindPlace &&
-		[[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-	{
-		CGFloat frameHeight = 144;
-		if (keyboardHeight > 0)
-		{
-			// We want to hide the scrollview.
-			frameHeight = 44;
-		}
-		viewFrame = CGRectMake(viewFrame.origin.x, viewFrame.origin.y, viewFrame.size.width, frameHeight);
-	}
-	
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        //TODO - make a constant
+        CGFloat frameHeight = -1;
+        if (self.currentState == EQSSampleAppStateFindPlace)
+        {
+            if (keyboardHeight == 0)
+            {
+                frameHeight = 144;
+            }
+            else
+            {
+                // We want to hide the scrollview.
+                frameHeight = 44;
+            }
+        }
+        else if (self.currentState == EQSSampleAppStateGraphics_Editing)
+        {
+            frameHeight = 44;
+        }
+        else if (self.currentState == EQSSampleAppStateGraphics)
+        {
+            frameHeight = 114;
+        }
+        if (frameHeight != -1)
+        {
+            viewFrame = CGRectMake(viewFrame.origin.x, viewFrame.origin.y, viewFrame.size.width, frameHeight);
+        }
+    }
+
     if (UIInterfaceOrientationIsLandscape(orientation))
     {
         // Why? WHY!!!? But OK. If I have to.
@@ -743,8 +761,7 @@
                                self.basemapsPicker,
                                self.geolocationPanel,
                                self.findPlacePanel,
-                               self.cloudDataPanel,
-                               self.graphicsPanel, nil];
+                               self.graphicsPanel, self.cloudDataPanel, nil];
     return uiViews;
 }
 
@@ -852,11 +869,6 @@
                              viewToShow.alpha = 1;
                              viewToAnimateOut.alpha = 0;
                              viewToShow.frame = [self getUIFrame:viewToShow forOrientation:orientation];
-							 if (self.currentState == EQSSampleAppStateFindPlace)
-							 {
-								 // We need to show or hide the scrollview area...
-								 
-							 }
                              self.messageBar.frame = [self getMessageFrameForMasterFrame:viewToShow];
                              self.messageBarLabel.text = [self getMessageForCurrentFunction];
                          }
