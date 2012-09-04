@@ -57,6 +57,7 @@
 @property (nonatomic, strong) NSMutableOrderedSet *geolocationResults;
 
 // General UI
+@property (weak, nonatomic) IBOutlet UINavigationBar *functionNavBar_iPhone;
 @property (weak, nonatomic) IBOutlet UIToolbar *functionToolBar;
 @property (weak, nonatomic) IBOutlet UIView *routingPanel;
 @property (weak, nonatomic) IBOutlet UIView *findPlacePanel;
@@ -96,6 +97,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *redoEditGraphicsButton;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteGraphicButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *zoomToGraphicButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *graphicPointButton;
 @property (weak, nonatomic) IBOutlet UIButton *graphicLineButton;
@@ -172,6 +174,8 @@
 - (IBAction)functionChanged:(id)sender;
 
 - (IBAction)toFromTapped:(id)sender;
+- (IBAction)resizeUIGoFullScreen:(id)sender;
+- (IBAction)resizeUIExitFullScreen:(id)sender;
 @end
 
 @implementation EQSSampleViewController
@@ -190,6 +194,7 @@
 @synthesize clearPointsButton = _clearPointsButton;
 @synthesize clearLinesButton = _clearLinesButton;
 @synthesize deleteGraphicButton = _deleteGraphicButton;
+@synthesize zoomToGraphicButton = _zoomToGraphicButton;
 @synthesize clearPolysButton = _clearPolysButton;
 @synthesize routingPanel = _routingPanel;
 @synthesize findPlacePanel = _findPlacePanel;
@@ -218,6 +223,7 @@
 @synthesize findScaleLabel = _findScaleLabel;
 @synthesize findMeScrollView = _findMeScrollView;
 @synthesize myLocationAddressLabel = _myLocationAddressLabel;
+@synthesize functionNavBar_iPhone = _functionNavBar_iPhone;
 @synthesize functionToolBar = _functionToolBar;
 @synthesize routeStartButton = _routeStartButton;
 @synthesize routeEndButton = _routeStopButton;
@@ -376,6 +382,8 @@
     [self setDeleteGraphicButton:nil];
     [self setFindMeScrollView:nil];
 	[self setCancelKeyboardButton:nil];
+    [self setZoomToGraphicButton:nil];
+    [self setFunctionNavBar_iPhone:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -669,6 +677,7 @@
             {
                 self.deleteGraphicButton.enabled = NO;
             }
+            [self setZoomToGraphicButtonState];
             [self setUndoRedoButtonStates];
             [self listenToEditingUndoManager];
             self.mapView.showMagnifierOnTapAndHold = YES;
@@ -916,6 +925,12 @@
     }
 }
 
+- (void) setZoomToGraphicButtonState
+{
+    AGSGeometry *editGeom = [self.mapView getCurrentEditGeometry];
+    self.zoomToGraphicButton.enabled = !editGeom.isEmpty;
+}
+
 - (void) setUndoRedoButtonStates
 {
     [self setUndoRedoButtonStatesForUndoManager:[self.mapView getUndoManagerForGraphicsEdits]];
@@ -925,6 +940,7 @@
 {
     NSUndoManager *um = notification.object;
     [self setUndoRedoButtonStatesForUndoManager:um];
+    [self setZoomToGraphicButtonState];
 }
 
 - (void)listenToEditingUndoManager
@@ -1463,6 +1479,15 @@
 - (IBAction)toFromTapped:(id)sender {
     BOOL selected = [(NSNumber *)objc_getAssociatedObject(sender, kEQSApplicationLocFromState) boolValue];
     [self setToFromButton:sender selectedState:!selected];
+}
+
+- (IBAction)resizeUIGoFullScreen:(id)sender {
+    self.functionNavBar_iPhone.hidden = YES;
+}
+
+- (IBAction)resizeUIExitFullScreen:(id)sender
+{
+    self.functionNavBar_iPhone.hidden = NO;
 }
 
 

@@ -15,18 +15,50 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="d74-uu-hKI" customClass="AGSMapView">
-                                <rect key="frame" x="0.0" y="44" width="320" height="416"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                             </view>
-                            <navigationBar contentMode="scaleToFill" barStyle="blackTranslucent" id="tQh-G2-XR0">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="csf-Bu-ROJ" userLabel="Button - ShowUI">
+                                <rect key="frame" x="5" y="5" width="33" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" image="resize_small.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="resizeUIExitFullScreen:" destination="2" eventType="touchUpInside" id="qZs-ER-LGu"/>
+                                </connections>
+                            </button>
+                            <navigationBar contentMode="scaleToFill" barStyle="blackOpaque" id="tQh-G2-XR0">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <navigationItem id="Rnh-Fi-d9W">
                                         <nil key="title"/>
-                                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="bordered" selectedSegmentIndex="0" id="Kh6-Xj-xT5">
-                                            <rect key="frame" x="39" y="0.0" width="241" height="44"/>
+                                        <barButtonItem key="leftBarButtonItem" id="XDE-rG-W0Z">
+                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="D9E-7a-1AZ">
+                                                <rect key="frame" x="5" y="5" width="33" height="33"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" image="resize_full-white.png">
+                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="resizeUIGoFullScreen:" destination="2" eventType="touchUpInside" id="w1A-ob-4bE"/>
+                                                </connections>
+                                            </button>
+                                        </barButtonItem>
+                                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="bar" selectedSegmentIndex="0" id="Kh6-Xj-xT5">
+                                            <rect key="frame" x="46" y="7" width="228" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
                                                 <segment title="" image="103-map.png"/>
@@ -36,11 +68,25 @@
                                                 <segment title="" image="73-radar.png"/>
                                                 <segment title="" image="113-navigation.png"/>
                                             </segments>
-                                            <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <action selector="functionChanged:" destination="2" eventType="valueChanged" id="9vy-fm-mme"/>
                                             </connections>
                                         </segmentedControl>
+                                        <barButtonItem key="rightBarButtonItem" id="4Pu-xu-1YQ">
+                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="E5r-pf-F7u" userLabel="Button - HideUI">
+                                                <rect key="frame" x="282" y="5" width="33" height="33"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" image="help-white.png">
+                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                            </button>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -60,7 +106,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" id="9xk-Cj-0Wc" userLabel="View - Basemaps" customClass="EQSBasemapPickerView">
-                                <rect key="frame" x="305" y="229" width="320" height="114"/>
+                                <rect key="frame" x="272" y="229" width="320" height="114"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                             </view>
@@ -99,7 +145,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="Nlx-0t-Qfk" userLabel="View - Graphics">
-                                <rect key="frame" x="-290" y="335" width="320" height="114"/>
+                                <rect key="frame" x="-5" y="335" width="320" height="114"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackOpaque" id="oKn-KG-Yke" userLabel="Toolbar - Edit Graphics">
@@ -158,11 +204,11 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="eVb-OC-olt" userLabel="Button - New Pt">
-                                                <rect key="frame" x="41" y="10" width="50" height="50"/>
+                                                <rect key="frame" x="57" y="12" width="46" height="46"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" red="0.13273684450000001" green="0.553910236" blue="0.45365086599999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                <state key="normal" title="Point">
+                                                <state key="normal" image="glyphicons_239_riflescope.png">
                                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -174,11 +220,11 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="mx0-t5-2vJ" userLabel="Button - New Ln">
-                                                <rect key="frame" x="135" y="10" width="50" height="50"/>
+                                                <rect key="frame" x="137" y="12" width="46" height="46"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" red="0.13273684450000001" green="0.553910236" blue="0.45365086599999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                <state key="normal" title="Line">
+                                                <state key="normal" image="glyphicons_097_vector_path_line.png">
                                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -190,11 +236,11 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="etU-Lq-ThD" userLabel="Button - New Pg">
-                                                <rect key="frame" x="222" y="10" width="71" height="50"/>
+                                                <rect key="frame" x="217" y="12" width="46" height="46"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" red="0.13273684450000001" green="0.553910236" blue="0.45365086599999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                <state key="normal" title="Polygon">
+                                                <state key="normal" image="glyphicons_096_vector_path_polygon.png">
                                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -358,6 +404,7 @@
                         <outlet property="findPlacePanel" destination="XJL-AJ-FkR" id="H4k-Kz-GNU"/>
                         <outlet property="findPlacesNoResultsLabel" destination="H20-Ah-aPe" id="7aV-UK-cwr"/>
                         <outlet property="findPlacesScrollView" destination="lGJ-PY-ue0" id="3dI-pJ-IOk"/>
+                        <outlet property="functionNavBar_iPhone" destination="tQh-G2-XR0" id="OtO-NI-RtI"/>
                         <outlet property="geolocationPanel" destination="SQb-E5-cgL" id="e89-jo-DwX"/>
                         <outlet property="graphicLineButton" destination="mx0-t5-2vJ" id="EFu-EE-BWN"/>
                         <outlet property="graphicPointButton" destination="eVb-OC-olt" id="CNJ-wu-Aoh"/>
@@ -372,6 +419,7 @@
                         <outlet property="routeStartLabel" destination="vFe-SD-2UY" id="rUD-50-eZi"/>
                         <outlet property="routingPanel" destination="U8i-0p-N9w" id="bV1-Vl-iyV"/>
                         <outlet property="undoEditGraphicsButton" destination="43w-2v-U7b" id="K3F-vl-Xg5"/>
+                        <outlet property="zoomToGraphicButton" destination="Re3-TX-9De" id="NVX-ge-Ouh"/>
                         <segue destination="UsU-69-K1C" kind="modal" identifier="showBasemapInfo" modalTransitionStyle="flipHorizontal" id="6jH-s9-MdF"/>
                     </connections>
                 </viewController>
@@ -430,7 +478,13 @@
         <image name="60-x.png" width="14" height="14"/>
         <image name="73-radar.png" width="27" height="27"/>
         <image name="74-location.png" width="20" height="20"/>
+        <image name="glyphicons_096_vector_path_polygon.png" width="26" height="25"/>
+        <image name="glyphicons_097_vector_path_line.png" width="24" height="24"/>
+        <image name="glyphicons_239_riflescope.png" width="25" height="25"/>
+        <image name="help-white.png" width="26" height="26"/>
         <image name="redo-white.png" width="23" height="17"/>
+        <image name="resize_full-white.png" width="24" height="24"/>
+        <image name="resize_small.png" width="24" height="24"/>
         <image name="undo-white.png" width="23" height="17"/>
     </resources>
     <classes>
@@ -544,6 +598,8 @@
                 <relationship kind="action" name="newPgGraphic:"/>
                 <relationship kind="action" name="newPtGraphic:"/>
                 <relationship kind="action" name="redoEditingGraphic:"/>
+                <relationship kind="action" name="resizeUIExitFullScreen:"/>
+                <relationship kind="action" name="resizeUIGoFullScreen:"/>
                 <relationship kind="action" name="toFromTapped:"/>
                 <relationship kind="action" name="undoEditingGraphic:"/>
                 <relationship kind="action" name="zoomToEditingGeometry:"/>
@@ -567,6 +623,7 @@
                 <relationship kind="outlet" name="findPlacesToolbar" candidateClass="UIToolbar"/>
                 <relationship kind="outlet" name="findScaleLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="findbutton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="functionNavBar_iPhone" candidateClass="UINavigationBar"/>
                 <relationship kind="outlet" name="functionToolBar" candidateClass="UIToolbar"/>
                 <relationship kind="outlet" name="geolocationPanel" candidateClass="UIView"/>
                 <relationship kind="outlet" name="graphicButton" candidateClass="UIButton"/>
@@ -586,6 +643,7 @@
                 <relationship kind="outlet" name="routeStartLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="routingPanel" candidateClass="UIView"/>
                 <relationship kind="outlet" name="undoEditGraphicsButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="zoomToGraphicButton" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>
     </classes>

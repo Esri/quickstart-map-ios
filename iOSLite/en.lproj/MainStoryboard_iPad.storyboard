@@ -529,6 +529,7 @@
                         <outlet property="routeStartLabel" destination="krd-T4-cwH" id="CuD-KN-vs4"/>
                         <outlet property="routingPanel" destination="jM8-Ve-X6c" id="spB-a7-HeB"/>
                         <outlet property="undoEditGraphicsButton" destination="icv-c4-iuE" id="CGu-LW-ihf"/>
+                        <outlet property="zoomToGraphicButton" destination="EFh-Rm-eAI" id="pzu-r3-IHc"/>
                         <segue destination="DIO-Lv-QQc" kind="modal" identifier="showBasemapInfo" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="XFF-PA-Izn"/>
                     </connections>
                 </viewController>
@@ -734,6 +735,7 @@
                 <relationship kind="outlet" name="routeStartLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="routingPanel" candidateClass="UIView"/>
                 <relationship kind="outlet" name="undoEditGraphicsButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="zoomToGraphicButton" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>
     </classes>
