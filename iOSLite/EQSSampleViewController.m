@@ -65,6 +65,10 @@
 @property (weak, nonatomic) IBOutlet UIView *geolocationPanel;
 @property (weak, nonatomic) IBOutlet UIView *graphicsPanel;
 
+
+@property (weak, nonatomic) IBOutlet UIButton *buttonShowUI;
+
+
 @property (weak, nonatomic) IBOutlet UIView *messageBar;
 @property (weak, nonatomic) IBOutlet UILabel *messageBarLabel;
 - (IBAction)messageBarCloseTapped:(id)sender;
@@ -187,6 +191,7 @@
 @synthesize graphicPolygonButton = _graphicPolygonButton;
 @synthesize geolocationPanel = _geolocationPanel;
 @synthesize graphicsPanel = _graphicsPanel;
+@synthesize buttonShowUI = _buttonShowUI;
 @synthesize messageBar = _messageBar;
 @synthesize messageBarLabel = _messageBarLabel;
 @synthesize basemapsPicker = _basemapsPicker;
@@ -312,6 +317,11 @@
     self.graphicLineButton.layer.cornerRadius = 5;
     self.graphicPolygonButton.layer.cornerRadius = 5;
     
+    self.buttonShowUI.layer.borderColor = [UIColor blackColor].CGColor;
+    self.buttonShowUI.layer.borderWidth = 2;
+    self.buttonShowUI.layer.cornerRadius = 5;
+    
+    
     self.mapView.callout.leaderPositionFlags = AGSCalloutLeaderPositionBottom |
                                                 AGSCalloutLeaderPositionLeft |
                                                 AGSCalloutLeaderPositionRight;
@@ -384,6 +394,7 @@
 	[self setCancelKeyboardButton:nil];
     [self setZoomToGraphicButton:nil];
     [self setFunctionNavBar_iPhone:nil];
+    [self setButtonShowUI:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }

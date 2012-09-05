@@ -7,17 +7,27 @@
 //
 
 #import "AGSLayer+Basemap.h"
+#import <objc/runtime.h>
+
+#define kEQSInternalLayerTag @"EQSLayerTag"
+#define kEQSInternalLayerTag_Basemap @"Basemap"
 
 @implementation AGSLayer (EQSBasemaps)
-BOOL __eqsIsBasemapLayer = NO;
-
 - (BOOL) isEQSBasemapLayer
 {
-    return __eqsIsBasemapLayer;
+    NSString *layerTag = objc_getAssociatedObject(self, kEQSInternalLayerTag);
+    return [layerTag isEqualToString:kEQSInternalLayerTag_Basemap];
 }
 
 - (void) setIsEQSBasemapLayer:(BOOL)isBasemapLayer
 {
-    __eqsIsBasemapLayer = isBasemapLayer;
+    if (isBasemapLayer)
+    {
+        objc_setAssociatedObject(self, kEQSInternalLayerTag, kEQSInternalLayerTag_Basemap, OBJC_ASSOCIATION_RETAIN);
+    }
+    else
+    {
+        objc_setAssociatedObject(self, kEQSInternalLayerTag, nil, OBJC_ASSOCIATION_ASSIGN);
+    }
 }
 @end

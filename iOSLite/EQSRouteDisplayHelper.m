@@ -167,12 +167,6 @@
         self.routeGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
 		[mapView addMapLayer:self.routeGraphicsLayer withName:kEQSRouteResultsLayerName];
 		
-		// We need to make sure we re-add the layer when the basemap changes...
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(basemapDidChange:)
-                                                     name:kEQSNotification_BasemapDidChange
-                                                   object:mapView];
-
 		// Keep a handle onto our AGSMapView
 		self.mapView = mapView;
 
@@ -184,11 +178,11 @@
         
         self.startPointCalloutTemplate = [[AGSCalloutTemplate alloc] init];
         self.startPointCalloutTemplate.titleTemplate = @"Start";
-        self.startPointCalloutTemplate.detailTemplate = @"Oooh";
+        self.startPointCalloutTemplate.detailTemplate = @"Oooh"; //TODO - fix this
         
         self.endPointCalloutTemplate = [[AGSCalloutTemplate alloc] init];
         self.endPointCalloutTemplate.titleTemplate = @"End";
-        self.endPointCalloutTemplate.detailTemplate = @"Ahhh";
+        self.endPointCalloutTemplate.detailTemplate = @"Ahhh"; //TODO - fix this
     }
     
     return self;
@@ -209,15 +203,5 @@
 - (void) addRouteResultsLayer
 {
 	 [self.mapView addMapLayer:self.routeGraphicsLayer withName:kEQSRouteResultsLayerName];
-}
-
-#pragma mark - Basemap Change Notification Handler
-- (void) basemapDidChange:(NSNotification *)notification
-{
-    // The basemap changed, which means we need to re-add the basemap layer
-    if (![self.mapView getLayerForName:kEQSRouteResultsLayerName])
-    {
-		[self addRouteResultsLayer];
-    }
 }
 @end

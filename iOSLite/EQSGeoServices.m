@@ -105,6 +105,7 @@ EQSGeoServices *__agsStarterGeoServices = nil;
 #define kEQSMaxDistanceForReverseGeocode 100
 
 #define kEQSRoutingRouteTaskUrl @"http://tasks.arcgisonline.com/ArcGIS/rest/services/NetworkAnalysis/ESRI_Route_NA/NAServer/Route"
+#define kEQSRoutingRouteTaskUrlEU @"http://tasks.arcgisonline.com/ArcGIS/rest/services/NetworkAnalysis/ESRI_Route_EU/NAServer/Route"
 
 
 

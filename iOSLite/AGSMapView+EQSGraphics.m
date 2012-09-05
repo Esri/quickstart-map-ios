@@ -31,9 +31,9 @@ EQSGraphicCallout *__eqsTheGraphicCallout = nil;
 #define kEQSGraphicsLayerName_Polygon @"eqsPolygonGraphicsLayer"
 
 #define kEQSGraphicTag @"esriQuickStartLib"
-#define kEQSGraphicTagKey @"createdBy"
+#define kEQSGraphicTagKey @"eqsCreatedBy"
 
-#define kEQSSketchGraphicsLayerName @"eqsSketchGraphcisLayer"
+#define kEQSSketchGraphicsLayerName @"eqsSketchGraphicsLayer"
 
 #pragma mark - Add Graphics Programatically
 - (AGSGraphic *) addPointAtLat:(double)latitude lon:(double)longitude
@@ -45,9 +45,9 @@ EQSGraphicCallout *__eqsTheGraphicCallout = nil;
 
 - (AGSGraphic *) addPoint:(AGSPoint *)point
 {
-    AGSGraphic *g = [self __eqsGetDefaultGraphicForGeometry:[point getWebMercatorAuxSpherePoint]];
+    AGSGraphic *g = [self __eqsGraphics_GetDefaultGraphicForGeometry:[point getWebMercatorAuxSpherePoint]];
     
-    [self __eqsAddGraphicToAppropriateGraphicsLayer:g];
+    [self __eqsGraphics_AddGraphicToAppropriateGraphicsLayer:g];
     
     return g;
 }
@@ -61,9 +61,9 @@ EQSGraphicCallout *__eqsTheGraphicCallout = nil;
 
 - (AGSGraphic *) addPoint:(AGSPoint *)point withSymbol:(AGSMarkerSymbol *)markerSymbol
 {
-    AGSGraphic *g = [self __eqsGetDefaultGraphicForGeometry:[point getWebMercatorAuxSpherePoint]];
+    AGSGraphic *g = [self __eqsGraphics_GetDefaultGraphicForGeometry:[point getWebMercatorAuxSpherePoint]];
     g.symbol = markerSymbol;
-    [self __eqsAddGraphicToAppropriateGraphicsLayer:g];
+    [self __eqsGraphics_AddGraphicToAppropriateGraphicsLayer:g];
     return g;
 }
 
@@ -80,9 +80,9 @@ EQSGraphicCallout *__eqsTheGraphicCallout = nil;
         [line addPointToPath:[pt getWebMercatorAuxSpherePoint]];
     }
 
-    AGSGraphic *g = [self __eqsGetDefaultGraphicForGeometry:line];
+    AGSGraphic *g = [self __eqsGraphics_GetDefaultGraphicForGeometry:line];
 
-    [self __eqsAddGraphicToAppropriateGraphicsLayer:g];
+    [self __eqsGraphics_AddGraphicToAppropriateGraphicsLayer:g];
 
     return g;
 }
@@ -99,9 +99,9 @@ EQSGraphicCallout *__eqsTheGraphicCallout = nil;
         [poly addPointToRing:[pt getWebMercatorAuxSpherePoint]];
     }
 
-    AGSGraphic *g = [self __eqsGetDefaultGraphicForGeometry:poly];
+    AGSGraphic *g = [self __eqsGraphics_GetDefaultGraphicForGeometry:poly];
 
-    [self __eqsAddGraphicToAppropriateGraphicsLayer:g];
+    [self __eqsGraphics_AddGraphicToAppropriateGraphicsLayer:g];
 
     return g;
 }
@@ -142,12 +142,12 @@ EQSGraphicCallout *__eqsTheGraphicCallout = nil;
 #pragma mark - Add graphic
 - (AGSGraphicsLayer *) addGraphic:(AGSGraphic *)graphic
 {
-    return [self __eqsAddGraphicToAppropriateGraphicsLayer:graphic];
+    return [self __eqsGraphics_AddGraphicToAppropriateGraphicsLayer:graphic];
 }
 
 - (AGSGraphicsLayer *) addGraphic:(AGSGraphic *)graphic withAttribute:(id)attribute withValue:(id)value
 {
-    AGSGraphicsLayer *targetLayer = [self __eqsGetAppropriateGraphicsLayerForGraphic:graphic];
+    AGSGraphicsLayer *targetLayer = [self __eqsGraphics_GetGraphicsLayerForGraphic:graphic];
     if (!graphic.attributes)
     {
         graphic.attributes = [NSMutableDictionary dictionaryWithCapacity:1];
@@ -228,7 +228,7 @@ EQSGraphicCallout *__eqsTheGraphicCallout = nil;
 #pragma mark - Edit graphic
 - (void) editGraphic:(AGSGraphic *)graphic
 {
-	[self __eqsEditGraphic:graphic];
+	[self __eqsGraphics_EditGraphic:graphic];
 }
 
 #pragma mark - Edit graphic selected from the map
@@ -259,22 +259,22 @@ EQSGraphicCallout *__eqsTheGraphicCallout = nil;
 #pragma mark - Create and Edit new graphics
 - (void) createAndEditNewPoint
 {
-    [self __eqsEditGeometry:[[AGSMutablePoint alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
+    [self __eqsGraphics_EditGeometry:[[AGSMutablePoint alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
 }
 
 - (void) createAndEditNewMultipoint
 {
-    [self __eqsEditGeometry:[[AGSMutableMultipoint alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
+    [self __eqsGraphics_EditGeometry:[[AGSMutableMultipoint alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
 }
 
 - (void) createAndEditNewLine
 {
-    [self __eqsEditGeometry:[[AGSMutablePolyline alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
+    [self __eqsGraphics_EditGeometry:[[AGSMutablePolyline alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
 }
 
 - (void) createAndEditNewPolygon
 {
-    [self __eqsEditGeometry:[[AGSMutablePolygon alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
+    [self __eqsGraphics_EditGeometry:[[AGSMutablePolygon alloc] initWithSpatialReference:[AGSSpatialReference webMercatorSpatialReference]]];
 }
 
 #pragma mark - Save edit/create
@@ -298,8 +298,8 @@ EQSGraphicCallout *__eqsTheGraphicCallout = nil;
         else
         {
             // Creating a new graphic
-            AGSGraphic *g = [self __eqsGetDefaultGraphicForGeometry:editedGeometry];
-            [self __eqsAddGraphicToAppropriateGraphicsLayer:g];
+            AGSGraphic *g = [self __eqsGraphics_GetDefaultGraphicForGeometry:editedGeometry];
+            [self __eqsGraphics_AddGraphicToAppropriateGraphicsLayer:g];
 
             // Set the info template delegate
             if (!__eqsTheGraphicCallout)
@@ -414,21 +414,7 @@ EQSGraphicCallout *__eqsTheGraphicCallout = nil;
 
 - (AGSGraphicsLayer *) getGraphicsLayer:(EQSGraphicsLayerType)layerType
 {
-    if (!__eqsPointGraphicsLayer)
-    {
-        // Create three graphics layers and add them to the map.
-        __eqsPointGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
-        __eqsPolylineGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
-        __eqsPolygonGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
-        // And register our interest in basemap changes so we can re-add the layers if need be.
-		[[NSNotificationCenter defaultCenter] addObserver:self 
-                                                 selector:@selector(__eqsGraphicsBasemapDidChange:) 
-                                                     name:kEQSNotification_BasemapDidChange
-                                                   object:self];
-        
-    }
-    
-    [self __ensureEQSGraphicsLayersAdded];
+    [self __eqsGraphics_EnsureInitialized];
     
     switch (layerType) {
         case EQSGraphicsLayerTypePoint:
@@ -446,16 +432,54 @@ EQSGraphicCallout *__eqsTheGraphicCallout = nil;
 
 #pragma mark - Internal/Private
 
-- (void) __eqsEditGraphic:(AGSGraphic *)graphicToEdit
+- (void) __eqsGraphics_EnsureInitialized
+{
+    // Create three graphics layers if necessary.
+    if (!__eqsPointGraphicsLayer)
+    {
+        __eqsPointGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
+    }
+    if (!__eqsPolylineGraphicsLayer)
+    {
+        __eqsPolylineGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
+    }
+    if (!__eqsPolygonGraphicsLayer)
+    {
+        __eqsPolygonGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
+    }
+
+    // Make sure they're added to the map.
+    [self __eqsGraphics_EnsureEQSGraphicsLayersArePresent];
+}
+
+- (void) __eqsGraphics_EnsureEQSGraphicsLayersArePresent
+{
+	if (![self getLayerForName:kEQSGraphicsLayerName_Polygon])
+    {
+        [self addMapLayer:__eqsPolygonGraphicsLayer withName:kEQSGraphicsLayerName_Polygon];
+    }
+	
+    if (![self getLayerForName:kEQSGraphicsLayerName_Polyline])
+    {
+        [self addMapLayer:__eqsPolylineGraphicsLayer withName:kEQSGraphicsLayerName_Polyline];
+    }
+    
+    if (![self getLayerForName:kEQSGraphicsLayerName_Point])
+    {
+        [self addMapLayer:__eqsPointGraphicsLayer withName:kEQSGraphicsLayerName_Point];
+    }
+}
+
+- (void) __eqsGraphics_EditGraphic:(AGSGraphic *)graphicToEdit
 {
     if (graphicToEdit)
     {
-        [self __eqsEditGeometry:graphicToEdit.geometry];
+        [self __eqsGraphics_EditGeometry:graphicToEdit.geometry];
         __eqsCurrentEditingGraphic = graphicToEdit;
     }
 }
 
-- (void) __eqsEditGeometry:(AGSGeometry *)geom
+- (void) __eqsGraphics_EditGeometry:(AGSGeometry *)geom
 {
     if (geom)
     {
@@ -489,97 +513,81 @@ EQSGraphicCallout *__eqsTheGraphicCallout = nil;
     }
 }
 
-- (void) __ensureEQSGraphicsLayersAdded
-{
-	if (![self getLayerForName:kEQSGraphicsLayerName_Polygon])
-    {
-        [self addMapLayer:__eqsPolygonGraphicsLayer withName:kEQSGraphicsLayerName_Polygon];
-    }
-	
-    if (![self getLayerForName:kEQSGraphicsLayerName_Polyline])
-    {
-        [self addMapLayer:__eqsPolylineGraphicsLayer withName:kEQSGraphicsLayerName_Polyline];
-    }
-    
-    if (![self getLayerForName:kEQSGraphicsLayerName_Point])
-    {
-        [self addMapLayer:__eqsPointGraphicsLayer withName:kEQSGraphicsLayerName_Point];
-    }
-}
-
-- (void) __initEQSGraphics
-{
-    // Asking for any layer will ensure they're all created and added.
-    [self getGraphicsLayer:EQSGraphicsLayerTypePoint];
-}
-
-- (void) __eqsGraphicsBasemapDidChange:(NSNotification *)notification
-{
-	[self __ensureEQSGraphicsLayersAdded];
-}
-
-- (AGSSymbol *) __eqsGetDefaultSymbolForGeometry:(AGSGeometry *)geom
+- (AGSSymbol *) __eqsGraphics_GetDefaultSymbolForGeometry:(AGSGeometry *)geom
 {
     // Return a symbol depending on the type of geometry that was passed in.
     AGSSymbol *symbol = nil;
-    if ([geom isKindOfClass:[AGSPoint class]] ||
-        [geom isKindOfClass:[AGSMultipoint class]])
-    {
-        symbol = [AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor redColor]];
+    AGSGeometryType geomType = AGSGeometryTypeForGeometry(geom);
+    
+    switch (geomType) {
+        case AGSGeometryTypeMultipoint:
+        case AGSGeometryTypePoint:
+            symbol = [AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor redColor]];
+            break;
+            
+        case AGSGeometryTypePolyline:
+            symbol = [AGSSimpleLineSymbol simpleLineSymbolWithColor:[UIColor redColor] width:2.0f];
+            break;
+            
+        case AGSGeometryTypePolygon:
+        case AGSGeometryTypeEnvelope:
+            symbol = [AGSSimpleFillSymbol simpleFillSymbolWithColor:[UIColor redColor] outlineColor:[UIColor blueColor]];
+            break;
+            
+        default:
+            NSLog(@"Unexpected geometry type: %d", geomType);
+            break;
     }
-    else if ([geom isKindOfClass:[AGSPolyline class]])
-    {
-        symbol = [AGSSimpleLineSymbol simpleLineSymbolWithColor:[UIColor redColor] width:2.0f];        
-    }
-    else if ([geom isKindOfClass:[AGSPolygon class]])
-    {
-        symbol = [AGSSimpleFillSymbol simpleFillSymbolWithColor:[UIColor redColor] outlineColor:[UIColor blueColor]];
-    }
-    else {
-        NSLog(@"Unrecognized Geometry Class: %@", geom);
-    }
+    
     return symbol;
 }
 
-- (AGSGraphic *) __eqsGetDefaultGraphicForGeometry:(AGSGeometry *)geom
+- (AGSGraphic *) __eqsGraphics_GetDefaultGraphicForGeometry:(AGSGeometry *)geom
 {  
     // Create a graphic with an appropriate symbol and attributes, given a geometry.
     AGSGraphic *g = [AGSGraphic graphicWithGeometry:geom
-                                             symbol:[self __eqsGetDefaultSymbolForGeometry:geom]
+                                             symbol:[self __eqsGraphics_GetDefaultSymbolForGeometry:geom]
                                          attributes:[NSMutableDictionary dictionaryWithObject:kEQSGraphicTag forKey:kEQSGraphicTagKey]
                                infoTemplateDelegate:nil];
     return g;
 }
 
-- (AGSGraphicsLayer *)__eqsGetAppropriateGraphicsLayerForGraphic:(AGSGraphic *)graphic
+- (AGSGraphicsLayer *)__eqsGraphics_GetGraphicsLayerForGraphic:(AGSGraphic *)graphic
 {
     AGSGeometry *geom = graphic.geometry;
     AGSGraphicsLayer *gLayer = nil;
-    if ([geom isKindOfClass:[AGSPoint class]] ||
-        [geom isKindOfClass:[AGSMultipoint class]])
-    {
-        gLayer = [self getGraphicsLayer:EQSGraphicsLayerTypePoint];
+
+    AGSGeometryType geomType = AGSGeometryTypeForGeometry(geom);
+    
+    switch (geomType) {
+        case AGSGeometryTypePoint:
+        case AGSGeometryTypeMultipoint:
+            gLayer = [self getGraphicsLayer:EQSGraphicsLayerTypePoint];
+            break;
+            
+        case AGSGeometryTypePolyline:
+            gLayer = [self getGraphicsLayer:EQSGraphicsLayerTypePolyline];
+            break;
+
+        case AGSGeometryTypePolygon:
+        case AGSGeometryTypeEnvelope:
+            gLayer = [self getGraphicsLayer:EQSGraphicsLayerTypePolygon];
+            break;
+            
+        default:
+            NSLog(@"Unexpected geometry type: %d", geomType);
+            break;
     }
-    else if ([geom isKindOfClass:[AGSPolyline class]])
-    {
-        gLayer = [self getGraphicsLayer:EQSGraphicsLayerTypePolyline];
-    }
-    else if ([geom isKindOfClass:[AGSPolygon class]])
-    {
-        gLayer = [self getGraphicsLayer:EQSGraphicsLayerTypePolygon];
-    }
-    else {
-        NSLog(@"Unrecognized Geometry Class: %@", geom);
-    }
+    
     return gLayer;
 }
 
-- (AGSGraphicsLayer *) __eqsAddGraphicToAppropriateGraphicsLayer:(AGSGraphic *)graphic
+- (AGSGraphicsLayer *) __eqsGraphics_AddGraphicToAppropriateGraphicsLayer:(AGSGraphic *)graphic
 {
     // Figure out what type of geometry the graphic is, and add the graphic to the appropriate layer.
     if (graphic)
     {
-        AGSGraphicsLayer *gLayer = [self __eqsGetAppropriateGraphicsLayerForGraphic:graphic];
+        AGSGraphicsLayer *gLayer = [self __eqsGraphics_GetGraphicsLayerForGraphic:graphic];
         
         if (gLayer)
         {
@@ -590,17 +598,5 @@ EQSGraphicCallout *__eqsTheGraphicCallout = nil;
         return gLayer;
     }
     return nil;
-}
-
-- (NSArray *) __eqsGetArrayFromArguments:(NSNumber *)first arguments:(va_list)otherArgs
-{
-    // Just a helper function.
-    NSMutableArray *result = [NSMutableArray array];
-    for (NSNumber *nextNumber = first; nextNumber != nil; nextNumber = va_arg(otherArgs, NSNumber *))
-    {
-        [result addObject:nextNumber];
-    }
-
-    return result;
 }
 @end
