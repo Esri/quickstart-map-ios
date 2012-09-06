@@ -109,6 +109,7 @@
     
     AGSPortalItem *pi = webMap.portalItem;
     [self postNewBasemapNotification:[self getBasemapType] forPortalItem:pi];
+    NSLog(@"Just changed basemap. Credits: %@\nLicense: %@",pi.credits, pi.license);
 }
 
 - (void)webMap:(AGSWebMap *)webMap didFailToLoadWithError:(NSError *)error

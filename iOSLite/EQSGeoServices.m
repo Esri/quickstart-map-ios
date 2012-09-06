@@ -93,7 +93,7 @@ EQSGeoServices *__agsStarterGeoServices = nil;
 //#define kEQSNALocatorURL @"http://tasks.arcgisonline.com/ArcGIS/rest/services/Locators/TA_Address_NA_10/GeocodeServer"
 #define kEQSNALocatorURL @"http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
 #define kEQSFindAddress_AddressKey @"SingleLine"
-#define kEQSFindAddress_ReturnFields @"Loc_name", @"Shape", @"Country", @"Addr_Type", @"Type", @"Match_Addr"
+#define kEQSFindAddress_ReturnFields @"Loc_name", @"Shape", @"Country", @"Addr_Type", @"Type", @"Match_Addr", @"DisplayX",@"DisplayY"
 #define kEQSFindAddress_AssociatedAddressKey "address"
 #define kEQSFindAddress_AssociatedExtentKey "extent"
 
@@ -293,8 +293,18 @@ EQSGeoServices *__agsStarterGeoServices = nil;
         NSString *address = objc_getAssociatedObject(op, kEQSFindAddress_AssociatedAddressKey);
         AGSEnvelope *env = objc_getAssociatedObject(op, kEQSFindAddress_AssociatedExtentKey);
         
-        for (AGSAddressCandidate *candidate in candidates) {
+        for (AGSAddressCandidate *candidate in candidates)
+        {
             NSLog(@"Found candidate: %@ %@", candidate.addressString, candidate.attributes);
+
+//            NSNumber *x = [candidate.attributes objectForKey:@"DisplayX"];
+//            NSNumber *y = [candidate.attributes objectForKey:@"DisplayY"];
+//            
+//            if (x != nil && y != nil)
+//            {
+//                AGSPoint *displayPoint = [AGSPoint pointFromLat:y.doubleValue lon:x.doubleValue];
+//                objc_setAssociatedObject(candidate, @"DisplayPoint", displayPoint, OBJC_ASSOCIATION_RETAIN);
+//            }
         }
 
         // Build a dictionary of useful info which listeners to our notification might want.

@@ -28,10 +28,14 @@
 @property (nonatomic, retain) AGSMapView *mapView;
 @property (nonatomic, strong) AGSCalloutTemplate *startPointCalloutTemplate;
 @property (nonatomic, strong) AGSCalloutTemplate *endPointCalloutTemplate;
+
+@property (nonatomic, retain, readwrite) AGSRouteResult *currentRouteResult;
 @end
 
 @implementation EQSRouteDisplayHelper
 @synthesize routeGraphicsLayer = _routeGraphicsLayer;
+
+@synthesize currentRouteResult = _currentRouteResult;
 
 @synthesize startSymbol = _startSymbol;
 @synthesize endSymbol = _stopSymbol;
@@ -39,7 +43,7 @@
 
 @synthesize mapView = _mapView;
 
-@synthesize tableVC = _tableVC;
+@synthesize routeResultsViewController = _routeResultsViewController;
 
 @synthesize startPointCalloutTemplate = _startPointCalloutTemplate;
 @synthesize endPointCalloutTemplate = _endPointCalloutTemplate;
@@ -60,13 +64,25 @@
 		
         AGSRouteResult *result = [routeTaskResult.routeResults objectAtIndex:0];
         
-        AGSGraphic *routeGraphic = [AGSGraphic graphicWithGeometry:result.directions.mergedGeometry
+        self.currentRouteResult = result;
+    }
+}
+
+- (void) setCurrentRouteResult:(AGSRouteResult *)currentRouteResult
+{
+    _currentRouteResult = currentRouteResult;
+    
+    [self setupTabularDisplay:_currentRouteResult];
+
+    if (_currentRouteResult)
+    {
+        AGSGraphic *routeGraphic = [AGSGraphic graphicWithGeometry:_currentRouteResult.directions.mergedGeometry
                                                             symbol:self.routeSymbol
                                                         attributes:nil
                                               infoTemplateDelegate:nil];
         [self.routeGraphicsLayer addGraphic:routeGraphic withID:@"RouteShape"];
-		
-        for (AGSStopGraphic *stopGraphic in result.stopGraphics)
+        
+        for (AGSStopGraphic *stopGraphic in _currentRouteResult.stopGraphics)
         {
             NSString *routeStopID = nil;
             NSLog(@"Route Stop Point: \"%@\"", stopGraphic.name);
@@ -77,7 +93,7 @@
                 stopGraphic.infoTemplateDelegate = self.startPointCalloutTemplate;
                 routeStopID = @"RouteStart";
             }
-            else if (stopGraphic.sequence == result.stopGraphics.count)//.name isEqualToString:kEQSRoutingEndPointName])
+            else if (stopGraphic.sequence == _currentRouteResult.stopGraphics.count)//.name isEqualToString:kEQSRoutingEndPointName])
             {
                 stopGraphic.symbol = self.endSymbol;
                 stopGraphic.infoTemplateDelegate = self.endPointCalloutTemplate;
@@ -86,36 +102,40 @@
             [self.routeGraphicsLayer addGraphic:stopGraphic withID:routeStopID];
         }
         
-        [self setupTabularDisplay:result];
-        [self.mapView zoomToGeometry:result.routeGraphic.geometry withPadding:100 animated:YES];
-        [self.routeGraphicsLayer dataChanged];
+        [self.mapView zoomToGeometry:_currentRouteResult.routeGraphic.geometry withPadding:100 animated:YES];
     }
+    else
+    {
+        [self.routeGraphicsLayer removeAllGraphics];
+    }
+    
+    [self.routeGraphicsLayer dataChanged];
 }
 
-- (void) setTableVC:(EQSRouteResultsViewController *)tableVC
+- (void) setRouteResultsViewController:(EQSRouteResultsViewController *)routeResultsViewController
 {
-    _tableVC = tableVC;
-    if (_tableVC)
+    _routeResultsViewController = routeResultsViewController;
+    if (_routeResultsViewController)
     {
-        if (_tableVC.routeDisplayDelegate == nil)
+        if (_routeResultsViewController.routeDisplayDelegate == nil)
         {
-            _tableVC.routeDisplayDelegate = self;
+            _routeResultsViewController.routeDisplayDelegate = self;
         }
     }
 }
 
 - (void) setupTabularDisplay:(AGSRouteResult *)routeResult
 {
-    if (self.tableVC)
+    if (self.routeResultsViewController)
     {
-        self.tableVC.routeResult = routeResult;
+        self.routeResultsViewController.routeResult = routeResult;
     }
 }
 
 - (void) clearRouteResult
 {
-    [self.routeGraphicsLayer removeAllGraphics];
-    [self.routeGraphicsLayer dataChanged];
+    self.currentRouteResult = nil;
+    [[NSNotificationCenter defaultCenter] postNotificationName:kEQSRouteDisplayNotification_RouteCleared object:self];
 }
 
 - (void) zoomToRouteResult
@@ -125,6 +145,11 @@
     {
         [self.mapView zoomToGeometry:routeGraphic.geometry withPadding:100 animated:YES];
     }
+}
+
+- (void) editRoute
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:kEQSRouteDisplayNotification_EditRequested object:self];
 }
 
 
@@ -165,7 +190,10 @@
     {
 		// Create a new Graphics Layer
         self.routeGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
-		[mapView addMapLayer:self.routeGraphicsLayer withName:kEQSRouteResultsLayerName];
+        [EQSHelper queueBlock:^{
+            [mapView addMapLayer:self.routeGraphicsLayer withName:kEQSRouteResultsLayerName];
+        }
+           untilMapViewLoaded:mapView];
 		
 		// Keep a handle onto our AGSMapView
 		self.mapView = mapView;

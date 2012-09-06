@@ -203,6 +203,7 @@
         case EQSSampleAppStateDirections:
         case EQSSampleAppStateDirections_WaitingForRouteStart:
         case EQSSampleAppStateDirections_WaitingForRouteEnd:
+        case EQSSampleAppStateDirections_Navigating:
             return @"Directions";
         case EQSSampleAppStateCloudData:
             return @"Data";

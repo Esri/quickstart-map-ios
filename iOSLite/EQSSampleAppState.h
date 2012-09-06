@@ -19,7 +19,8 @@ typedef enum
     EQSSampleAppStateFindPlace,
 	EQSSampleAppStateDirections,
     EQSSampleAppStateDirections_WaitingForRouteStart,
-    EQSSampleAppStateDirections_WaitingForRouteEnd
+    EQSSampleAppStateDirections_WaitingForRouteEnd,
+    EQSSampleAppStateDirections_Navigating
 }
 EQSSampleAppState;
 

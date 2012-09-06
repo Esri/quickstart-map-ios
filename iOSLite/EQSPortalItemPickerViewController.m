@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *portalItemDetailsTitleLabel;
 @property (weak, nonatomic) IBOutlet UIWebView *portalItemDetailsDescriptionWebView;
 @property (weak, nonatomic) IBOutlet UIImageView *portalItemDetailsImageView;
+@property (weak, nonatomic) IBOutlet UITextView *portalItemDetailsCreditsTextView;
 @property (strong, nonatomic) IBOutlet UIViewController *portalItemDetailsViewController;
 
 @property (nonatomic, assign) CGSize portalItemDetailsPortraitSize;
@@ -37,6 +38,7 @@
 @synthesize portalItemDetailsTitleLabel = _currentBasemapNameLabel;
 @synthesize portalItemDetailsDescriptionWebView = _currentBasemapDescriptionWebView;
 @synthesize portalItemDetailsImageView = _currentBasemapImageView;
+@synthesize portalItemDetailsCreditsTextView = _portalItemDetailsCreditsTextView;
 @synthesize portalItemDetailsViewController = _portalItemDetailsViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -54,51 +56,14 @@
 	// Do any additional setup after loading the view.
 	self.portalItemListView.viewController.portalItemDelegate = self;
     self.portalItemDetailsViewController.view.layer.cornerRadius = 7;
-	
-//	self.portalItemDetailsPortraitSize = CGSizeMake(self.portalItemDetailsViewController.view.frame.size.width,
-//													self.portalItemDetailsViewController.view.frame.size.height);
-//	self.portalItemDetailsLandscapeSize = CGSizeMake(self.portalItemDetailsViewController.view.frame.size.height,
-//													 self.portalItemDetailsViewController.view.frame.size.width);
-//
-//	[[NSNotificationCenter defaultCenter] addObserver:self
-//											 selector:@selector(orientationDidChange:)
-//												 name:UIDeviceOrientationDidChangeNotification
-//											   object:[UIDevice currentDevice]];
-//	[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    self.portalItemDetailsCreditsTextView.contentInset = UIEdgeInsetsMake(-8,0,-8,0);
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
-//	[[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
 }
-
-//- (void) orientationDidChange:(NSNotification *)notification
-//{
-//	UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
-////	CGRect parentFrame = self.portalItemDetailsViewController.view.superview.frame;
-//	CGPoint parentCenter = self.portalItemDetailsViewController.view.superview.center;
-//	if (UIDeviceOrientationIsLandscape(orientation))
-//	{
-//		self.portalItemDetailsViewController.view.frame =
-//			CGRectMake(parentCenter.x - (self.portalItemDetailsLandscapeSize.width/2),
-//					   parentCenter.y - (self.portalItemDetailsLandscapeSize.height/2),
-//					   self.portalItemDetailsLandscapeSize.width,
-//					   self.portalItemDetailsLandscapeSize.height);
-//	}
-//	else
-//	{
-//		self.portalItemDetailsViewController.view.frame =
-//		CGRectMake(parentCenter.x - (self.portalItemDetailsPortraitSize.width/2),
-//				   parentCenter.y - (self.portalItemDetailsPortraitSize.height/2),
-//				   self.portalItemDetailsPortraitSize.width,
-//				   self.portalItemDetailsPortraitSize.height);
-//
-//	}
-//	
-////	[self.portalItemDetailsViewController.view.superview layoutSubviews];
-//}
 
 - (void)setCurrentPortalItemID:(NSString *)currentPortalItemID
 {
@@ -173,6 +138,11 @@
     [self.portalItemDetailsDescriptionWebView loadHTMLString:htmlToShow baseURL:baseURL];
 }
 
+- (void) setDetailsCredits:(AGSPortalItem *)portalItem
+{
+    self.portalItemDetailsCreditsTextView.text = [NSString stringWithFormat:@"Credits: %@", portalItem.credits];
+}
+
 - (void) setCurrentPortalItem_Int:(AGSPortalItem *)currentPortalItem callingDelegate:(BOOL)callDelegate
 {
     if (_currentPortalItem)
@@ -202,6 +172,7 @@
     [self setDetailsThumbnail:_currentPortalItem];
     [self setDetailsTitle:_currentPortalItem];
     [self setDetailsSnippet:_currentPortalItem];
+    [self setDetailsCredits:_currentPortalItem];
 
     // If the thumbnail has not yet loaded, we will assume the request has been made, and will just
     // keep an eye on things and display it when it is loaded.

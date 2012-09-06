@@ -119,6 +119,7 @@
 - (IBAction)newPgGraphic:(id)sender;
 - (IBAction)newMultiPtGraphic:(id)sender;
 
+- (IBAction)swapRouteStartAndEnd:(id)sender;
 
 
 // Directions UI
@@ -132,7 +133,7 @@
 @property (nonatomic, strong) AGSPoint *routeEndPoint;
 @property (nonatomic, retain) NSString *routeStartAddress;
 @property (nonatomic, retain) NSString *routeEndAddress;
-@property (nonatomic, retain) AGSRouteResult *routeResult;
+//@property (nonatomic, retain) AGSRouteResult *routeResult;
 
 @property (strong, nonatomic) IBOutlet EQSRouteResultsView *routeResultsView;
 
@@ -168,8 +169,6 @@
 - (IBAction)clearPoints:(id)sender;
 - (IBAction)clearLines:(id)sender;
 - (IBAction)clearPolygons:(id)sender;
-
-- (IBAction)clearRoute:(id)sender;
 
 - (IBAction)findMe:(id)sender;
 - (IBAction)findScaleChanged:(id)sender;
@@ -233,7 +232,7 @@
 @synthesize routeStartButton = _routeStartButton;
 @synthesize routeEndButton = _routeStopButton;
 
-@synthesize routeResult = _routeResult;
+//@synthesize routeResult = _routeResult;
 @synthesize routeResultsView = _routeResultsView;
 
 @synthesize findScale = _findScale;
@@ -250,7 +249,7 @@
 @synthesize geocodeResults = _geocodeResults;
 @synthesize geolocationResults = _geolocationResults;
 
-#define kEQSApplicationLocFromState @"ButtonState"
+//#define kEQSApplicationLocFromState @"ButtonState"
 
 #pragma mark - Initialization Methods
 
@@ -278,8 +277,8 @@
     tmp = nil;
 
     // Store some state on the UI so that we can track when the user is placing points for routing.
-    objc_setAssociatedObject(self.routeStartButton, kEQSApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    objc_setAssociatedObject(self.routeEndButton, kEQSApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+//    objc_setAssociatedObject(self.routeStartButton, kEQSApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+//    objc_setAssociatedObject(self.routeEndButton, kEQSApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
     // When we geolocate, what scale level to zoom the map to?
     self.findScale = 13;
@@ -299,9 +298,24 @@
 	
 	// We need to re-arrange the UI when the keyboard displays and hides, so let's find out when that happens.
 	self.keyboardSize = CGSizeZero;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(routeDisplayCleared:)
+                                                 name:kEQSRouteDisplayNotification_RouteCleared
+                                               object:self.mapView.routeDisplayHelper];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(routeEditRequested:)
+                                                 name:kEQSRouteDisplayNotification_EditRequested
+                                               object:self.mapView.routeDisplayHelper];
 
     // Set up the map UI a little.
     self.mapView.wrapAround = YES;
@@ -309,18 +323,10 @@
     self.mapView.calloutDelegate = self;
     
     self.findMeButton.layer.cornerRadius = 5;
-    self.routeStartButton.layer.cornerRadius = 5;
-    self.routeEndButton.layer.cornerRadius = 5;
-    self.clearRouteButton.layer.cornerRadius = 4;
-    
-    self.graphicPointButton.layer.cornerRadius = 5;
-    self.graphicLineButton.layer.cornerRadius = 5;
-    self.graphicPolygonButton.layer.cornerRadius = 5;
-    
+
     self.buttonShowUI.layer.borderColor = [UIColor blackColor].CGColor;
     self.buttonShowUI.layer.borderWidth = 2;
     self.buttonShowUI.layer.cornerRadius = 5;
-    
     
     self.mapView.callout.leaderPositionFlags = AGSCalloutLeaderPositionBottom |
                                                 AGSCalloutLeaderPositionLeft |
@@ -607,6 +613,10 @@
         {
             frameHeight = 114;
         }
+        else if (self.currentState == EQSSampleAppStateDirections_Navigating)
+        {
+            frameHeight = 130;
+        }
         if (frameHeight != -1)
         {
             viewFrame = CGRectMake(viewFrame.origin.x, viewFrame.origin.y, viewFrame.size.width, frameHeight);
@@ -668,16 +678,22 @@
         case EQSSampleAppStateDirections:
 			self.routeStartButton.selected = NO;
 			self.routeEndButton.selected = NO;
+            [self setStartText];
+            [self setEndText];
             break;
         case EQSSampleAppStateDirections_WaitingForRouteStart:
-            self.routeStartLabel.text = @"Tap a point on the map…";
+//            self.routeStartLabel.text = @"Tap a point on the map…";
 			self.routeStartButton.selected = YES;
 			self.routeEndButton.selected = NO;
+            [self setStartText];
+            [self setEndText];
             break;
         case EQSSampleAppStateDirections_WaitingForRouteEnd:
-            self.routeEndLabel.text = @"Tap a point on the map…";
+//            self.routeEndLabel.text = @"Tap a point on the map…";
 			self.routeEndButton.selected = YES;
 			self.routeStartButton.selected = NO;
+            [self setStartText];
+            [self setEndText];
             break;
             
         case EQSSampleAppStateGraphics_Editing:
@@ -767,7 +783,14 @@
             self.currentState = EQSSampleAppStateFindPlace;
             break;
         case 5:
-            self.currentState = EQSSampleAppStateDirections;
+            if (self.mapView.routeDisplayHelper.currentRouteResult)
+            {
+                self.currentState = EQSSampleAppStateDirections_Navigating;
+            }
+            else
+            {
+                self.currentState = EQSSampleAppStateDirections;
+            }
             break;
         default:
             NSLog(@"Set state to %d", seg.selectedSegmentIndex);
@@ -781,7 +804,12 @@
                                self.basemapsPicker,
                                self.geolocationPanel,
                                self.findPlacePanel,
-                               self.graphicsPanel, self.cloudDataPanel, nil];
+                               self.graphicsPanel,
+                               self.cloudDataPanel, nil];
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
+    {
+        [uiViews addObject:self.routeResultsView];
+    }
     return uiViews;
 }
 
@@ -797,6 +825,17 @@
         case EQSSampleAppStateDirections_WaitingForRouteStart:
         case EQSSampleAppStateDirections_WaitingForRouteEnd:
             viewToShow = self.routingPanel;
+            break;
+        case EQSSampleAppStateDirections_Navigating:
+            if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone &&
+                self.mapView.routeDisplayHelper.currentRouteResult != nil)
+            {
+                viewToShow = self.routeResultsView;
+            }
+            else
+            {
+                viewToShow = self.routingPanel;
+            }
             break;
         case EQSSampleAppStateFindPlace:
             viewToShow = self.findPlacePanel;
@@ -897,15 +936,29 @@
                              [[UIApplication sharedApplication] endIgnoringInteractionEvents];
                          }];
         
-        if (self.currentState == EQSSampleAppStateDirections ||
-            self.currentState == EQSSampleAppStateDirections_WaitingForRouteStart ||
-            self.currentState == EQSSampleAppStateDirections_WaitingForRouteEnd)
+        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
         {
-            self.routeResultsView.viewController.hidden = NO;
+            if (self.currentState == EQSSampleAppStateDirections ||
+                self.currentState == EQSSampleAppStateDirections_WaitingForRouteStart ||
+                self.currentState == EQSSampleAppStateDirections_WaitingForRouteEnd)
+            {
+                self.routeResultsView.viewController.hidden = NO;
+            }
+            else
+            {
+                self.routeResultsView.viewController.hidden = YES;
+            }
         }
         else
         {
-            self.routeResultsView.viewController.hidden = YES;
+            if (self.currentState == EQSSampleAppStateDirections_Navigating)
+            {
+                self.routeResultsView.viewController.hidden = NO;
+            }
+            else
+            {
+                self.routeResultsView.viewController.hidden = YES;
+            }
         }
     }
 }
@@ -1373,6 +1426,32 @@
     return NO;
 }
 
+- (IBAction)swapRouteStartAndEnd:(id)sender {
+    NSString *temp = self.routeStartAddress;
+    self.routeStartAddress = self.routeEndAddress;
+    self.routeEndAddress = temp;
+    
+    AGSPoint *tempPt = _routeStartPoint;
+    _routeStartPoint = _routeEndPoint;
+    _routeEndPoint = tempPt;
+    
+    switch (self.currentState) {
+        case EQSSampleAppStateDirections_WaitingForRouteStart:
+            self.currentState = EQSSampleAppStateDirections_WaitingForRouteEnd;
+            break;
+        case EQSSampleAppStateDirections_WaitingForRouteEnd:
+            self.currentState = EQSSampleAppStateDirections_WaitingForRouteStart;
+            break;
+        case EQSSampleAppStateDirections:
+            [self doRouteIfPossible];
+            break;
+
+        default:
+            // Do nothing.
+            break;
+    }
+}
+
 - (void) didSolveRouteOK:(NSNotification *)notification
 {
     NSLog(@"Entered didSolveRouteOK");
@@ -1382,11 +1461,13 @@
 	if (results)
 	{
         // Store the route result for ourselves.
-		self.routeResult = [results.routeResults objectAtIndex:0];
+//		self.routeResult = [results.routeResults objectAtIndex:0];
         
         // Tell our RouteDisplayHelper about the object we've created in our NIB for the table view.
-        self.mapView.routeDisplayHelper.tableVC = self.routeResultsView.viewController;
+        self.mapView.routeDisplayHelper.routeResultsViewController = self.routeResultsView.viewController;
 		[self.mapView.routeDisplayHelper showRouteResult:results];
+        
+        self.currentState = EQSSampleAppStateDirections_Navigating;
 	}
 }
 
@@ -1421,8 +1502,20 @@
     {
         self.routeStartLabel.text = latLongText;
     }
-    else {
+    else if (address)
+    {
         self.routeStartLabel.text = address;
+    }
+    else
+    {
+        if (self.routeStartButton.selected)
+        {
+            self.routeStartLabel.text = @"Tap start of route on map";
+        }
+        else
+        {
+            self.routeStartLabel.text = @"Tap button";
+        }
     }
 }
 
@@ -1442,23 +1535,35 @@
     {
         self.routeEndLabel.text = latLongText;
     }
-    else {
+    else if (address)
+    {
         self.routeEndLabel.text = address;
+    }
+    else
+    {
+        if (self.routeEndButton.selected)
+        {
+            self.routeEndLabel.text = @"Tap end of route on map";
+        }
+        else
+        {
+            self.routeEndLabel.text = @"Tap button";
+        }
     }
 }
 
-- (IBAction)clearRoute:(id)sender {
-    if (self.routeResult)
-    {
-        self.routeResult = nil;
-        [self.mapView.routeDisplayHelper clearRouteResult];
-        self.routeResultsView.viewController.routeResult = nil;
-		self.routeStartAddress = nil;
-		self.routeEndAddress = nil;
-        self.routeStartPoint = nil;
-        self.routeEndPoint = nil;
-        self.currentState = EQSSampleAppStateDirections_WaitingForRouteStart;
-    }
+- (void) routeDisplayCleared:(NSNotification *)notification
+{
+    self.routeStartAddress = nil;
+    self.routeEndAddress = nil;
+    self.routeStartPoint = nil;
+    self.routeEndPoint = nil;
+    self.currentState = EQSSampleAppStateDirections_WaitingForRouteStart;
+}
+
+- (void) routeEditRequested:(NSNotification *)notification
+{
+    self.currentState = EQSSampleAppStateDirections;
 }
 
 - (void)setToFromButton:(UIButton *)bi selectedState:(BOOL)selected
@@ -1468,7 +1573,8 @@
 	//    otherBi.tintColor = nil;
     otherBi.selected = NO;
 	//    UIColor *tintColor = (bi == self.routeStartButton)?[UIColor greenColor]:[UIColor redColor];
-    objc_setAssociatedObject(otherBi, kEQSApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    otherBi.selected = NO;
+//    objc_setAssociatedObject(otherBi, kEQSApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     // Set the new state for this one, and set our app state too.
     NSLog(@"Selected: %@", selected?@"YES":@"NO");
@@ -1484,21 +1590,51 @@
 		//        bi.tintColor = nil;
         self.currentState = EQSSampleAppStateDirections;
     }
-    objc_setAssociatedObject(bi, kEQSApplicationLocFromState, [NSNumber numberWithBool:selected], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    bi.selected = selected;
+//    objc_setAssociatedObject(bi, kEQSApplicationLocFromState, [NSNumber numberWithBool:selected], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (IBAction)toFromTapped:(id)sender {
-    BOOL selected = [(NSNumber *)objc_getAssociatedObject(sender, kEQSApplicationLocFromState) boolValue];
+//    BOOL selected = [(NSNumber *)objc_getAssociatedObject(sender, kEQSApplicationLocFromState) boolValue];
+    BOOL selected = ((UIButton *)sender).selected;
     [self setToFromButton:sender selectedState:!selected];
 }
 
-- (IBAction)resizeUIGoFullScreen:(id)sender {
-    self.functionNavBar_iPhone.hidden = YES;
+- (IBAction)resizeUIGoFullScreen:(id)sender
+{
+    self.buttonShowUI.hidden = YES;
+    self.buttonShowUI.alpha = 0;
+    
+    [UIView animateWithDuration:0.4
+                     animations:^{
+                         self.functionNavBar_iPhone.alpha = 0;
+                         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+                         self.view.frame = [UIScreen mainScreen].applicationFrame;
+                         self.buttonShowUI.hidden = NO;
+                     }
+                     completion:^(BOOL finished) {
+                         self.functionNavBar_iPhone.hidden = YES;
+                         [UIView animateWithDuration:0.4 animations:^{
+                             self.buttonShowUI.alpha = 1;
+                         }];
+                     }];
 }
 
 - (IBAction)resizeUIExitFullScreen:(id)sender
 {
+    self.functionNavBar_iPhone.alpha = 0;
     self.functionNavBar_iPhone.hidden = NO;
+    
+    [UIView animateWithDuration:0.4
+                     animations:^{
+                         self.buttonShowUI.alpha = 0;
+                         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+                         self.view.frame = [UIScreen mainScreen].applicationFrame;
+                         self.functionNavBar_iPhone.alpha = 1;
+                     }
+                     completion:^(BOOL finished) {
+                         self.buttonShowUI.hidden = YES;
+                     }];
 }
 
 
@@ -1582,7 +1718,9 @@
                 if (c.score >= maxScore)
                 {
                     count++;
-                    AGSPoint *p = c.location;
+                    AGSPoint *p = c.location; //c.displayPoint;
+                    NSLog(@"Point: %@", p);
+                    NSLog(@"Loc  : %@", c.location);
                     AGSGraphic *g = [self.mapView addPoint:p withSymbol:self.mapView.defaultSymbols.findPlace];
                     [g.attributes setObject:@"Geocoded" forKey:@"Source"];
                     [g.attributes addEntriesFromDictionary:c.attributes];

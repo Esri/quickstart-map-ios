@@ -11,6 +11,9 @@
 
 @class EQSRouteResultsViewController;
 
+#define kEQSRouteDisplayNotification_RouteCleared @"EQSRouteDisplayNotificationRouteCleared"
+#define kEQSRouteDisplayNotification_EditRequested @"EQSRouteDisplayNotificationEditRequested"
+
 @interface EQSRouteDisplayHelper : NSObject
 // Use this method to instantiate a new RouteDisplayHelper for a given AGSMapView
 + (EQSRouteDisplayHelper *) routeDisplayHelperForMapView:(AGSMapView *)mapView;
@@ -19,7 +22,9 @@
 - (void) zoomToRouteResult;
 - (void) clearRouteResult;
 
-@property (nonatomic, retain) EQSRouteResultsViewController *tableVC;
+@property (nonatomic, retain, readonly) AGSRouteResult *currentRouteResult;
+
+@property (nonatomic, retain) EQSRouteResultsViewController *routeResultsViewController;
 
 @property (nonatomic, retain) AGSGraphicsLayer *routeGraphicsLayer;
 @property (nonatomic, retain) AGSMarkerSymbol *startSymbol;

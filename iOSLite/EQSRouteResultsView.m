@@ -48,9 +48,12 @@
         self.headerView.backgroundColor = [self.headerView.backgroundColor colorWithAlphaComponent:a];
         self.footerView.backgroundColor = [self.footerView.backgroundColor colorWithAlphaComponent:a];
 
-        self.topLevelView.layer.cornerRadius = 7;
-        self.layer.cornerRadius = 7;
-        self.layer.masksToBounds = YES;
+        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+        {
+            self.topLevelView.layer.cornerRadius = 7;
+            self.layer.cornerRadius = 7;
+            self.layer.masksToBounds = YES;
+        }
     }
     return self;
 }

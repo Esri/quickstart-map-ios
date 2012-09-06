@@ -102,8 +102,8 @@
     [self.tableViewController.tableView selectRowCallingDelegateAtIndexPath:newSelectIP
                                                                    animated:YES
                                                              scrollPosition:UITableViewScrollPositionMiddle];
-//    }
 }
+
 - (IBAction)zoomToRoute:(id)sender
 {
     if (self.routeDisplayDelegate)
@@ -111,6 +111,27 @@
         if ([self.routeDisplayDelegate respondsToSelector:@selector(zoomToRouteResult)])
         {
             [self.routeDisplayDelegate zoomToRouteResult];
+        }
+    }
+}
+
+- (IBAction)clearRoute:(id)sender
+{
+    if (self.routeDisplayDelegate)
+    {
+        if ([self.routeDisplayDelegate respondsToSelector:@selector(clearRouteResult)])
+        {
+            [self.routeDisplayDelegate clearRouteResult];
+        }
+    }
+}
+
+- (IBAction)editRoute:(id)sender {
+    if (self.routeDisplayDelegate)
+    {
+        if ([self.routeDisplayDelegate respondsToSelector:@selector(editRoute)])
+        {
+            [self.routeDisplayDelegate editRoute];
         }
     }
 }
@@ -163,7 +184,15 @@
                                                NSStringFromAGSDirectionSetDistance(_routeResult.directions)];
         self.routeResultsTimeLabel.text = [NSString stringWithFormat:@"Time: %@",
                                            NSStringFromAGSDirectionSetTime(_routeResult.directions)];
-        
+    }
+    else
+    {
+        self.routeResultsDistanceLabel.text = @"";
+        self.routeResultsTimeLabel.text = @"";
+    }
+
+    if (self.tableViewController)
+    {
         self.tableViewController.routeResult = routeResult;
         self.tableViewController.directionsDelegate = self;
     }
@@ -223,6 +252,4 @@
         }
     }
 }
-
-
 @end

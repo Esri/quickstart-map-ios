@@ -12,7 +12,7 @@
 @interface EQSRouteResultsCell ()
 @property (weak, nonatomic) IBOutlet UILabel *stepNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel *stepDetailsLabel;
-@property (weak, nonatomic) IBOutlet UILabel *stepDistanceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *stepMetricsLabel;
 
 @property (nonatomic, retain) UIColor *defaultBGCol;
 
@@ -27,7 +27,7 @@
 
 @synthesize stepNumberLabel = _stepNumberLabel;
 @synthesize stepDetailsLabel = _stepDetailsLabel;
-@synthesize stepDistanceLabel = _stepDistanceLabel;
+@synthesize stepMetricsLabel = _stepDistanceLabel;
 
 @synthesize defaultBGCol = _defaultBGCol;
 
@@ -74,7 +74,7 @@
 - (void) setDirectionGraphic:(AGSDirectionGraphic *)directionGraphic
 {
     self.defaultBGCol = self.backgroundColor;
-    self.stepDistanceLabel.hidden = (directionGraphic.maneuverType == AGSNADirectionsManeuverDepart ||
+    self.stepMetricsLabel.hidden = (directionGraphic.maneuverType == AGSNADirectionsManeuverDepart ||
                                      directionGraphic.maneuverType == AGSNADirectionsManeuverStop);
     
     if (self.topPadding == -1)
@@ -82,20 +82,15 @@
         self.topPadding = self.stepDetailsLabel.frame.origin.y;
         self.bottomPadding = self.frame.size.height - (self.stepDetailsLabel.frame.size.height +
                                                        self.stepDetailsLabel.frame.origin.y);
-//        if (self.stepDistanceLabel.hidden)
-//        {
-//            CGFloat distanceLabelHeightAndPadding = self.frame.size.height - self.stepDistanceLabel.frame.origin.y;
-//            self.bottomPadding = self.bottomPadding - distanceLabelHeightAndPadding;
-//        }
     }
     
     self.stepNumberLabel.hidden = NO; //directionGraphic.maneuverType == AGSNADirectionsManeuverDepart;
 
     _directionGraphic = directionGraphic;
     self.stepDetailsLabel.text = directionGraphic.text;
-    if (!self.stepDistanceLabel.hidden)
+    if (!self.stepMetricsLabel.hidden)
     {
-        self.stepDistanceLabel.text = [NSString stringWithFormat:@"%@ (%@)",
+        self.stepMetricsLabel.text = [NSString stringWithFormat:@"%@ (%@)",
                                        NSStringFromAGSDirectionGraphicDistance(directionGraphic),
                                        NSStringFromAGSDirectionGraphicTime(directionGraphic)];
     }

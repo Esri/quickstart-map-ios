@@ -62,7 +62,7 @@ typedef enum {
 
 
 
-#pragma mark - Create and Edit Graphics
+#pragma mark - Creating new graphics
 // To create and start editing a new graphic, just call one of these methods. Call saveCurrentEdit to
 // commit the new graphic and get a handle to it. Note, until a geometry is saved, it doesn't become a
 // graphic, hence these functions all return VOID.
@@ -71,6 +71,8 @@ typedef enum {
 - (void) createAndEditNewLine;
 - (void) createAndEditNewPolygon;
 
+
+#pragma mark - Editing existing graphics
 // Start editing an existing graphic/shape
 - (void) editGraphic:(AGSGraphic *)graphic;
 
@@ -81,6 +83,8 @@ typedef enum {
 // around the hit point in the UI.
 - (AGSGraphic *) editGraphicFromMapViewDidClickAtPoint:(NSDictionary *)graphics;
 
+
+#pragma mark - Finishing an edit
 // saveCurrentEdit will commit the current geometry edits. The returned graphic is the graphic
 // that was edited. If this is an existing graphic, the object will be the same as returned
 // by editGraphicFromDidClickAtPointEvent
@@ -92,7 +96,7 @@ typedef enum {
 
 
 
-#pragma mark - Undo/Redo
+#pragma mark - Undo/Redo during an edit
 // Undo and redo - call these when you want to undo/redo something.
 // See also registerListener:ForEditGraphicUndoRedoNotificationsUsing: to be notified that an undo or redo
 // has happened so you can check the state of the NSUndoManager and update the UI appropriately.
