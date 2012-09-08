@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
 
-#import "EQSSampleAppState.h"
+#import "EQSSampleAppStateEnums.h"
 
 @interface EQSCodeViewController : UIViewController
 - (void) attachToRightEdgeOfMapView;

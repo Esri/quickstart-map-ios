@@ -16,7 +16,7 @@
 #import "AGSMapView+EQSGraphics.h"
 #import "AGSMapView+RouteDisplay.h"
 
-#import "EQSSampleAppState.h"
+#import "EQSSampleAppStateEnums.h"
 
 #import "EQSGeoServices.h"
 #import "EQSDefaultSymbols.h"
@@ -34,71 +34,61 @@
 #import "EQSBasemapDetailsViewController.h"
 #import <objc/runtime.h>
 
-#define kEQSGetAddressReasonKey @"FindAddressReason"
-#define kEQSGetAddressReason_RouteStart @"RouteStartPoint"
-#define kEQSGetAddressReason_RouteEnd @"RouteEndPoint"
-#define kEQSGetAddressReason_ReverseGeocodeForPoint @"FindAddressFunction"
-#define kEQSGetAddressReason_AddressForGeolocation @"AddressForGeolocation"
-#define kEQSGetAddressData_SearchPoint @"EQSGeoServices_ReverseGeocode_Data_SearchPoint"
-
 @interface EQSSampleViewController ()
                                         <AGSMapViewTouchDelegate,
                                         UISearchBarDelegate,
                                         UIWebViewDelegate,
                                         EQSBasemapPickerDelegate,
                                         AGSMapViewCalloutDelegate,
-//AGSPortalItemDelegate,
 										EQSAddressCandidateViewDelegate,
                                         UIAlertViewDelegate>
 
-@property (nonatomic, strong) NSMutableOrderedSet *geocodeResults;
-@property (nonatomic, strong) NSMutableOrderedSet *geolocationResults;
-
-// General UI
+#pragma mark - Function Selection UI
+// In the iPhone we use a NavBar. On the iPad it's a Toolbar.
 @property (weak, nonatomic) IBOutlet UINavigationBar *functionNavBar_iPhone;
 @property (weak, nonatomic) IBOutlet UIToolbar *functionToolBar;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *functionSegControl;
+- (IBAction)functionChanged:(id)sender;
+
+
+#pragma mark - Function UI containers
+// UIViews serve as panels for each function's main interface.
 @property (weak, nonatomic) IBOutlet UIView *routingPanel;
 @property (weak, nonatomic) IBOutlet UIView *findPlacePanel;
 @property (weak, nonatomic) IBOutlet UIView *cloudDataPanel;
 @property (weak, nonatomic) IBOutlet UIView *geolocationPanel;
 @property (weak, nonatomic) IBOutlet UIView *graphicsPanel;
 
-@property (weak, nonatomic) IBOutlet UISegmentedControl *functionSegControl;
 
-@property (weak, nonatomic) IBOutlet UIButton *buttonShowUI;
+#pragma mark - UI Mode
+// Control to restore the UI when in full screen mode.
+@property (weak, nonatomic) IBOutlet UIButton *showUIButton;
+- (IBAction)resizeUIGoFullScreen:(id)sender;
+- (IBAction)resizeUIExitFullScreen:(id)sender;
 
 
+#pragma mark - User hints display
 @property (weak, nonatomic) IBOutlet UIView *messageBar;
 @property (weak, nonatomic) IBOutlet UILabel *messageBarLabel;
 - (IBAction)messageBarCloseTapped:(id)sender;
 
 
+#pragma mark - Keyboard mask
 @property (weak, nonatomic) IBOutlet UIButton *cancelKeyboardButton;
 - (IBAction)cancelKeyboardPressed:(id)sender;
 
 
 
 
-@property (weak, nonatomic) IBOutlet UISearchBar *findAddressSearchBar;
-
-
-// Basemaps
+#pragma mark - Basemaps UI
 @property (weak, nonatomic) IBOutlet EQSBasemapPickerView *basemapsPicker;
 
-@property (strong, nonatomic) NSMutableArray *basemapVCs;
 
-@property (nonatomic, retain) AGSPortalItem *currentPortalItem;
-
-//Graphics UI
-@property (weak, nonatomic) IBOutlet UIButton *graphicButton;
-@property (weak, nonatomic) IBOutlet UIButton *clearPointsButton;
-@property (weak, nonatomic) IBOutlet UIButton *clearLinesButton;
-@property (weak, nonatomic) IBOutlet UIButton *clearPolysButton;
-// Edit Graphics UI
+#pragma mark - Graphics UI
 @property (weak, nonatomic) IBOutlet UIToolbar *editGraphicsToolbar;
+
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *undoEditGraphicsButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *redoEditGraphicsButton;
-
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteGraphicButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *zoomToGraphicButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *saveEditsGraphicsButton;
@@ -107,111 +97,129 @@
 @property (weak, nonatomic) IBOutlet UIButton *graphicLineButton;
 @property (weak, nonatomic) IBOutlet UIButton *graphicPolygonButton;
 
-- (IBAction)doneEditingGraphic:(id)sender;
-- (IBAction)cancelEditingGraphic:(id)sender;
-- (IBAction)undoEditingGraphic:(id)sender;
-- (IBAction)redoEditingGraphic:(id)sender;
-- (IBAction)zoomToEditingGeometry:(id)sender;
+#pragma mark - Graphics Creation
+- (IBAction)createNewPtGraphic:(id)sender;
+- (IBAction)createNewLnGraphic:(id)sender;
+- (IBAction)createNewPgGraphic:(id)sender;
+
+#pragma mark - Graphics Editing
+- (IBAction)saveGraphicsEdit:(id)sender;
+- (IBAction)cancelGraphicsEdit:(id)sender;
+- (IBAction)undoGraphicsEdit:(id)sender;
+- (IBAction)redoGraphicsEdit:(id)sender;
+
 - (IBAction)deleteSelectedGraphic:(id)sender;
-
-- (IBAction)newPtGraphic:(id)sender;
-- (IBAction)newLnGraphic:(id)sender;
-- (IBAction)newPgGraphic:(id)sender;
-- (IBAction)newMultiPtGraphic:(id)sender;
-
-- (IBAction)swapRouteStartAndEnd:(id)sender;
+- (IBAction)zoomToEditGeometry:(id)sender;
 
 
-// Directions UI
+#pragma mark - Directions UI
 @property (weak, nonatomic) IBOutlet UIButton *routeStartButton;
 @property (weak, nonatomic) IBOutlet UIButton *routeEndButton;
 @property (weak, nonatomic) IBOutlet UILabel *routeStartLabel;
 @property (weak, nonatomic) IBOutlet UILabel *routeEndLabel;
-@property (weak, nonatomic) IBOutlet UIButton *clearRouteButton;
-// Directions Properties
+@property (strong, nonatomic) IBOutlet EQSRouteResultsView *routeResultsView;
+- (IBAction)toFromTapped:(id)sender;
+- (IBAction)swapRouteStartAndEnd:(id)sender;
+
+
+#pragma mark - Geolocation UI
+@property (weak, nonatomic) IBOutlet UIButton *findMeButton;
+@property (weak, nonatomic) IBOutlet UILabel *myLocationAddressLabel;
+@property (weak, nonatomic) IBOutlet UIScrollView *findMeScrollView;
+- (IBAction)findMe:(id)sender;
+
+
+#pragma mark - Find Places UI
+@property (weak, nonatomic) IBOutlet UISearchBar *findPlacesSearchBar;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *findButton;
+@property (weak, nonatomic) IBOutlet UIScrollView *findPlacesScrollView;
+@property (weak, nonatomic) IBOutlet UILabel *findPlacesNoResultsLabel;
+- (IBAction)findPlacesTapped:(id)sender;
+
+
+#pragma mark - Code Display
+@property (weak, nonatomic) IBOutlet EQSCodeView *codeViewer;
+
+
+
+
+#pragma mark - Application State
+@property (assign) EQSSampleAppState currentState;
+
+
+#pragma mark - UI State
+@property (assign) BOOL uiControlsVisible;
+@property (nonatomic, assign) CGSize keyboardSize;
+
+
+#pragma mark - Basemap State
+@property (nonatomic, retain) AGSPortalItem *currentPortalItem;
+@property (assign) EQSBasemapType currentBasemapType;
+
+
+#pragma mark - Directions data
 @property (nonatomic, strong) AGSPoint *routeStartPoint;
 @property (nonatomic, strong) AGSPoint *routeEndPoint;
 @property (nonatomic, retain) NSString *routeStartAddress;
 @property (nonatomic, retain) NSString *routeEndAddress;
-//@property (nonatomic, retain) AGSRouteResult *routeResult;
-
-@property (strong, nonatomic) IBOutlet EQSRouteResultsView *routeResultsView;
-
-// Geolocation UI
-@property (weak, nonatomic) IBOutlet UIButton *findMeButton;
-@property (weak, nonatomic) IBOutlet UILabel *myLocationAddressLabel;
-@property (weak, nonatomic) IBOutlet UILabel *findScaleLabel;
-@property (weak, nonatomic) IBOutlet UIScrollView *findMeScrollView;
-
-// Non UI Properties
-@property (assign) EQSBasemapType currentBasemapType;
-@property (assign) BOOL uiControlsVisible;
-
-@property (assign) EQSSampleAppState currentState;
-
-@property (nonatomic, assign) NSUInteger findScale;
-
-@property (nonatomic, assign) CGSize keyboardSize;
-
-// Find Places
-@property (weak, nonatomic) IBOutlet UIToolbar *findPlacesToolbar;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *findbutton;
-@property (weak, nonatomic) IBOutlet UIScrollView *findPlacesScrollView;
-@property (weak, nonatomic) IBOutlet UILabel *findPlacesNoResultsLabel;
-
-@property (weak, nonatomic) IBOutlet EQSCodeView *codeViewer;
-- (IBAction)findPlacesTapped:(id)sender;
 
 
-// Actions
-- (IBAction)addGraphics:(id)sender;
-
-- (IBAction)clearPoints:(id)sender;
-- (IBAction)clearLines:(id)sender;
-- (IBAction)clearPolygons:(id)sender;
-
-- (IBAction)findMe:(id)sender;
-- (IBAction)findScaleChanged:(id)sender;
-- (IBAction)zoomToLevel:(id)sender;
-
-- (IBAction)functionChanged:(id)sender;
-
-- (IBAction)toFromTapped:(id)sender;
-- (IBAction)resizeUIGoFullScreen:(id)sender;
-- (IBAction)resizeUIExitFullScreen:(id)sender;
+#pragma mark - Geocode storage
+@property (nonatomic, strong) NSMutableOrderedSet *geocodeResults;
+@property (nonatomic, strong) NSMutableOrderedSet *geolocationResults;
 @end
 
+
+
+
+#pragma mark - Geocoding Tracking Constants
+#define kEQSGetAddressReasonKey @"FindAddressReason"
+#define kEQSGetAddressReason_RouteStart @"RouteStartPoint"
+#define kEQSGetAddressReason_RouteEnd @"RouteEndPoint"
+#define kEQSGetAddressReason_ReverseGeocodeForPoint @"FindAddressFunction"
+#define kEQSGetAddressReason_AddressForGeolocation @"AddressForGeolocation"
+#define kEQSGetAddressData_SearchPoint @"EQSGeoServices_ReverseGeocode_Data_SearchPoint"
+
+
+
+
 @implementation EQSSampleViewController
+@synthesize mapView = _mapView;
+
+@synthesize geolocationPanel = _geolocationPanel;
+@synthesize graphicsPanel = _graphicsPanel;
+@synthesize routingPanel = _routingPanel;
+@synthesize findPlacePanel = _findPlacePanel;
+@synthesize cloudDataPanel = _cloudDataPanel;
+
 @synthesize editGraphicsToolbar = _editGraphicsToolbar;
 @synthesize undoEditGraphicsButton = _undoEditGraphicsButton;
 @synthesize redoEditGraphicsButton = _redoEditGraphicsButton;
-@synthesize graphicPointButton = _graphicPointButton;
-@synthesize graphicLineButton = _graphicLineButton;
-@synthesize graphicPolygonButton = _graphicPolygonButton;
-@synthesize geolocationPanel = _geolocationPanel;
-@synthesize graphicsPanel = _graphicsPanel;
-@synthesize functionSegControl = _functionSegControl;
-@synthesize buttonShowUI = _buttonShowUI;
-@synthesize messageBar = _messageBar;
-@synthesize messageBarLabel = _messageBarLabel;
-@synthesize basemapsPicker = _basemapsPicker;
-@synthesize graphicButton = _graphicButton;
-@synthesize clearPointsButton = _clearPointsButton;
-@synthesize clearLinesButton = _clearLinesButton;
 @synthesize deleteGraphicButton = _deleteGraphicButton;
 @synthesize zoomToGraphicButton = _zoomToGraphicButton;
 @synthesize saveEditsGraphicsButton = _saveEditsGraphicsButton;
-@synthesize clearPolysButton = _clearPolysButton;
-@synthesize routingPanel = _routingPanel;
-@synthesize findPlacePanel = _findPlacePanel;
+@synthesize graphicPointButton = _graphicPointButton;
+@synthesize graphicLineButton = _graphicLineButton;
+@synthesize graphicPolygonButton = _graphicPolygonButton;
+
+@synthesize functionSegControl = _functionSegControl;
+
+@synthesize showUIButton = _buttonShowUI;
+
+@synthesize messageBar = _messageBar;
+@synthesize messageBarLabel = _messageBarLabel;
+
+@synthesize basemapsPicker = _basemapsPicker;
+
 @synthesize cancelKeyboardButton = _cancelKeyboardButton;
-@synthesize findAddressSearchBar = _findAddressSearchBar;
-@synthesize cloudDataPanel = _cloudDataPanel;
+@synthesize findPlacesSearchBar = _findAddressSearchBar;
+
 @synthesize routeStartLabel = _routeStartLabel;
 @synthesize routeEndLabel = _routeStopLabel;
-@synthesize clearRouteButton = _clearRouteButton;
-
-@synthesize mapView = _mapView;
+@synthesize routeStartPoint = _routeStartPoint;
+@synthesize routeEndPoint = _routeEndPoint;
+@synthesize routeStartAddress = _routeStartAddress;
+@synthesize routeEndAddress = _routeEndAddress;
 
 @synthesize currentPortalItem = _currentPortalItem;
 @synthesize currentBasemapType = _currentBasemapType;
@@ -220,13 +228,8 @@
 
 @synthesize currentState = _currentState;
 
-@synthesize routeStartPoint = _routeStartPoint;
-@synthesize routeEndPoint = _routeEndPoint;
-@synthesize routeStartAddress = _routeStartAddress;
-@synthesize routeEndAddress = _routeEndAddress;
 
 @synthesize findMeButton = _findMeButton;
-@synthesize findScaleLabel = _findScaleLabel;
 @synthesize findMeScrollView = _findMeScrollView;
 @synthesize myLocationAddressLabel = _myLocationAddressLabel;
 @synthesize functionNavBar_iPhone = _functionNavBar_iPhone;
@@ -234,16 +237,10 @@
 @synthesize routeStartButton = _routeStartButton;
 @synthesize routeEndButton = _routeStopButton;
 
-//@synthesize routeResult = _routeResult;
 @synthesize routeResultsView = _routeResultsView;
 
-@synthesize findScale = _findScale;
-
-@synthesize basemapVCs = _basemapVCs;
-
 @synthesize keyboardSize = _keyboardSize;
-@synthesize findPlacesToolbar = _findToolbar;
-@synthesize findbutton = _findbutton;
+@synthesize findButton = _findbutton;
 @synthesize findPlacesScrollView = _findPlacesScrollView;
 @synthesize findPlacesNoResultsLabel = _findPlacesNoResultsLabel;
 @synthesize codeViewer = _codeViewer;
@@ -251,99 +248,13 @@
 @synthesize geocodeResults = _geocodeResults;
 @synthesize geolocationResults = _geolocationResults;
 
-//#define kEQSApplicationLocFromState @"ButtonState"
-
-#pragma mark - Initialization Methods
-
-- (void)initUI
-{
-    // Go through all the various UI component views, hide them and then place them properly
-    // in the UI window so that they'll fade in and out properly.
-    for (UIView *v in [self allUIViews]) {
-        v.alpha = 0;
-        v.hidden = YES;
-        v.frame = [self getUIFrame:v];
-    }
-    
-    self.geocodeResults = [NSMutableOrderedSet orderedSet];
-    self.geolocationResults = [NSMutableOrderedSet orderedSet];
-    
-	// Track the application state
-    self.currentState = EQSSampleAppStateBasemaps;
-
-	[self initBasemapPicker];
-    
-    // Initialize the default symbols container. This will load them in the background (some are URL based,
-    // which causes a synchronous HTTP request to block the initializer UIImage initializer).
-    id tmp = self.mapView.defaultSymbols;
-    tmp = nil;
-
-    // Store some state on the UI so that we can track when the user is placing points for routing.
-//    objc_setAssociatedObject(self.routeStartButton, kEQSApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-//    objc_setAssociatedObject(self.routeEndButton, kEQSApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-
-    // When we geolocate, what scale level to zoom the map to?
-    self.findScale = 13;
-
-    self.routeResultsView.hidden = YES;
-    self.routeResultsView.alpha = 0;
-
-    // And show the UI by default. Note, at present the UI is always visible.
-    self.uiControlsVisible = YES;
-
-    // We want to update the UI when the basemap is changed, so register our interest in a couple
-    // of events.
-    [[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(basemapDidChange:)
-												 name:kEQSNotification_BasemapDidChange
-											   object:self.mapView];
-	
-	// We need to re-arrange the UI when the keyboard displays and hides, so let's find out when that happens.
-	self.keyboardSize = CGSizeZero;
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardDidShow:)
-                                                 name:UIKeyboardDidShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillHide:)
-                                                 name:UIKeyboardWillHideNotification object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(routeDisplayCleared:)
-                                                 name:kEQSRouteDisplayNotification_RouteCleared
-                                               object:self.mapView.routeDisplayHelper];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(routeEditRequested:)
-                                                 name:kEQSRouteDisplayNotification_EditRequested
-                                               object:self.mapView.routeDisplayHelper];
-
-    // Set up the map UI a little.
-    self.mapView.wrapAround = YES;
-    self.mapView.touchDelegate = self;
-    self.mapView.calloutDelegate = self;
-    
-    self.findMeButton.layer.cornerRadius = 5;
-
-    self.buttonShowUI.layer.borderColor = [UIColor blackColor].CGColor;
-    self.buttonShowUI.layer.borderWidth = 2;
-    self.buttonShowUI.layer.cornerRadius = 5;
-    
-    self.mapView.callout.leaderPositionFlags = AGSCalloutLeaderPositionBottom |
-                                                AGSCalloutLeaderPositionLeft |
-                                                AGSCalloutLeaderPositionRight;
-}
 
 #pragma mark - UIView Events
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    // Initialize our property for tracking the current basemap type.
-    self.currentBasemapType = EQSBasemapTypeTopographic;
-
+	[self initApp];
 	[self initUI];
 
 	// Set up our map with a basemap, and jump to a location and scale level.
@@ -363,29 +274,25 @@
 - (void)viewDidUnload
 {
     [self setMapView:nil];
-    [self setGraphicButton:nil];
-    [self setClearPointsButton:nil];
-    [self setClearLinesButton:nil];
-    [self setClearPolysButton:nil];
+
     [self setRoutingPanel:nil];
-    [self setRouteStartLabel:nil];
-    [self setRouteEndLabel:nil];
-    [self setFindScaleLabel:nil];
-    [self setFunctionToolBar:nil];
     [self setFindPlacePanel:nil];
     [self setCloudDataPanel:nil];
     [self setGeolocationPanel:nil];
     [self setGraphicsPanel:nil];
+
+    [self setRouteStartLabel:nil];
+    [self setRouteEndLabel:nil];
+    [self setFunctionToolBar:nil];
     [self setEditGraphicsToolbar:nil];
     [self setUndoEditGraphicsButton:nil];
     [self setRedoEditGraphicsButton:nil];
     [self setRouteStartButton:nil];
     [self setRouteEndButton:nil];
-    [self setClearRouteButton:nil];
-	[self setFindAddressSearchBar:nil];
+	[self setFindPlacesSearchBar:nil];
 	[self setBasemapsPicker:nil];
-    [self setFindbutton:nil];
-    [self setFindPlacesToolbar:nil];
+    [self setFindButton:nil];
+
     [self setMessageBar:nil];
     [self setMessageBarLabel:nil];
     [self setRouteResultsView:nil];
@@ -402,9 +309,10 @@
 	[self setCancelKeyboardButton:nil];
     [self setZoomToGraphicButton:nil];
     [self setFunctionNavBar_iPhone:nil];
-    [self setButtonShowUI:nil];
+    [self setShowUIButton:nil];
 	[self setSaveEditsGraphicsButton:nil];
 	[self setFunctionSegControl:nil];
+
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -413,6 +321,144 @@
 {
     return YES;
 }
+
+
+#pragma mark - Initialization Methods
+- (void) initApp
+{
+	// Track the application state
+    self.currentState = EQSSampleAppStateBasemaps;
+	
+	// Initialize our property for tracking the current basemap type.
+    self.currentBasemapType = EQSBasemapTypeTopographic;
+	
+    // Initialize the default symbols container. This will load them in the background (some are URL based,
+    // which causes a synchronous HTTP request to block the initializer UIImage initializer).
+    id tmp = self.mapView.defaultSymbols;
+    tmp = nil;
+	
+	self.geocodeResults = [NSMutableOrderedSet orderedSet];
+    self.geolocationResults = [NSMutableOrderedSet orderedSet];
+}
+
+- (void)initUI
+{
+    // Go through all the various UI component views, hide them and then place them properly
+    // in the UI window so that they'll fade in and out properly.
+    for (UIView *v in [self allUIViews]) {
+        v.alpha = 0;
+        v.hidden = YES;
+        v.frame = [self getUIFrame:v];
+    }
+
+	// Set up the map UI a little.
+    self.mapView.wrapAround = YES;
+    self.mapView.touchDelegate = self;
+    self.mapView.calloutDelegate = self;
+    
+    self.findMeButton.layer.cornerRadius = 5;
+	
+    self.showUIButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.showUIButton.layer.borderWidth = 2;
+    self.showUIButton.layer.cornerRadius = 5;
+    
+    self.mapView.callout.leaderPositionFlags = AGSCalloutLeaderPositionBottom |
+	AGSCalloutLeaderPositionLeft |
+	AGSCalloutLeaderPositionRight;
+
+	[self initBasemapPicker];
+    
+    self.routeResultsView.hidden = YES;
+    self.routeResultsView.alpha = 0;
+	
+    // And show the UI by default. Note, at present the UI is always visible.
+    self.uiControlsVisible = YES;
+	
+	
+	
+	
+	
+    // We want to update the UI when the basemap is changed, so register our interest in a couple
+    // of events.
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(basemapDidChange:)
+												 name:kEQSNotification_BasemapDidChange
+											   object:self.mapView];
+	
+	// We need to re-arrange the UI when the keyboard displays and hides, so let's find out when that happens.
+	self.keyboardSize = CGSizeZero;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
+	
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(routeDisplayCleared:)
+                                                 name:kEQSRouteDisplayNotification_RouteCleared
+                                               object:self.mapView.routeDisplayHelper];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(routeEditRequested:)
+                                                 name:kEQSRouteDisplayNotification_EditRequested
+                                               object:self.mapView.routeDisplayHelper];
+	
+}
+
+
+#pragma mark - GeoServices Registration
+- (void)registerForGeoServicesNotifications
+{
+	// Let me know when the Geoservices object finds an address for a point.
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(gotAddressFromPoint:)
+												 name:kEQSGeoServicesNotification_AddressFromPoint_OK
+											   object:self.mapView.geoServices];
+    // Or not...
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(didFailToGetAddressFromPoint:)
+												 name:kEQSGeoServicesNotification_AddressFromPoint_Error
+											   object:self.mapView.geoServices];
+    
+    // And I also want to know when it found directions we asked for.
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(didSolveRouteOK:)
+												 name:kEQSGeoServicesNotification_FindRoute_OK
+											   object:self.mapView.geoServices];
+    // Or not...
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(didFailToSolveRoute:)
+												 name:kEQSGeoServicesNotification_FindRoute_Error
+											   object:self.mapView.geoServices];
+    
+    // And let me know when it finds points for an address.
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(gotCandidatesForAddress:)
+                                                 name:kEQSGeoServicesNotification_PointsFromAddress_OK
+                                               object:self.mapView.geoServices];
+    // Or not...
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didFailToGetCandidatesForAddress:)
+                                                 name:kEQSGeoServicesNotification_PointsFromAddress_Error
+                                               object:self.mapView.geoServices];
+    
+    
+    // If I ask where I am, let me know it's foudn me
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didGeolocate:)
+                                                 name:kEQSGeoServicesNotification_Geolocation_OK
+                                               object:self.mapView.geoServices];
+    // Or not...
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didFailToGeolocate:)
+                                                 name:kEQSGeoServicesNotification_Geolocation_Error
+                                               object:self.mapView.geoServices];
+}
+
+
 
 #pragma mark - AGSMapView Events
 
@@ -743,11 +789,11 @@
 		self.codeViewer.viewController.currentAppState = _currentState;
 	}
 	@finally {
-		[self ensureUIMathesCurrentState];
+		[self ensureUIMatchesCurrentState];
 	}
 }
 
-- (void) ensureUIMathesCurrentState
+- (void) ensureUIMatchesCurrentState
 {
 	NSInteger newSegIndex = -1;
 	switch (self.currentState) {
@@ -1078,6 +1124,16 @@
 	self.basemapsPicker.basemapType = self.currentBasemapType;
 }
 
+- (void)basemapDidChange:(NSNotification *)notification
+{
+    AGSPortalItem *pi = [notification basemapPortalItem];
+	self.currentPortalItem = pi;
+    EQSBasemapType basemapType = [notification basemapType];
+    self.currentBasemapType = basemapType;
+	
+	self.basemapsPicker.currentPortalItemID = pi.itemId;
+}
+
 - (void)basemapSelected:(EQSBasemapType)basemapType
 {
 	self.currentBasemapType = basemapType;
@@ -1085,32 +1141,19 @@
 	[self.mapView setBasemap:basemapType];
 }
 
-- (EQSBasemapType)currentBasemapType
-{
-    return _currentBasemapType;
-}
-
 - (void)setCurrentBasemapType:(EQSBasemapType)currentBasemapType
 {
     _currentBasemapType = currentBasemapType;
 	
 	NSString *portalItemID = [EQSHelper getBasemapWebMap:_currentBasemapType].portalItem.itemId;
-	
 	self.basemapsPicker.currentPortalItemID = portalItemID;
 }
 
-- (void)basemapDidChange:(NSNotification *)notification
+- (EQSBasemapType)currentBasemapType
 {
-    AGSPortalItem *pi = [notification basemapPortalItem];
-    EQSBasemapType basemapType = [notification basemapType];
-    self.currentBasemapType = basemapType;
-    if (pi)
-    {
-        self.currentPortalItem = pi;
-    }
-	
-	self.basemapsPicker.currentPortalItemID = pi.itemId;
+    return _currentBasemapType;
 }
+
 
 
 
@@ -1143,66 +1186,40 @@
 
 #pragma mark - Graphics
 
-- (IBAction)addGraphics:(id)sender {
-    [self.mapView addPointAtLat:40.7302 lon:-73.9958];
-    [self.mapView addLineFromPoints:[NSArray arrayWithObjects:[AGSPoint pointFromLat:40.7302 lon:-73.9958],
-									 [AGSPoint pointFromLat:41.0 lon:-73.9], nil]];
-    [self.mapView addPolygonFromPoints:[NSArray arrayWithObjects:[AGSPoint pointFromLat:40.7302 lon:-73.9958],
-										[AGSPoint pointFromLat:40.85 lon:-73.65],
-										[AGSPoint pointFromLat:41.0 lon:-73.7],nil]];
-}
-
-- (IBAction)newPtGraphic:(id)sender {
+- (IBAction)createNewPtGraphic:(id)sender {
     [self.mapView createAndEditNewPoint];
     self.currentState = EQSSampleAppStateGraphics_Editing;
 }
 
-- (IBAction)newLnGraphic:(id)sender {
+- (IBAction)createNewLnGraphic:(id)sender {
     [self.mapView createAndEditNewLine];
     self.currentState = EQSSampleAppStateGraphics_Editing;
 }
 
-- (IBAction)newPgGraphic:(id)sender {
+- (IBAction)createNewPgGraphic:(id)sender {
     [self.mapView createAndEditNewPolygon];
     self.currentState = EQSSampleAppStateGraphics_Editing;
 }
 
-- (IBAction)newMultiPtGraphic:(id)sender {
-    [self.mapView createAndEditNewMultipoint];
-    self.currentState = EQSSampleAppStateGraphics_Editing;
-}
-
-- (IBAction)clearPoints:(id)sender {
-    [self.mapView clearGraphics:EQSGraphicsLayerTypePoint];
-}
-
-- (IBAction)clearLines:(id)sender {
-    [self.mapView clearGraphics:EQSGraphicsLayerTypePolyline];
-}
-
-- (IBAction)clearPolygons:(id)sender {
-    [self.mapView clearGraphics:EQSGraphicsLayerTypePolygon];
-}
-
-- (IBAction)doneEditingGraphic:(id)sender {
+- (IBAction)saveGraphicsEdit:(id)sender {
     [self.mapView saveGraphicEdit];
     self.currentState = EQSSampleAppStateGraphics;
 }
 
-- (IBAction)cancelEditingGraphic:(id)sender {
+- (IBAction)cancelGraphicsEdit:(id)sender {
     [self.mapView cancelGraphicEdit];
     self.currentState = EQSSampleAppStateGraphics;
 }
 
-- (IBAction)undoEditingGraphic:(id)sender {
+- (IBAction)undoGraphicsEdit:(id)sender {
     [self.mapView undoGraphicEdit];
 }
 
-- (IBAction)redoEditingGraphic:(id)sender {
+- (IBAction)redoGraphicsEdit:(id)sender {
     [self.mapView redoGraphicEdit];
 }
 
-- (IBAction)zoomToEditingGeometry:(id)sender {
+- (IBAction)zoomToEditGeometry:(id)sender {
     AGSGeometry *editGeom = [self.mapView getCurrentEditGeometry];
     if (editGeom)
     {
@@ -1222,7 +1239,7 @@
 
 
 #pragma mark - Geocoding
-- (void) didGetAddressFromPoint:(NSNotification *)notification
+- (void) gotAddressFromPoint:(NSNotification *)notification
 {
 	NSOperation *op = [notification geoServicesOperation];
 	
@@ -1327,65 +1344,25 @@
 
 
 
-#pragma mark - GeoServices Registration
-- (void)registerForGeoServicesNotifications
+#pragma mark - Geolocation
+- (IBAction)findMe:(id)sender
 {
-	// Let me know when the Geoservices object finds an address for a point.
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(didGetAddressFromPoint:)
-												 name:kEQSGeoServicesNotification_AddressFromPoint_OK
-											   object:self.mapView.geoServices];
-    // Or not...
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(didFailToGetAddressFromPoint:)
-												 name:kEQSGeoServicesNotification_AddressFromPoint_Error
-											   object:self.mapView.geoServices];
-    
-    // And I also want to know when it found directions we asked for.
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(didSolveRouteOK:)
-												 name:kEQSGeoServicesNotification_FindRoute_OK
-											   object:self.mapView.geoServices];
-    // Or not...
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(didFailToSolveRoute:)
-												 name:kEQSGeoServicesNotification_FindRoute_Error
-											   object:self.mapView.geoServices];
-    
-    // And let me know when it finds points for an address.
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(gotCandidatesForAddress:)
-                                                 name:kEQSGeoServicesNotification_PointsFromAddress_OK
-                                               object:self.mapView.geoServices];
-    // Or not...
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didFailToGetCandidatesForAddress:)
-                                                 name:kEQSGeoServicesNotification_PointsFromAddress_Error
-                                               object:self.mapView.geoServices];
-    
-    
-    // If I ask where I am, let me know it's foudn me
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didGeolocate:)
-                                                 name:kEQSGeoServicesNotification_Geolocation_OK
-                                               object:self.mapView.geoServices];
-    // Or not...
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didFailToGeolocate:)
-                                                 name:kEQSGeoServicesNotification_Geolocation_Error
-                                               object:self.mapView.geoServices];
+	// Fire off a request to get the current location.
+	[self.mapView centerAtMyLocation];
 }
 
-#pragma mark - Geolocation
 - (void) didGeolocate:(NSNotification *)notification
 {
     CLLocation *location = [notification geolocationResult];
     
     if (location)
     {
+		// Got the current location. Let's update the UI and request an address for it.
         self.myLocationAddressLabel.text = location.description;
         AGSPoint *locPt = [AGSPoint pointFromLat:location.coordinate.latitude lon:location.coordinate.longitude];
         NSOperation *op = [self.mapView.geoServices findAddressFromPoint:locPt];
+		
+		// Tag the operation so that gotAddressFromPoint knows this related to a geolocation request
         objc_setAssociatedObject(op,
                                  kEQSGetAddressReasonKey, kEQSGetAddressReason_AddressForGeolocation,
                                  OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -1407,79 +1384,57 @@
 #pragma mark - Reverse Geocode
 - (void)didTapToReverseGeocode:(AGSPoint *)mapPoint
 {
+	// User tapped on the map
 	NSOperation *op = [self.mapView.geoServices findAddressFromPoint:mapPoint];
+	// Tag the operation so that gotAddressFromPoint knows this related to a reverse geoode request
     objc_setAssociatedObject(op, kEQSGetAddressReasonKey, kEQSGetAddressReason_ReverseGeocodeForPoint, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 
 
 
-#pragma mark - Directions
+#pragma mark - Get Directions UI
+- (IBAction)toFromTapped:(id)sender {
+    BOOL selected = ((UIButton *)sender).selected;
+    [self setToFromButton:sender selectedState:!selected];
+}
+
+- (void)setToFromButton:(UIButton *)bi selectedState:(BOOL)selected
+{
+    // Clear the other button regardless of the new state for this one.
+    UIButton *otherBi = (bi == self.routeStartButton)?self.routeEndButton:self.routeStartButton;
+    otherBi.selected = NO;
+    
+    // Set the new state for this one, and set our app state too.
+    NSLog(@"Selected: %@", selected?@"YES":@"NO");
+    bi.selected = selected;
+    if (selected)
+    {
+        self.currentState = (bi == self.routeStartButton)?EQSSampleAppStateDirections_WaitingForRouteStart:EQSSampleAppStateDirections_WaitingForRouteEnd;
+    }
+    else
+    {
+        self.currentState = EQSSampleAppStateDirections;
+    }
+}
+
+#pragma mark - Get Directions Map Interactions
 - (void)didTapStartPoint:(AGSPoint *)mapPoint
 {
+	// Fire off a reverse geocode to get the address of the start point
+	// See gotAddressFromPoint for more details
     NSOperation *op = [self.mapView.geoServices findAddressFromPoint:mapPoint];
+	// Tag the operation so that gotAddressFromPoint knows this related to a directions start point
     objc_setAssociatedObject(op, kEQSGetAddressReasonKey, kEQSGetAddressReason_RouteStart, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)didTapEndPoint:(AGSPoint *)mapPoint
 {
+	// Fire off a reverse geocode to get the address of the end point
+	// See gotAddressFromPoint for more details
     NSOperation *op = [self.mapView.geoServices findAddressFromPoint:mapPoint];
+	// Tag the operation so that gotAddressFromPoint knows this related to a directions start point
     objc_setAssociatedObject(op, kEQSGetAddressReasonKey, kEQSGetAddressReason_RouteEnd, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (void) setRouteStartPoint:(AGSPoint *)routeStartPoint
-{
-    _routeStartPoint = routeStartPoint;
-    if (_routeStartPoint)
-    {
-		self.currentState = EQSSampleAppStateDirections;
-        [self setToFromButton:self.routeStartButton selectedState:NO];
-        if (![self doRouteIfPossible])
-		{
-			self.currentState = EQSSampleAppStateDirections_WaitingForRouteEnd;
-		}
-    }
-    [self setStartText];
-}
-
-- (void) setRouteEndPoint:(AGSPoint *)routeEndPoint
-{
-    _routeEndPoint = routeEndPoint;
-    if (_routeEndPoint)
-    {
-		self.currentState = EQSSampleAppStateDirections;
-        [self setToFromButton:self.routeEndButton selectedState:NO];
-        if (![self doRouteIfPossible])
-		{
-			self.currentState = EQSSampleAppStateDirections_WaitingForRouteStart;
-		}
-	}
-    [self setEndText];
-}
-
-- (void) setRouteStartAddress:(NSString *)routeStartAddress
-{
-    _routeStartAddress = routeStartAddress;
-    [self setStartText];
-}
-
-- (void) setRouteEndAddress:(NSString *)routeEndAddress
-{
-    _routeEndAddress = routeEndAddress;
-    [self setEndText];
-}
-
-- (BOOL) doRouteIfPossible
-{
-    if (self.routeStartPoint &&
-        self.routeEndPoint)
-    {
-        NSLog(@"Start and end points set... %@ %@", self.routeStartAddress, self.routeEndAddress);
-        [self.mapView.geoServices findDirectionsFrom:self.routeStartPoint named:self.routeStartAddress
-                                                  to:self.routeEndPoint named:self.routeEndAddress];
-        return YES;
-    }
-    return NO;
 }
 
 - (IBAction)swapRouteStartAndEnd:(id)sender {
@@ -1501,11 +1456,64 @@
         case EQSSampleAppStateDirections:
             [self doRouteIfPossible];
             break;
-
+			
         default:
             // Do nothing.
             break;
     }
+}
+
+#pragma mark - Prepare Directions from Reverse Geocode Results
+- (void) setRouteStartPoint:(AGSPoint *)routeStartPoint
+{
+    _routeStartPoint = routeStartPoint;
+    if (_routeStartPoint)
+    {
+		self.currentState = EQSSampleAppStateDirections;
+        if (![self doRouteIfPossible])
+		{
+			self.currentState = EQSSampleAppStateDirections_WaitingForRouteEnd;
+		}
+    }
+}
+
+- (void) setRouteEndPoint:(AGSPoint *)routeEndPoint
+{
+    _routeEndPoint = routeEndPoint;
+    if (_routeEndPoint)
+    {
+		self.currentState = EQSSampleAppStateDirections;
+        if (![self doRouteIfPossible])
+		{
+			self.currentState = EQSSampleAppStateDirections_WaitingForRouteStart;
+		}
+	}
+}
+
+- (void) setRouteStartAddress:(NSString *)routeStartAddress
+{
+    _routeStartAddress = routeStartAddress;
+    [self setStartText];
+}
+
+- (void) setRouteEndAddress:(NSString *)routeEndAddress
+{
+    _routeEndAddress = routeEndAddress;
+    [self setEndText];
+}
+
+#pragma mark - Request Directions When Ready
+- (BOOL) doRouteIfPossible
+{
+    if (self.routeStartPoint &&
+        self.routeEndPoint)
+    {
+        NSLog(@"Start and end points set... %@ %@", self.routeStartAddress, self.routeEndAddress);
+        [self.mapView.geoServices findDirectionsFrom:self.routeStartPoint named:self.routeStartAddress
+                                                  to:self.routeEndPoint named:self.routeEndAddress];
+        return YES;
+    }
+    return NO;
 }
 
 - (void) didSolveRouteOK:(NSNotification *)notification
@@ -1541,6 +1549,7 @@
 	}
 }
 
+#pragma mark - Directions UI Feedback
 - (void) setStartAndEndText
 {
 	[self setStartText];
@@ -1627,56 +1636,24 @@
     self.currentState = EQSSampleAppStateDirections;
 }
 
-- (void)setToFromButton:(UIButton *)bi selectedState:(BOOL)selected
-{
-    // Clear the other button regardless of the new state for this one.
-    UIButton *otherBi = (bi == self.routeStartButton)?self.routeEndButton:self.routeStartButton;
-	//    otherBi.tintColor = nil;
-    otherBi.selected = NO;
-	//    UIColor *tintColor = (bi == self.routeStartButton)?[UIColor greenColor]:[UIColor redColor];
-    otherBi.selected = NO;
-//    objc_setAssociatedObject(otherBi, kEQSApplicationLocFromState, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    
-    // Set the new state for this one, and set our app state too.
-    NSLog(@"Selected: %@", selected?@"YES":@"NO");
-    bi.selected = selected;
-    if (selected)
-    {
-		//        bi.tintColor = [UIColor colorWithWhite:0.6 alpha:1];
-		//        bi.tintColor = tintColor;
-        self.currentState = (bi == self.routeStartButton)?EQSSampleAppStateDirections_WaitingForRouteStart:EQSSampleAppStateDirections_WaitingForRouteEnd;
-    }
-    else
-    {
-		//        bi.tintColor = nil;
-        self.currentState = EQSSampleAppStateDirections;
-    }
-    bi.selected = selected;
-//    objc_setAssociatedObject(bi, kEQSApplicationLocFromState, [NSNumber numberWithBool:selected], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
 
-- (IBAction)toFromTapped:(id)sender {
-//    BOOL selected = [(NSNumber *)objc_getAssociatedObject(sender, kEQSApplicationLocFromState) boolValue];
-    BOOL selected = ((UIButton *)sender).selected;
-    [self setToFromButton:sender selectedState:!selected];
-}
-
+#pragma mark - Full Screen UI Mode
 - (IBAction)resizeUIGoFullScreen:(id)sender
 {
-    self.buttonShowUI.hidden = YES;
-    self.buttonShowUI.alpha = 0;
+    self.showUIButton.hidden = YES;
+    self.showUIButton.alpha = 0;
     
     [UIView animateWithDuration:0.4
                      animations:^{
                          self.functionNavBar_iPhone.alpha = 0;
                          [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
                          self.view.frame = [UIScreen mainScreen].applicationFrame;
-                         self.buttonShowUI.hidden = NO;
+                         self.showUIButton.hidden = NO;
                      }
                      completion:^(BOOL finished) {
                          self.functionNavBar_iPhone.hidden = YES;
                          [UIView animateWithDuration:0.4 animations:^{
-                             self.buttonShowUI.alpha = 1;
+                             self.showUIButton.alpha = 1;
                          }];
                      }];
 }
@@ -1688,38 +1665,22 @@
     
     [UIView animateWithDuration:0.4
                      animations:^{
-                         self.buttonShowUI.alpha = 0;
+                         self.showUIButton.alpha = 0;
                          [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
                          self.view.frame = [UIScreen mainScreen].applicationFrame;
                          self.functionNavBar_iPhone.alpha = 1;
                      }
                      completion:^(BOOL finished) {
-                         self.buttonShowUI.hidden = YES;
+                         self.showUIButton.hidden = YES;
                      }];
 }
 
 
-#pragma mark - Find Address
-
+#pragma mark - Find Places
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
 	NSString *searchString = searchBar.text;
     [self findPlaces:searchString];
-    [searchBar resignFirstResponder];
-}
-
-- (IBAction)findPlacesTapped:(id)sender {
-    NSString *searchString = self.findAddressSearchBar.text;
-    [self findPlaces:searchString];
-}
-
-- (void)findPlaces:(NSString *)searchString
-{
-	[self.findAddressSearchBar resignFirstResponder];
-	NSLog(@"Searching for: %@", searchString);
-    AGSPolygon *v = self.mapView.visibleArea;
-    AGSEnvelope *env = v.envelope;
-	[self.mapView.geoServices findPlaces:searchString withinEnvelope:env];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -1727,6 +1688,24 @@
     [searchBar resignFirstResponder];
 }
 
+- (IBAction)findPlacesTapped:(id)sender {
+    NSString *searchString = self.findPlacesSearchBar.text;
+    [self findPlaces:searchString];
+}
+
+- (void)findPlaces:(NSString *)searchString
+{
+	// Hide the keyboard.
+	[self.findPlacesSearchBar resignFirstResponder];
+
+	// Find places, using the current view extent as a constraint
+	NSLog(@"Searching for: %@", searchString);
+    AGSPolygon *v = self.mapView.visibleArea;
+    AGSEnvelope *env = v.envelope;
+	[self.mapView.geoServices findPlaces:searchString withinEnvelope:env];
+}
+
+#pragma mark - Find Places Service Handlers
 - (void) gotCandidatesForAddress:(NSNotification *)notification
 {
     NSOperation *op = [notification geoServicesOperation];
@@ -1736,7 +1715,7 @@
         NSArray *candidates = [notification findPlacesCandidates];
         if (candidates.count > 0)
         {
-            // First, let's remove all the old items (if any)
+            // First, let's remove all the old items from the UI (if any)
             NSMutableArray *geocodeResultsToDiscard = [NSMutableArray array];
             for (EQSAddressCandidatePanelViewController *gcvc in self.geocodeResults)
             {
@@ -1749,68 +1728,99 @@
             }
             [self.geocodeResults removeObjectsInArray:geocodeResultsToDiscard];
 
+			// Make sure there are no callouts visible on the map
             self.mapView.callout.hidden = YES;
             
+			// Make sure the "No results" text is hidden.
             self.findPlacesNoResultsLabel.hidden = YES;
 
+			// Sort the candidates we got back in decreasing order of "score".
+			// "Score" is the service's rank of how well it thinks the result represents the query.
             NSArray *sortedCandidates = [candidates sortedArrayUsingComparator:^(id obj1, id obj2) {
                 AGSAddressCandidate *c1 = obj1;
                 AGSAddressCandidate *c2 = obj2;
                 return (c1.score==c2.score)?NSOrderedSame:(c1.score > c2.score)?NSOrderedAscending:NSOrderedDescending;
             }];
-            double maxScore = ((AGSAddressCandidate *)[sortedCandidates objectAtIndex:0]).score;
-            maxScore = maxScore * 0.8;
-            AGSMutableEnvelope *totalEnv = nil;
-            NSUInteger count = 0;
-            EQSAddressCandidatePanelViewController *firstResultVC = nil;
-            for (AGSAddressCandidate *c in sortedCandidates) {
-                if (c.score >= maxScore)
-                {
-                    count++;
-                    AGSPoint *p = c.location; //c.displayPoint;
-                    NSLog(@"Point: %@", p);
-                    NSLog(@"Loc  : %@", c.location);
-                    AGSGraphic *g = [self.mapView addPoint:p withSymbol:self.mapView.defaultSymbols.findPlace];
-                    [g.attributes setObject:@"Geocoded" forKey:@"Source"];
-                    [g.attributes addEntriesFromDictionary:c.attributes];
 
-                    if (!totalEnv)
-                    {
-                        totalEnv = [AGSMutableEnvelope envelopeWithXmin:p.x-1 ymin:p.y-1 xmax:p.x+1 ymax:p.y+1 spatialReference:p.spatialReference];
-                    }
-                    else
-                    {
-                        [totalEnv unionWithPoint:p];
-                    }
-                    
-                    EQSAddressCandidatePanelViewController *cvc =
-                        [EQSAddressCandidatePanelViewController viewControllerWithCandidate:c
-                                                                                OfType:EQSCandidateTypeForwardGeocode];
-                    [cvc addToScrollView:self.findPlacesScrollView];
-                    [self.geocodeResults addObject:cvc];
-                    cvc.candidateViewDelegate = self;
-                    cvc.graphic = g;
-                    
-                    if (!firstResultVC)
-                    {
-                        firstResultVC = cvc;
-                    }
-                }
-                else
-                {
-                    break;
-                }
+			// Now, we're only going to show results in the top 20% (rank-wise)
+            double maxScore = ((AGSAddressCandidate *)[sortedCandidates objectAtIndex:0]).score;
+            maxScore = maxScore * 0.87f;
+			
+			// Only considering the top results, in terms of score relative to top score.
+			sortedCandidates = [sortedCandidates filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings)
+			{
+				AGSAddressCandidate *c = evaluatedObject;
+				return c.score >= maxScore;
+			}]];
+
+			// Go through the results, adding them to the UI and map as appropriate, and zooming the map.
+            AGSMutableEnvelope *totalEnv = nil;
+            EQSAddressCandidatePanelViewController *firstResultVC = nil;
+            for (AGSAddressCandidate *c in sortedCandidates)
+			{
+				AGSPoint *p = c.location; //c.displayPoint;
+				// Add a graphic to the map for this result.
+				AGSGraphic *g = [self.mapView addPoint:p withSymbol:self.mapView.defaultSymbols.findPlace];
+				
+				// Let's track the graphic in the map.
+				[g.attributes setObject:@"Geocoded" forKey:@"Source"];
+				
+				// And let's get the graphic to inherit the attributes from the candidate.
+				[g.attributes addEntriesFromDictionary:c.attributes];
+				
+				// NSLog(@"Point: %@", p);
+				// NSLog(@"Loc  : %@", c.location);
+				
+				// Update/Create the overall envelope containing all results.
+				if (!totalEnv)
+				{
+					totalEnv = [AGSMutableEnvelope envelopeWithXmin:p.x-1 ymin:p.y-1
+															   xmax:p.x+1 ymax:p.y+1
+												   spatialReference:p.spatialReference];
+				}
+				else
+				{
+					[totalEnv unionWithPoint:p];
+				}
+				
+				// Now create our custom candidate<>UI component.
+				EQSAddressCandidatePanelViewController *cvc =
+				[EQSAddressCandidatePanelViewController viewControllerWithCandidate:c
+																			 OfType:EQSCandidateTypeForwardGeocode];
+				// Add it to the Find Places scroll view.
+				[cvc addToScrollView:self.findPlacesScrollView];
+				
+				// Give it a handle onto the graphic we created
+				cvc.graphic = g;
+				
+				// And let us handle interactions with the component
+				cvc.candidateViewDelegate = self;
+				
+				// Lastly, store a handle onto our result container.
+				[self.geocodeResults addObject:cvc];
+				
+				if (!firstResultVC)
+				{
+					// We want to remember the first item, so that we can make sure it's visible
+					// in the UI when we're done adding candidates.
+					firstResultVC = cvc;
+				}
             }
+			
             if (firstResultVC)
             {
+				// We found at least one result. Let's make sure it's visible in the non-map UI.
                 [firstResultVC ensureVisibleInParentUIScrollView];
             }
-            if (count == 1)
+            
+			if (sortedCandidates.count == 1)
             {
-                [self.mapView zoomToLevel:17 withCenterPoint:[totalEnv center] animated:YES];
+				// We had one result. Zoom to a set zoom level.
+                [self.mapView zoomToLevel:16 withCenterPoint:[totalEnv center] animated:YES];
             }
             else if (totalEnv)
             {
+				// Multiple results - let's zoom to a containing envelope.
                 [totalEnv expandByFactor:1.1];
                 [self.mapView zoomToEnvelope:totalEnv animated:YES];
             }
@@ -1833,6 +1843,37 @@
     }
 }
 
+- (void) didFailToGetCandidatesForAddress:(NSNotification *)notification
+{
+	NSError *error = [notification geoServicesError];
+	NSLog(@"Failed to get candidates for address: %@", error);
+}
+
+
+#pragma mark - Geocode Candidate Interacation Delegate Handler
+- (void) candidateViewController:(EQSAddressCandidatePanelViewController *)candidateVC
+                  DidTapViewType:(EQSCandidateViewType)viewType
+{
+	// The user tapped the candidate object. Let's make sure its map point is
+	// visible on the map
+    AGSPoint *location = candidateVC.candidateLocation;
+    if (location)
+    {
+        [self.mapView centerAtPoint:location animated:YES];
+
+        AGSGraphic *g = candidateVC.graphic;
+        if (g)
+        {
+            [self.mapView showCalloutAtPoint:location forGraphic:g animated:YES];
+        }
+    }
+	// And let's scroll the containing view to show the result fully.
+    [candidateVC ensureVisibleInParentUIScrollView];
+}
+
+
+
+#pragma mark - Alert Views
 - (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
 	@try
@@ -1843,6 +1884,7 @@
 		{
 			if (buttonIndex == 1)
 			{
+				// The user wants to searh again, but this time without a constraint envelope.
 				NSString *searchText = [notification findPlacesSearchString];
 				[self.mapView.geoServices findPlaces:searchText];
 			}
@@ -1857,6 +1899,8 @@
 			{
 				// User chose to abandon edits.
 				[self.mapView cancelGraphicEdit];
+				
+				// Now there's not an edit, we can change the state
 				EQSSampleAppState newAppState = appState.intValue;
 				self.currentState = newAppState;
 			}
@@ -1871,62 +1915,11 @@
 	}
 }
 
-- (void) didFailToGetCandidatesForAddress:(NSNotification *)notification
-{
-	NSError *error = [notification geoServicesError];
-	NSLog(@"Failed to get candidates for address: %@", error);
-}
 
-- (void) candidateViewController:(EQSAddressCandidatePanelViewController *)candidateVC
-                  DidTapViewType:(EQSCandidateViewType)viewType
-{
-    AGSPoint *location = candidateVC.candidateLocation;
-    if (location)
-    {
-        [self.mapView centerAtPoint:location animated:YES];
 
-        AGSGraphic *g = candidateVC.graphic;
-        if (g)
-        {
-            [self.mapView showCalloutAtPoint:location forGraphic:g animated:YES];
-        }
-    }
-    [candidateVC ensureVisibleInParentUIScrollView];
-}
-
-#pragma mark - Geolocation
-
-- (IBAction)findMe:(id)sender
-{
-    NSUInteger zoom = [self.mapView getZoomLevel];
-	[self.mapView centerAtMyLocationWithZoomLevel:zoom];
-}
-
-- (IBAction)findScaleChanged:(id)sender {
-    UISlider *slider = sender;
-    self.findScale = (NSUInteger)roundf(slider.value);
-}
-
-- (IBAction)zoomToLevel:(id)sender {
-    [self.mapView zoomToLevel:self.findScale animated:YES];
-}
-
-- (void)setFindScale:(NSUInteger)findScale
-{
-    _findScale = findScale;
-    self.findScaleLabel.text = [NSString stringWithFormat:@"%d", _findScale];
-}
+#pragma mark - Message Bar
 - (IBAction)messageBarCloseTapped:(id)sender {
     NSLog(@"Close the message bar now...");
     self.messageBar.hidden = YES;
-}
-
-
-#pragma mark - TODO review for removal
-# pragma mark - KVO Events
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    NSLog(@"KeyPath: %@", keyPath);
 }
 @end

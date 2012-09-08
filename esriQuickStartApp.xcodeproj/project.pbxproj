@@ -243,7 +243,7 @@
 		D97D446215E465DD0072457A /* EQSCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSCodeViewController.h; sourceTree = "<group>"; };
 		D97D446315E465DD0072457A /* EQSCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSCodeViewController.m; sourceTree = "<group>"; };
 		D97D446515E473B20072457A /* codeView.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = codeView.css; sourceTree = "<group>"; };
-		D97D446715E474040072457A /* EQSSampleAppState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSSampleAppState.h; sourceTree = "<group>"; };
+		D97D446715E474040072457A /* EQSSampleAppStateEnums.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSSampleAppStateEnums.h; sourceTree = "<group>"; };
 		D97D446D15E520470072457A /* shAutoloader.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = shAutoloader.js; sourceTree = "<group>"; };
 		D97D446E15E520470072457A /* shCore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = shCore.js; sourceTree = "<group>"; };
 		D97D446F15E520470072457A /* shLegacy.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = shLegacy.js; sourceTree = "<group>"; };
@@ -786,7 +786,7 @@
 				E16C290B15598A5E00E2DB56 /* MainStoryboard_iPhone.storyboard */,
 				E16C290815598A5E00E2DB56 /* EQSSampleAppDelegate.h */,
 				E16C290915598A5E00E2DB56 /* EQSSampleAppDelegate.m */,
-				D97D446715E474040072457A /* EQSSampleAppState.h */,
+				D97D446715E474040072457A /* EQSSampleAppStateEnums.h */,
 				E16C291115598A5E00E2DB56 /* EQSSampleViewController.h */,
 				E16C291215598A5E00E2DB56 /* EQSSampleViewController.m */,
 				E1AC7B8615D2E8EA00E4E1BE /* UI */,

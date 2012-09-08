@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#ifndef esriQuickStartApp_EQSSampleAppState_h
-#define esriQuickStartApp_EQSSampleAppState_h
+#ifndef esriQuickStartApp_EQSSampleAppStateEnums_h
+#define esriQuickStartApp_EQSSampleAppStateEnums_h
 
 typedef enum
 {
@@ -23,5 +23,12 @@ typedef enum
     EQSSampleAppStateDirections_Navigating
 }
 EQSSampleAppState;
+
+typedef enum
+{
+	EQSSampleAppUIStateNormal,
+	EQSSampleAppUIStateFullScreen
+}
+EQSSampleAppUIState;
 
 #endif

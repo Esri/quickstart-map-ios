@@ -159,12 +159,12 @@
                                         <items>
                                             <barButtonItem image="undo-white.png" id="43w-2v-U7b">
                                                 <connections>
-                                                    <action selector="undoEditingGraphic:" destination="2" id="1HK-qs-7ct"/>
+                                                    <action selector="undoGraphicsEdit:" destination="2" id="PUe-H6-kJe"/>
                                                 </connections>
                                             </barButtonItem>
                                             <barButtonItem image="redo-white.png" id="99X-ge-2XN">
                                                 <connections>
-                                                    <action selector="redoEditingGraphic:" destination="2" id="9b3-H8-II5"/>
+                                                    <action selector="redoGraphicsEdit:" destination="2" id="wof-8R-AM2"/>
                                                 </connections>
                                             </barButtonItem>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="1mI-o5-FGD"/>
@@ -177,17 +177,17 @@
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="6Yw-PA-tpf"/>
                                             <barButtonItem image="165-glasses-3.png" id="Re3-TX-9De">
                                                 <connections>
-                                                    <action selector="zoomToEditingGeometry:" destination="2" id="cVe-qD-hUh"/>
+                                                    <action selector="zoomToEditGeometry:" destination="2" id="DI1-Y0-z13"/>
                                                 </connections>
                                             </barButtonItem>
                                             <barButtonItem image="60-x.png" id="zJm-m1-qTV">
                                                 <connections>
-                                                    <action selector="cancelEditingGraphic:" destination="2" id="Kby-oH-4DO"/>
+                                                    <action selector="cancelGraphicsEdit:" destination="2" id="sgb-OI-6nf"/>
                                                 </connections>
                                             </barButtonItem>
                                             <barButtonItem image="17-check.png" style="done" id="mPS-s4-gQH">
                                                 <connections>
-                                                    <action selector="doneEditingGraphic:" destination="2" id="Pmd-48-GV3"/>
+                                                    <action selector="saveGraphicsEdit:" destination="2" id="w1j-T4-xuY"/>
                                                 </connections>
                                             </barButtonItem>
                                         </items>
@@ -221,7 +221,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="newPtGraphic:" destination="2" eventType="touchUpInside" id="Yw6-aC-0K0"/>
+                                                    <action selector="createNewPtGraphic:" destination="2" eventType="touchUpInside" id="RTq-uX-UOx"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="mx0-t5-2vJ" userLabel="Button - New Ln" customClass="EQSBorderedButton">
@@ -237,7 +237,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="newLnGraphic:" destination="2" eventType="touchUpInside" id="aXv-dA-qjb"/>
+                                                    <action selector="createNewLnGraphic:" destination="2" eventType="touchUpInside" id="H0j-AM-3bu"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="etU-Lq-ThD" userLabel="Button - New Pg" customClass="EQSBorderedButton">
@@ -253,7 +253,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="newPgGraphic:" destination="2" eventType="touchUpInside" id="Sgy-og-0S7"/>
+                                                    <action selector="createNewPgGraphic:" destination="2" eventType="touchUpInside" id="NJV-RG-JT9"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -401,16 +401,15 @@
                     </view>
                     <connections>
                         <outlet property="basemapsPicker" destination="9xk-Cj-0Wc" id="d8k-Eb-U4M"/>
-                        <outlet property="buttonShowUI" destination="csf-Bu-ROJ" id="rNp-5w-JHu"/>
                         <outlet property="cancelKeyboardButton" destination="ngc-U8-Gkb" id="NaR-GE-zWo"/>
                         <outlet property="deleteGraphicButton" destination="CMk-b9-ReK" id="g8R-Zw-Pam"/>
                         <outlet property="editGraphicsToolbar" destination="oKn-KG-Yke" id="d0U-0D-Dh9"/>
-                        <outlet property="findAddressSearchBar" destination="6bW-vA-E1j" id="VTD-Eh-RBv"/>
                         <outlet property="findMeButton" destination="kG1-zr-0oz" id="wUJ-CI-eF8"/>
                         <outlet property="findMeScrollView" destination="Bhy-KT-aOF" id="73q-cN-SiS"/>
                         <outlet property="findPlacePanel" destination="XJL-AJ-FkR" id="H4k-Kz-GNU"/>
                         <outlet property="findPlacesNoResultsLabel" destination="H20-Ah-aPe" id="7aV-UK-cwr"/>
                         <outlet property="findPlacesScrollView" destination="lGJ-PY-ue0" id="3dI-pJ-IOk"/>
+                        <outlet property="findPlacesSearchBar" destination="6bW-vA-E1j" id="LFG-BN-Ndl"/>
                         <outlet property="functionNavBar_iPhone" destination="tQh-G2-XR0" id="OtO-NI-RtI"/>
                         <outlet property="functionSegControl" destination="Kh6-Xj-xT5" id="KB4-iI-kcn"/>
                         <outlet property="geolocationPanel" destination="SQb-E5-cgL" id="e89-jo-DwX"/>
@@ -428,6 +427,7 @@
                         <outlet property="routeStartLabel" destination="vFe-SD-2UY" id="rUD-50-eZi"/>
                         <outlet property="routingPanel" destination="U8i-0p-N9w" id="bV1-Vl-iyV"/>
                         <outlet property="saveEditsGraphicsButton" destination="mPS-s4-gQH" id="llO-Gd-QO9"/>
+                        <outlet property="showUIButton" destination="csf-Bu-ROJ" id="ysi-Tm-qVW"/>
                         <outlet property="undoEditGraphicsButton" destination="43w-2v-U7b" id="K3F-vl-Xg5"/>
                         <outlet property="zoomToGraphicButton" destination="Re3-TX-9De" id="NVX-ge-Ouh"/>
                         <segue destination="UsU-69-K1C" kind="modal" identifier="showBasemapInfo" modalTransitionStyle="flipHorizontal" id="6jH-s9-MdF"/>
