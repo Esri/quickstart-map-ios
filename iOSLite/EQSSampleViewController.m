@@ -42,15 +42,13 @@
 #define kEQSGetAddressData_SearchPoint @"EQSGeoServices_ReverseGeocode_Data_SearchPoint"
 
 @interface EQSSampleViewController ()
-                                        <AGSPortalItemDelegate,
-                                        AGSMapViewTouchDelegate,
-//                                        AGSRouteTaskDelegate,
+                                        <AGSMapViewTouchDelegate,
                                         UISearchBarDelegate,
-//                                        AGSLocatorDelegate,
                                         UIWebViewDelegate,
                                         EQSBasemapPickerDelegate,
                                         AGSMapViewCalloutDelegate,
-                                        EQSAddressCandidateViewDelegate,
+//AGSPortalItemDelegate,
+										EQSAddressCandidateViewDelegate,
                                         UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSMutableOrderedSet *geocodeResults;
@@ -65,6 +63,7 @@
 @property (weak, nonatomic) IBOutlet UIView *geolocationPanel;
 @property (weak, nonatomic) IBOutlet UIView *graphicsPanel;
 
+@property (weak, nonatomic) IBOutlet UISegmentedControl *functionSegControl;
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonShowUI;
 
@@ -102,6 +101,7 @@
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteGraphicButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *zoomToGraphicButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *saveEditsGraphicsButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *graphicPointButton;
 @property (weak, nonatomic) IBOutlet UIButton *graphicLineButton;
@@ -190,6 +190,7 @@
 @synthesize graphicPolygonButton = _graphicPolygonButton;
 @synthesize geolocationPanel = _geolocationPanel;
 @synthesize graphicsPanel = _graphicsPanel;
+@synthesize functionSegControl = _functionSegControl;
 @synthesize buttonShowUI = _buttonShowUI;
 @synthesize messageBar = _messageBar;
 @synthesize messageBarLabel = _messageBarLabel;
@@ -199,6 +200,7 @@
 @synthesize clearLinesButton = _clearLinesButton;
 @synthesize deleteGraphicButton = _deleteGraphicButton;
 @synthesize zoomToGraphicButton = _zoomToGraphicButton;
+@synthesize saveEditsGraphicsButton = _saveEditsGraphicsButton;
 @synthesize clearPolysButton = _clearPolysButton;
 @synthesize routingPanel = _routingPanel;
 @synthesize findPlacePanel = _findPlacePanel;
@@ -401,6 +403,8 @@
     [self setZoomToGraphicButton:nil];
     [self setFunctionNavBar_iPhone:nil];
     [self setButtonShowUI:nil];
+	[self setSaveEditsGraphicsButton:nil];
+	[self setFunctionSegControl:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -672,59 +676,111 @@
 
 - (void) setCurrentState:(EQSSampleAppState)currentState
 {
-    _currentState = currentState;
-    
-    switch (_currentState) {
-        case EQSSampleAppStateDirections:
-			self.routeStartButton.selected = NO;
-			self.routeEndButton.selected = NO;
-            [self setStartText];
-            [self setEndText];
-            break;
-        case EQSSampleAppStateDirections_WaitingForRouteStart:
-//            self.routeStartLabel.text = @"Tap a point on the map…";
-			self.routeStartButton.selected = YES;
-			self.routeEndButton.selected = NO;
-            [self setStartText];
-            [self setEndText];
-            break;
-        case EQSSampleAppStateDirections_WaitingForRouteEnd:
-//            self.routeEndLabel.text = @"Tap a point on the map…";
-			self.routeEndButton.selected = YES;
-			self.routeStartButton.selected = NO;
-            [self setStartText];
-            [self setEndText];
-            break;
-            
-        case EQSSampleAppStateGraphics_Editing:
-            for (UIBarButtonItem *buttonItem in self.editGraphicsToolbar.items) {
-                buttonItem.enabled = YES;
-            }
-            if (![self.mapView getCurrentEditGraphic])
-            {
-                self.deleteGraphicButton.enabled = NO;
-            }
-            [self setZoomToGraphicButtonState];
-            [self setUndoRedoButtonStates];
-            [self listenToEditingUndoManager];
-            self.mapView.showMagnifierOnTapAndHold = YES;
-            break;
-        case EQSSampleAppStateGraphics:
-            for (UIBarButtonItem *buttonItem in self.editGraphicsToolbar.items) {
-                buttonItem.enabled = NO;
-            }
-            self.mapView.showMagnifierOnTapAndHold = NO;
-            break;
-            
-        default:
-            break;
-    }
-    
-    [self.view endEditing:YES];
+	@try
+	{
+		if (_currentState == EQSSampleAppStateGraphics_Editing)
+		{
+			if (self.mapView.getUndoManagerForGraphicsEdits.canUndo ||
+				self.mapView.getUndoManagerForGraphicsEdits.canRedo)
+			{
+				UIAlertView *editAlert = [[UIAlertView alloc] initWithTitle:@"Unsaved Edits"
+																	message:@"Are you sure you want to leave Graphics mode? Any unsaved edits will be lost!"
+																   delegate:self
+														  cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+				NSNumber *n = [NSNumber numberWithInt:currentState];
+				objc_setAssociatedObject(editAlert, @"GraphicsEditExitWarning", n, OBJC_ASSOCIATION_RETAIN);
+				[editAlert show];
+				return;
+			}
+		}
+		_currentState = currentState;
+		
+		switch (_currentState) {
+			case EQSSampleAppStateDirections:
+				self.routeStartButton.selected = NO;
+				self.routeEndButton.selected = NO;
+				[self setStartAndEndText];
+				break;
+			case EQSSampleAppStateDirections_WaitingForRouteStart:
+				self.routeStartButton.selected = YES;
+				self.routeEndButton.selected = NO;
+				[self setStartAndEndText];
+				break;
+			case EQSSampleAppStateDirections_WaitingForRouteEnd:
+				self.routeEndButton.selected = YES;
+				self.routeStartButton.selected = NO;
+				[self setStartAndEndText];
+				break;
+				
+			case EQSSampleAppStateGraphics_Editing:
+				for (UIBarButtonItem *buttonItem in self.editGraphicsToolbar.items) {
+					buttonItem.enabled = YES;
+				}
+				if (![self.mapView getCurrentEditGraphic])
+				{
+					self.deleteGraphicButton.enabled = NO;
+				}
+				[self setZoomToGraphicButtonState];
+				[self setUndoRedoButtonStates];
+				[self listenToEditingUndoManager];
+				self.mapView.showMagnifierOnTapAndHold = YES;
+				break;
+			case EQSSampleAppStateGraphics:
+				for (UIBarButtonItem *buttonItem in self.editGraphicsToolbar.items) {
+					buttonItem.enabled = NO;
+				}
+				self.mapView.showMagnifierOnTapAndHold = NO;
+				break;
+				
+			default:
+				break;
+		}
+		
+		[self.view endEditing:YES];
+		
+		[self updateUIDisplayState];
+		
+		self.codeViewer.viewController.currentAppState = _currentState;
+	}
+	@finally {
+		[self ensureUIMathesCurrentState];
+	}
+}
 
-    [self updateUIDisplayState];
-    
-    self.codeViewer.viewController.currentAppState = _currentState;
+- (void) ensureUIMathesCurrentState
+{
+	NSInteger newSegIndex = -1;
+	switch (self.currentState) {
+		case EQSSampleAppStateBasemaps:
+			newSegIndex = 0;
+			break;
+		case EQSSampleAppStateGeolocation:
+			newSegIndex = 1;
+			break;
+		case EQSSampleAppStateGraphics:
+		case EQSSampleAppStateGraphics_Editing:
+			newSegIndex = 2;
+			break;
+		case EQSSampleAppStateCloudData:
+			newSegIndex = 3;
+			break;
+		case EQSSampleAppStateFindPlace:
+			newSegIndex = 4;
+			break;
+		case EQSSampleAppStateDirections:
+		case EQSSampleAppStateDirections_Navigating:
+		case EQSSampleAppStateDirections_WaitingForRouteStart:
+		case EQSSampleAppStateDirections_WaitingForRouteEnd:
+			newSegIndex = 5;
+			
+		default:
+			NSLog(@"Could not determine SegmentControl Index from App State %d", self.currentState);
+			return;
+	}
+	if (newSegIndex != self.functionSegControl.selectedSegmentIndex)
+	{
+		self.functionSegControl.selectedSegmentIndex = newSegIndex;
+	}
 }
 
 #pragma mark - UI Function Selection
@@ -734,28 +790,23 @@
     switch (self.currentState) {
         case EQSSampleAppStateBasemaps:
             return @"Select a basemap";
-            break;
         case EQSSampleAppStateGeolocation:
             return @"Zoom to your location";
-            break;
         case EQSSampleAppStateGraphics:
         case EQSSampleAppStateGraphics_Editing:
             return @"Tap the map to add graphics";
-            break;
         case EQSSampleAppStateFindPlace:
             return @"Tap the map or enter an address";
-            break;
         case EQSSampleAppStateDirections:
-            return @"Tap the map calculate directions";
-            break;
+            return @"Tap the map to calculate directions";
         case EQSSampleAppStateDirections_WaitingForRouteStart:
             return @"Tap the start point for calculating directions";
-            break;
         case EQSSampleAppStateDirections_WaitingForRouteEnd:
             return @"Tap the end point for calculating directions";
+		case EQSSampleAppStateDirections_Navigating:
+			return @"Navigate the route, step-by-step";
         case EQSSampleAppStateCloudData:
             return @"Access World City features in the cloud";
-            break;
             
         default:
             NSLog(@"Can't get message for unknown app state %d", self.currentState);
@@ -766,36 +817,39 @@
 
 - (IBAction)functionChanged:(id)sender {
     UISegmentedControl *seg = sender;
+	EQSSampleAppState newState;
     switch (seg.selectedSegmentIndex) {
         case 0:
-            self.currentState = EQSSampleAppStateBasemaps;
+            newState = EQSSampleAppStateBasemaps;
             break;
         case 1:
-            self.currentState = EQSSampleAppStateGeolocation;
+            newState = EQSSampleAppStateGeolocation;
             break;
         case 2:
-            self.currentState = EQSSampleAppStateGraphics;
+            newState = EQSSampleAppStateGraphics;
             break;
         case 3:
-            self.currentState = EQSSampleAppStateCloudData;
+            newState = EQSSampleAppStateCloudData;
             break;
         case 4:
-            self.currentState = EQSSampleAppStateFindPlace;
+            newState = EQSSampleAppStateFindPlace;
             break;
         case 5:
             if (self.mapView.routeDisplayHelper.currentRouteResult)
             {
-                self.currentState = EQSSampleAppStateDirections_Navigating;
+                newState = EQSSampleAppStateDirections_Navigating;
             }
             else
             {
-                self.currentState = EQSSampleAppStateDirections;
+                newState = EQSSampleAppStateDirections;
             }
             break;
         default:
-            NSLog(@"Set state to %d", seg.selectedSegmentIndex);
-            break;
+            NSLog(@"Set state to unknown seg index %d", seg.selectedSegmentIndex);
+            return;
     }
+	
+	self.currentState = newState;
 }
 
 - (NSMutableArray *)allUIViews
@@ -940,7 +994,8 @@
         {
             if (self.currentState == EQSSampleAppStateDirections ||
                 self.currentState == EQSSampleAppStateDirections_WaitingForRouteStart ||
-                self.currentState == EQSSampleAppStateDirections_WaitingForRouteEnd)
+                self.currentState == EQSSampleAppStateDirections_WaitingForRouteEnd ||
+				self.currentState == EQSSampleAppStateDirections_Navigating)
             {
                 self.routeResultsView.viewController.hidden = NO;
             }
@@ -980,12 +1035,13 @@
 
 #pragma mark - Undo/Redo
 
-- (void) setUndoRedoButtonStatesForUndoManager:(NSUndoManager *)um
+- (void) setButtonStatesForUndoManager:(NSUndoManager *)um
 {
     if (um)
     {
         self.undoEditGraphicsButton.enabled = um.canUndo;
         self.redoEditGraphicsButton.enabled = um.canRedo;
+		self.saveEditsGraphicsButton.enabled = um.canUndo;
     }
 }
 
@@ -997,13 +1053,13 @@
 
 - (void) setUndoRedoButtonStates
 {
-    [self setUndoRedoButtonStatesForUndoManager:[self.mapView getUndoManagerForGraphicsEdits]];
+    [self setButtonStatesForUndoManager:[self.mapView getUndoManagerForGraphicsEdits]];
 }
 
 - (void) editUndoRedoChanged:(NSNotification *)notification
 {
     NSUndoManager *um = notification.object;
-    [self setUndoRedoButtonStatesForUndoManager:um];
+    [self setButtonStatesForUndoManager:um];
     [self setZoomToGraphicButtonState];
 }
 
@@ -1461,8 +1517,7 @@
 	if (results)
 	{
         // Store the route result for ourselves.
-//		self.routeResult = [results.routeResults objectAtIndex:0];
-        
+
         // Tell our RouteDisplayHelper about the object we've created in our NIB for the table view.
         self.mapView.routeDisplayHelper.routeResultsViewController = self.routeResultsView.viewController;
 		[self.mapView.routeDisplayHelper showRouteResult:results];
@@ -1484,6 +1539,12 @@
 											  otherButtonTitles:nil];
 		[alert show];
 	}
+}
+
+- (void) setStartAndEndText
+{
+	[self setStartText];
+	[self setEndText];
 }
 
 - (void) setStartText
@@ -1666,18 +1727,6 @@
     [searchBar resignFirstResponder];
 }
 
-//- (id<AGSInfoTemplateDelegate>) geocodeInfoTemplateDelegate
-//{
-//    if (!_geocodeInfoTemplateDelegate)
-//    {
-//        AGSCalloutTemplate *template = [[AGSCalloutTemplate alloc] init];
-//        template.detailTemplate = @"Stuff goes here\nAnd here";
-//        template.titleTemplate = @"${Addr_Type}";
-//        _geocodeInfoTemplateDelegate = template;
-//    }
-//    return _geocodeInfoTemplateDelegate;
-//}
-//
 - (void) gotCandidatesForAddress:(NSNotification *)notification
 {
     NSOperation *op = [notification geoServicesOperation];
@@ -1786,15 +1835,40 @@
 
 - (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    NSNotification *notification = objc_getAssociatedObject(alertView, @"SearchUserInfo");
-    if (notification)
-    {
-        if (buttonIndex == 1)
-        {
-            NSString *searchText = [notification findPlacesSearchString];
-            [self.mapView.geoServices findPlaces:searchText];
-        }
-    }
+	@try
+	{
+		// First check to see if this happened because of a search.
+		NSNotification *notification = objc_getAssociatedObject(alertView, @"SearchUserInfo");
+		if (notification)
+		{
+			if (buttonIndex == 1)
+			{
+				NSString *searchText = [notification findPlacesSearchString];
+				[self.mapView.geoServices findPlaces:searchText];
+			}
+			return;
+		}
+		
+		// Still here? Let's see if this happened because a graphic was being edited
+		NSNumber *appState = objc_getAssociatedObject(alertView, @"GraphicsEditExitWarning");
+		if (appState)
+		{
+			if (buttonIndex == 1)
+			{
+				// User chose to abandon edits.
+				[self.mapView cancelGraphicEdit];
+				EQSSampleAppState newAppState = appState.intValue;
+				self.currentState = newAppState;
+			}
+		}
+	}
+	@finally
+	{
+		// Let's remove everything off the alertView so it can be released.
+		// If we've coded everything properly, that shouldn't be an issue, but no harm
+		// in being careful.
+		objc_removeAssociatedObjects(alertView);
+	}
 }
 
 - (void) didFailToGetCandidatesForAddress:(NSNotification *)notification

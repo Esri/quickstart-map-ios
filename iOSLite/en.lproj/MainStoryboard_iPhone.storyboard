@@ -412,6 +412,7 @@
                         <outlet property="findPlacesNoResultsLabel" destination="H20-Ah-aPe" id="7aV-UK-cwr"/>
                         <outlet property="findPlacesScrollView" destination="lGJ-PY-ue0" id="3dI-pJ-IOk"/>
                         <outlet property="functionNavBar_iPhone" destination="tQh-G2-XR0" id="OtO-NI-RtI"/>
+                        <outlet property="functionSegControl" destination="Kh6-Xj-xT5" id="KB4-iI-kcn"/>
                         <outlet property="geolocationPanel" destination="SQb-E5-cgL" id="e89-jo-DwX"/>
                         <outlet property="graphicLineButton" destination="mx0-t5-2vJ" id="EFu-EE-BWN"/>
                         <outlet property="graphicPointButton" destination="eVb-OC-olt" id="CNJ-wu-Aoh"/>
@@ -426,6 +427,7 @@
                         <outlet property="routeStartButton" destination="Tj8-qf-cUG" id="mRo-aF-6Mt"/>
                         <outlet property="routeStartLabel" destination="vFe-SD-2UY" id="rUD-50-eZi"/>
                         <outlet property="routingPanel" destination="U8i-0p-N9w" id="bV1-Vl-iyV"/>
+                        <outlet property="saveEditsGraphicsButton" destination="mPS-s4-gQH" id="llO-Gd-QO9"/>
                         <outlet property="undoEditGraphicsButton" destination="43w-2v-U7b" id="K3F-vl-Xg5"/>
                         <outlet property="zoomToGraphicButton" destination="Re3-TX-9De" id="NVX-ge-Ouh"/>
                         <segue destination="UsU-69-K1C" kind="modal" identifier="showBasemapInfo" modalTransitionStyle="flipHorizontal" id="6jH-s9-MdF"/>
@@ -497,172 +499,6 @@
         <image name="resize_small.png" width="24" height="24"/>
         <image name="undo-white.png" width="23" height="17"/>
     </resources>
-    <classes>
-        <class className="AGSMapView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AGSMapView.h"/>
-        </class>
-        <class className="EQSBasemapDetailsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSBasemapDetailsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="doneButtonClicked:"/>
-                <relationship kind="outlet" name="titleLabel" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
-            </relationships>
-        </class>
-        <class className="EQSBasemapPickerView" superclassName="EQSPortalItemPickerView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSBasemapPickerView.h"/>
-        </class>
-        <class className="EQSBorderedButton" superclassName="UIButton">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSBorderedButton.h"/>
-        </class>
-        <class className="EQSCodeView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSCodeView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="mainContainer" candidateClass="UIView"/>
-                <relationship kind="outlet" name="mapView" candidateClass="AGSMapView"/>
-                <relationship kind="outlet" name="tabBase" candidateClass="UIView"/>
-                <relationship kind="outlet" name="tabImage" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="topLevelView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="viewController" candidateClass="EQSCodeViewController"/>
-                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
-            </relationships>
-        </class>
-        <class className="EQSCodeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSCodeViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="tabTapped:"/>
-                <relationship kind="outlet" name="codeView" candidateClass="EQSCodeView"/>
-                <relationship kind="outlet" name="codeWebView" candidateClass="UIWebView"/>
-                <relationship kind="outlet" name="mainContainerView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="tabView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="EQSPortalItemListView" superclassName="UIScrollView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSPortalItemListView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="viewController" candidateClass="EQSPortalItemListViewController"/>
-            </relationships>
-        </class>
-        <class className="EQSPortalItemListViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSPortalItemListViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="portalItemsListView" candidateClass="EQSPortalItemListView"/>
-            </relationships>
-        </class>
-        <class className="EQSPortalItemPickerView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSPortalItemPickerView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="topLevelView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="viewController" candidateClass="EQSPortalItemPickerViewController"/>
-            </relationships>
-        </class>
-        <class className="EQSPortalItemPickerViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSPortalItemPickerViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="portalItemDetailsCreditsTextView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="portalItemDetailsDescriptionWebView" candidateClass="UIWebView"/>
-                <relationship kind="outlet" name="portalItemDetailsImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="portalItemDetailsTitleLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="portalItemDetailsViewController" candidateClass="UIViewController"/>
-                <relationship kind="outlet" name="portalItemListView" candidateClass="EQSPortalItemListView"/>
-                <relationship kind="outlet" name="portalItemPickerView" candidateClass="EQSPortalItemPickerView"/>
-            </relationships>
-        </class>
-        <class className="EQSRouteResultsTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSRouteResultsTableViewController.h"/>
-        </class>
-        <class className="EQSRouteResultsView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSRouteResultsView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="footerView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="headerView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="topLevelView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="viewController" candidateClass="EQSRouteResultsViewController"/>
-            </relationships>
-        </class>
-        <class className="EQSRouteResultsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSRouteResultsViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="routeResultsDistanceLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="routeResultsTimeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="tableViewController" candidateClass="EQSRouteResultsTableViewController"/>
-            </relationships>
-        </class>
-        <class className="EQSSampleViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSSampleViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addGraphics:"/>
-                <relationship kind="action" name="cancelEditingGraphic:"/>
-                <relationship kind="action" name="cancelKeyboardPressed:"/>
-                <relationship kind="action" name="clearLines:"/>
-                <relationship kind="action" name="clearPoints:"/>
-                <relationship kind="action" name="clearPolygons:"/>
-                <relationship kind="action" name="clearRoute:"/>
-                <relationship kind="action" name="deleteSelectedGraphic:"/>
-                <relationship kind="action" name="doneEditingGraphic:"/>
-                <relationship kind="action" name="findMe:"/>
-                <relationship kind="action" name="findPlacesTapped:"/>
-                <relationship kind="action" name="findScaleChanged:"/>
-                <relationship kind="action" name="functionChanged:"/>
-                <relationship kind="action" name="messageBarCloseTapped:"/>
-                <relationship kind="action" name="newLnGraphic:"/>
-                <relationship kind="action" name="newMultiPtGraphic:"/>
-                <relationship kind="action" name="newPgGraphic:"/>
-                <relationship kind="action" name="newPtGraphic:"/>
-                <relationship kind="action" name="redoEditingGraphic:"/>
-                <relationship kind="action" name="resizeUIExitFullScreen:"/>
-                <relationship kind="action" name="resizeUIGoFullScreen:"/>
-                <relationship kind="action" name="swapRouteStartAndEnd:"/>
-                <relationship kind="action" name="toFromTapped:"/>
-                <relationship kind="action" name="undoEditingGraphic:"/>
-                <relationship kind="action" name="zoomToEditingGeometry:"/>
-                <relationship kind="action" name="zoomToLevel:"/>
-                <relationship kind="outlet" name="basemapsPicker" candidateClass="EQSBasemapPickerView"/>
-                <relationship kind="outlet" name="buttonShowUI" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="cancelKeyboardButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="clearLinesButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="clearPointsButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="clearPolysButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="clearRouteButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="cloudDataPanel" candidateClass="UIView"/>
-                <relationship kind="outlet" name="codeViewer" candidateClass="EQSCodeView"/>
-                <relationship kind="outlet" name="deleteGraphicButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="editGraphicsToolbar" candidateClass="UIToolbar"/>
-                <relationship kind="outlet" name="findAddressSearchBar" candidateClass="UISearchBar"/>
-                <relationship kind="outlet" name="findMeButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="findMeScrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="findPlacePanel" candidateClass="UIView"/>
-                <relationship kind="outlet" name="findPlacesNoResultsLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="findPlacesScrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="findPlacesToolbar" candidateClass="UIToolbar"/>
-                <relationship kind="outlet" name="findScaleLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="findbutton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="functionNavBar_iPhone" candidateClass="UINavigationBar"/>
-                <relationship kind="outlet" name="functionToolBar" candidateClass="UIToolbar"/>
-                <relationship kind="outlet" name="geolocationPanel" candidateClass="UIView"/>
-                <relationship kind="outlet" name="graphicButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="graphicLineButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="graphicPointButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="graphicPolygonButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="graphicsPanel" candidateClass="UIView"/>
-                <relationship kind="outlet" name="mapView" candidateClass="AGSMapView"/>
-                <relationship kind="outlet" name="messageBar" candidateClass="UIView"/>
-                <relationship kind="outlet" name="messageBarLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="myLocationAddressLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="redoEditGraphicsButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="routeEndButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="routeEndLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="routeResultsView" candidateClass="EQSRouteResultsView"/>
-                <relationship kind="outlet" name="routeStartButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="routeStartLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="routingPanel" candidateClass="UIView"/>
-                <relationship kind="outlet" name="undoEditGraphicsButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="zoomToGraphicButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
