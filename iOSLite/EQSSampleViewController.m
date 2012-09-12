@@ -466,7 +466,9 @@
 {
     switch (self.currentState) {
         case EQSSampleAppStateGraphics:
-        case EQSSampleAppStateGraphics_Editing:
+        case EQSSampleAppStateGraphics_Editing_Point:
+        case EQSSampleAppStateGraphics_Editing_Line:
+        case EQSSampleAppStateGraphics_Editing_Polygon:
             return NO;
             
         default:
@@ -486,9 +488,28 @@
             if (graphics.count > 0)
             {
                 // The user selected a graphic. Let's edit it.
-                if ([self.mapView editGraphicFromMapViewDidClickAtPoint:graphics])
+                AGSGraphic *editGraphic = [self.mapView editGraphicFromMapViewDidClickAtPoint:graphics];
+                EQSSampleAppState newState = EQSSampleAppStateGraphics;
+                if (editGraphic)
                 {
-                    self.currentState = EQSSampleAppStateGraphics_Editing;
+                    AGSGeometryType geomType = AGSGeometryTypeForGeometry(editGraphic.geometry);
+                    switch (geomType) {
+                        case AGSGeometryTypePoint:
+                        case AGSGeometryTypeMultipoint:
+                            newState = EQSSampleAppStateGraphics_Editing_Point;
+                            break;
+                        case AGSGeometryTypePolyline:
+                            newState = EQSSampleAppStateGraphics_Editing_Line;
+                            break;
+                        case AGSGeometryTypePolygon:
+                        case AGSGeometryTypeEnvelope:
+                            newState = EQSSampleAppStateGraphics_Editing_Polygon;
+                            break;
+                        default:
+                            NSLog(@"Unrecognized geometry type to edit! %d", geomType);
+                            break;
+                    }
+                    self.currentState = newState;
                 }
             }
             break;
@@ -655,7 +676,9 @@
                 frameHeight = 44;
             }
         }
-        else if (self.currentState == EQSSampleAppStateGraphics_Editing)
+        else if (self.currentState == EQSSampleAppStateGraphics_Editing_Point ||
+                 self.currentState == EQSSampleAppStateGraphics_Editing_Line ||
+                 self.currentState == EQSSampleAppStateGraphics_Editing_Polygon)
         {
             frameHeight = 44;
         }
@@ -724,7 +747,9 @@
 {
 	@try
 	{
-		if (_currentState == EQSSampleAppStateGraphics_Editing)
+		if (_currentState == EQSSampleAppStateGraphics_Editing_Point ||
+            _currentState == EQSSampleAppStateGraphics_Editing_Line ||
+            _currentState == EQSSampleAppStateGraphics_Editing_Polygon)
 		{
 			if (self.mapView.getUndoManagerForGraphicsEdits.canUndo ||
 				self.mapView.getUndoManagerForGraphicsEdits.canRedo)
@@ -758,7 +783,9 @@
 				[self setStartAndEndText];
 				break;
 				
-			case EQSSampleAppStateGraphics_Editing:
+			case EQSSampleAppStateGraphics_Editing_Point:
+            case EQSSampleAppStateGraphics_Editing_Line:
+            case EQSSampleAppStateGraphics_Editing_Polygon:
 				for (UIBarButtonItem *buttonItem in self.editGraphicsToolbar.items) {
 					buttonItem.enabled = YES;
 				}
@@ -804,7 +831,9 @@
 			newSegIndex = 1;
 			break;
 		case EQSSampleAppStateGraphics:
-		case EQSSampleAppStateGraphics_Editing:
+		case EQSSampleAppStateGraphics_Editing_Point:
+        case EQSSampleAppStateGraphics_Editing_Line:
+        case EQSSampleAppStateGraphics_Editing_Polygon:
 			newSegIndex = 2;
 			break;
 		case EQSSampleAppStateCloudData:
@@ -839,8 +868,13 @@
         case EQSSampleAppStateGeolocation:
             return @"Zoom to your location";
         case EQSSampleAppStateGraphics:
-        case EQSSampleAppStateGraphics_Editing:
-            return @"Tap the map to add graphics";
+            return @"Create a new graphic.";
+        case EQSSampleAppStateGraphics_Editing_Point:
+            return @"Tap the map to place a point";
+        case EQSSampleAppStateGraphics_Editing_Line:
+            return @"Tap the map to draw a line";
+        case EQSSampleAppStateGraphics_Editing_Polygon:
+            return @"Tap the map to draw the outline of a polygon";
         case EQSSampleAppStateFindPlace:
             return @"Tap the map or enter an address";
         case EQSSampleAppStateDirections:
@@ -947,7 +981,9 @@
             viewToShow = self.geolocationPanel;
             break;
         case EQSSampleAppStateGraphics:
-        case EQSSampleAppStateGraphics_Editing:
+        case EQSSampleAppStateGraphics_Editing_Point:
+        case EQSSampleAppStateGraphics_Editing_Line:
+        case EQSSampleAppStateGraphics_Editing_Polygon:
             viewToShow = self.graphicsPanel;
             break;
     }
@@ -1188,17 +1224,17 @@
 
 - (IBAction)createNewPtGraphic:(id)sender {
     [self.mapView createAndEditNewPoint];
-    self.currentState = EQSSampleAppStateGraphics_Editing;
+    self.currentState = EQSSampleAppStateGraphics_Editing_Point;
 }
 
 - (IBAction)createNewLnGraphic:(id)sender {
     [self.mapView createAndEditNewLine];
-    self.currentState = EQSSampleAppStateGraphics_Editing;
+    self.currentState = EQSSampleAppStateGraphics_Editing_Line;
 }
 
 - (IBAction)createNewPgGraphic:(id)sender {
     [self.mapView createAndEditNewPolygon];
-    self.currentState = EQSSampleAppStateGraphics_Editing;
+    self.currentState = EQSSampleAppStateGraphics_Editing_Polygon;
 }
 
 - (IBAction)saveGraphicsEdit:(id)sender {

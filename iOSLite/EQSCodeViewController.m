@@ -196,7 +196,9 @@
         case EQSSampleAppStateGeolocation:
             return @"Geolocation";
         case EQSSampleAppStateGraphics:
-        case EQSSampleAppStateGraphics_Editing:
+        case EQSSampleAppStateGraphics_Editing_Point:
+        case EQSSampleAppStateGraphics_Editing_Line:
+        case EQSSampleAppStateGraphics_Editing_Polygon:
             return @"Graphics";
         case EQSSampleAppStateFindPlace:
             return @"FindPlace";
