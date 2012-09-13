@@ -58,6 +58,8 @@
     self.loadingState = EQSPortalItemViewLoadingStatePortalLoading;
     self.portal = [[AGSPortal alloc] initWithURL:[NSURL URLWithString:@"http://www.arcgis.com"] credential:nil];
     self.portal.delegate = self;
+    self.imageView.layer.masksToBounds = YES;
+    self.imageView.layer.cornerRadius = 4;
 }
 
 

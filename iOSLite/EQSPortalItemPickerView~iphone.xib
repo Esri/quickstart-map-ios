@@ -61,17 +61,16 @@
 						<int key="NSvFlags">1298</int>
 						<array class="NSMutableArray" key="NSSubviews"/>
 						<object class="NSPSMatrix" key="NSFrameMatrix"/>
-						<string key="NSFrame">{{26, 0}, {294, 70}}</string>
+						<string key="NSFrameSize">{320, 130}</string>
 						<reference key="NSSuperview" ref="405937769"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<array key="IBUIGestureRecognizers" id="0"/>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 					<object class="IBUIButton" id="966807618">
 						<reference key="NSNextResponder" ref="405937769"/>
-						<int key="NSvFlags">1316</int>
+						<int key="NSvFlags">-2147482332</int>
 						<object class="NSPSMatrix" key="NSFrameMatrix"/>
 						<string key="NSFrame">{{5, 4}, {18, 19}}</string>
 						<reference key="NSSuperview" ref="405937769"/>
@@ -106,7 +105,7 @@
 						</object>
 					</object>
 				</array>
-				<string key="NSFrameSize">{320, 70}</string>
+				<string key="NSFrameSize">{320, 130}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="966807618"/>
@@ -187,7 +186,6 @@
 						<string key="NSFrame">{{15, 280}, {228, 53}}</string>
 						<reference key="NSSuperview" ref="365746965"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="55926723"/>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -529,6 +527,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">EQSPortalItemPickerView</string>
 					<string key="superclassName">UIView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">infoButtonTapped:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">infoButtonTapped:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">infoButtonTapped:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="topLevelView">UIView</string>
 						<string key="viewController">EQSPortalItemPickerViewController</string>

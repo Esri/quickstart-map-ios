@@ -28,7 +28,7 @@
             self.layer.cornerRadius = 10;
             break;
         case UIUserInterfaceIdiomPhone:
-            self.layer.cornerRadius = 4;
+            self.layer.cornerRadius = 8;
             break;
     }
 	

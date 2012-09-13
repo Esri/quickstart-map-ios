@@ -541,7 +541,6 @@
 			children = (
 				E1812BDA15DC767D00D3325A /* EQSBasemapPickerView.h */,
 				E1812BDB15DC767E00D3325A /* EQSBasemapPickerView.m */,
-				E1AC7B8815D2E91E00E4E1BE /* PortalItem Selector */,
 			);
 			name = "Basemap Selector";
 			sourceTree = "<group>";
@@ -824,6 +823,7 @@
 				D93C98A3156D8CC000A5F339 /* EQSBasemapDetailsViewController.h */,
 				D93C98A4156D8CC000A5F339 /* EQSBasemapDetailsViewController.m */,
 				D964FA2515E69F790013B4D7 /* Basemap Selector */,
+				E1AC7B8815D2E91E00E4E1BE /* PortalItem Selector */,
 				D964FA1A15E67E2E0013B4D7 /* Address Candidate Views */,
 				D97D445715E45D410072457A /* Code Viewer */,
 				E185887715D9C4020015414B /* Categories */,

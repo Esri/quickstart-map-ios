@@ -57,7 +57,8 @@
 @property (weak, nonatomic) IBOutlet UIView *findPlacePanel;
 @property (weak, nonatomic) IBOutlet UIView *cloudDataPanel;
 @property (weak, nonatomic) IBOutlet UIView *geolocationPanel;
-@property (weak, nonatomic) IBOutlet UIView *graphicsPanel;
+@property (weak, nonatomic) IBOutlet UIView *graphicsEditPanel;
+@property (weak, nonatomic) IBOutlet UIView *graphicsCreatePanel;
 
 
 #pragma mark - UI Mode
@@ -187,7 +188,8 @@
 @synthesize mapView = _mapView;
 
 @synthesize geolocationPanel = _geolocationPanel;
-@synthesize graphicsPanel = _graphicsPanel;
+@synthesize graphicsEditPanel = _graphicsPanel;
+@synthesize graphicsCreatePanel = _graphicsCreatePanel;
 @synthesize routingPanel = _routingPanel;
 @synthesize findPlacePanel = _findPlacePanel;
 @synthesize cloudDataPanel = _cloudDataPanel;
@@ -279,7 +281,7 @@
     [self setFindPlacePanel:nil];
     [self setCloudDataPanel:nil];
     [self setGeolocationPanel:nil];
-    [self setGraphicsPanel:nil];
+    [self setGraphicsEditPanel:nil];
 
     [self setRouteStartLabel:nil];
     [self setRouteEndLabel:nil];
@@ -313,6 +315,7 @@
 	[self setSaveEditsGraphicsButton:nil];
 	[self setFunctionSegControl:nil];
 
+    [self setGraphicsCreatePanel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -348,6 +351,8 @@
     for (UIView *v in [self allUIViews]) {
         v.alpha = 0;
         v.hidden = YES;
+        CGFloat frameHeight = v.frame.size.height;
+        objc_setAssociatedObject(v, @"Height", [NSNumber numberWithFloat:frameHeight], OBJC_ASSOCIATION_RETAIN);
         v.frame = [self getUIFrame:v];
     }
 
@@ -660,6 +665,8 @@
     CGRect screenFrame = [UIApplication frameInOrientation:orientation];
     CGRect viewFrame = viewToDisplay.frame;
     double keyboardHeight = self.keyboardSize.height;
+    CGFloat storedHeight = ((NSNumber *)objc_getAssociatedObject(viewToDisplay, @"Height")).doubleValue;
+
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         //TODO - make a constant
@@ -668,7 +675,7 @@
         {
             if (keyboardHeight == 0)
             {
-                frameHeight = 144;
+                frameHeight = storedHeight;// 144;
             }
             else
             {
@@ -680,15 +687,15 @@
                  self.currentState == EQSSampleAppStateGraphics_Editing_Line ||
                  self.currentState == EQSSampleAppStateGraphics_Editing_Polygon)
         {
-            frameHeight = 44;
+            frameHeight = storedHeight;// 44;
         }
         else if (self.currentState == EQSSampleAppStateGraphics)
         {
-            frameHeight = 114;
+            frameHeight = storedHeight;// 114;
         }
         else if (self.currentState == EQSSampleAppStateDirections_Navigating)
         {
-            frameHeight = 130;
+            frameHeight = storedHeight;// 130;
         }
         if (frameHeight != -1)
         {
@@ -731,7 +738,7 @@
     CGRect masterFrame = masterView.frame;
     CGRect messageFrame = CGRectMake(masterFrame.origin.x, masterFrame.origin.y - messageHeight, masterFrame.size.width, messageHeight);
     
-//    NSLog(@"Master: %@\nMessage: %@", NSStringFromCGRect(masterFrame), NSStringFromCGRect(messageFrame));
+    NSLog(@"Master: %@\nMessage: %@", NSStringFromCGRect(masterFrame), NSStringFromCGRect(messageFrame));
 
     return messageFrame;
 }
@@ -864,7 +871,7 @@
 {
     switch (self.currentState) {
         case EQSSampleAppStateBasemaps:
-            return @"Select a basemap";
+            return [NSString stringWithFormat:@"Select Basemap [%@]", [EQSHelper getBasemapName:self.currentBasemapType]];
         case EQSSampleAppStateGeolocation:
             return @"Zoom to your location";
         case EQSSampleAppStateGraphics:
@@ -938,7 +945,8 @@
                                self.basemapsPicker,
                                self.geolocationPanel,
                                self.findPlacePanel,
-                               self.graphicsPanel,
+                               self.graphicsEditPanel,
+                               self.graphicsCreatePanel,
                                self.cloudDataPanel, nil];
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
     {
@@ -981,10 +989,12 @@
             viewToShow = self.geolocationPanel;
             break;
         case EQSSampleAppStateGraphics:
+            viewToShow = self.graphicsCreatePanel;
+            break;
         case EQSSampleAppStateGraphics_Editing_Point:
         case EQSSampleAppStateGraphics_Editing_Line:
         case EQSSampleAppStateGraphics_Editing_Polygon:
-            viewToShow = self.graphicsPanel;
+            viewToShow = self.graphicsEditPanel;
             break;
     }
     
@@ -1167,7 +1177,9 @@
     EQSBasemapType basemapType = [notification basemapType];
     self.currentBasemapType = basemapType;
 	
-	self.basemapsPicker.currentPortalItemID = pi.itemId;
+    self.basemapsPicker.currentPortalItemID = pi.itemId;
+    
+    self.messageBarLabel.text = [self getMessageForCurrentFunction];
 }
 
 - (void)basemapSelected:(EQSBasemapType)basemapType

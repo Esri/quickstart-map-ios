@@ -253,10 +253,10 @@
 - (NSString *) getPortalItemIDForBasemap:(EQSBasemapType)basemapType
 {
     NSString *key = [self getBasemapKeyForEnum:basemapType];
-    NSAssert1(key != nil, @"Could not figure out which basemap you're after!", basemapType);
+    NSAssert1(key != nil, @"Could not figure out which basemap you're after! [%d]", basemapType);
     
     NSString *portalItemID = [self.basemapPortalItemIDs objectForKey:key];
-    NSAssert1(portalItemID != nil, @"The basemap hasn't been configured properly!", key);
+    NSAssert1(portalItemID != nil, @"The basemap hasn't been configured properly! [%@]", key);
     
 	return portalItemID;
 }

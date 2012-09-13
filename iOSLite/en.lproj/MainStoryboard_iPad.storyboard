@@ -389,7 +389,7 @@
                         <outlet property="graphicLineButton" destination="A2H-dj-njm" id="Usa-Wq-G98"/>
                         <outlet property="graphicPointButton" destination="T6R-qz-YDu" id="CqJ-FS-GMl"/>
                         <outlet property="graphicPolygonButton" destination="pDt-KN-QUE" id="Pgu-tx-vKt"/>
-                        <outlet property="graphicsPanel" destination="jDE-Vd-KbV" id="7R9-VG-urD"/>
+                        <outlet property="graphicsEditPanel" destination="jDE-Vd-KbV" id="fSC-Rp-7qv"/>
                         <outlet property="mapView" destination="jAh-IA-P6U" id="WTH-5S-YRJ"/>
                         <outlet property="messageBar" destination="f5r-af-vh7" id="FTb-dj-Klr"/>
                         <outlet property="messageBarLabel" destination="t9r-H8-nBu" id="VkU-Qb-abR"/>

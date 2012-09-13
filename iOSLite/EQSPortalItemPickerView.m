@@ -33,6 +33,7 @@
 		
 		// Load the nib contents into wherever we are in our parent.
 		[self addSubview:self.topLevelView];
+        self.topLevelView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
         self.viewController.delegate = self;
     }
     return self;
