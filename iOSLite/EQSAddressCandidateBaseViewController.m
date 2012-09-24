@@ -19,6 +19,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *colorRefLabelGeocodeFailed;
 
 @property (weak, nonatomic) IBOutlet UIButton *viewButton;
+@property (strong, nonatomic) IBOutlet UIView *candidateTypeRepresentationView;
 @end
 
 @implementation EQSAddressCandidateBaseViewController
@@ -36,6 +37,7 @@
 @synthesize scoreLabel;
 
 @synthesize viewButton;
+@synthesize candidateTypeRepresentationView;
 
 @synthesize candidate = _candidate;
 @synthesize candidateType = _candidateType;
@@ -89,6 +91,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.latLonFormatString = @"%.4f,%.4f";
+	
+    [self prepareView];
 }
 
 - (void)viewDidUnload
@@ -107,6 +111,7 @@
     
     [self setViewButton:nil];
 
+	[self setCandidateTypeRepresentationView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -114,8 +119,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
-    [self prepareView];
 }
 
 - (UILabel *)refLabel
@@ -153,13 +156,7 @@
     {
         UILabel *refView = self.refLabel;
         
-        self.primaryLabel.textColor =
-        self.latLonLabel.textColor =
-        self.locatorLabel.textColor =
-        self.scoreLabel.textColor =
-        refView.textColor;
-        
-        self.view.backgroundColor = refView.backgroundColor;
+        self.candidateTypeRepresentationView.backgroundColor = refView.backgroundColor;
         
         if (self.candidate)
         {

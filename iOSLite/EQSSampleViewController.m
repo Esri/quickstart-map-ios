@@ -34,6 +34,13 @@
 #import "EQSBasemapDetailsViewController.h"
 #import <objc/runtime.h>
 
+typedef enum {
+	EQSSampleAppMessageStateHidden,
+	EQSSampleAppMessageStateNormal,
+	EQSSampleAppMessageStateHighlight,
+	EQSSampleAppMessageStateAlert
+} EQSSampleAppMessageState;
+
 @interface EQSSampleViewController ()
                                         <AGSMapViewTouchDelegate,
                                         UISearchBarDelegate,
@@ -68,9 +75,10 @@
 - (IBAction)resizeUIExitFullScreen:(id)sender;
 
 
-#pragma mark - User hints display
+#pragma mark - User messages display
 @property (weak, nonatomic) IBOutlet UIView *messageBar;
 @property (weak, nonatomic) IBOutlet UILabel *messageBarLabel;
+@property (weak, nonatomic) IBOutlet UIView *messageBarAlertBackdrop;
 - (IBAction)messageBarCloseTapped:(id)sender;
 
 
@@ -118,6 +126,14 @@
 @property (weak, nonatomic) IBOutlet UIButton *routeEndButton;
 @property (weak, nonatomic) IBOutlet UILabel *routeStartLabel;
 @property (weak, nonatomic) IBOutlet UILabel *routeEndLabel;
+
+@property (weak, nonatomic) IBOutlet UITextField *routeFromTextField;
+@property (weak, nonatomic) IBOutlet UITextField *routeToTextField;
+
+@property (weak, nonatomic) IBOutlet UIView *routeFromLeftView;
+@property (weak, nonatomic) IBOutlet UIView *routeToLeftView;
+
+
 @property (strong, nonatomic) IBOutlet EQSRouteResultsView *routeResultsView;
 - (IBAction)toFromTapped:(id)sender;
 - (IBAction)swapRouteStartAndEnd:(id)sender;
@@ -146,6 +162,11 @@
 
 #pragma mark - Application State
 @property (assign) EQSSampleAppState currentState;
+
+
+#pragma mark - Message Bar State
+@property (nonatomic, strong) NSString *userMessage;
+@property (nonatomic, assign) EQSSampleAppMessageState messageState;
 
 
 #pragma mark - UI State
@@ -210,6 +231,7 @@
 
 @synthesize messageBar = _messageBar;
 @synthesize messageBarLabel = _messageBarLabel;
+@synthesize messageBarAlertBackdrop = _messageBarAlertBackdrop;
 
 @synthesize basemapsPicker = _basemapsPicker;
 
@@ -218,6 +240,10 @@
 
 @synthesize routeStartLabel = _routeStartLabel;
 @synthesize routeEndLabel = _routeStopLabel;
+@synthesize routeFromTextField = _routeFromTextField;
+@synthesize routeToTextField = _routeToTextField;
+@synthesize routeFromLeftView = _routeFromLeftView;
+@synthesize routeToLeftView = _routeToLeftView;
 @synthesize routeStartPoint = _routeStartPoint;
 @synthesize routeEndPoint = _routeEndPoint;
 @synthesize routeStartAddress = _routeStartAddress;
@@ -228,7 +254,10 @@
 
 @synthesize uiControlsVisible = _uiControlsVisible;
 
+
 @synthesize currentState = _currentState;
+@synthesize messageState = _messageState;
+@synthesize userMessage = _userMessage;
 
 
 @synthesize findMeButton = _findMeButton;
@@ -316,6 +345,11 @@
 	[self setFunctionSegControl:nil];
 
     [self setGraphicsCreatePanel:nil];
+	[self setMessageBarAlertBackdrop:nil];
+	[self setRouteFromTextField:nil];
+	[self setRouteToTextField:nil];
+	[self setRouteToLeftView:nil];
+	[self setRouteFromLeftView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -330,7 +364,7 @@
 - (void) initApp
 {
 	// Track the application state
-    self.currentState = EQSSampleAppStateBasemaps;
+    self.currentState = EQSSampleAppStateDirections;
 	
 	// Initialize our property for tracking the current basemap type.
     self.currentBasemapType = EQSBasemapTypeTopographic;
@@ -346,6 +380,8 @@
 
 - (void)initUI
 {
+	[self.functionSegControl setEnabled:NO forSegmentAtIndex:3];
+	
     // Go through all the various UI component views, hide them and then place them properly
     // in the UI window so that they'll fade in and out properly.
     for (UIView *v in [self allUIViews]) {
@@ -355,6 +391,11 @@
         objc_setAssociatedObject(v, @"Height", [NSNumber numberWithFloat:frameHeight], OBJC_ASSOCIATION_RETAIN);
         v.frame = [self getUIFrame:v];
     }
+	
+	self.routeFromTextField.leftView = self.routeFromLeftView;
+	self.routeFromTextField.leftViewMode = UITextFieldViewModeAlways;
+	self.routeToTextField.leftView = self.routeToLeftView;
+	self.routeToTextField.leftViewMode = UITextFieldViewModeAlways;
 
 	// Set up the map UI a little.
     self.mapView.wrapAround = YES;
@@ -663,10 +704,11 @@
 - (CGRect) getUIFrame:(UIView *)viewToDisplay forOrientation:(UIInterfaceOrientation)orientation
 {
     CGRect screenFrame = [UIApplication frameInOrientation:orientation];
-    CGRect viewFrame = viewToDisplay.frame;
+    CGSize viewSize = viewToDisplay.frame.size;
     double keyboardHeight = self.keyboardSize.height;
     CGFloat storedHeight = ((NSNumber *)objc_getAssociatedObject(viewToDisplay, @"Height")).doubleValue;
 
+	CGFloat frameOffsetY = 0;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         //TODO - make a constant
@@ -675,7 +717,12 @@
         {
             if (keyboardHeight == 0)
             {
-                frameHeight = storedHeight;// 144;
+				frameHeight = storedHeight;
+				// Keyboard is hidden. Let's show what we need to.
+				if (self.geocodeResults.count == 0)
+				{
+					frameOffsetY = 70;
+				}
             }
             else
             {
@@ -687,19 +734,19 @@
                  self.currentState == EQSSampleAppStateGraphics_Editing_Line ||
                  self.currentState == EQSSampleAppStateGraphics_Editing_Polygon)
         {
-            frameHeight = storedHeight;// 44;
+            frameHeight = storedHeight;
         }
         else if (self.currentState == EQSSampleAppStateGraphics)
         {
-            frameHeight = storedHeight;// 114;
+            frameHeight = storedHeight;
         }
         else if (self.currentState == EQSSampleAppStateDirections_Navigating)
         {
-            frameHeight = storedHeight;// 130;
+            frameHeight = storedHeight;
         }
         if (frameHeight != -1)
         {
-            viewFrame = CGRectMake(viewFrame.origin.x, viewFrame.origin.y, viewFrame.size.width, frameHeight);
+            viewSize = CGSizeMake(viewSize.width, frameHeight);
         }
     }
 
@@ -709,9 +756,9 @@
         keyboardHeight = self.keyboardSize.width;
     }
 	//    NSLog(@"Screen Height: %f, view Height: %f, keyboard Height: %f", screenFrame.size.height, viewFrame.size.height, keyboardHeight);
-    CGPoint origin = CGPointMake(screenFrame.origin.x, screenFrame.size.height - viewFrame.size.height - keyboardHeight);
+    CGPoint origin = CGPointMake(screenFrame.origin.x, screenFrame.size.height - viewSize.height - keyboardHeight);
 	//    NSLog(@"Screen: %@", NSStringFromCGRect(screenFrame));
-    CGRect newFrame = CGRectMake(origin.x, origin.y, viewFrame.size.width, viewFrame.size.height);
+    CGRect newFrame = CGRectMake(origin.x, origin.y + frameOffsetY, viewSize.width, viewSize.height);
 	//    NSLog(@"   New: %@", NSStringFromCGRect(newFrame));
     return newFrame;
 }
@@ -773,12 +820,16 @@
 		}
 		_currentState = currentState;
 		
-		switch (_currentState) {
+		switch (_currentState)
+		{
 			case EQSSampleAppStateDirections:
+			case EQSSampleAppStateDirections_GettingRoute:
+			case EQSSampleAppStateDirections_Navigating:
 				self.routeStartButton.selected = NO;
 				self.routeEndButton.selected = NO;
 				[self setStartAndEndText];
 				break;
+
 			case EQSSampleAppStateDirections_WaitingForRouteStart:
 				self.routeStartButton.selected = YES;
 				self.routeEndButton.selected = NO;
@@ -805,6 +856,7 @@
 				[self listenToEditingUndoManager];
 				self.mapView.showMagnifierOnTapAndHold = YES;
 				break;
+
 			case EQSSampleAppStateGraphics:
 				for (UIBarButtonItem *buttonItem in self.editGraphicsToolbar.items) {
 					buttonItem.enabled = NO;
@@ -832,9 +884,12 @@
 	NSInteger newSegIndex = -1;
 	switch (self.currentState) {
 		case EQSSampleAppStateBasemaps:
+		case EQSSampleAppStateBasemaps_Loading:
 			newSegIndex = 0;
 			break;
 		case EQSSampleAppStateGeolocation:
+		case EQSSampleAppStateGeolocation_Locating:
+		case EQSSampleAppStateGeolocation_GettingAddress:
 			newSegIndex = 1;
 			break;
 		case EQSSampleAppStateGraphics:
@@ -847,17 +902,20 @@
 			newSegIndex = 3;
 			break;
 		case EQSSampleAppStateFindPlace:
+		case EQSSampleAppStateFindPlace_Finding:
+		case EQSSAmpleAppStateFindPlace_GettingAddress:
 			newSegIndex = 4;
 			break;
 		case EQSSampleAppStateDirections:
-		case EQSSampleAppStateDirections_Navigating:
 		case EQSSampleAppStateDirections_WaitingForRouteStart:
 		case EQSSampleAppStateDirections_WaitingForRouteEnd:
+		case EQSSampleAppStateDirections_GettingRoute:
+		case EQSSampleAppStateDirections_Navigating:
 			newSegIndex = 5;
 			
-		default:
-			NSLog(@"Could not determine SegmentControl Index from App State %d", self.currentState);
-			return;
+//		default:
+//			NSLog(@"Could not determine SegmentControl Index from App State %d", self.currentState);
+//			return;
 	}
 	if (newSegIndex != self.functionSegControl.selectedSegmentIndex)
 	{
@@ -867,39 +925,146 @@
 
 #pragma mark - UI Function Selection
 
-- (NSString *) getMessageForCurrentFunction
+- (void) setUserMessage:(NSString *)userMessage
 {
-    switch (self.currentState) {
+	_userMessage = userMessage;
+	self.messageBarLabel.text = _userMessage;
+}
+
+- (void) setCurrentState:(EQSSampleAppState) appState withUserAlertMessage:(NSString *)userMessage
+{
+	self.currentState = appState;
+	self.userMessage = userMessage;
+	self.messageState = EQSSampleAppMessageStateAlert;
+}
+
+- (void) setMessageState:(EQSSampleAppMessageState)messageState
+{
+	_messageState = messageState;
+	UIColor *bgCol = nil;
+	UIColor *fgCol = nil;
+	
+	self.messageBarAlertBackdrop.hidden = YES;
+	
+	switch (_messageState)
+	{
+		case EQSSampleAppMessageStateHighlight:
+			bgCol = [UIColor greenColor];
+			fgCol = [UIColor blackColor];
+			break;
+			
+		case EQSSampleAppMessageStateAlert:
+			bgCol = [UIColor redColor];
+			fgCol = [UIColor blackColor];
+			self.messageBarAlertBackdrop.hidden = NO;
+			break;
+			
+		default:
+			bgCol = [UIColor blackColor];
+			fgCol = [UIColor whiteColor];
+			break;
+	}
+	
+	self.messageBar.backgroundColor = [bgCol colorWithAlphaComponent:0.93];
+	self.messageBarLabel.textColor = fgCol;
+}
+
+- (void) setUserMessageForCurrentFunction
+{
+	NSString *newMessage = nil;
+	EQSSampleAppMessageState newState = EQSSampleAppMessageStateNormal;
+	
+    switch (self.currentState)
+	{
         case EQSSampleAppStateBasemaps:
-            return [NSString stringWithFormat:@"Select Basemap [%@]", [EQSHelper getBasemapName:self.currentBasemapType]];
+            newMessage = [NSString stringWithFormat:@"Select Basemap [%@]", [EQSHelper getBasemapName:self.currentBasemapType]];
+			break;
+		case EQSSampleAppStateBasemaps_Loading:
+			newMessage = @"Loading…";
         case EQSSampleAppStateGeolocation:
-            return @"Zoom to your location";
+            newMessage = @"Find your location";
+			break;
+		case EQSSampleAppStateGeolocation_Locating:
+			newMessage = @"Finding your geolocation…";
+			break;
+		case EQSSampleAppStateGeolocation_GettingAddress:
+			newMessage = @"Getting your address…";
+			break;
         case EQSSampleAppStateGraphics:
-            return @"Create a new graphic.";
+            newMessage = @"Edit graphic, or create a graphic below";
+			break;
         case EQSSampleAppStateGraphics_Editing_Point:
-            return @"Tap the map to place a point";
+			if ([self.mapView getUndoManagerForGraphicsEdits].canUndo)
+			{
+				newMessage = @"Tap the check mark to save";
+			}
+			else
+			{
+				newMessage = @"Tap the map to place a point";
+			}
+			break;
         case EQSSampleAppStateGraphics_Editing_Line:
-            return @"Tap the map to draw a line";
+			if ([self.mapView getUndoManagerForGraphicsEdits].canUndo)
+			{
+				newMessage = @"Tap the check mark to save";
+			}
+			else
+			{
+				newMessage = @"Tap the map to edit a line";
+			}
+			break;
         case EQSSampleAppStateGraphics_Editing_Polygon:
-            return @"Tap the map to draw the outline of a polygon";
+			if ([self.mapView getUndoManagerForGraphicsEdits].canUndo)
+			{
+				newMessage = @"Tap the check mark to save";
+			}
+			else
+			{
+				newMessage = @"Tap the map to edit a polygon";
+			}
+			break;
         case EQSSampleAppStateFindPlace:
-            return @"Tap the map or enter an address";
+            newMessage = @"Enter search text, or tap the map to find an address";
+			break;
+		case EQSSampleAppStateFindPlace_Finding:
+			newMessage = @"Searching for results…";
+			newState = EQSSampleAppMessageStateHighlight;
+			break;
+		case EQSSAmpleAppStateFindPlace_GettingAddress:
+			newMessage = @"Looking up address…";
+			newState = EQSSampleAppMessageStateHighlight;
+			break;
         case EQSSampleAppStateDirections:
-            return @"Tap the map to calculate directions";
+            newMessage = @"Tap below to calculate driving directions";
+			break;
         case EQSSampleAppStateDirections_WaitingForRouteStart:
-            return @"Tap the start point for calculating directions";
+            newMessage = @"Tap the start point of the route";
+			newState = EQSSampleAppMessageStateHighlight;
+			break;
         case EQSSampleAppStateDirections_WaitingForRouteEnd:
-            return @"Tap the end point for calculating directions";
+            newMessage = @"Tap the end point of the route";
+			newState = EQSSampleAppMessageStateHighlight;
+			break;
+		case EQSSampleAppStateDirections_GettingRoute:
+			newMessage = @"Calculating directions…";
+			newState = EQSSampleAppMessageStateHighlight;
+			break;
 		case EQSSampleAppStateDirections_Navigating:
-			return @"Navigate the route, step-by-step";
+			newMessage =  @"Navigate the route, step-by-step";
+			break;
         case EQSSampleAppStateCloudData:
-            return @"Access World City features in the cloud";
+            newMessage =  @"Access World City features in the cloud";
+			break;
             
-        default:
-            NSLog(@"Can't get message for unknown app state %d", self.currentState);
-            return @"Magic unknown functionality! Well done!";
-            break;
+//        default:
+//            NSLog(@"Can't get message for unknown app state %d", self.currentState);
+//            newMessage =  @"Magic unknown functionality! Well done!";
+//			newState = EQSSampleAppMessageStateAlert;
+//            break;
     }
+	
+	self.userMessage = newMessage;
+	self.messageState = newState;
 }
 
 - (IBAction)functionChanged:(id)sender {
@@ -959,13 +1124,16 @@
 {
     UIView *viewToShow = nil;
     
-    switch (self.currentState) {
+    switch (self.currentState)
+	{
         case EQSSampleAppStateBasemaps:
+		case EQSSampleAppStateBasemaps_Loading:
             viewToShow = self.basemapsPicker;
             break;
         case EQSSampleAppStateDirections:
         case EQSSampleAppStateDirections_WaitingForRouteStart:
         case EQSSampleAppStateDirections_WaitingForRouteEnd:
+		case EQSSampleAppStateDirections_GettingRoute:
             viewToShow = self.routingPanel;
             break;
         case EQSSampleAppStateDirections_Navigating:
@@ -980,12 +1148,16 @@
             }
             break;
         case EQSSampleAppStateFindPlace:
+		case EQSSampleAppStateFindPlace_Finding:
+		case EQSSAmpleAppStateFindPlace_GettingAddress:
             viewToShow = self.findPlacePanel;
             break;
         case EQSSampleAppStateCloudData:
             viewToShow = self.cloudDataPanel;
             break;
         case EQSSampleAppStateGeolocation:
+		case EQSSampleAppStateGeolocation_Locating:
+		case EQSSampleAppStateGeolocation_GettingAddress:
             viewToShow = self.geolocationPanel;
             break;
         case EQSSampleAppStateGraphics:
@@ -1075,7 +1247,7 @@
                              viewToAnimateOut.alpha = 0;
                              viewToShow.frame = [self getUIFrame:viewToShow forOrientation:orientation];
                              self.messageBar.frame = [self getMessageFrameForMasterFrame:viewToShow];
-                             self.messageBarLabel.text = [self getMessageForCurrentFunction];
+                             [self setUserMessageForCurrentFunction];
                          }
                          completion:^(BOOL finished) {
                              viewToAnimateOut.hidden = YES;
@@ -1085,6 +1257,7 @@
         if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
         {
             if (self.currentState == EQSSampleAppStateDirections ||
+				self.currentState == EQSSampleAppStateDirections_GettingRoute ||
                 self.currentState == EQSSampleAppStateDirections_WaitingForRouteStart ||
                 self.currentState == EQSSampleAppStateDirections_WaitingForRouteEnd ||
 				self.currentState == EQSSampleAppStateDirections_Navigating)
@@ -1153,6 +1326,7 @@
     NSUndoManager *um = notification.object;
     [self setButtonStatesForUndoManager:um];
     [self setZoomToGraphicButtonState];
+	[self setUserMessageForCurrentFunction];
 }
 
 - (void)listenToEditingUndoManager
@@ -1179,7 +1353,7 @@
 	
     self.basemapsPicker.currentPortalItemID = pi.itemId;
     
-    self.messageBarLabel.text = [self getMessageForCurrentFunction];
+    [self setUserMessageForCurrentFunction];
 }
 
 - (void)basemapSelected:(EQSBasemapType)basemapType
@@ -1364,6 +1538,8 @@
 
                 [self.mapView showCalloutAtPoint:geoLocation forGraphic:g animated:YES];
             }
+			
+			[self updateUIDisplayState];
 		}
 	}
 }
@@ -1471,6 +1647,10 @@
 {
 	// Fire off a reverse geocode to get the address of the start point
 	// See gotAddressFromPoint for more details
+	self.routeFromTextField.text = @"";
+	self.routeFromTextField.placeholder = [NSString stringWithFormat:@"Getting address for %.2f,%.2f",
+										   mapPoint.latitude,
+										   mapPoint.longitude];
     NSOperation *op = [self.mapView.geoServices findAddressFromPoint:mapPoint];
 	// Tag the operation so that gotAddressFromPoint knows this related to a directions start point
     objc_setAssociatedObject(op, kEQSGetAddressReasonKey, kEQSGetAddressReason_RouteStart, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -1480,6 +1660,10 @@
 {
 	// Fire off a reverse geocode to get the address of the end point
 	// See gotAddressFromPoint for more details
+	self.routeToTextField.text = @"";
+	self.routeToTextField.placeholder = [NSString stringWithFormat:@"Getting address for %.2f,%.2f",
+										 mapPoint.latitude,
+										 mapPoint.longitude];
     NSOperation *op = [self.mapView.geoServices findAddressFromPoint:mapPoint];
 	// Tag the operation so that gotAddressFromPoint knows this related to a directions start point
     objc_setAssociatedObject(op, kEQSGetAddressReasonKey, kEQSGetAddressReason_RouteEnd, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -1559,6 +1743,7 @@
         NSLog(@"Start and end points set... %@ %@", self.routeStartAddress, self.routeEndAddress);
         [self.mapView.geoServices findDirectionsFrom:self.routeStartPoint named:self.routeStartAddress
                                                   to:self.routeEndPoint named:self.routeEndAddress];
+		self.currentState = EQSSampleAppStateDirections_GettingRoute;
         return YES;
     }
     return NO;
@@ -1588,12 +1773,17 @@
 	if (error)
 	{
 		NSLog(@"Failed to solve route: %@", error);
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not calculate route"
-														message:[error.userInfo objectForKey:@"NSLocalizedFailureReason"]
-													   delegate:nil
-											  cancelButtonTitle:@"OK"
-											  otherButtonTitles:nil];
-		[alert show];
+//		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not calculate route"
+//														message:[error.userInfo objectForKey:@"NSLocalizedFailureReason"]
+//													   delegate:nil
+//											  cancelButtonTitle:@"OK"
+//											  otherButtonTitles:nil];
+//		objc_setAssociatedObject(alert, @"Route Failed", error, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+//		[alert show];
+//		self.currentState = EQSSampleAppStateDirections;
+//		self.userMessage = @"Could not solve route!";
+//		self.messageState = EQSSampleAppMessageStateAlert;
+		[self setCurrentState:EQSSampleAppStateDirections withUserAlertMessage:@"Could not solve route!"];
 	}
 }
 
@@ -1609,9 +1799,15 @@
     NSString *latLongText = nil;
     if (self.routeStartPoint)
     {
-        latLongText = [NSString stringWithFormat:@"%.4f,%.4f", self.routeStartPoint.latitude, self.routeStartPoint.longitude];
+        latLongText = [NSString stringWithFormat:@"%.4f,%.4f",
+					   self.routeStartPoint.latitude,
+					   self.routeStartPoint.longitude];
     }
     NSString *address = self.routeStartAddress;
+	if (address)
+	{
+		self.routeFromTextField.text = address;
+	}
     if (latLongText && address)
     {
         self.routeStartLabel.text = [NSString stringWithFormat:@"%@ (%@)", address, latLongText];
@@ -1626,25 +1822,28 @@
     }
     else
     {
-        if (self.routeStartButton.selected)
-        {
-            self.routeStartLabel.text = @"Tap start of route on map";
-        }
-        else
-        {
-            self.routeStartLabel.text = @"Tap button";
-        }
+//        if (self.routeStartButton.selected)
+//        {
+//            self.routeStartLabel.text = @"Tap start of route on map";
+//        }
+//        else
+//        {
+//            self.routeStartLabel.text = @"Tap button";
+//        }
+		self.routeStartLabel.text = @"";
     }
 }
 
 - (void) setEndText
 {
-    NSString *latLongText = nil;
-    if (self.routeEndPoint)
-    {
-        latLongText = [NSString stringWithFormat:@"%.4f,%.4f", self.routeEndPoint.latitude, self.routeEndPoint.longitude];
-    }
+    NSString *latLongText = self.routeEndPoint?[NSString stringWithFormat:@"%.4f,%.4f",
+												self.routeEndPoint.latitude,
+												self.routeEndPoint.longitude]:nil;
     NSString *address = self.routeEndAddress;
+	if (address)
+	{
+		self.routeToTextField.text = address;
+	}
     if (latLongText && address)
     {
         self.routeEndLabel.text = [NSString stringWithFormat:@"%@ (%@)", address, latLongText];
@@ -1659,14 +1858,15 @@
     }
     else
     {
-        if (self.routeEndButton.selected)
-        {
-            self.routeEndLabel.text = @"Tap end of route on map";
-        }
-        else
-        {
-            self.routeEndLabel.text = @"Tap button";
-        }
+//        if (self.routeEndButton.selected)
+//        {
+//            self.routeEndLabel.text = @"Tap end of route on map";
+//        }
+//        else
+//        {
+//            self.routeEndLabel.text = @"Tap button";
+//        }
+		self.routeEndLabel.text = @"";
     }
 }
 
@@ -1792,7 +1992,7 @@
 
 			// Now, we're only going to show results in the top 20% (rank-wise)
             double maxScore = ((AGSAddressCandidate *)[sortedCandidates objectAtIndex:0]).score;
-            maxScore = maxScore * 0.87f;
+            maxScore = maxScore * 0.9f;
 			
 			// Only considering the top results, in terms of score relative to top score.
 			sortedCandidates = [sortedCandidates filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings)
@@ -1872,6 +2072,8 @@
                 [totalEnv expandByFactor:1.1];
                 [self.mapView zoomToEnvelope:totalEnv animated:YES];
             }
+			
+			[self updateUIDisplayState];
         }
         else
         {
@@ -1951,6 +2153,7 @@
 				// Now there's not an edit, we can change the state
 				EQSSampleAppState newAppState = appState.intValue;
 				self.currentState = newAppState;
+				return;
 			}
 		}
 	}
@@ -1966,8 +2169,9 @@
 
 
 #pragma mark - Message Bar
-- (IBAction)messageBarCloseTapped:(id)sender {
+- (IBAction)messageBarCloseTapped:(id)sender
+{
     NSLog(@"Close the message bar now...");
-    self.messageBar.hidden = YES;
+    [self setUserMessageForCurrentFunction];
 }
 @end

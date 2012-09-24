@@ -26,7 +26,7 @@
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-        self.layer.cornerRadius = 7;
+        self.layer.cornerRadius = 4;
     }
     return self;
 }

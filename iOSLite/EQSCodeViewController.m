@@ -192,8 +192,11 @@
 {
     switch (self.currentAppState) {
         case EQSSampleAppStateBasemaps:
+		case EQSSampleAppStateBasemaps_Loading:
             return @"Basemaps";
         case EQSSampleAppStateGeolocation:
+		case EQSSampleAppStateGeolocation_Locating:
+		case EQSSampleAppStateGeolocation_GettingAddress:
             return @"Geolocation";
         case EQSSampleAppStateGraphics:
         case EQSSampleAppStateGraphics_Editing_Point:
@@ -201,10 +204,13 @@
         case EQSSampleAppStateGraphics_Editing_Polygon:
             return @"Graphics";
         case EQSSampleAppStateFindPlace:
+		case EQSSampleAppStateFindPlace_Finding:
+		case EQSSAmpleAppStateFindPlace_GettingAddress:
             return @"FindPlace";
         case EQSSampleAppStateDirections:
         case EQSSampleAppStateDirections_WaitingForRouteStart:
         case EQSSampleAppStateDirections_WaitingForRouteEnd:
+		case EQSSampleAppStateDirections_GettingRoute:
         case EQSSampleAppStateDirections_Navigating:
             return @"Directions";
         case EQSSampleAppStateCloudData:

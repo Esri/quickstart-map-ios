@@ -12,16 +12,22 @@
 typedef enum
 {
     EQSSampleAppStateBasemaps,
+	EQSSampleAppStateBasemaps_Loading,
     EQSSampleAppStateGeolocation,
+	EQSSampleAppStateGeolocation_Locating,
+	EQSSampleAppStateGeolocation_GettingAddress,
     EQSSampleAppStateGraphics,
     EQSSampleAppStateGraphics_Editing_Point,
     EQSSampleAppStateGraphics_Editing_Line,
     EQSSampleAppStateGraphics_Editing_Polygon,
     EQSSampleAppStateCloudData,
     EQSSampleAppStateFindPlace,
+	EQSSampleAppStateFindPlace_Finding,
+	EQSSAmpleAppStateFindPlace_GettingAddress,
 	EQSSampleAppStateDirections,
     EQSSampleAppStateDirections_WaitingForRouteStart,
     EQSSampleAppStateDirections_WaitingForRouteEnd,
+	EQSSampleAppStateDirections_GettingRoute,
     EQSSampleAppStateDirections_Navigating
 }
 EQSSampleAppState;

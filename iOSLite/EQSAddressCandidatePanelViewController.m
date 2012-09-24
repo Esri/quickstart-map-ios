@@ -113,7 +113,7 @@
     {
         UILabel *refView = self.refLabel;
         self.secondaryLabel.textColor = refView.textColor;
-        self.view.backgroundColor = refView.backgroundColor;
+//        self.view.backgroundColor = refView.backgroundColor;
         
         self.secondaryLabel.text = @"";
     }

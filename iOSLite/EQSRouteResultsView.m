@@ -54,6 +54,10 @@
             self.layer.cornerRadius = 7;
             self.layer.masksToBounds = YES;
         }
+		if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
+		{
+			self.topLevelView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+		}
     }
     return self;
 }

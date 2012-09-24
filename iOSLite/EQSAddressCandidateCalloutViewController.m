@@ -68,6 +68,22 @@
     }
 }
 
+- (void) prepareView
+{
+	[super prepareView];
+	
+	if (self.view)
+	{
+		UILabel *refView = self.refLabel;
+
+		self.primaryLabel.textColor =
+        self.latLonLabel.textColor =
+        self.locatorLabel.textColor =
+        self.scoreLabel.textColor =
+        refView.textColor;
+	}
+}
+
 #pragma mark - AGSCalloutDelegate
 - (UIView *) customViewForGraphic:(AGSGraphic *)graphic screenPoint:(CGPoint)screen mapPoint:(AGSPoint *)mapPoint
 {

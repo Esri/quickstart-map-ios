@@ -237,6 +237,7 @@ EQSGraphicCallout *__eqsTheGraphicCallout = nil;
     
     for (NSString *layerName in graphics.allKeys)
     {
+		NSLog(@"Layer: %@", layerName);
         if (layerName == kEQSGraphicsLayerName_Point ||
             layerName == kEQSGraphicsLayerName_Polyline ||
             layerName == kEQSGraphicsLayerName_Polygon)
@@ -244,7 +245,8 @@ EQSGraphicCallout *__eqsTheGraphicCallout = nil;
             NSArray *graphicsToEditFromLayer = [graphics objectForKey:layerName];
             if (graphicsToEditFromLayer.count > 0)
             {
-                graphicToEdit = [graphicsToEditFromLayer objectAtIndex:0];
+				NSLog(@"Graphics to edit: %d", graphicsToEditFromLayer.count);
+                graphicToEdit = [graphicsToEditFromLayer lastObject];
                 break;
             }
         }
