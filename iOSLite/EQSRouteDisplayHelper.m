@@ -192,18 +192,20 @@
         self.routeGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
         [EQSHelper queueBlock:^{
             [mapView addMapLayer:self.routeGraphicsLayer withName:kEQSRouteResultsLayerName];
+            
+            // Set up the default symbols.
+            // We do this in here because we know that it coudl take some time for URL-based
+            // symbols to download, and we want to do that *after* the map has loaded so we
+            // don't risk holding up map initialization.
+            self.startSymbol = mapView.defaultSymbols.routeStart;
+            self.endSymbol = mapView.defaultSymbols.routeEnd;
+            self.routeSymbol = mapView.defaultSymbols.route;            
         }
            untilMapViewLoaded:mapView];
 		
 		// Keep a handle onto our AGSMapView
 		self.mapView = mapView;
 
-		// Set up the default symbols.
-        self.startSymbol = mapView.defaultSymbols.routeStart;
-        self.endSymbol = mapView.defaultSymbols.routeEnd;
-        
-		self.routeSymbol = mapView.defaultSymbols.route;
-        
         self.startPointCalloutTemplate = [[AGSCalloutTemplate alloc] init];
         self.startPointCalloutTemplate.titleTemplate = @"Start";
         self.startPointCalloutTemplate.detailTemplate = @"Oooh"; //TODO - fix this

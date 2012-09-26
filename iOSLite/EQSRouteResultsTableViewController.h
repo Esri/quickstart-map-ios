@@ -16,5 +16,5 @@
 
 @interface EQSRouteResultsTableViewController : UITableViewController
 @property (nonatomic, strong) AGSRouteResult *routeResult;
-@property (nonatomic, assign) id<EQSRouteDisplayTableViewDelegate> directionsDelegate;
+@property (nonatomic, weak) id<EQSRouteDisplayTableViewDelegate> directionsDelegate;
 @end

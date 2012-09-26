@@ -1400,6 +1400,11 @@ typedef enum {
         EQSBasemapDetailsViewController *destVC = segue.destinationViewController;
         destVC.portalItem = self.currentPortalItem;
     }
+    else if ([segue.identifier isEqualToString:@"ShowCode"])
+    {
+        EQSCodeViewController *cvc = segue.destinationViewController;
+        cvc.currentAppState = self.currentState;       
+    }
 }
 
 

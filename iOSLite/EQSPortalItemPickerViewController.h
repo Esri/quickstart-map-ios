@@ -13,7 +13,7 @@
 @property (nonatomic, weak) NSString *currentPortalItemID;
 @property (nonatomic, strong) AGSPortalItem *currentPortalItem;
 
-@property (nonatomic, assign) id delegate;
+@property (nonatomic, weak) id delegate;
 
 - (AGSPortalItem *)addPortalItemByID:(NSString *)portalItemID;
 - (void)ensureItemVisible:(NSString *)portalItemID Highlighted:(BOOL)highlight;

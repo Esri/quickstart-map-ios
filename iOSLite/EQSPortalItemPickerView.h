@@ -8,17 +8,14 @@
 
 #import <ArcGIS/ArcGIS.h>
 
-@protocol EQSPortalItemPickerDelegate
+@protocol EQSPortalItemPickerDelegate <NSObject>
 @optional
 -(void) currentPortalItemChanged:(AGSPortalItem *)currentPortalItem;
 -(void) basemapsPickerDidTapInfoButton:(id)basemapsPicker;
 @end
 
-@interface EQSPortalItemPickerView : UIView {
-	id<EQSPortalItemPickerDelegate> pickerDelegate;
-}
-
-@property (nonatomic, assign) id pickerDelegate;
+@interface EQSPortalItemPickerView : UIView
+@property (nonatomic, weak) id<EQSPortalItemPickerDelegate> pickerDelegate;
 
 @property (nonatomic, weak) NSString *currentPortalItemID;
 @property (nonatomic, strong, readonly) AGSPortalItem *currentPortalItem;

@@ -9,15 +9,12 @@
 #import "EQSPortalItemPickerView.h"
 #import "EQSHelper.h"
 
-@protocol EQSBasemapPickerDelegate
+@protocol EQSBasemapPickerDelegate <NSObject>
 - (void)basemapSelected:(EQSBasemapType)basemapType;
 -(void) basemapsPickerDidTapInfoButton:(id)basemapsPicker;
 @end
 
-@interface EQSBasemapPickerView : EQSPortalItemPickerView {
-	id<EQSBasemapPickerDelegate> basemapDelegate;
-}
-
-@property (nonatomic, strong) id basemapDelegate;
+@interface EQSBasemapPickerView : EQSPortalItemPickerView
+@property (nonatomic, weak) id<EQSBasemapPickerDelegate> basemapDelegate;
 @property (nonatomic, assign) EQSBasemapType basemapType;
 @end

@@ -114,7 +114,10 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self attachToRightEdgeOfMapView];
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+    {
+        [self attachToRightEdgeOfMapView];
+    }
 }
 
 #define kcontrolsHeight 170
@@ -185,7 +188,10 @@
 - (void) setCurrentAppState:(EQSSampleAppState)currentAppState
 {
     _currentAppState = currentAppState;
-    [self showCode];
+    if (self.isViewLoaded)
+    {
+        [self showCode];
+    }
 }
 
 - (NSString *)currentSnippetTitle

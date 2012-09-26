@@ -9,13 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
 
-@protocol EQSPortalItemListViewDelegate
+@protocol EQSPortalItemListViewDelegate <NSObject>
 - (void)selectedPortalItemChanged:(AGSPortalItem *)selectedPortalItem;
 @end
 
-@interface EQSPortalItemListViewController : UIViewController {
-	id <EQSPortalItemListViewDelegate> portalItemDelegate;
-}
-
-@property (nonatomic, weak) id portalItemDelegate;
+@interface EQSPortalItemListViewController : UIViewController
+@property (nonatomic, weak) id<EQSPortalItemListViewDelegate> portalItemDelegate;
 @end
