@@ -63,7 +63,7 @@
 		D97D446115E464F10072457A /* EQSCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = D97D446015E464F10072457A /* EQSCodeView.m */; };
 		D97D446415E465DD0072457A /* EQSCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97D446315E465DD0072457A /* EQSCodeViewController.m */; };
 		D97D446615E473B20072457A /* codeView.css in Resources */ = {isa = PBXBuildFile; fileRef = D97D446515E473B20072457A /* codeView.css */; };
-		D97D447615E520C00072457A /* codeTemplate~ipad.html in Resources */ = {isa = PBXBuildFile; fileRef = D97D447515E520C00072457A /* codeTemplate~ipad.html */; };
+		D97D447615E520C00072457A /* codeTemplate.html in Resources */ = {isa = PBXBuildFile; fileRef = D97D447515E520C00072457A /* codeTemplate.html */; };
 		D97D447715E523840072457A /* shBrushObjC.js in Resources */ = {isa = PBXBuildFile; fileRef = D97D447315E520930072457A /* shBrushObjC.js */; };
 		D97D447815E523840072457A /* shAutoloader.js in Resources */ = {isa = PBXBuildFile; fileRef = D97D446D15E520470072457A /* shAutoloader.js */; };
 		D97D447915E523840072457A /* shCore.js in Resources */ = {isa = PBXBuildFile; fileRef = D97D446E15E520470072457A /* shCore.js */; };
@@ -170,7 +170,6 @@
 		E1812BDC15DC767E00D3325A /* EQSBasemapPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1812BDB15DC767E00D3325A /* EQSBasemapPickerView.m */; };
 		E1A5682D15ABAC74004AA6C1 /* EQSGeoServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A5682C15ABAC74004AA6C1 /* EQSGeoServices.m */; };
 		E1AB2DEC15F26F6B00CA3096 /* EQSAddressCandidateView~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1AB2DEB15F26F6B00CA3096 /* EQSAddressCandidateView~iphone.xib */; };
-		E1AE8B0015F29BC500E36104 /* codeTemplate~iphone.html in Resources */ = {isa = PBXBuildFile; fileRef = E1AE8AFF15F29BC500E36104 /* codeTemplate~iphone.html */; };
 		E1E1808515DAD2A300BB30DD /* EQSPortalItemPickerView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1E1808415DAD2A300BB30DD /* EQSPortalItemPickerView~ipad.xib */; };
 		E1E1808E15DAD38400BB30DD /* EQSPortalItemPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E1808D15DAD38400BB30DD /* EQSPortalItemPickerView.m */; };
 		E1E1809115DAD43D00BB30DD /* EQSPortalItemPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E1809015DAD43C00BB30DD /* EQSPortalItemPickerViewController.m */; };
@@ -252,7 +251,7 @@
 		D97D446E15E520470072457A /* shCore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = shCore.js; sourceTree = "<group>"; };
 		D97D446F15E520470072457A /* shLegacy.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = shLegacy.js; sourceTree = "<group>"; };
 		D97D447315E520930072457A /* shBrushObjC.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = shBrushObjC.js; sourceTree = "<group>"; };
-		D97D447515E520C00072457A /* codeTemplate~ipad.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "codeTemplate~ipad.html"; sourceTree = "<group>"; };
+		D97D447515E520C00072457A /* codeTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = codeTemplate.html; sourceTree = "<group>"; };
 		D97D447D15E525D10072457A /* codeSnippets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = codeSnippets.plist; sourceTree = "<group>"; };
 		D97D447F15E52CCF0072457A /* shCoreDefault.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = shCoreDefault.css; sourceTree = "<group>"; };
 		D97D448115E53BEA0072457A /* shThemeDefault.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = shThemeDefault.css; sourceTree = "<group>"; };
@@ -385,7 +384,6 @@
 		E1A5682B15ABAC74004AA6C1 /* EQSGeoServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EQSGeoServices.h; path = iOSLite/EQSGeoServices.h; sourceTree = "<group>"; };
 		E1A5682C15ABAC74004AA6C1 /* EQSGeoServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EQSGeoServices.m; path = iOSLite/EQSGeoServices.m; sourceTree = "<group>"; };
 		E1AB2DEB15F26F6B00CA3096 /* EQSAddressCandidateView~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "EQSAddressCandidateView~iphone.xib"; sourceTree = "<group>"; };
-		E1AE8AFF15F29BC500E36104 /* codeTemplate~iphone.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "codeTemplate~iphone.html"; sourceTree = "<group>"; };
 		E1DCB32D156D455100A30BB2 /* UILabel+EQSAutoSizeMultiline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+EQSAutoSizeMultiline.h"; sourceTree = "<group>"; };
 		E1DCB32E156D455100A30BB2 /* UILabel+EQSAutoSizeMultiline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+EQSAutoSizeMultiline.m"; sourceTree = "<group>"; };
 		E1E1808415DAD2A300BB30DD /* EQSPortalItemPickerView~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "EQSPortalItemPickerView~ipad.xib"; sourceTree = "<group>"; };
@@ -595,8 +593,7 @@
 			children = (
 				D97D445B15E4643A0072457A /* CodeTab.png */,
 				D97D445C15E4643A0072457A /* CodeTab@2x.png */,
-				D97D447515E520C00072457A /* codeTemplate~ipad.html */,
-				E1AE8AFF15F29BC500E36104 /* codeTemplate~iphone.html */,
+				D97D447515E520C00072457A /* codeTemplate.html */,
 				D97D446515E473B20072457A /* codeView.css */,
 				D97D447D15E525D10072457A /* codeSnippets.plist */,
 				D97D446815E4879C0072457A /* SyntaxHighlighter */,
@@ -970,7 +967,7 @@
 				D97D445D15E4643A0072457A /* CodeTab.png in Resources */,
 				D97D445E15E4643A0072457A /* CodeTab@2x.png in Resources */,
 				D97D446615E473B20072457A /* codeView.css in Resources */,
-				D97D447615E520C00072457A /* codeTemplate~ipad.html in Resources */,
+				D97D447615E520C00072457A /* codeTemplate.html in Resources */,
 				D97D447E15E525D10072457A /* codeSnippets.plist in Resources */,
 				D97D447715E523840072457A /* shBrushObjC.js in Resources */,
 				D97D447815E523840072457A /* shAutoloader.js in Resources */,
@@ -1008,7 +1005,6 @@
 				D9AF4BDE15F14A380094A35A /* EQSPortalItemListView~iphone.xib in Resources */,
 				D9AF4BE015F14AB80094A35A /* EQSPortalItemPickerView~iphone.xib in Resources */,
 				E1AB2DEC15F26F6B00CA3096 /* EQSAddressCandidateView~iphone.xib in Resources */,
-				E1AE8B0015F29BC500E36104 /* codeTemplate~iphone.html in Resources */,
 				D9AF4BF915F2D7360094A35A /* redo-white.png in Resources */,
 				D9AF4BFA15F2D7360094A35A /* redo-white@2x.png in Resources */,
 				D9AF4BFB15F2D7360094A35A /* undo-white.png in Resources */,
@@ -1195,7 +1191,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iOSLite/esriQuickStartApp-Prefix.pch";
 				INFOPLIST_FILE = "iOSLite/esriQuickStartApp-Info.plist";
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1213,7 +1209,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iOSLite/esriQuickStartApp-Prefix.pch";
 				INFOPLIST_FILE = "iOSLite/esriQuickStartApp-Info.plist";
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",

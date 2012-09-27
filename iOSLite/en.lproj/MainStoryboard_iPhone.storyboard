@@ -343,7 +343,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="35"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="No start address…" minimumFontSize="10" clearButtonMode="whileEditing" id="AEv-VE-sZt">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Start" minimumFontSize="10" clearButtonMode="whileEditing" id="AEv-VE-sZt">
                                                 <rect key="frame" x="6" y="3" width="278" height="31"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" cyan="0.0" magenta="0.0" yellow="0.0" black="0.84999996420000001" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
@@ -386,8 +386,8 @@
                                         <rect key="frame" x="0.0" y="35" width="320" height="35"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="No end address…" minimumFontSize="10" clearButtonMode="whileEditing" id="Cz2-ym-KHh">
-                                                <rect key="frame" x="6" y="1" width="278" height="31"/>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="End" minimumFontSize="10" clearButtonMode="whileEditing" id="Cz2-ym-KHh">
+                                                <rect key="frame" x="4" y="2" width="278" height="31"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" cyan="0.0" magenta="0.0" yellow="0.0" black="0.84999996420000001" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -494,12 +494,11 @@
         <scene sceneID="izs-qd-haz">
             <objects>
                 <viewController id="dlE-fr-JSr" customClass="EQSCodeViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="SaY-r3-h3w">
+                    <view key="view" contentMode="scaleToFill" id="SaY-r3-h3w" customClass="EQSCodeView">
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.79426419010000004" green="0.1890674739" blue="0.18044822660000001" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" id="jYe-WI-066"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kTD-uy-aCF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -118,6 +118,12 @@
     {
         [self attachToRightEdgeOfMapView];
     }
+    [self showCode];
+}
+
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return YES;
 }
 
 #define kcontrolsHeight 170
@@ -249,20 +255,23 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    // Trick the UIWebView into giving us the real required height for its width.
-    CGRect frame = webView.frame;
-    frame.size.height = 1;
-    webView.frame = frame;
-    
-    // And get the required size (we know the width, this is really just the height).
-    CGSize webViewProposedSize = [webView sizeThatFits:CGSizeZero];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        // Trick the UIWebView into giving us the real required height for its width.
+        CGRect frame = webView.frame;
+        frame.size.height = 1;
+        webView.frame = frame;
+        
+        // And get the required size (we know the width, this is really just the height).
+        CGSize webViewProposedSize = [webView sizeThatFits:CGSizeZero];
 
 //    NSLog(@"1 %@", NSStringFromCGSize(webViewProposedSize));
 //    NSLog(@"1 %@", NSStringFromCGRect(self.codeWebView.frame));
 //    NSLog(@"1 %@", NSStringFromCGRect(self.view.frame));
 
-    // Store the value.
-    self.webViewContentSize = webViewProposedSize;
+        // Store the value.
+        self.webViewContentSize = webViewProposedSize;
+    }
 }
 
 - (void) setWebViewContentSize:(CGSize)webViewContentSize
