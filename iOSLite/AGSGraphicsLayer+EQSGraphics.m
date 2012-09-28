@@ -77,4 +77,10 @@
     }];
 }
 
+- (NSSet *) removeGraphicsByID:(NSString *)graphicID
+{
+	return [self removeGraphicsMatchingCriteria:^BOOL(AGSGraphic *graphic) {
+		return [[graphic.attributes objectForKey:kEQSGraphicsLayerIDAttribute] isEqualToString:graphicID];
+	}];
+}
 @end

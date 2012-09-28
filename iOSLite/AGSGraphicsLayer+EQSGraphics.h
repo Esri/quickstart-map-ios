@@ -20,5 +20,6 @@
 - (NSSet *) removeGraphicsMatchingCriteria:(BOOL(^)(AGSGraphic *graphic))checkBlock;
 // See also addGraphic:withAttribute:withValue
 - (NSSet *) removeGraphicsByAttribute:(id)attribute withValue:(id)value;
-
+// Also just using a standard ID field
+- (NSSet *) removeGraphicsByID:(NSString *)graphicID;
 @end

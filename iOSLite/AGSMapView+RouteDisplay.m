@@ -15,8 +15,6 @@
 #import <objc/runtime.h>
 
 @implementation AGSMapView (EQSDirections)
-//EQSRouteDisplayHelper *_eqsRouteHelper = nil;
-
 #define kEQSRouteDisplayHelperKey @"EQSRouteDisplayHelper"
 
 #pragma mark - Properties
@@ -29,10 +27,5 @@
         objc_setAssociatedObject(self, kEQSRouteDisplayHelperKey, helper, OBJC_ASSOCIATION_RETAIN);
     }
     return helper;
-//	if (!_eqsRouteHelper)
-//	{
-//		_eqsRouteHelper = [EQSRouteDisplayHelper routeDisplayHelperForMapView:self];
-//	}
-//	return _eqsRouteHelper;
 }
 @end

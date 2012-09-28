@@ -14,9 +14,10 @@
 
 #import "EQSHelper.h"
 #import <CoreLocation/CoreLocation.h>
+#import <objc/runtime.h>
 
 @implementation AGSMapView (EQSNavigation)
-NSInteger __eqsScaleForGeolocation = -1;
+#define kEQSNavigationGeolocationTargetScaleKey @"EQSGeolocationTarkeyScale"
 
 #pragma mark - Center
 - (void) centerAtLat:(double) latitude lon:(double) longitude animated:(BOOL)animated
@@ -86,7 +87,7 @@ NSInteger __eqsScaleForGeolocation = -1;
 #pragma mark - Handle geolocation notifications
 - (void) centerAtMyLocationWithZoomLevel:(NSUInteger)level
 {
-    __eqsScaleForGeolocation = level;
+	objc_setAssociatedObject(self, kEQSNavigationGeolocationTargetScaleKey, [NSNumber numberWithUnsignedInteger:level], OBJC_ASSOCIATION_RETAIN);
     [self centerAtMyLocation];
 }
 
@@ -94,7 +95,15 @@ NSInteger __eqsScaleForGeolocation = -1;
 {
     CLLocation *newLocation = [notification geolocationResult];
     [self doActionWhenLoaded:^void {
-        if (__eqsScaleForGeolocation == -1)
+		NSNumber *temp = objc_getAssociatedObject(self, kEQSNavigationGeolocationTargetScaleKey);
+		NSUInteger scaleForGeolocation = -1;
+		if (temp)
+		{
+			scaleForGeolocation = temp.unsignedIntegerValue;
+			objc_setAssociatedObject(self, kEQSNavigationGeolocationTargetScaleKey, nil, OBJC_ASSOCIATION_ASSIGN);
+		}
+		
+        if (scaleForGeolocation == -1)
         {
             [self centerAtLat:newLocation.coordinate.latitude
                           lon:newLocation.coordinate.longitude
@@ -102,18 +111,18 @@ NSInteger __eqsScaleForGeolocation = -1;
         }
         else
         {
-            [self zoomToLevel:__eqsScaleForGeolocation
+            [self zoomToLevel:scaleForGeolocation
                       withLat:newLocation.coordinate.latitude
                           lon:newLocation.coordinate.longitude
                      animated:YES];
         }
-        __eqsScaleForGeolocation = -1;
     }];
 }
 
 - (void) failedToGetLocation:(NSNotification *)notification
 {
     NSLog(@"Error getting location: %@", [notification geoServicesError]);
+	objc_setAssociatedObject(self, kEQSNavigationGeolocationTargetScaleKey, nil, OBJC_ASSOCIATION_ASSIGN);
 }
 
 - (void) ensureNavigationHelperInitialized

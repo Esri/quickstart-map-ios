@@ -18,9 +18,7 @@
 #import <objc/runtime.h>
 
 @implementation AGSMapView (EQSGraphics)
-//id<AGSMapViewTouchDelegate> __eqsTempTouchDelegate = nil;
-
-EQSGraphicCallout *__eqsTheGraphicCallout = nil;
+#define kEQSGraphics_GlobalCalloutKey @"EQSGraphicCalloutKey"
 
 #define kEQSGraphicsLayerName_Point @"eqsPointGraphicsLayer"
 #define kEQSGraphicsLayerName_Polyline @"eqsPolylineGraphicsLayer"
@@ -301,12 +299,14 @@ EQSGraphicCallout *__eqsTheGraphicCallout = nil;
         AGSGraphic *g = [self __eqsGraphics_GetDefaultGraphicForGeometry:editedGeometry];
         [self __eqsGraphics_AddGraphicToAppropriateGraphicsLayer:g];
         
-        // Set the info template delegate
-        if (!__eqsTheGraphicCallout)
+        // Set the info template delegate, creating the global instance if necessary
+		EQSGraphicCallout *globalCalloutObject = objc_getAssociatedObject(self, kEQSGraphics_GlobalCalloutKey);
+        if (!globalCalloutObject)
         {
-            __eqsTheGraphicCallout = [[EQSGraphicCallout alloc] init];
+            globalCalloutObject = [[EQSGraphicCallout alloc] init];
+			objc_setAssociatedObject(self, kEQSGraphics_GlobalCalloutKey, globalCalloutObject, OBJC_ASSOCIATION_RETAIN);
         }
-        g.infoTemplateDelegate = __eqsTheGraphicCallout;
+        g.infoTemplateDelegate = globalCalloutObject;
         
         editedGraphic = g;
     }

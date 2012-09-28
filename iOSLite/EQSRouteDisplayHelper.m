@@ -24,6 +24,9 @@
 
 #define kEQSRouteResultsLayerName @"EQSRouteResults"
 
+#define kEQSRouteDisplayHelperGraphic_RouteStartPoint @"RouteStartPoint"
+#define kEQSRouteDisplayHelperGraphic_RouteEndPoint @"RouteEndPoint"
+
 @interface EQSRouteDisplayHelper () <EQSRouteDisplayViewDelegate>
 @property (nonatomic, retain) AGSMapView *mapView;
 @property (nonatomic, strong) AGSCalloutTemplate *startPointCalloutTemplate;
@@ -74,42 +77,7 @@
     
     [self setupTabularDisplay:_currentRouteResult];
 
-    if (_currentRouteResult)
-    {
-        AGSGraphic *routeGraphic = [AGSGraphic graphicWithGeometry:_currentRouteResult.directions.mergedGeometry
-                                                            symbol:self.routeSymbol
-                                                        attributes:nil
-                                              infoTemplateDelegate:nil];
-        [self.routeGraphicsLayer addGraphic:routeGraphic withID:@"RouteShape"];
-        
-        for (AGSStopGraphic *stopGraphic in _currentRouteResult.stopGraphics)
-        {
-            NSString *routeStopID = nil;
-            NSLog(@"Route Stop Point: \"%@\"", stopGraphic.name);
-            NSLog(@"Stop point attribtues:\n%@", stopGraphic.attributes);
-            if (stopGraphic.sequence == 1)//.name isEqualToString:kEQSRoutingStartPointName])
-            {
-                stopGraphic.symbol = self.startSymbol;
-                stopGraphic.infoTemplateDelegate = self.startPointCalloutTemplate;
-                routeStopID = @"RouteStart";
-            }
-            else if (stopGraphic.sequence == _currentRouteResult.stopGraphics.count)//.name isEqualToString:kEQSRoutingEndPointName])
-            {
-                stopGraphic.symbol = self.endSymbol;
-                stopGraphic.infoTemplateDelegate = self.endPointCalloutTemplate;
-                routeStopID = @"RouteEnd";
-            }
-            [self.routeGraphicsLayer addGraphic:stopGraphic withID:routeStopID];
-        }
-        
-        [self.mapView zoomToGeometry:_currentRouteResult.routeGraphic.geometry withPadding:100 animated:YES];
-    }
-    else
-    {
-        [self.routeGraphicsLayer removeAllGraphics];
-    }
-    
-    [self.routeGraphicsLayer dataChanged];
+	[self setupMapDisplay:_currentRouteResult];
 }
 
 - (void) setRouteResultsViewController:(EQSRouteResultsViewController *)routeResultsViewController
@@ -130,6 +98,89 @@
     {
         self.routeResultsViewController.routeResult = routeResult;
     }
+}
+
+- (void) setupMapDisplay:(AGSRouteResult *)routeResult
+{
+	// Clear the route display.
+	[self.routeGraphicsLayer removeAllGraphics];
+	
+    if (routeResult)
+    {
+        AGSGraphic *routeGraphic = [AGSGraphic graphicWithGeometry:routeResult.directions.mergedGeometry
+                                                            symbol:self.routeSymbol
+                                                        attributes:nil
+                                              infoTemplateDelegate:nil];
+        [self.routeGraphicsLayer addGraphic:routeGraphic withID:@"RouteShape"];
+        
+        for (AGSStopGraphic *stopGraphic in routeResult.stopGraphics)
+        {
+            NSLog(@"Route Stop Point: \"%@\"", stopGraphic.name);
+            NSLog(@"Stop point attribtues:\n%@", stopGraphic.attributes);
+            if (stopGraphic.sequence == 1)//.name isEqualToString:kEQSRoutingStartPointName])
+            {
+				[self setStartGraphic:stopGraphic];
+            }
+            else if (stopGraphic.sequence == routeResult.stopGraphics.count)//.name isEqualToString:kEQSRoutingEndPointName])
+            {
+				[self setEndGraphic:stopGraphic];
+            }
+        }
+        
+        [self.mapView zoomToGeometry:routeResult.routeGraphic.geometry withPadding:100 animated:YES];
+    }
+    
+    [self.routeGraphicsLayer dataChanged];
+}
+
+- (AGSGraphic *) setStartPoint:(AGSPoint *)startPoint
+{
+	AGSGraphic *startGraphic = nil;
+	if (startPoint)
+	{
+		startGraphic = [AGSGraphic graphicWithGeometry:startPoint
+												symbol:self.startSymbol
+											attributes:nil
+								  infoTemplateDelegate:self.startPointCalloutTemplate];
+	}
+	[self setStartGraphic:startGraphic];
+	return startGraphic;
+}
+
+- (void) setStartGraphic:(AGSGraphic *)startGraphic
+{
+	[self.routeGraphicsLayer removeGraphicsByID:kEQSRouteDisplayHelperGraphic_RouteStartPoint];
+	if (startGraphic)
+	{
+		startGraphic.symbol = self.startSymbol;
+		startGraphic.infoTemplateDelegate = self.startPointCalloutTemplate;
+		[self.routeGraphicsLayer addGraphic:startGraphic withID:kEQSRouteDisplayHelperGraphic_RouteStartPoint];
+	}
+}
+
+- (AGSGraphic *) setEndPoint:(AGSPoint *)endPoint
+{
+	AGSGraphic *endGraphic = nil;
+	if (endPoint)
+	{
+		endGraphic = [AGSGraphic graphicWithGeometry:endPoint
+											  symbol:self.endSymbol
+										  attributes:nil
+								infoTemplateDelegate:self.endPointCalloutTemplate];
+	}
+	[self setEndGraphic:endGraphic];
+	return endGraphic;
+}
+
+- (void) setEndGraphic:(AGSGraphic *)endGraphic
+{
+	[self.routeGraphicsLayer removeGraphicsByID:kEQSRouteDisplayHelperGraphic_RouteEndPoint];
+	if (endGraphic)
+	{
+		endGraphic.symbol = self.endSymbol;
+		endGraphic.infoTemplateDelegate = self.endPointCalloutTemplate;
+		[self.routeGraphicsLayer addGraphic:endGraphic withID:kEQSRouteDisplayHelperGraphic_RouteEndPoint];
+	}
 }
 
 - (void) clearRouteResult
@@ -192,16 +243,17 @@
         self.routeGraphicsLayer = [AGSGraphicsLayer graphicsLayer];
         [EQSHelper queueBlock:^{
             [mapView addMapLayer:self.routeGraphicsLayer withName:kEQSRouteResultsLayerName];
-            
-            // Set up the default symbols.
-            // We do this in here because we know that it coudl take some time for URL-based
-            // symbols to download, and we want to do that *after* the map has loaded so we
-            // don't risk holding up map initialization.
-            self.startSymbol = mapView.defaultSymbols.routeStart;
-            self.endSymbol = mapView.defaultSymbols.routeEnd;
-            self.routeSymbol = mapView.defaultSymbols.route;            
         }
            untilMapViewLoaded:mapView];
+		
+		// Load the symbols we need, but don't block the main thread or the map might not load
+		// immediately. This is some tight coupling, but since this is all part of the starter library,
+		// this is just about OK.
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            self.startSymbol = mapView.defaultSymbols.routeStart;
+            self.endSymbol = mapView.defaultSymbols.routeEnd;
+            self.routeSymbol = mapView.defaultSymbols.route;
+		});
 		
 		// Keep a handle onto our AGSMapView
 		self.mapView = mapView;

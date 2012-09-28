@@ -16,15 +16,17 @@
 
 #pragma mark - AGSMapView Category
 @implementation AGSMapView (EQSGeoServices)
-EQSGeoServices *__agsStarterGeoServices = nil;
+#define kEQSGeoServicesHelperKey @"EQSGeoServicesHelper"
 
 - (EQSGeoServices *) geoServices
 {
-	if (!__agsStarterGeoServices)
-	{
-		__agsStarterGeoServices = [[EQSGeoServices alloc] init];
-	}
-	return __agsStarterGeoServices;
+    EQSGeoServices *helper = objc_getAssociatedObject(self, kEQSGeoServicesHelperKey);
+    if (helper == nil)
+    {
+        helper = [[EQSGeoServices alloc] init];
+        objc_setAssociatedObject(self, kEQSGeoServicesHelperKey, helper, OBJC_ASSOCIATION_RETAIN);
+    }
+    return helper;
 }
 @end
 

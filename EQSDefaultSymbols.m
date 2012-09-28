@@ -7,6 +7,7 @@
 //
 
 #import "EQSDefaultSymbols.h"
+#import <objc/runtime.h>
 
 #define kEQSBluePinURL @"http://static.arcgis.com/images/Symbols/Shapes/BluePin1LargeB.png"
 #define kEQSGreenPinURL @"http://static.arcgis.com/images/Symbols/Shapes/GreenPin1LargeB.png"
@@ -25,16 +26,17 @@
 #define kEQSCircleSize CGSizeMake(28,28)
 
 @implementation AGSMapView (EQSDisplay)
-EQSDefaultSymbols *__eqsDefaultSymbols = nil;
+#define kEQSDefaultSymbolsHelperKey @"EQSDefaultSymbolsHelper"
 
 - (EQSDefaultSymbols *) defaultSymbols
 {
-    if (!__eqsDefaultSymbols)
+    EQSDefaultSymbols *helper = objc_getAssociatedObject(self, kEQSDefaultSymbolsHelperKey);
+    if (helper == nil)
     {
-        __eqsDefaultSymbols = [[EQSDefaultSymbols alloc] init];
+        helper = [[EQSDefaultSymbols alloc] init];
+        objc_setAssociatedObject(self, kEQSDefaultSymbolsHelperKey, helper, OBJC_ASSOCIATION_RETAIN);
     }
-    
-    return __eqsDefaultSymbols;
+    return helper;
 }
 
 @end

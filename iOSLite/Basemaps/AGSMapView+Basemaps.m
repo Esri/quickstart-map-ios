@@ -21,12 +21,9 @@
 @end
 
 @implementation AGSMapView (EQSBasemaps)
-//EQSBasemapType __eqsCurrentBasemapType = 0;
 
 - (void) setBasemap:(EQSBasemapType)basemapType
 {
-//    __eqsCurrentBasemapType = basemapType;
-    
     // Set up a static pointer to the current WebMap.
     static AGSWebMap *currentWebMap = nil;
 

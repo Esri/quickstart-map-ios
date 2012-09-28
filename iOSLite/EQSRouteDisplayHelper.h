@@ -22,6 +22,9 @@
 - (void) zoomToRouteResult;
 - (void) clearRouteResult;
 
+- (AGSGraphic *) setStartPoint:(AGSPoint *)startPoint;
+- (AGSGraphic *) setEndPoint:(AGSPoint *)endPoint;
+
 @property (nonatomic, retain, readonly) AGSRouteResult *currentRouteResult;
 
 @property (nonatomic, retain) EQSRouteResultsViewController *routeResultsViewController;

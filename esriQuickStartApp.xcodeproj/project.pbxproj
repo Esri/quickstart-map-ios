@@ -170,6 +170,7 @@
 		E1812BDC15DC767E00D3325A /* EQSBasemapPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1812BDB15DC767E00D3325A /* EQSBasemapPickerView.m */; };
 		E1A5682D15ABAC74004AA6C1 /* EQSGeoServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A5682C15ABAC74004AA6C1 /* EQSGeoServices.m */; };
 		E1AB2DEC15F26F6B00CA3096 /* EQSAddressCandidateView~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1AB2DEB15F26F6B00CA3096 /* EQSAddressCandidateView~iphone.xib */; };
+		E1B7171F1614E328000A019C /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B7171C1614E13D000A019C /* MBProgressHUD.m */; };
 		E1E1808515DAD2A300BB30DD /* EQSPortalItemPickerView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1E1808415DAD2A300BB30DD /* EQSPortalItemPickerView~ipad.xib */; };
 		E1E1808E15DAD38400BB30DD /* EQSPortalItemPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E1808D15DAD38400BB30DD /* EQSPortalItemPickerView.m */; };
 		E1E1809115DAD43D00BB30DD /* EQSPortalItemPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E1809015DAD43C00BB30DD /* EQSPortalItemPickerViewController.m */; };
@@ -384,6 +385,9 @@
 		E1A5682B15ABAC74004AA6C1 /* EQSGeoServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EQSGeoServices.h; path = iOSLite/EQSGeoServices.h; sourceTree = "<group>"; };
 		E1A5682C15ABAC74004AA6C1 /* EQSGeoServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EQSGeoServices.m; path = iOSLite/EQSGeoServices.m; sourceTree = "<group>"; };
 		E1AB2DEB15F26F6B00CA3096 /* EQSAddressCandidateView~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "EQSAddressCandidateView~iphone.xib"; sourceTree = "<group>"; };
+		E1B7171B1614E13D000A019C /* MBProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		E1B7171C1614E13D000A019C /* MBProgressHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		E1B7171D1614E13D000A019C /* README.mdown */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.mdown; sourceTree = "<group>"; };
 		E1DCB32D156D455100A30BB2 /* UILabel+EQSAutoSizeMultiline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+EQSAutoSizeMultiline.h"; sourceTree = "<group>"; };
 		E1DCB32E156D455100A30BB2 /* UILabel+EQSAutoSizeMultiline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+EQSAutoSizeMultiline.m"; sourceTree = "<group>"; };
 		E1E1808415DAD2A300BB30DD /* EQSPortalItemPickerView~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "EQSPortalItemPickerView~ipad.xib"; sourceTree = "<group>"; };
@@ -834,6 +838,7 @@
 				D964FA1A15E67E2E0013B4D7 /* Address Candidate Views */,
 				D97D445715E45D410072457A /* Code Viewer */,
 				D9AF4BE915F187C00094A35A /* MJPopupViewController */,
+				E1B7171A1614E10E000A019C /* MBProgressHUD */,
 				E185887715D9C4020015414B /* Categories */,
 				D93C98A3156D8CC000A5F339 /* EQSBasemapDetailsViewController.h */,
 				D93C98A4156D8CC000A5F339 /* EQSBasemapDetailsViewController.m */,
@@ -869,6 +874,16 @@
 				D9086D9E158B90C500FC1D43 /* Resources */,
 			);
 			name = "PortalItem Selector";
+			sourceTree = "<group>";
+		};
+		E1B7171A1614E10E000A019C /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				E1B7171B1614E13D000A019C /* MBProgressHUD.h */,
+				E1B7171C1614E13D000A019C /* MBProgressHUD.m */,
+				E1B7171D1614E13D000A019C /* README.mdown */,
+			);
+			name = MBProgressHUD;
 			sourceTree = "<group>";
 		};
 		E1C12A6C15D5936500B1ADCB /* Resources */ = {
@@ -1062,6 +1077,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1B7171F1614E328000A019C /* MBProgressHUD.m in Sources */,
 				D9B1044D156D98B900DF6287 /* UILabel+EQSAutoSizeMultiline.m in Sources */,
 				E16C290615598A5E00E2DB56 /* main.m in Sources */,
 				E16C290A15598A5E00E2DB56 /* EQSSampleAppDelegate.m in Sources */,

@@ -34,6 +34,8 @@
 #import "EQSBasemapDetailsViewController.h"
 #import <objc/runtime.h>
 
+#import "MBProgressHUD.h"
+
 typedef enum {
 	EQSSampleAppMessageStateHidden,
 	EQSSampleAppMessageStateNormal,
@@ -201,7 +203,6 @@ typedef enum {
 #define kEQSGetAddressReason_ReverseGeocodeForPoint @"FindAddressFunction"
 #define kEQSGetAddressReason_AddressForGeolocation @"AddressForGeolocation"
 #define kEQSGetAddressData_SearchPoint @"EQSGeoServices_ReverseGeocode_Data_SearchPoint"
-
 
 
 
@@ -686,6 +687,19 @@ typedef enum {
     [self updateUIDisplayState:notification];
 }
 
+
+#pragma mark - Progress UI
+- (void) showProgressWithMessage:(NSString *)message
+{
+	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.mapView animated:YES];
+	hud.labelText = message;
+}
+
+- (void) hideProgress
+{
+	[MBProgressHUD hideAllHUDsForView:self.mapView animated:YES];
+}
+
 #pragma mark - UI Position and size
 
 - (CGPoint) getUIComponentOrigin
@@ -785,8 +799,6 @@ typedef enum {
     CGRect masterFrame = masterView.frame;
     CGRect messageFrame = CGRectMake(masterFrame.origin.x, masterFrame.origin.y - messageHeight, masterFrame.size.width, messageHeight);
     
-    NSLog(@"Master: %@\nMessage: %@", NSStringFromCGRect(masterFrame), NSStringFromCGRect(messageFrame));
-
     return messageFrame;
 }
 
@@ -934,8 +946,21 @@ typedef enum {
 - (void) setCurrentState:(EQSSampleAppState) appState withUserAlertMessage:(NSString *)userMessage
 {
 	self.currentState = appState;
-	self.userMessage = userMessage;
-	self.messageState = EQSSampleAppMessageStateAlert;
+	UIAlertView *errView = [[UIAlertView alloc] initWithTitle:@"Oops!"
+													  message:userMessage
+													 delegate:nil
+											cancelButtonTitle:@"OK"
+											otherButtonTitles:nil];
+	[errView show];
+}
+
+- (void) clearAlertState
+{
+	if (self.messageState == EQSSampleAppMessageStateAlert)
+	{
+		self.messageState = EQSSampleAppMessageStateNormal;
+		self.currentState = self.currentState;
+	}
 }
 
 - (void) setMessageState:(EQSSampleAppMessageState)messageState
@@ -1468,6 +1493,8 @@ typedef enum {
 #pragma mark - Geocoding
 - (void) gotAddressFromPoint:(NSNotification *)notification
 {
+	[self hideProgress];
+
 	NSOperation *op = [notification geoServicesOperation];
 	
 	if (op)
@@ -1551,24 +1578,42 @@ typedef enum {
 
 - (void) didFailToGetAddressFromPoint:(NSNotification *)notification
 {
+	[self hideProgress];
+
 	NSError *error = [notification geoServicesError];
 	NSLog(@"Failed to get address for location: %@", error);
 
     AGSPoint *failedPoint = [notification findAddressSearchPoint];
-    AGSGraphic *g = [self.mapView addPoint:failedPoint withSymbol:self.mapView.defaultSymbols.failedGeocode];
-    [g.attributes setObject:@"FailedGeocode" forKey:@"Source"];
-    
-    EQSDummyAddressCandidate *dummyCandidate =
-        [[EQSDummyAddressCandidate alloc] initWithLocation:failedPoint
-                                           andSearchRadius:[notification findAddressSearchDistance]];
-    EQSAddressCandidatePanelViewController *acvc =
-        [EQSAddressCandidatePanelViewController viewControllerWithCandidate:dummyCandidate
-                                                                OfType:EQSCandidateTypeFailedGeocode];
-    acvc.candidateViewDelegate = self;
-    acvc.graphic =g;
-    [acvc addToScrollView:self.findPlacesScrollView];
-    [self.geocodeResults addObject:acvc];
-    [self.mapView showCalloutAtPoint:failedPoint forGraphic:g animated:YES];
+	[self setCurrentState:self.currentState
+	 withUserAlertMessage:[NSString stringWithFormat:@"No address found at %.4f,%.4f", failedPoint.latitude, failedPoint.longitude]];
+	
+	NSOperation *op = [notification geoServicesOperation];
+	if (op)
+	{
+		NSString *source = objc_getAssociatedObject(op, kEQSGetAddressReasonKey);
+		if ([source isEqualToString:kEQSGetAddressReason_RouteStart])
+		{
+			[self.mapView.routeDisplayHelper setStartPoint:nil];
+		} else if ([source isEqualToString:kEQSGetAddressReason_RouteEnd])
+		{
+			[self.mapView.routeDisplayHelper setEndPoint:nil];
+		}
+	}
+
+//    AGSGraphic *g = [self.mapView addPoint:failedPoint withSymbol:self.mapView.defaultSymbols.failedGeocode];
+//    [g.attributes setObject:@"FailedGeocode" forKey:@"Source"];
+//    
+//    EQSDummyAddressCandidate *dummyCandidate =
+//        [[EQSDummyAddressCandidate alloc] initWithLocation:failedPoint
+//                                           andSearchRadius:[notification findAddressSearchDistance]];
+//    EQSAddressCandidatePanelViewController *acvc =
+//        [EQSAddressCandidatePanelViewController viewControllerWithCandidate:dummyCandidate
+//                                                                OfType:EQSCandidateTypeFailedGeocode];
+//    acvc.candidateViewDelegate = self;
+//    acvc.graphic =g;
+//    [acvc addToScrollView:self.findPlacesScrollView];
+//    [self.geocodeResults addObject:acvc];
+//    [self.mapView showCalloutAtPoint:failedPoint forGraphic:g animated:YES];
 }
 
 
@@ -1650,12 +1695,16 @@ typedef enum {
 #pragma mark - Get Directions Map Interactions
 - (void)didTapStartPoint:(AGSPoint *)mapPoint
 {
+	// Drop the point on the map.
+	[self.mapView.routeDisplayHelper setStartPoint:mapPoint];
+	
 	// Fire off a reverse geocode to get the address of the start point
 	// See gotAddressFromPoint for more details
 	self.routeFromTextField.text = @"";
-	self.routeFromTextField.placeholder = [NSString stringWithFormat:@"Getting address for %.2f,%.2f",
-										   mapPoint.latitude,
-										   mapPoint.longitude];
+//	self.routeFromTextField.placeholder = [NSString stringWithFormat:@"Getting address for %.2f,%.2f",
+//										   mapPoint.latitude,
+//										   mapPoint.longitude];
+	[self showProgressWithMessage:@"Finding address…"];
     NSOperation *op = [self.mapView.geoServices findAddressFromPoint:mapPoint];
 	// Tag the operation so that gotAddressFromPoint knows this related to a directions start point
     objc_setAssociatedObject(op, kEQSGetAddressReasonKey, kEQSGetAddressReason_RouteStart, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -1663,12 +1712,16 @@ typedef enum {
 
 - (void)didTapEndPoint:(AGSPoint *)mapPoint
 {
+	// Drop the point on the map.
+	[self.mapView.routeDisplayHelper setEndPoint:mapPoint];
+	
 	// Fire off a reverse geocode to get the address of the end point
 	// See gotAddressFromPoint for more details
 	self.routeToTextField.text = @"";
-	self.routeToTextField.placeholder = [NSString stringWithFormat:@"Getting address for %.2f,%.2f",
-										 mapPoint.latitude,
-										 mapPoint.longitude];
+//	self.routeToTextField.placeholder = [NSString stringWithFormat:@"Getting address for %.2f,%.2f",
+//										 mapPoint.latitude,
+//										 mapPoint.longitude];
+	[self showProgressWithMessage:@"Finding address…"];
     NSOperation *op = [self.mapView.geoServices findAddressFromPoint:mapPoint];
 	// Tag the operation so that gotAddressFromPoint knows this related to a directions start point
     objc_setAssociatedObject(op, kEQSGetAddressReasonKey, kEQSGetAddressReason_RouteEnd, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -1704,7 +1757,12 @@ typedef enum {
 - (void) setRouteStartPoint:(AGSPoint *)routeStartPoint
 {
     _routeStartPoint = routeStartPoint;
-    if (_routeStartPoint)
+	
+	// Show this on the map.
+	[self.mapView.routeDisplayHelper setStartPoint:_routeStartPoint];
+    
+	// And either solve the route, or prompt for the end point
+	if (_routeStartPoint)
     {
 		self.currentState = EQSSampleAppStateDirections;
         if (![self doRouteIfPossible])
@@ -1717,7 +1775,12 @@ typedef enum {
 - (void) setRouteEndPoint:(AGSPoint *)routeEndPoint
 {
     _routeEndPoint = routeEndPoint;
-    if (_routeEndPoint)
+	
+	// Show this on the map
+	[self.mapView.routeDisplayHelper setEndPoint:_routeEndPoint];
+    
+	// And either solve the route, or prompt for the start point
+	if (_routeEndPoint)
     {
 		self.currentState = EQSSampleAppStateDirections;
         if (![self doRouteIfPossible])
@@ -1746,6 +1809,7 @@ typedef enum {
         self.routeEndPoint)
     {
         NSLog(@"Start and end points set... %@ %@", self.routeStartAddress, self.routeEndAddress);
+		[self showProgressWithMessage:@"Calculating Directions…"];
         [self.mapView.geoServices findDirectionsFrom:self.routeStartPoint named:self.routeStartAddress
                                                   to:self.routeEndPoint named:self.routeEndAddress];
 		self.currentState = EQSSampleAppStateDirections_GettingRoute;
@@ -1758,6 +1822,8 @@ typedef enum {
 {
     NSLog(@"Entered didSolveRouteOK");
 
+	[self hideProgress];
+	
 	AGSRouteTaskResult *results = [notification routeTaskResults];
     NSLog(@"Got UserInfo");
 	if (results)
@@ -1774,6 +1840,8 @@ typedef enum {
 
 - (void) didFailToSolveRoute:(NSNotification *)notification
 {
+	[self hideProgress];
+	
 	NSError *error = [notification geoServicesError];
 	if (error)
 	{
