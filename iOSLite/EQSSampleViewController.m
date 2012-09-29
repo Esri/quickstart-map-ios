@@ -1186,7 +1186,14 @@ typedef enum {
             viewToShow = self.geolocationPanel;
             break;
         case EQSSampleAppStateGraphics:
-            viewToShow = self.graphicsCreatePanel;
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+            {
+                viewToShow =self.graphicsEditPanel;
+            }
+            else
+            {
+                viewToShow = self.graphicsCreatePanel;
+            }
             break;
         case EQSSampleAppStateGraphics_Editing_Point:
         case EQSSampleAppStateGraphics_Editing_Line:
