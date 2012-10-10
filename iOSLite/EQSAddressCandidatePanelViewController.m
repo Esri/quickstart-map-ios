@@ -112,8 +112,16 @@
     if (self.view)
     {
         UILabel *refView = self.refLabel;
-        self.secondaryLabel.textColor = refView.textColor;
-//        self.view.backgroundColor = refView.backgroundColor;
+        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+        {
+            self.primaryLabel.textColor = refView.textColor;
+            self.secondaryLabel.textColor = refView.textColor;
+            self.latLonLabel.textColor = refView.textColor;
+            self.scoreLabel.textColor = refView.textColor;
+            self.locatorLabel.textColor = refView.textColor;
+            
+//            self.view.backgroundColor = refView.backgroundColor;
+        }
         
         self.secondaryLabel.text = @"";
     }

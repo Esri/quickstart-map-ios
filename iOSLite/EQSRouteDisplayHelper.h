@@ -13,6 +13,7 @@
 
 #define kEQSRouteDisplayNotification_RouteCleared @"EQSRouteDisplayNotificationRouteCleared"
 #define kEQSRouteDisplayNotification_EditRequested @"EQSRouteDisplayNotificationEditRequested"
+#define kEQSRouteDisplayNotification_StepSelected @"EQSRouteDisplayNotificationStepSelected"
 
 @interface EQSRouteDisplayHelper : NSObject
 // Use this method to instantiate a new RouteDisplayHelper for a given AGSMapView

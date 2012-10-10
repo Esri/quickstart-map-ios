@@ -11,9 +11,17 @@
 
 #import "EQSSampleAppStateEnums.h"
 
+@class EQSCodeViewController;
+
+@protocol EQSCodeViewControllerDelegate <NSObject>
+@optional
+- (void) codeviewWantsToBeDismissed:(EQSCodeViewController *)codeviewController;
+@end
+
 @interface EQSCodeViewController : UIViewController
 - (void) attachToRightEdgeOfMapView;
 - (void) refreshCodeSnippetViewerPosition;
 
 @property (nonatomic, assign) EQSSampleAppState currentAppState;
+@property (nonatomic, strong) id<EQSCodeViewControllerDelegate> delegate;
 @end

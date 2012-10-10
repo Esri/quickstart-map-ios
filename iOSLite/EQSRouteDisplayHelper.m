@@ -33,6 +33,8 @@
 @property (nonatomic, strong) AGSCalloutTemplate *endPointCalloutTemplate;
 
 @property (nonatomic, retain, readwrite) AGSRouteResult *currentRouteResult;
+
+@property (atomic, assign) BOOL inSetupStack;
 @end
 
 @implementation EQSRouteDisplayHelper
@@ -75,9 +77,18 @@
 {
     _currentRouteResult = currentRouteResult;
     
-    [self setupTabularDisplay:_currentRouteResult];
-
-	[self setupMapDisplay:_currentRouteResult];
+    self.inSetupStack = YES;
+    
+    @try
+    {
+        [self setupTabularDisplay:_currentRouteResult];
+        
+        [self setupMapDisplay:_currentRouteResult];
+    }
+    @finally
+    {
+        self.inSetupStack = NO;
+    }
 }
 
 - (void) setRouteResultsViewController:(EQSRouteResultsViewController *)routeResultsViewController
@@ -230,6 +241,11 @@
                         withAttribute:@"DirectionStepGraphic"
                             withValue:@"StartPoint"];
         [self.mapView zoomToGeometry:direction.geometry withPadding:100 animated:YES];
+
+        if (!self.inSetupStack)
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kEQSRouteDisplayNotification_StepSelected object:self];
+        }
     }
 }
 

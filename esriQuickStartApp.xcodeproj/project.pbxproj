@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		D9086DA0158B90D800FC1D43 /* description.css in Resources */ = {isa = PBXBuildFile; fileRef = D9086D9F158B90D800FC1D43 /* description.css */; };
-		D922919615F6434E00438D05 /* glyphicons_239_riflescope.png in Resources */ = {isa = PBXBuildFile; fileRef = D922919415F6434E00438D05 /* glyphicons_239_riflescope.png */; };
-		D922919715F6434E00438D05 /* glyphicons_239_riflescope@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D922919515F6434E00438D05 /* glyphicons_239_riflescope@2x.png */; };
+		D922919615F6434E00438D05 /* create_point.png in Resources */ = {isa = PBXBuildFile; fileRef = D922919415F6434E00438D05 /* create_point.png */; };
+		D922919715F6434E00438D05 /* create_point@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D922919515F6434E00438D05 /* create_point@2x.png */; };
 		D922919B15F6496800438D05 /* help-white.png in Resources */ = {isa = PBXBuildFile; fileRef = D922919915F6496800438D05 /* help-white.png */; };
 		D922919C15F6496800438D05 /* help-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D922919A15F6496800438D05 /* help-white@2x.png */; };
 		D92291A115F64AF200438D05 /* resize_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D922919D15F64AF200438D05 /* resize_small.png */; };
@@ -40,10 +40,10 @@
 		D92291E815F94C3F00438D05 /* 14-bothways.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291E615F94C3900438D05 /* 14-bothways.png */; };
 		D92291E915F94C3F00438D05 /* 14-bothways@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291E715F94C3C00438D05 /* 14-bothways@2x.png */; };
 		D927EBEA15A4D81F008CF54C /* AGSGraphicsLayer+EQSGraphics.m in Sources */ = {isa = PBXBuildFile; fileRef = D927EBE915A4D81F008CF54C /* AGSGraphicsLayer+EQSGraphics.m */; };
-		D92F8E2915F526B9004B87A6 /* glyphicons_096_vector_path_polygon.png in Resources */ = {isa = PBXBuildFile; fileRef = D92F8E2515F526B9004B87A6 /* glyphicons_096_vector_path_polygon.png */; };
-		D92F8E2A15F526B9004B87A6 /* glyphicons_096_vector_path_polygon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92F8E2615F526B9004B87A6 /* glyphicons_096_vector_path_polygon@2x.png */; };
-		D92F8E2B15F526B9004B87A6 /* glyphicons_097_vector_path_line.png in Resources */ = {isa = PBXBuildFile; fileRef = D92F8E2715F526B9004B87A6 /* glyphicons_097_vector_path_line.png */; };
-		D92F8E2C15F526B9004B87A6 /* glyphicons_097_vector_path_line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92F8E2815F526B9004B87A6 /* glyphicons_097_vector_path_line@2x.png */; };
+		D92F8E2915F526B9004B87A6 /* create_polygon.png in Resources */ = {isa = PBXBuildFile; fileRef = D92F8E2515F526B9004B87A6 /* create_polygon.png */; };
+		D92F8E2A15F526B9004B87A6 /* create_polygon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92F8E2615F526B9004B87A6 /* create_polygon@2x.png */; };
+		D92F8E2B15F526B9004B87A6 /* create_line.png in Resources */ = {isa = PBXBuildFile; fileRef = D92F8E2715F526B9004B87A6 /* create_line.png */; };
+		D92F8E2C15F526B9004B87A6 /* create_line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92F8E2815F526B9004B87A6 /* create_line@2x.png */; };
 		D93C98A5156D8CC000A5F339 /* EQSBasemapDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D93C98A4156D8CC000A5F339 /* EQSBasemapDetailsViewController.m */; };
 		D93D710F15EBCEC9002F7FA2 /* EQSAddressCandidateBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D93D710E15EBCEC9002F7FA2 /* EQSAddressCandidateBaseViewController.m */; };
 		D940585A15E6C2D300F4A320 /* 74-location-white.png in Resources */ = {isa = PBXBuildFile; fileRef = D940585815E6C2D300F4A320 /* 74-location-white.png */; };
@@ -55,6 +55,8 @@
 		D964FA1E15E67E970013B4D7 /* EQSAddressCandidateView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D964FA1D15E67E970013B4D7 /* EQSAddressCandidateView~ipad.xib */; };
 		D964FA2115E67EAA0013B4D7 /* EQSAddressCandidatePanelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D964FA2015E67EAA0013B4D7 /* EQSAddressCandidatePanelViewController.m */; };
 		D964FA2415E67EBD0013B4D7 /* EQSAddressCandidateView.m in Sources */ = {isa = PBXBuildFile; fileRef = D964FA2315E67EBD0013B4D7 /* EQSAddressCandidateView.m */; };
+		D96C77511624CF140025FFF0 /* EQSUserGuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D96C774F1624CF140025FFF0 /* EQSUserGuideViewController.m */; };
+		D96C77521624CF140025FFF0 /* EQSUserGuideViewController~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D96C77501624CF140025FFF0 /* EQSUserGuideViewController~iphone.xib */; };
 		D9754D7315ACAF840093BF1E /* UIApplication+AppDimensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */; };
 		D97D445615E32E480072457A /* EQSRouteResultsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D97D445515E32E480072457A /* EQSRouteResultsCell.xib */; };
 		D97D445915E45D5D0072457A /* EQSCodeView~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D97D445815E45D5D0072457A /* EQSCodeView~iphone.xib */; };
@@ -178,8 +180,8 @@
 
 /* Begin PBXFileReference section */
 		D9086D9F158B90D800FC1D43 /* description.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = description.css; sourceTree = "<group>"; };
-		D922919415F6434E00438D05 /* glyphicons_239_riflescope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glyphicons_239_riflescope.png; sourceTree = "<group>"; };
-		D922919515F6434E00438D05 /* glyphicons_239_riflescope@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "glyphicons_239_riflescope@2x.png"; sourceTree = "<group>"; };
+		D922919415F6434E00438D05 /* create_point.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = create_point.png; sourceTree = "<group>"; };
+		D922919515F6434E00438D05 /* create_point@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "create_point@2x.png"; sourceTree = "<group>"; };
 		D922919915F6496800438D05 /* help-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "help-white.png"; sourceTree = "<group>"; };
 		D922919A15F6496800438D05 /* help-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "help-white@2x.png"; sourceTree = "<group>"; };
 		D922919D15F64AF200438D05 /* resize_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resize_small.png; sourceTree = "<group>"; };
@@ -213,10 +215,10 @@
 		D92291E715F94C3C00438D05 /* 14-bothways@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "14-bothways@2x.png"; sourceTree = "<group>"; };
 		D927EBE815A4D81F008CF54C /* AGSGraphicsLayer+EQSGraphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSGraphicsLayer+EQSGraphics.h"; sourceTree = "<group>"; };
 		D927EBE915A4D81F008CF54C /* AGSGraphicsLayer+EQSGraphics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSGraphicsLayer+EQSGraphics.m"; sourceTree = "<group>"; };
-		D92F8E2515F526B9004B87A6 /* glyphicons_096_vector_path_polygon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glyphicons_096_vector_path_polygon.png; sourceTree = "<group>"; };
-		D92F8E2615F526B9004B87A6 /* glyphicons_096_vector_path_polygon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "glyphicons_096_vector_path_polygon@2x.png"; sourceTree = "<group>"; };
-		D92F8E2715F526B9004B87A6 /* glyphicons_097_vector_path_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glyphicons_097_vector_path_line.png; sourceTree = "<group>"; };
-		D92F8E2815F526B9004B87A6 /* glyphicons_097_vector_path_line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "glyphicons_097_vector_path_line@2x.png"; sourceTree = "<group>"; };
+		D92F8E2515F526B9004B87A6 /* create_polygon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = create_polygon.png; sourceTree = "<group>"; };
+		D92F8E2615F526B9004B87A6 /* create_polygon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "create_polygon@2x.png"; sourceTree = "<group>"; };
+		D92F8E2715F526B9004B87A6 /* create_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = create_line.png; sourceTree = "<group>"; };
+		D92F8E2815F526B9004B87A6 /* create_line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "create_line@2x.png"; sourceTree = "<group>"; };
 		D93C98A3156D8CC000A5F339 /* EQSBasemapDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSBasemapDetailsViewController.h; sourceTree = "<group>"; };
 		D93C98A4156D8CC000A5F339 /* EQSBasemapDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSBasemapDetailsViewController.m; sourceTree = "<group>"; };
 		D93D710D15EBCEC9002F7FA2 /* EQSAddressCandidateBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSAddressCandidateBaseViewController.h; sourceTree = "<group>"; };
@@ -236,6 +238,9 @@
 		D964FA2015E67EAA0013B4D7 /* EQSAddressCandidatePanelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSAddressCandidatePanelViewController.m; sourceTree = "<group>"; };
 		D964FA2215E67EBD0013B4D7 /* EQSAddressCandidateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSAddressCandidateView.h; sourceTree = "<group>"; };
 		D964FA2315E67EBD0013B4D7 /* EQSAddressCandidateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSAddressCandidateView.m; sourceTree = "<group>"; };
+		D96C774E1624CF140025FFF0 /* EQSUserGuideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EQSUserGuideViewController.h; path = QuickStartApp/UI/UserGuides/EQSUserGuideViewController.h; sourceTree = "<group>"; };
+		D96C774F1624CF140025FFF0 /* EQSUserGuideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EQSUserGuideViewController.m; path = QuickStartApp/UI/UserGuides/EQSUserGuideViewController.m; sourceTree = "<group>"; };
+		D96C77501624CF140025FFF0 /* EQSUserGuideViewController~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "EQSUserGuideViewController~iphone.xib"; path = "QuickStartApp/UI/UserGuides/EQSUserGuideViewController~iphone.xib"; sourceTree = "<group>"; };
 		D9754D7115ACAF830093BF1E /* UIApplication+AppDimensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+AppDimensions.h"; sourceTree = "<group>"; };
 		D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+AppDimensions.m"; sourceTree = "<group>"; };
 		D97D445515E32E480072457A /* EQSRouteResultsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQSRouteResultsCell.xib; sourceTree = "<group>"; };
@@ -500,12 +505,12 @@
 				D92291A015F64AF200438D05 /* resize_full@2x.png */,
 				D922919915F6496800438D05 /* help-white.png */,
 				D922919A15F6496800438D05 /* help-white@2x.png */,
-				D922919415F6434E00438D05 /* glyphicons_239_riflescope.png */,
-				D922919515F6434E00438D05 /* glyphicons_239_riflescope@2x.png */,
-				D92F8E2515F526B9004B87A6 /* glyphicons_096_vector_path_polygon.png */,
-				D92F8E2615F526B9004B87A6 /* glyphicons_096_vector_path_polygon@2x.png */,
-				D92F8E2715F526B9004B87A6 /* glyphicons_097_vector_path_line.png */,
-				D92F8E2815F526B9004B87A6 /* glyphicons_097_vector_path_line@2x.png */,
+				D922919415F6434E00438D05 /* create_point.png */,
+				D922919515F6434E00438D05 /* create_point@2x.png */,
+				D92F8E2715F526B9004B87A6 /* create_line.png */,
+				D92F8E2815F526B9004B87A6 /* create_line@2x.png */,
+				D92F8E2515F526B9004B87A6 /* create_polygon.png */,
+				D92F8E2615F526B9004B87A6 /* create_polygon@2x.png */,
 			);
 			name = GlyphIcons;
 			sourceTree = "<group>";
@@ -555,6 +560,16 @@
 				E1812BDB15DC767E00D3325A /* EQSBasemapPickerView.m */,
 			);
 			name = "Basemap Selector";
+			sourceTree = "<group>";
+		};
+		D96C774C1624CEA80025FFF0 /* UserGuides */ = {
+			isa = PBXGroup;
+			children = (
+				D96C77501624CF140025FFF0 /* EQSUserGuideViewController~iphone.xib */,
+				D96C774E1624CF140025FFF0 /* EQSUserGuideViewController.h */,
+				D96C774F1624CF140025FFF0 /* EQSUserGuideViewController.m */,
+			);
+			name = UserGuides;
 			sourceTree = "<group>";
 		};
 		D97D445315E32B970072457A /* UI */ = {
@@ -833,6 +848,7 @@
 		E1AC7B8615D2E8EA00E4E1BE /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				D96C774C1624CEA80025FFF0 /* UserGuides */,
 				D964FA2515E69F790013B4D7 /* Basemap Selector */,
 				E1AC7B8815D2E91E00E4E1BE /* PortalItem Selector */,
 				D964FA1A15E67E2E0013B4D7 /* Address Candidate Views */,
@@ -1030,12 +1046,12 @@
 				D9AF4C0615F2D8420094A35A /* 17-check@2x.png in Resources */,
 				D9AF4C0715F2D8420094A35A /* 60-x.png in Resources */,
 				D9AF4C0815F2D8420094A35A /* 60-x@2x.png in Resources */,
-				D92F8E2915F526B9004B87A6 /* glyphicons_096_vector_path_polygon.png in Resources */,
-				D92F8E2A15F526B9004B87A6 /* glyphicons_096_vector_path_polygon@2x.png in Resources */,
-				D92F8E2B15F526B9004B87A6 /* glyphicons_097_vector_path_line.png in Resources */,
-				D92F8E2C15F526B9004B87A6 /* glyphicons_097_vector_path_line@2x.png in Resources */,
-				D922919615F6434E00438D05 /* glyphicons_239_riflescope.png in Resources */,
-				D922919715F6434E00438D05 /* glyphicons_239_riflescope@2x.png in Resources */,
+				D92F8E2915F526B9004B87A6 /* create_polygon.png in Resources */,
+				D92F8E2A15F526B9004B87A6 /* create_polygon@2x.png in Resources */,
+				D92F8E2B15F526B9004B87A6 /* create_line.png in Resources */,
+				D92F8E2C15F526B9004B87A6 /* create_line@2x.png in Resources */,
+				D922919615F6434E00438D05 /* create_point.png in Resources */,
+				D922919715F6434E00438D05 /* create_point@2x.png in Resources */,
 				D922919B15F6496800438D05 /* help-white.png in Resources */,
 				D922919C15F6496800438D05 /* help-white@2x.png in Resources */,
 				D92291A115F64AF200438D05 /* resize_small.png in Resources */,
@@ -1067,6 +1083,7 @@
 				E16E7196160CED600048EC29 /* riflescope-white@2x.png in Resources */,
 				D97D9B101610CE59000FE2F3 /* Default-568h@2x.png in Resources */,
 				D99F975C161201CF0092DB48 /* EQSCodeView~ipad.xib in Resources */,
+				D96C77521624CF140025FFF0 /* EQSUserGuideViewController~iphone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1120,6 +1137,7 @@
 				D9AF4BEF15F187DC0094A35A /* UIViewController+MJPopupViewController.m in Sources */,
 				D92291D215F8ECE100438D05 /* EQSRouteResultsViewControllerCompact.m in Sources */,
 				D92291D915F9417900438D05 /* EQSBorderedButton.m in Sources */,
+				D96C77511624CF140025FFF0 /* EQSUserGuideViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

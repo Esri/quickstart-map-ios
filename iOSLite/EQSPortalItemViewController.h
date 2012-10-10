@@ -11,15 +11,16 @@
 
 @protocol PortalItemViewTouchDelegate <NSObject>
 -(void)portalItemViewTapped:(EQSPortalItemView *)portalItemView;
+-(void)portalItemViewTappedAndHeld:(EQSPortalItemView *)portalItemView;
 @end
 
 @interface EQSPortalItemViewController : UIViewController
 @property (nonatomic, weak) id<PortalItemViewTouchDelegate> touchDelegate;
 
+@property (strong, nonatomic) IBOutlet EQSPortalItemView *portalItemView;
+
 @property (nonatomic, strong, readonly) AGSPortalItem *portalItem;
 @property (nonatomic, strong, readonly) NSString *portalItemID;
-
-@property (strong, nonatomic) IBOutlet EQSPortalItemView *portalItemView;
 
 @property (nonatomic, readonly) EQSPortalItemViewLoadingState loadingState;
 

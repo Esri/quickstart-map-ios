@@ -37,8 +37,8 @@
 #import "MBProgressHUD.h"
 
 typedef enum {
-	EQSSampleAppMessageStateHidden,
 	EQSSampleAppMessageStateNormal,
+	EQSSampleAppMessageStateHidden,
 	EQSSampleAppMessageStateHighlight,
 	EQSSampleAppMessageStateAlert
 } EQSSampleAppMessageState;
@@ -50,6 +50,7 @@ typedef enum {
                                         EQSBasemapPickerDelegate,
                                         AGSMapViewCalloutDelegate,
 										EQSAddressCandidateViewDelegate,
+                                        EQSCodeViewControllerDelegate,
                                         UIAlertViewDelegate>
 
 #pragma mark - Function Selection UI
@@ -286,6 +287,7 @@ typedef enum {
 {
     [super viewDidLoad];
 
+    [self prepUI];
 	[self initApp];
 	[self initUI];
 
@@ -369,28 +371,43 @@ typedef enum {
 	
 	// Initialize our property for tracking the current basemap type.
     self.currentBasemapType = EQSBasemapTypeTopographic;
-	
-    // Initialize the default symbols container. This will load them in the background (some are URL based,
-    // which causes a synchronous HTTP request to block the initializer UIImage initializer).
-    id tmp = self.mapView.defaultSymbols;
-    tmp = nil;
-	
+
+	// Set up some storage areas for search results.
 	self.geocodeResults = [NSMutableOrderedSet orderedSet];
     self.geolocationResults = [NSMutableOrderedSet orderedSet];
 }
 
-- (void)initUI
+- (void)prepUI
 {
+    // Disable Cloud Data for now.
 	[self.functionSegControl setEnabled:NO forSegmentAtIndex:3];
 	
     // Go through all the various UI component views, hide them and then place them properly
     // in the UI window so that they'll fade in and out properly.
-    for (UIView *v in [self allUIViews]) {
+    UIView *aView = nil;
+    for (UIView *v in [self allUIViews])
+    {
         v.alpha = 0;
         v.hidden = YES;
         CGFloat frameHeight = v.frame.size.height;
         objc_setAssociatedObject(v, @"Height", [NSNumber numberWithFloat:frameHeight], OBJC_ASSOCIATION_RETAIN);
         v.frame = [self getUIFrame:v];
+        if (!aView)
+        {
+            aView = v;
+        }
+    }
+    
+    self.routeResultsView.hidden = YES;
+    self.routeResultsView.alpha = 0;
+    
+    self.messageBar.hidden = YES;
+    self.messageBar.alpha = 0;
+
+    // Position the Message Bar in at least roughly the right spot.
+    if (aView)
+    {
+        self.messageBar.frame = [self getMessageFrameForMasterFrame:aView];
     }
 	
 	self.routeFromTextField.leftView = self.routeFromLeftView;
@@ -398,16 +415,19 @@ typedef enum {
 	self.routeToTextField.leftView = self.routeToLeftView;
 	self.routeToTextField.leftViewMode = UITextFieldViewModeAlways;
 
-	// Set up the map UI a little.
-    self.mapView.wrapAround = YES;
-    self.mapView.touchDelegate = self;
-    self.mapView.calloutDelegate = self;
-    
     self.findMeButton.layer.cornerRadius = 5;
 	
     self.showUIButton.layer.borderColor = [UIColor blackColor].CGColor;
     self.showUIButton.layer.borderWidth = 2;
     self.showUIButton.layer.cornerRadius = 5;
+}
+
+- (void)initUI
+{
+	// Set up the map UI a little.
+    self.mapView.wrapAround = YES;
+    self.mapView.touchDelegate = self;
+    self.mapView.calloutDelegate = self;
     
     self.mapView.callout.leaderPositionFlags = AGSCalloutLeaderPositionBottom |
 	AGSCalloutLeaderPositionLeft |
@@ -415,16 +435,15 @@ typedef enum {
 
 	[self initBasemapPicker];
     
-    self.routeResultsView.hidden = YES;
-    self.routeResultsView.alpha = 0;
-	
     // And show the UI by default. Note, at present the UI is always visible.
     self.uiControlsVisible = YES;
-	
-	
-	
-	
-	
+    
+    [self registerForUINotifications];
+}
+
+
+- (void)registerForUINotifications
+{
     // We want to update the UI when the basemap is changed, so register our interest in a couple
     // of events.
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -452,9 +471,11 @@ typedef enum {
                                              selector:@selector(routeEditRequested:)
                                                  name:kEQSRouteDisplayNotification_EditRequested
                                                object:self.mapView.routeDisplayHelper];
-	
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(routeNavigationStepSelected:)
+                                                 name:kEQSRouteDisplayNotification_StepSelected
+                                               object:self.mapView.routeDisplayHelper];
 }
-
 
 #pragma mark - GeoServices Registration
 - (void)registerForGeoServicesNotifications
@@ -881,6 +902,8 @@ typedef enum {
 		}
 		
 		[self.view endEditing:YES];
+        
+        self.mapView.callout.hidden = YES;
 		
 		[self updateUIDisplayState];
 		
@@ -939,8 +962,37 @@ typedef enum {
 
 - (void) setUserMessage:(NSString *)userMessage
 {
+    // Only animate and change the message if necessary. We don't want to just flicker
+    // the display unnecessarily.
+    BOOL changingMessage = ![userMessage isEqualToString:_userMessage];
+    
 	_userMessage = userMessage;
-	self.messageBarLabel.text = _userMessage;
+    
+    if (changingMessage)
+    {
+        if (!self.messageBar.hidden)
+        {
+            [UIView animateWithDuration:0.2
+                             animations:^{
+                                 self.messageBarLabel.alpha = 0;
+                             }
+                             completion:^(BOOL finished) {
+                                 self.messageBarLabel.text = _userMessage;
+                                 [UIView animateWithDuration:0.4
+                                                  animations:^{
+                                                      self.messageBarLabel.alpha = 1;
+                                                  }];
+                             }];
+        }
+        else
+        {
+            // Initially, the messageBar is hidden. "Hidden" is not an animatable property of
+            // UIView, so to avoid the mmessageBar appearing before the new text is animated
+            // in (and on load, seeing whatever's set for the Label text in Interface Builder),
+            // we'll update the text immediately. No sense in animating something that's not visible.
+            self.messageBarLabel.text = _userMessage;
+        }
+    }
 }
 
 - (void) setCurrentState:(EQSSampleAppState) appState withUserAlertMessage:(NSString *)userMessage
@@ -965,6 +1017,11 @@ typedef enum {
 
 - (void) setMessageState:(EQSSampleAppMessageState)messageState
 {
+    BOOL unHiding = (/*_messageState == EQSSampleAppMessageStateHidden &&*/
+                     messageState != EQSSampleAppMessageStateHidden);
+    BOOL hiding = (/*_messageState != EQSSampleAppMessageStateHidden &&*/
+                   messageState == EQSSampleAppMessageStateHidden);
+
 	_messageState = messageState;
 	UIColor *bgCol = nil;
 	UIColor *fgCol = nil;
@@ -983,7 +1040,7 @@ typedef enum {
 			fgCol = [UIColor blackColor];
 			self.messageBarAlertBackdrop.hidden = NO;
 			break;
-			
+            
 		default:
 			bgCol = [UIColor blackColor];
 			fgCol = [UIColor whiteColor];
@@ -992,6 +1049,25 @@ typedef enum {
 	
 	self.messageBar.backgroundColor = [bgCol colorWithAlphaComponent:0.93];
 	self.messageBarLabel.textColor = fgCol;
+    
+    if (unHiding)
+    {
+        self.messageBar.hidden = NO;
+        [UIView animateWithDuration:0.4
+                         animations:^{
+                             self.messageBar.alpha = 1;
+                         }];
+    }
+    else if (hiding)
+    {
+        [UIView animateWithDuration:0.4
+                         animations:^{
+                             self.messageBar.alpha = 0;
+                         }
+                         completion:^(BOOL finished) {
+                             self.messageBar.hidden = YES;
+                         }];
+    }
 }
 
 - (void) setUserMessageForCurrentFunction
@@ -1213,15 +1289,39 @@ typedef enum {
     return views;
 }
 
-- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+- (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    [self updateUIDisplayStateOverDuration:0];
-    [self.codeViewer.viewController refreshCodeSnippetViewerPosition];
+    if (self.currentState == EQSSampleAppStateDirections_Navigating)
+    {
+        [self.routeResultsView.viewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation
+                                                                               duration:duration];
+    }
+    
+    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
+    {
+        [UIView animateWithDuration:duration
+                         animations:^{
+                             [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+                             self.view.frame = [UIScreen mainScreen].applicationFrame;
+                         }];
+    }
+    else if (![self isFullScreen])
+    {
+        [UIView animateWithDuration:duration
+                         animations:^{
+                             [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+                             self.view.frame = [UIScreen mainScreen].applicationFrame;
+                         }];
+    }
 }
 
-- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    [self updateUIDisplayStateOverDuration:duration forOrientation:toInterfaceOrientation];
+    if (self.currentState == EQSSampleAppStateDirections_Navigating)
+    {
+        [self.routeResultsView.viewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    }
+    [self.codeViewer.viewController refreshCodeSnippetViewerPosition];
 }
 
 - (void)updateUIDisplayState
@@ -1256,7 +1356,7 @@ typedef enum {
     NSArray *viewsToHide = [self getViewsToHide];
     
     // If the view is already visible, then we don't need to update...
-    BOOL needToChange = YES;//viewToShow.hidden == NO;
+    BOOL needToChange = YES; // viewToShow.hidden == NO;
     
     if (needToChange)
     {
@@ -1271,13 +1371,17 @@ typedef enum {
             }
         }
         
-        [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
         viewToShow.hidden = NO;
+        
         [UIView animateWithDuration:animationDuration
                          animations:^{
+                             [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+
                              viewToShow.alpha = 1;
                              viewToAnimateOut.alpha = 0;
+                             
                              viewToShow.frame = [self getUIFrame:viewToShow forOrientation:orientation];
+                             
                              self.messageBar.frame = [self getMessageFrameForMasterFrame:viewToShow];
                              [self setUserMessageForCurrentFunction];
                          }
@@ -1384,8 +1488,10 @@ typedef enum {
     self.currentBasemapType = basemapType;
 	
     self.basemapsPicker.currentPortalItemID = pi.itemId;
-    
-    [self setUserMessageForCurrentFunction];
+    if (self.currentState == EQSSampleAppStateBasemaps)
+    {
+        [self setUserMessageForCurrentFunction];
+    }
 }
 
 - (void)basemapSelected:(EQSBasemapType)basemapType
@@ -1435,11 +1541,15 @@ typedef enum {
     else if ([segue.identifier isEqualToString:@"ShowCode"])
     {
         EQSCodeViewController *cvc = segue.destinationViewController;
-        cvc.currentAppState = self.currentState;       
+        cvc.delegate = self;
+        cvc.currentAppState = self.currentState;
     }
 }
 
-
+- (void) codeviewWantsToBeDismissed:(EQSCodeViewController *)codeviewController
+{
+    [self dismissModalViewControllerAnimated:YES];
+}
 
 
 
@@ -1560,9 +1670,13 @@ typedef enum {
 			}
             else if ([source isEqualToString:kEQSGetAddressReason_AddressForGeolocation])
             {
+                // Clear any old Geolocation results
+                [self.mapView removeGraphicsByAttribute:@"Source" withValue:@"Geolocation"];
+                
+                
                 AGSPoint *geoLocation = [notification findAddressSearchPoint];
                 AGSGraphic *g = [self.mapView addPoint:geoLocation withSymbol:self.mapView.defaultSymbols.geolocation];
-                [g.attributes setObject:@"GeoLocation" forKey:@"Source"];
+                [g.attributes setObject:@"Geolocation" forKey:@"Source"];
                 [g.attributes addEntriesFromDictionary:candidate.attributes];
 
                 EQSAddressCandidatePanelViewController *cvc =
@@ -1964,6 +2078,10 @@ typedef enum {
     self.currentState = EQSSampleAppStateDirections;
 }
 
+- (void) routeNavigationStepSelected:(NSNotification *)notification
+{
+    self.messageState = EQSSampleAppMessageStateHidden;
+}
 
 #pragma mark - Full Screen UI Mode
 - (IBAction)resizeUIGoFullScreen:(id)sender
@@ -1976,6 +2094,8 @@ typedef enum {
                          self.functionNavBar_iPhone.alpha = 0;
                          [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
                          self.view.frame = [UIScreen mainScreen].applicationFrame;
+                         self.mapView.frame = CGRectMake(0, 0, self.mapView.frame.size.width, self.mapView.frame.size.height + self.functionNavBar_iPhone.frame.size.height);
+//                         self.mapView.frame = self.view.frame;
                          self.showUIButton.hidden = NO;
                      }
                      completion:^(BOOL finished) {
@@ -1994,13 +2114,32 @@ typedef enum {
     [UIView animateWithDuration:0.4
                      animations:^{
                          self.showUIButton.alpha = 0;
-                         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+                         if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation))
+                         {
+                             [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+                         }
                          self.view.frame = [UIScreen mainScreen].applicationFrame;
+                         self.mapView.frame = CGRectMake(0, self.functionNavBar_iPhone.frame.size.height,
+                                                         self.mapView.frame.size.width,
+                                                         self.mapView.frame.size.height - self.functionNavBar_iPhone.frame.size.height);
                          self.functionNavBar_iPhone.alpha = 1;
                      }
                      completion:^(BOOL finished) {
                          self.showUIButton.hidden = YES;
                      }];
+}
+
+- (BOOL) isFullScreen
+{
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+    {
+        // We don't (currently) hide the UI in iPad view.
+        return YES;
+    }
+    else
+    {
+        return self.functionNavBar_iPhone.hidden;
+    }
 }
 
 

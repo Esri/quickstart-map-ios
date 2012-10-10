@@ -218,7 +218,8 @@
 - (NSSet *) removeGraphicsByAttribute:(id)attribute withValue:(id)value
 {
     return [self removeGraphicsMatchingCriteria:^BOOL(AGSGraphic *graphic) {
-        return [[graphic.attributes objectForKey:attribute] isEqual:value];
+        id gVal = [graphic.attributes objectForKey:attribute];
+        return [gVal isEqual:value];
     }];
 }
 

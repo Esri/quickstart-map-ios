@@ -32,6 +32,14 @@
 	}
 }
 
+- (void) portalItemViewTappedAndHeld:(EQSPortalItemView *)portalItemView
+{
+    if ([self.portalItemDelegate respondsToSelector:@selector(portalItemViewTappedAndHeld:)])
+    {
+        [self.portalItemDelegate portalItemViewTappedAndHeld:portalItemView];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

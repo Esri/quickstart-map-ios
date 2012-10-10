@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activitySpinner;
 
 - (IBAction)basemapTapped:(id)sender;
+- (IBAction)basemapTappedAndHeld:(id)sender;
 @end
 
 @implementation EQSPortalItemViewController
@@ -144,7 +145,6 @@
 
 #pragma mark - UI Handler
 - (IBAction)basemapTapped:(id)sender {
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"BasemapSelected" object:self];
 	if (self.touchDelegate &&
 		[self.touchDelegate respondsToSelector:@selector(portalItemViewTapped:)])
 	{
@@ -152,6 +152,22 @@
 	}
 }
 
+- (IBAction)basemapTappedAndHeld:(id)sender
+{
+    UILongPressGestureRecognizer *g = sender;
+    
+    if (g &&
+        g.state == UIGestureRecognizerStateBegan)
+    {
+        NSLog(@"Tapped and held!");
+        
+        if (self.touchDelegate &&
+            [self.touchDelegate respondsToSelector:@selector(portalItemViewTappedAndHeld:)])
+        {
+            [self.touchDelegate portalItemViewTappedAndHeld:self.portalItemView];
+        }
+    }
+}
 
 #pragma mark - Unload
 - (void)viewDidUnload

@@ -12,7 +12,7 @@
 #define kEQSNotification_BasemapSelected @"BasemapSelected"
 
 @interface EQSPortalItemListView : UIScrollView
-@property (strong, nonatomic) IBOutlet EQSPortalItemListViewController *viewController;
+@property (nonatomic, strong) IBOutlet EQSPortalItemListViewController *viewController;
 
 - (AGSPortalItem *) addPortalItem:(NSString *)portalItemID;
 @end

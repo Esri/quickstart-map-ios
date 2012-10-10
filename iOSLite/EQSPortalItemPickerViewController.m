@@ -9,6 +9,7 @@
 #import "EQSPortalItemPickerViewController.h"
 #import "EQSPortalItemPickerView.h"
 #import "EQSPortalItemListView_int.h"
+#import "EQSPortalItemView.h"
 #import "EQSBasemapTypeEnum.h"
 #import "EQSHelper.h"
 
@@ -26,6 +27,9 @@
 
 @property (nonatomic, assign) CGSize portalItemDetailsPortraitSize;
 @property (nonatomic, assign) CGSize portalItemDetailsLandscapeSize;
+
+@property (nonatomic, strong) AGSPortalItem *detailsPortalItem;
+@property (weak, nonatomic) IBOutlet UIButton *selectPortalItemButton;
 @end
 
 @implementation EQSPortalItemPickerViewController
@@ -40,6 +44,8 @@
 @synthesize portalItemDetailsImageView = _currentBasemapImageView;
 @synthesize portalItemDetailsCreditsTextView = _portalItemDetailsCreditsTextView;
 @synthesize portalItemDetailsViewController = _portalItemDetailsViewController;
+
+@synthesize detailsPortalItem = _detailsPortalItem;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -87,6 +93,14 @@
 	[self setCurrentPortalItem_Int:selectedPortalItem callingDelegate:YES];
 }
 
+- (void)portalItemViewTappedAndHeld:(EQSPortalItemView *)portalItemView
+{
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
+    {
+        [self showIPhoneDetailsPanel:portalItemView.portalItem];
+    }
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (keyPath == @"thumbnail")
@@ -118,13 +132,13 @@
 - (void) setDetailsThumbnail:(AGSPortalItem *)portalItem
 {
     // Show the thumbnail image
-    self.portalItemDetailsImageView.image = _currentPortalItem.thumbnail;
+    self.portalItemDetailsImageView.image = portalItem.thumbnail;
 }
 
 - (void) setDetailsTitle:(AGSPortalItem *)portalItem
 {
     // Set the title text for the portal item
-	self.portalItemDetailsTitleLabel.text = _currentPortalItem.title;
+	self.portalItemDetailsTitleLabel.text = portalItem.title;
 }
 
 - (void) setDetailsSnippet:(AGSPortalItem *)portalItem
@@ -134,7 +148,7 @@
     NSURL *baseURL = [NSURL fileURLWithPath:filePath isDirectory:YES];
 	
 	// Set the HTML
-    NSString *htmlToShow = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"description.css\" /></head><body>%@</body></html>", _currentPortalItem.snippet];
+    NSString *htmlToShow = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"description.css\" /></head><body>%@</body></html>", portalItem.snippet];
     [self.portalItemDetailsDescriptionWebView loadHTMLString:htmlToShow baseURL:baseURL];
 }
 
@@ -169,11 +183,8 @@
 
 	_currentPortalItem = currentPortalItem;
     
-    [self setDetailsThumbnail:_currentPortalItem];
-    [self setDetailsTitle:_currentPortalItem];
-    [self setDetailsSnippet:_currentPortalItem];
-    [self setDetailsCredits:_currentPortalItem];
-
+    self.detailsPortalItem = currentPortalItem;
+    
     // If the thumbnail has not yet loaded, we will assume the request has been made, and will just
     // keep an eye on things and display it when it is loaded.
     if (_currentPortalItem.thumbnail == nil)
@@ -216,6 +227,23 @@
 	}
 }
 
+- (void) setDetailsPortalItem:(AGSPortalItem *)detailsPortalItem
+{
+    _detailsPortalItem = detailsPortalItem;
+    
+    [self setDetailsThumbnail:_detailsPortalItem];
+    [self setDetailsTitle:_detailsPortalItem];
+    [self setDetailsSnippet:_detailsPortalItem];
+    [self setDetailsCredits:_detailsPortalItem];
+    
+    self.selectPortalItemButton.hidden = detailsPortalItem == self.currentPortalItem;
+}
+
+- (AGSPortalItem *) detailsPortalItem
+{
+    return _detailsPortalItem;
+}
+
 - (void) setCurrentPortalItem:(AGSPortalItem *)currentPortalItem
 {
 	// TODO - revisit this.
@@ -239,11 +267,26 @@
 	[self.portalItemListView ensureItemVisible:portalItemID Highlighted:highlight];
 }
 
-- (IBAction)iPhoneShowDetails:(id)sender
+- (void)showIPhoneDetailsPanel:(AGSPortalItem *)portalItem
 {
+    self.detailsPortalItem = portalItem;
+    
     [self presentPopupViewController:self.portalItemDetailsViewController
                        animationType:MJPopupViewAnimationFade];
 }
+
+- (IBAction)selectPortalItem:(id)sender
+{
+    self.currentPortalItem = self.detailsPortalItem;
+    [self selectedPortalItemChanged:self.detailsPortalItem];
+    [self closePopup:nil];
+}
+
+- (IBAction)iPhoneShowDetails:(id)sender
+{
+    [self showIPhoneDetailsPanel:self.currentPortalItem];
+}
+
 - (IBAction)closePopup:(id)sender
 {
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];

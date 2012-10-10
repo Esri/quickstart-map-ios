@@ -62,7 +62,7 @@
 - (AGSPortalItem *)addPortalItem:(NSString *)portalItemID
 {
 	EQSPortalItemViewController *portalItemVC = [[EQSPortalItemViewController alloc] initWithPortalItemID:portalItemID];
-	portalItemVC.touchDelegate = self.viewController;
+	portalItemVC.touchDelegate = (EQSPortalItemListViewController *) self.viewController;
 	[self.portalItemVCs addObject:portalItemVC];
 	[self addSubview:portalItemVC.view];
 	[self positionItemsInView];

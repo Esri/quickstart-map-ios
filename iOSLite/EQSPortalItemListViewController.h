@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
 
+@class EQSPortalItemView;
+
 @protocol EQSPortalItemListViewDelegate <NSObject>
 - (void)selectedPortalItemChanged:(AGSPortalItem *)selectedPortalItem;
+- (void)portalItemViewTappedAndHeld:(EQSPortalItemView *)portalItemView;
 @end
 
 @interface EQSPortalItemListViewController : UIViewController

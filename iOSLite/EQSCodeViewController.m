@@ -300,6 +300,14 @@
     self.controlHeight = proposedHeight;
 }
 
+- (IBAction)mapButtonTapped:(id)sender {
+    if (self.delegate &&
+        [self.delegate respondsToSelector:@selector(codeviewWantsToBeDismissed:)])
+    {
+        [self.delegate codeviewWantsToBeDismissed:self];
+    }
+}
+
 - (void) setControlHeight:(CGFloat)controlHeight
 {
     // This is the height we'll display the whole Code View in.

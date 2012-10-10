@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *stepNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel *stepDetailsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *stepMetricsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *routeMetricsLabel;
 
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *stepBackwardsButton;
@@ -54,10 +55,66 @@
     // Release any retained subviews of the main view.
 }
 
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return YES;
+}
+
+- (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [UIView animateWithDuration:0.4
+                     animations:^{
+                         UIView *parentView = self.view.superview;
+                         CGRect parentFrame = parentView.bounds;
+                         CGFloat newHeight = UIInterfaceOrientationIsPortrait(toInterfaceOrientation)?110:95;
+                         CGFloat newY = parentFrame.origin.y + parentFrame.size.height - newHeight;
+                         
+                         NSLog(@"BEFORE %@ :: %f :: %f", NSStringFromCGRect(parentFrame), newY, newHeight);
+
+                         self.view.frame = CGRectMake(self.view.frame.origin.x,
+                                                      newY,
+                                                      self.view.frame.size.width,
+                                                      newHeight);
+                     }];
+    [self sizeDetailsLabel];
+}
+
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    UIView *parentView = self.view.superview;
+    CGRect parentFrame = parentView.bounds;
+    CGFloat newHeight = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)?110:80;
+    CGFloat newY = parentFrame.origin.y + parentFrame.size.height - newHeight;
+    
+    NSLog(@"AFTER %@ :: %f :: %f", NSStringFromCGRect(parentFrame), newY, newHeight);
+}
+
+- (void) sizeDetailsLabel
+{
+    // Auto-size the label to fit the text (this will set the height and width)
+    self.stepDetailsLabel.numberOfLines = 0;
+    [self.stepDetailsLabel sizeToFit];
+    
+    // Work out what the full width should be.
+    CGRect pFrame = self.stepDetailsLabel.superview.frame;
+    CGRect lFrame = self.stepDetailsLabel.frame;
+    CGFloat lWidth = pFrame.size.width - lFrame.origin.x;
+    
+    // Update the label's frame to be max width. This ensures that if we subsequently
+    // rotate from landscape to portrait when the label text does not fit the width,
+    // that we don't end up shrunk because of our springs and struts to the right-hand-edge.
+    self.stepDetailsLabel.frame = CGRectMake(lFrame.origin.x, lFrame.origin.y,
+                                             lWidth, lFrame.size.height);
+}
+
 - (void)setRouteResult:(AGSRouteResult *)routeResult
 {
     self.selectedDirectionIndex = -1;
     [super setRouteResult:routeResult];
+    self.routeMetricsLabel.text = [NSString stringWithFormat:@"Total: %@ (%@)",
+                                   NSStringFromAGSDirectionSetDistance(routeResult.directions),
+                                   NSStringFromAGSDirectionSetTime(routeResult.directions)];
+
     if (self.routeResult)
     {
         self.selectedDirectionIndex = 0;
@@ -105,9 +162,7 @@
                 
                 self.stepNumberLabel.text = [NSString stringWithFormat:@"%d.", selectedDirectionIndex + 1];
                 self.stepDetailsLabel.text = directionGraphic.text;
-                CGPoint origin = self.stepDetailsLabel.frame.origin;
-                self.stepDetailsLabel.frame = CGRectMake(origin.x, origin.y, self.stepDetailsLabel.frame.size.width, [self getDetailsLabelHeight]);
-                
+                [self sizeDetailsLabel];
                 if (_selectedDirectionIndex != 0 &&
                     _selectedDirectionIndex != directions.graphics.count - 1)
                 {

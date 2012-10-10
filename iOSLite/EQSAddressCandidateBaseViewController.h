@@ -15,7 +15,11 @@ typedef enum {
 } EQSCandidateViewType;
 
 @protocol EQSAddressCandidateViewDelegate <NSObject>
+@required
 - (void) candidateViewController:(id)candidateVC DidTapViewType:(EQSCandidateViewType)viewType;
+@optional
+- (void) directionsRequestedToCandidate:(id)candidateVC;
+- (void) directionsRequestedFromCandidate:(id)candidateVC;
 @end
 
 
