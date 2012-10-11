@@ -1296,23 +1296,21 @@ typedef enum {
         [self.routeResultsView.viewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation
                                                                                duration:duration];
     }
-    
-    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
+
+    BOOL hideStatusBar = YES;
+	
+    if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation) && ![self isFullScreen])
     {
-        [UIView animateWithDuration:duration
-                         animations:^{
-                             [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-                             self.view.frame = [UIScreen mainScreen].applicationFrame;
-                         }];
+		hideStatusBar = NO;
     }
-    else if (![self isFullScreen])
-    {
-        [UIView animateWithDuration:duration
-                         animations:^{
-                             [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
-                             self.view.frame = [UIScreen mainScreen].applicationFrame;
-                         }];
-    }
+
+	[UIView animateWithDuration:duration
+					 animations:^{
+						 [[UIApplication sharedApplication] setStatusBarHidden:hideStatusBar
+																 withAnimation:UIStatusBarAnimationSlide];
+						 self.view.frame = [UIScreen mainScreen].applicationFrame;
+						 [self positionMessageBar];
+					 }];
 }
 
 - (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -1350,6 +1348,12 @@ typedef enum {
                             forOrientation:[UIApplication sharedApplication].statusBarOrientation];
 }
 
+- (void) positionMessageBar
+{
+	UIView *currentView = [self getViewToShow];
+	self.messageBar.frame = [self getMessageFrameForMasterFrame:currentView];
+}
+
 - (void)updateUIDisplayStateOverDuration:(NSTimeInterval)animationDuration forOrientation:(UIInterfaceOrientation)orientation
 {
     UIView *viewToShow = [self getViewToShow];
@@ -1381,8 +1385,9 @@ typedef enum {
                              viewToAnimateOut.alpha = 0;
                              
                              viewToShow.frame = [self getUIFrame:viewToShow forOrientation:orientation];
-                             
-                             self.messageBar.frame = [self getMessageFrameForMasterFrame:viewToShow];
+
+                             [self positionMessageBar];
+//                             self.messageBar.frame = [self getMessageFrameForMasterFrame:viewToShow];
                              [self setUserMessageForCurrentFunction];
                          }
                          completion:^(BOOL finished) {
