@@ -27,10 +27,6 @@
 		D92291C515F8E6FE00438D05 /* arrow_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291C115F8E6FC00438D05 /* arrow_right@2x.png */; };
 		D92291C615F8E6FE00438D05 /* arrow_left.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291C215F8E6FC00438D05 /* arrow_left.png */; };
 		D92291C715F8E6FE00438D05 /* arrow_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291C315F8E6FD00438D05 /* arrow_left@2x.png */; };
-		D92291CC15F8E90F00438D05 /* prev-dir-iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291C815F8E90B00438D05 /* prev-dir-iphone.png */; };
-		D92291CD15F8E90F00438D05 /* prev-dir-iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291C915F8E90C00438D05 /* prev-dir-iphone@2x.png */; };
-		D92291CE15F8E90F00438D05 /* next-dir-iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291CA15F8E90D00438D05 /* next-dir-iphone.png */; };
-		D92291CF15F8E90F00438D05 /* next-dir-iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291CB15F8E90E00438D05 /* next-dir-iphone@2x.png */; };
 		D92291D915F9417900438D05 /* EQSBorderedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D92291D815F9417800438D05 /* EQSBorderedButton.m */; };
 		D92291DF15F949D800438D05 /* Flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291DE15F949D400438D05 /* Flag@2x.png */; };
 		D92291E115F94A0100438D05 /* Flag.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291E015F949FE00438D05 /* Flag.png */; };
@@ -73,6 +69,12 @@
 		D982215C1587C6EB00EF53CC /* 06-map-pin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D982215A1587C6EB00EF53CC /* 06-map-pin@2x.png */; };
 		D98221601587C8DD00EF53CC /* 07-map-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = D982215E1587C8DD00EF53CC /* 07-map-marker.png */; };
 		D98221611587C8DD00EF53CC /* 07-map-marker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D982215F1587C8DD00EF53CC /* 07-map-marker@2x.png */; };
+		D9911DD31627644600950AA7 /* prev-dir-iphone.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = D92291C815F8E90B00438D05 /* prev-dir-iphone.png */; };
+		D9911DD41627644600950AA7 /* prev-dir-iphone@2x.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = D92291C915F8E90C00438D05 /* prev-dir-iphone@2x.png */; };
+		D9911DD51627644600950AA7 /* next-dir-iphone.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = D92291CA15F8E90D00438D05 /* next-dir-iphone.png */; };
+		D9911DD61627644600950AA7 /* next-dir-iphone@2x.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = D92291CB15F8E90E00438D05 /* next-dir-iphone@2x.png */; };
+		D9911DD71627644600950AA7 /* zoom-to-route.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9911DD1162760D200950AA7 /* zoom-to-route.png */; };
+		D9911DD81627644600950AA7 /* zoom-to-route@2x.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9AF4BFE15F2D7930094A35A /* zoom-to-route@2x.png */; };
 		D99D987F158950F800F9D36B /* EQSPortalItemListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D99D987D158950F800F9D36B /* EQSPortalItemListViewController.m */; };
 		D99D9880158950F800F9D36B /* EQSPortalItemListView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D99D987E158950F800F9D36B /* EQSPortalItemListView~ipad.xib */; };
 		D99F975C161201CF0092DB48 /* EQSCodeView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D99F975B161201CF0092DB48 /* EQSCodeView~ipad.xib */; };
@@ -109,7 +111,6 @@
 		D9AF4BFA15F2D7360094A35A /* redo-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9AF4BF615F2D7360094A35A /* redo-white@2x.png */; };
 		D9AF4BFB15F2D7360094A35A /* undo-white.png in Resources */ = {isa = PBXBuildFile; fileRef = D9AF4BF715F2D7360094A35A /* undo-white.png */; };
 		D9AF4BFC15F2D7360094A35A /* undo-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9AF4BF815F2D7360094A35A /* undo-white@2x.png */; };
-		D9AF4C0015F2D7930094A35A /* zoom-to-route@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9AF4BFE15F2D7930094A35A /* zoom-to-route@2x.png */; };
 		D9AF4C0515F2D8420094A35A /* 17-check.png in Resources */ = {isa = PBXBuildFile; fileRef = D9AF4C0115F2D8420094A35A /* 17-check.png */; };
 		D9AF4C0615F2D8420094A35A /* 17-check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9AF4C0215F2D8420094A35A /* 17-check@2x.png */; };
 		D9AF4C0715F2D8420094A35A /* 60-x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9AF4C0315F2D8420094A35A /* 60-x.png */; };
@@ -120,10 +121,6 @@
 		D9B3D61C15E2BE4C00140C4E /* 298-circlex.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D61A15E2BE4C00140C4E /* 298-circlex.png */; };
 		D9B3D61D15E2BE4C00140C4E /* 298-circlex@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D61B15E2BE4C00140C4E /* 298-circlex@2x.png */; };
 		D9B3D63815E2E2BE00140C4E /* EQSRouteResultsView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D63615E2E2BE00140C4E /* EQSRouteResultsView~ipad.xib */; };
-		D9B3D64315E2EDC500140C4E /* next-dir-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D63F15E2EDC300140C4E /* next-dir-ipad.png */; };
-		D9B3D64415E2EDC500140C4E /* next-dir-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D64015E2EDC400140C4E /* next-dir-ipad@2x.png */; };
-		D9B3D64515E2EDC500140C4E /* prev-dir-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D64115E2EDC400140C4E /* prev-dir-ipad.png */; };
-		D9B3D64615E2EDC500140C4E /* prev-dir-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D64215E2EDC400140C4E /* prev-dir-ipad@2x.png */; };
 		D9E01457158A45A4005DD7D8 /* EQSPortalItemListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E01456158A45A4005DD7D8 /* EQSPortalItemListView.m */; };
 		D9E27C9E155ABDC5008F8CCB /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */; };
 		D9FAAECF15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9FAAECE15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m */; };
@@ -225,6 +222,12 @@
 			dstPath = "include/${PRODUCT_NAME}";
 			dstSubfolderSpec = 16;
 			files = (
+				D9911DD31627644600950AA7 /* prev-dir-iphone.png in CopyFiles */,
+				D9911DD41627644600950AA7 /* prev-dir-iphone@2x.png in CopyFiles */,
+				D9911DD51627644600950AA7 /* next-dir-iphone.png in CopyFiles */,
+				D9911DD61627644600950AA7 /* next-dir-iphone@2x.png in CopyFiles */,
+				D9911DD71627644600950AA7 /* zoom-to-route.png in CopyFiles */,
+				D9911DD81627644600950AA7 /* zoom-to-route@2x.png in CopyFiles */,
 				E17BD62016275B1B002AEB7D /* ArcGIS.bundle in CopyFiles */,
 				E17BD60916275239002AEB7D /* EQSConfig.plist in CopyFiles */,
 				E17BD60A16275239002AEB7D /* EQSGraphicCalloutViewController.xib in CopyFiles */,
@@ -1116,10 +1119,6 @@
 				D9B3D61C15E2BE4C00140C4E /* 298-circlex.png in Resources */,
 				D9B3D61D15E2BE4C00140C4E /* 298-circlex@2x.png in Resources */,
 				D9B3D63815E2E2BE00140C4E /* EQSRouteResultsView~ipad.xib in Resources */,
-				D9B3D64315E2EDC500140C4E /* next-dir-ipad.png in Resources */,
-				D9B3D64415E2EDC500140C4E /* next-dir-ipad@2x.png in Resources */,
-				D9B3D64515E2EDC500140C4E /* prev-dir-ipad.png in Resources */,
-				D9B3D64615E2EDC500140C4E /* prev-dir-ipad@2x.png in Resources */,
 				D97D445615E32E480072457A /* EQSRouteResultsCell.xib in Resources */,
 				D97D445915E45D5D0072457A /* EQSCodeView~iphone.xib in Resources */,
 				D97D445D15E4643A0072457A /* CodeTab.png in Resources */,
@@ -1167,7 +1166,6 @@
 				D9AF4BFA15F2D7360094A35A /* redo-white@2x.png in Resources */,
 				D9AF4BFB15F2D7360094A35A /* undo-white.png in Resources */,
 				D9AF4BFC15F2D7360094A35A /* undo-white@2x.png in Resources */,
-				D9AF4C0015F2D7930094A35A /* zoom-to-route@2x.png in Resources */,
 				D9AF4C0515F2D8420094A35A /* 17-check.png in Resources */,
 				D9AF4C0615F2D8420094A35A /* 17-check@2x.png in Resources */,
 				D9AF4C0715F2D8420094A35A /* 60-x.png in Resources */,
@@ -1195,10 +1193,6 @@
 				D92291C515F8E6FE00438D05 /* arrow_right@2x.png in Resources */,
 				D92291C615F8E6FE00438D05 /* arrow_left.png in Resources */,
 				D92291C715F8E6FE00438D05 /* arrow_left@2x.png in Resources */,
-				D92291CC15F8E90F00438D05 /* prev-dir-iphone.png in Resources */,
-				D92291CD15F8E90F00438D05 /* prev-dir-iphone@2x.png in Resources */,
-				D92291CE15F8E90F00438D05 /* next-dir-iphone.png in Resources */,
-				D92291CF15F8E90F00438D05 /* next-dir-iphone@2x.png in Resources */,
 				D92291DF15F949D800438D05 /* Flag@2x.png in Resources */,
 				D92291E115F94A0100438D05 /* Flag.png in Resources */,
 				D92291E415F94A7B00438D05 /* edit.png in Resources */,
