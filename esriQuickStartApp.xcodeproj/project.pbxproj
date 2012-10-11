@@ -238,9 +238,9 @@
 		D964FA2015E67EAA0013B4D7 /* EQSAddressCandidatePanelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSAddressCandidatePanelViewController.m; sourceTree = "<group>"; };
 		D964FA2215E67EBD0013B4D7 /* EQSAddressCandidateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSAddressCandidateView.h; sourceTree = "<group>"; };
 		D964FA2315E67EBD0013B4D7 /* EQSAddressCandidateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSAddressCandidateView.m; sourceTree = "<group>"; };
-		D96C774E1624CF140025FFF0 /* EQSUserGuideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EQSUserGuideViewController.h; path = QuickStartApp/UI/UserGuides/EQSUserGuideViewController.h; sourceTree = "<group>"; };
-		D96C774F1624CF140025FFF0 /* EQSUserGuideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EQSUserGuideViewController.m; path = QuickStartApp/UI/UserGuides/EQSUserGuideViewController.m; sourceTree = "<group>"; };
-		D96C77501624CF140025FFF0 /* EQSUserGuideViewController~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "EQSUserGuideViewController~iphone.xib"; path = "QuickStartApp/UI/UserGuides/EQSUserGuideViewController~iphone.xib"; sourceTree = "<group>"; };
+		D96C774E1624CF140025FFF0 /* EQSUserGuideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSUserGuideViewController.h; sourceTree = "<group>"; };
+		D96C774F1624CF140025FFF0 /* EQSUserGuideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSUserGuideViewController.m; sourceTree = "<group>"; };
+		D96C77501624CF140025FFF0 /* EQSUserGuideViewController~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "EQSUserGuideViewController~iphone.xib"; sourceTree = "<group>"; };
 		D9754D7115ACAF830093BF1E /* UIApplication+AppDimensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+AppDimensions.h"; sourceTree = "<group>"; };
 		D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+AppDimensions.m"; sourceTree = "<group>"; };
 		D97D445515E32E480072457A /* EQSRouteResultsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQSRouteResultsCell.xib; sourceTree = "<group>"; };
@@ -261,7 +261,7 @@
 		D97D447D15E525D10072457A /* codeSnippets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = codeSnippets.plist; sourceTree = "<group>"; };
 		D97D447F15E52CCF0072457A /* shCoreDefault.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = shCoreDefault.css; sourceTree = "<group>"; };
 		D97D448115E53BEA0072457A /* shThemeDefault.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = shThemeDefault.css; sourceTree = "<group>"; };
-		D97D9B0F1610CE59000FE2F3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		D97D9B0F1610CE59000FE2F3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		D98221591587C6EB00EF53CC /* 06-map-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "06-map-pin.png"; sourceTree = "<group>"; };
 		D982215A1587C6EB00EF53CC /* 06-map-pin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "06-map-pin@2x.png"; sourceTree = "<group>"; };
 		D982215E1587C8DD00EF53CC /* 07-map-marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "07-map-marker.png"; sourceTree = "<group>"; };
@@ -337,9 +337,9 @@
 		D9E01455158A45A4005DD7D8 /* EQSPortalItemListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSPortalItemListView.h; sourceTree = "<group>"; };
 		D9E01456158A45A4005DD7D8 /* EQSPortalItemListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSPortalItemListView.m; sourceTree = "<group>"; };
 		D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = ../../../Library/SDKs/ArcGIS/ArcGIS.framework; sourceTree = "<group>"; };
-		D9E27CB2155AEA6E008F8CCB /* AGSMapView+Basemaps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AGSMapView+Basemaps.h"; path = "Basemaps/AGSMapView+Basemaps.h"; sourceTree = "<group>"; };
-		D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = "AGSMapView+Basemaps.m"; path = "Basemaps/AGSMapView+Basemaps.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		D9E27CB7155B1EDB008F8CCB /* EQSConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = EQSConfig.plist; path = ../EQSConfig.plist; sourceTree = "<group>"; };
+		D9E27CB2155AEA6E008F8CCB /* AGSMapView+Basemaps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+Basemaps.h"; sourceTree = "<group>"; };
+		D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "AGSMapView+Basemaps.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		D9E27CB7155B1EDB008F8CCB /* EQSConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EQSConfig.plist; sourceTree = "<group>"; };
 		D9EAB290156FD1EE008BCE8F /* AGSMapView+RouteDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+RouteDisplay.h"; sourceTree = "<group>"; };
 		D9EAB291156FD1EE008BCE8F /* AGSMapView+RouteDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+RouteDisplay.m"; sourceTree = "<group>"; };
 		D9EAB293156FE0AF008BCE8F /* EQSRouteDisplayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSRouteDisplayHelper.h; sourceTree = "<group>"; };
@@ -357,17 +357,17 @@
 		E11C2FB31593AC830004EBB6 /* AGSPoint+GeneralUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSPoint+GeneralUtilities.m"; sourceTree = "<group>"; };
 		E141D0E115DB02CD004F81F4 /* EQSPortalItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSPortalItemView.h; sourceTree = "<group>"; };
 		E141D0E215DB02CD004F81F4 /* EQSPortalItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSPortalItemView.m; sourceTree = "<group>"; };
-		E16C07CB1559B39C00776F3E /* ArcGIS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ArcGIS.bundle; path = ../../../../Library/SDKs/ArcGIS/ArcGIS.framework/Versions/Current/Resources/ArcGIS.bundle; sourceTree = "<group>"; };
-		E16C07CE1559B9AA00776F3E /* AGSMapView+Navigation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AGSMapView+Navigation.h"; path = "Navigation/AGSMapView+Navigation.h"; sourceTree = "<group>"; };
-		E16C07CF1559B9AA00776F3E /* AGSMapView+Navigation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AGSMapView+Navigation.m"; path = "Navigation/AGSMapView+Navigation.m"; sourceTree = "<group>"; };
+		E16C07CB1559B39C00776F3E /* ArcGIS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ArcGIS.bundle; path = ../../../../Users/nixta/Library/SDKs/ArcGIS/ArcGIS.framework/Versions/Current/Resources/ArcGIS.bundle; sourceTree = DEVELOPER_DIR; };
+		E16C07CE1559B9AA00776F3E /* AGSMapView+Navigation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+Navigation.h"; sourceTree = "<group>"; };
+		E16C07CF1559B9AA00776F3E /* AGSMapView+Navigation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+Navigation.m"; sourceTree = "<group>"; };
 		E16C28F515598A5E00E2DB56 /* esriQuickStartApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = esriQuickStartApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E16C28F915598A5E00E2DB56 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E16C28FB15598A5E00E2DB56 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E16C28FD15598A5E00E2DB56 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		E16C290115598A5E00E2DB56 /* esriQuickStartApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "esriQuickStartApp-Info.plist"; sourceTree = "<group>"; };
+		E16C290115598A5E00E2DB56 /* esriQuickStartApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "esriQuickStartApp-Info.plist"; sourceTree = SOURCE_ROOT; };
 		E16C290315598A5E00E2DB56 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		E16C290515598A5E00E2DB56 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		E16C290715598A5E00E2DB56 /* esriQuickStartApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "esriQuickStartApp-Prefix.pch"; sourceTree = "<group>"; };
+		E16C290515598A5E00E2DB56 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ../main.m; sourceTree = "<group>"; };
+		E16C290715598A5E00E2DB56 /* esriQuickStartApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "esriQuickStartApp-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		E16C290815598A5E00E2DB56 /* EQSSampleAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSSampleAppDelegate.h; sourceTree = "<group>"; };
 		E16C290915598A5E00E2DB56 /* EQSSampleAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EQSSampleAppDelegate.m; sourceTree = "<group>"; };
 		E16C290C15598A5E00E2DB56 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
@@ -387,8 +387,8 @@
 		E1812BD815DC6FA200D3325A /* EQSPortalItemListView_int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSPortalItemListView_int.h; sourceTree = "<group>"; };
 		E1812BDA15DC767D00D3325A /* EQSBasemapPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSBasemapPickerView.h; sourceTree = "<group>"; };
 		E1812BDB15DC767E00D3325A /* EQSBasemapPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSBasemapPickerView.m; sourceTree = "<group>"; };
-		E1A5682B15ABAC74004AA6C1 /* EQSGeoServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EQSGeoServices.h; path = iOSLite/EQSGeoServices.h; sourceTree = "<group>"; };
-		E1A5682C15ABAC74004AA6C1 /* EQSGeoServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EQSGeoServices.m; path = iOSLite/EQSGeoServices.m; sourceTree = "<group>"; };
+		E1A5682B15ABAC74004AA6C1 /* EQSGeoServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSGeoServices.h; sourceTree = "<group>"; };
+		E1A5682C15ABAC74004AA6C1 /* EQSGeoServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSGeoServices.m; sourceTree = "<group>"; };
 		E1AB2DEB15F26F6B00CA3096 /* EQSAddressCandidateView~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "EQSAddressCandidateView~iphone.xib"; sourceTree = "<group>"; };
 		E1B7171B1614E13D000A019C /* MBProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		E1B7171C1614E13D000A019C /* MBProgressHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
@@ -430,96 +430,7 @@
 			children = (
 				D9086D9F158B90D800FC1D43 /* description.css */,
 			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
-		D92F8E2215F52410004B87A6 /* Glyphish */ = {
-			isa = PBXGroup;
-			children = (
-				D92291E615F94C3900438D05 /* 14-bothways.png */,
-				D92291E715F94C3C00438D05 /* 14-bothways@2x.png */,
-				D92291E015F949FE00438D05 /* Flag.png */,
-				D92291DE15F949D400438D05 /* Flag@2x.png */,
-				D92291B615F7FA4F00438D05 /* GreenFlag.png */,
-				D92291B715F7FA4F00438D05 /* GreenFlag@2x.png */,
-				D9AF4C0115F2D8420094A35A /* 17-check.png */,
-				D9AF4C0215F2D8420094A35A /* 17-check@2x.png */,
-				D9AF4C0315F2D8420094A35A /* 60-x.png */,
-				D9AF4C0415F2D8420094A35A /* 60-x@2x.png */,
-				D9AF4BFD15F2D7930094A35A /* 165-glasses-3.png */,
-				D9AF4BFE15F2D7930094A35A /* 165-glasses-3@2x.png */,
-				D9AF4BF515F2D7360094A35A /* redo-white.png */,
-				D9AF4BF615F2D7360094A35A /* redo-white@2x.png */,
-				D9AF4BF715F2D7360094A35A /* undo-white.png */,
-				D9AF4BF815F2D7360094A35A /* undo-white@2x.png */,
-				D9AF4BB315F141420094A35A /* 103-map.png */,
-				D9AF4BB415F141420094A35A /* 103-map@2x.png */,
-				D9AF4BC315F1429C0094A35A /* 113-navigation.png */,
-				D9AF4BC415F1429C0094A35A /* 113-navigation@2x.png */,
-				D9AF4BC715F143050094A35A /* 234-cloud.png */,
-				D9AF4BC815F143050094A35A /* 234-cloud@2x.png */,
-				D9AF4BCB15F143210094A35A /* 240-sketchbook.png */,
-				D9AF4BCC15F143210094A35A /* 240-sketchbook@2x.png */,
-				D9AF4BCD15F143210094A35A /* 246-route.png */,
-				D9AF4BCE15F143210094A35A /* 246-route@2x.png */,
-				D9AF4BD315F143360094A35A /* 259-list.png */,
-				D9AF4BD415F143360094A35A /* 259-list@2x.png */,
-				D9AF4BAF15F13B390094A35A /* 33-cabinet.png */,
-				D9AF4BB015F13B390094A35A /* 33-cabinet@2x.png */,
-				D9AF4BB715F1426C0094A35A /* 71-compass.png */,
-				D9AF4BB815F1426C0094A35A /* 71-compass@2x.png */,
-				D9AF4BB915F1426C0094A35A /* 72-pin.png */,
-				D9AF4BBA15F1426C0094A35A /* 72-pin@2x.png */,
-				D9AF4BBB15F1426C0094A35A /* 73-radar.png */,
-				D9AF4BBC15F1426C0094A35A /* 73-radar@2x.png */,
-				D940585815E6C2D300F4A320 /* 74-location-white.png */,
-				D940585915E6C2D300F4A320 /* 74-location-white@2x.png */,
-				D9AF4BD715F144410094A35A /* 74-location.png */,
-				D9AF4BD815F144410094A35A /* 74-location@2x.png */,
-			);
-			name = Glyphish;
-			sourceTree = "<group>";
-		};
-		D92F8E2415F52418004B87A6 /* GlyphIcons */ = {
-			isa = PBXGroup;
-			children = (
-				E16E7193160CED5F0048EC29 /* riflescope-white.png */,
-				E16E7194160CED600048EC29 /* riflescope-white@2x.png */,
-				D92291E215F94A7900438D05 /* edit.png */,
-				D92291E315F94A7A00438D05 /* edit@2x.png */,
-				D92291C815F8E90B00438D05 /* arrow_left-white.png */,
-				D92291C915F8E90C00438D05 /* arrow_left-white@2x.png */,
-				D92291CA15F8E90D00438D05 /* arrow_right-white.png */,
-				D92291CB15F8E90E00438D05 /* arrow_right-white@2x.png */,
-				D92291C015F8E6FB00438D05 /* arrow_right.png */,
-				D92291C115F8E6FC00438D05 /* arrow_right@2x.png */,
-				D92291C215F8E6FC00438D05 /* arrow_left.png */,
-				D92291C315F8E6FD00438D05 /* arrow_left@2x.png */,
-				D92291BC15F7FCC100438D05 /* Finish-Flag.png */,
-				D92291BA15F7FCA000438D05 /* Finish-Flag@2x.png */,
-				D92291A515F64EE200438D05 /* resize_full-white.png */,
-				D92291A615F64EE200438D05 /* resize_full-white@2x.png */,
-				D922919D15F64AF200438D05 /* resize_small.png */,
-				D922919E15F64AF200438D05 /* resize_small@2x.png */,
-				D922919F15F64AF200438D05 /* resize_full.png */,
-				D92291A015F64AF200438D05 /* resize_full@2x.png */,
-				D922919915F6496800438D05 /* help-white.png */,
-				D922919A15F6496800438D05 /* help-white@2x.png */,
-				D922919415F6434E00438D05 /* create_point.png */,
-				D922919515F6434E00438D05 /* create_point@2x.png */,
-				D92F8E2715F526B9004B87A6 /* create_line.png */,
-				D92F8E2815F526B9004B87A6 /* create_line@2x.png */,
-				D92F8E2515F526B9004B87A6 /* create_polygon.png */,
-				D92F8E2615F526B9004B87A6 /* create_polygon@2x.png */,
-			);
-			name = GlyphIcons;
-			sourceTree = "<group>";
-		};
-		D940585215E6C25900F4A320 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Resources;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		D94431A7156C1EEC00982D5C /* Helper */ = {
@@ -529,8 +440,7 @@
 				D94431A4156BE1FC00982D5C /* EQSHelper.m */,
 				E1C12A6C15D5936500B1ADCB /* Resources */,
 			);
-			name = Helper;
-			path = iOSLite;
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		D964FA1A15E67E2E0013B4D7 /* Address Candidate Views */ = {
@@ -548,9 +458,8 @@
 				D964FA2015E67EAA0013B4D7 /* EQSAddressCandidatePanelViewController.m */,
 				D9FAAED315E84C86003E3F5B /* EQSAddressCandidateCalloutViewController.h */,
 				D9FAAED415E84C86003E3F5B /* EQSAddressCandidateCalloutViewController.m */,
-				D940585215E6C25900F4A320 /* Resources */,
 			);
-			name = "Address Candidate Views";
+			path = "Address Candidate Views";
 			sourceTree = "<group>";
 		};
 		D964FA2515E69F790013B4D7 /* Basemap Selector */ = {
@@ -559,7 +468,7 @@
 				E1812BDA15DC767D00D3325A /* EQSBasemapPickerView.h */,
 				E1812BDB15DC767E00D3325A /* EQSBasemapPickerView.m */,
 			);
-			name = "Basemap Selector";
+			path = "Basemap Selector";
 			sourceTree = "<group>";
 		};
 		D96C774C1624CEA80025FFF0 /* UserGuides */ = {
@@ -569,7 +478,7 @@
 				D96C774E1624CF140025FFF0 /* EQSUserGuideViewController.h */,
 				D96C774F1624CF140025FFF0 /* EQSUserGuideViewController.m */,
 			);
-			name = UserGuides;
+			path = UserGuides;
 			sourceTree = "<group>";
 		};
 		D97D445315E32B970072457A /* UI */ = {
@@ -590,7 +499,7 @@
 				D9B3D63D15E2E91E00140C4E /* EQSRouteResultsCell.m */,
 				D9B3D64715E2EDCA00140C4E /* Resources */,
 			);
-			name = UI;
+			path = UI;
 			sourceTree = "<group>";
 		};
 		D97D445715E45D410072457A /* Code Viewer */ = {
@@ -604,7 +513,7 @@
 				D97D446315E465DD0072457A /* EQSCodeViewController.m */,
 				D97D445A15E464260072457A /* Resources */,
 			);
-			name = "Code Viewer";
+			path = "Code Viewer";
 			sourceTree = "<group>";
 		};
 		D97D445A15E464260072457A /* Resources */ = {
@@ -617,7 +526,7 @@
 				D97D447D15E525D10072457A /* codeSnippets.plist */,
 				D97D446815E4879C0072457A /* SyntaxHighlighter */,
 			);
-			name = Resources;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		D97D446815E4879C0072457A /* SyntaxHighlighter */ = {
@@ -630,17 +539,26 @@
 				D97D447F15E52CCF0072457A /* shCoreDefault.css */,
 				D97D448115E53BEA0072457A /* shThemeDefault.css */,
 			);
-			name = SyntaxHighlighter;
+			path = SyntaxHighlighter;
 			sourceTree = "<group>";
 		};
-		D9AF4BA915F13AC90094A35A /* iPhone Resources */ = {
+		D992A5B11627482A00B80154 /* GeoServices */ = {
 			isa = PBXGroup;
 			children = (
-				D97D9B0F1610CE59000FE2F3 /* Default-568h@2x.png */,
-				D92F8E2415F52418004B87A6 /* GlyphIcons */,
-				D92F8E2215F52410004B87A6 /* Glyphish */,
+				D964FA1915E6783A0013B4D7 /* EQSGeoServicesNotifications.h */,
+				E1A5682B15ABAC74004AA6C1 /* EQSGeoServices.h */,
+				E1A5682C15ABAC74004AA6C1 /* EQSGeoServices.m */,
 			);
-			name = "iPhone Resources";
+			path = GeoServices;
+			sourceTree = "<group>";
+		};
+		D992A5B21627485200B80154 /* Default Symbols */ = {
+			isa = PBXGroup;
+			children = (
+				D9B3D61E15E2C86300140C4E /* EQSDefaultSymbols.h */,
+				D9B3D61F15E2C86300140C4E /* EQSDefaultSymbols.m */,
+			);
+			path = "Default Symbols";
 			sourceTree = "<group>";
 		};
 		D9AF4BE915F187C00094A35A /* MJPopupViewController */ = {
@@ -651,7 +569,7 @@
 				D9AF4BEC15F187DC0094A35A /* UIViewController+MJPopupViewController.h */,
 				D9AF4BED15F187DC0094A35A /* UIViewController+MJPopupViewController.m */,
 			);
-			name = MJPopupViewController;
+			path = MJPopupViewController;
 			sourceTree = "<group>";
 		};
 		D9B3D64715E2EDCA00140C4E /* Resources */ = {
@@ -662,7 +580,7 @@
 				D9B3D64115E2EDC400140C4E /* 36-circle-west.png */,
 				D9B3D64215E2EDC400140C4E /* 36-circle-west@2x.png */,
 			);
-			name = Resources;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		D9E27CAF155AE891008F8CCB /* AGS Categories */ = {
@@ -674,8 +592,7 @@
 				D9FB2CD5156EF6ED0052E2AC /* Directions Display */,
 				D9F9AE96157D6A76004CFAA8 /* General */,
 			);
-			name = "AGS Categories";
-			path = iOSLite;
+			path = "AGS Categories";
 			sourceTree = "<group>";
 		};
 		D9E27CB1155AEA4D008F8CCB /* Basemaps */ = {
@@ -688,21 +605,18 @@
 				D99A58CE1576B22A00AB05EE /* AGSLayer+Basemap.h */,
 				D99A58CF1576B22A00AB05EE /* AGSLayer+Basemap.m */,
 			);
-			name = Basemaps;
+			path = Basemaps;
 			sourceTree = "<group>";
 		};
 		D9F4C53015DEE43D0082D03C /* QuickStartLib */ = {
 			isa = PBXGroup;
 			children = (
 				D94431A7156C1EEC00982D5C /* Helper */,
+				D992A5B11627482A00B80154 /* GeoServices */,
+				D992A5B21627485200B80154 /* Default Symbols */,
 				D9E27CAF155AE891008F8CCB /* AGS Categories */,
-				D964FA1915E6783A0013B4D7 /* EQSGeoServicesNotifications.h */,
-				E1A5682B15ABAC74004AA6C1 /* EQSGeoServices.h */,
-				E1A5682C15ABAC74004AA6C1 /* EQSGeoServices.m */,
-				D9B3D61E15E2C86300140C4E /* EQSDefaultSymbols.h */,
-				D9B3D61F15E2C86300140C4E /* EQSDefaultSymbols.m */,
 			);
-			name = QuickStartLib;
+			path = QuickStartLib;
 			sourceTree = "<group>";
 		};
 		D9F9AE96157D6A76004CFAA8 /* General */ = {
@@ -713,7 +627,7 @@
 				E11C2FB21593AC830004EBB6 /* AGSPoint+GeneralUtilities.h */,
 				E11C2FB31593AC830004EBB6 /* AGSPoint+GeneralUtilities.m */,
 			);
-			name = General;
+			path = General;
 			sourceTree = "<group>";
 		};
 		D9F9EE6F156DE7DA00C2A15F /* Graphics */ = {
@@ -729,22 +643,91 @@
 				D94260FF15EEBCBE00B9CACE /* EQSGraphicCalloutViewController.h */,
 				D942610015EEBCBE00B9CACE /* EQSGraphicCalloutViewController.m */,
 			);
-			name = Graphics;
+			path = Graphics;
 			sourceTree = "<group>";
 		};
 		D9F9EE77156DFD3200C2A15F /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				D9B3D61615E2BE3100140C4E /* closeX.png */,
-				D9B3D61715E2BE3100140C4E /* closeX@2x.png */,
-				D9B3D61A15E2BE4C00140C4E /* 298-circlex.png */,
-				D9B3D61B15E2BE4C00140C4E /* 298-circlex@2x.png */,
 				D98221591587C6EB00EF53CC /* 06-map-pin.png */,
 				D982215A1587C6EB00EF53CC /* 06-map-pin@2x.png */,
 				D982215E1587C8DD00EF53CC /* 07-map-marker.png */,
 				D982215F1587C8DD00EF53CC /* 07-map-marker@2x.png */,
+				D9AF4BB315F141420094A35A /* 103-map.png */,
+				D9AF4BB415F141420094A35A /* 103-map@2x.png */,
+				D9AF4BC315F1429C0094A35A /* 113-navigation.png */,
+				D9AF4BC415F1429C0094A35A /* 113-navigation@2x.png */,
+				D92291E615F94C3900438D05 /* 14-bothways.png */,
+				D92291E715F94C3C00438D05 /* 14-bothways@2x.png */,
+				D9AF4BFD15F2D7930094A35A /* 165-glasses-3.png */,
+				D9AF4BFE15F2D7930094A35A /* 165-glasses-3@2x.png */,
+				D9AF4C0115F2D8420094A35A /* 17-check.png */,
+				D9AF4C0215F2D8420094A35A /* 17-check@2x.png */,
+				D9AF4BC715F143050094A35A /* 234-cloud.png */,
+				D9AF4BC815F143050094A35A /* 234-cloud@2x.png */,
+				D9AF4BCB15F143210094A35A /* 240-sketchbook.png */,
+				D9AF4BCC15F143210094A35A /* 240-sketchbook@2x.png */,
+				D9AF4BCD15F143210094A35A /* 246-route.png */,
+				D9AF4BCE15F143210094A35A /* 246-route@2x.png */,
+				D9AF4BD315F143360094A35A /* 259-list.png */,
+				D9AF4BD415F143360094A35A /* 259-list@2x.png */,
+				D9B3D61A15E2BE4C00140C4E /* 298-circlex.png */,
+				D9B3D61B15E2BE4C00140C4E /* 298-circlex@2x.png */,
+				D9AF4BAF15F13B390094A35A /* 33-cabinet.png */,
+				D9AF4BB015F13B390094A35A /* 33-cabinet@2x.png */,
+				D9AF4C0315F2D8420094A35A /* 60-x.png */,
+				D9AF4C0415F2D8420094A35A /* 60-x@2x.png */,
+				D9AF4BB715F1426C0094A35A /* 71-compass.png */,
+				D9AF4BB815F1426C0094A35A /* 71-compass@2x.png */,
+				D9AF4BB915F1426C0094A35A /* 72-pin.png */,
+				D9AF4BBA15F1426C0094A35A /* 72-pin@2x.png */,
+				D9AF4BBB15F1426C0094A35A /* 73-radar.png */,
+				D9AF4BBC15F1426C0094A35A /* 73-radar@2x.png */,
+				D940585815E6C2D300F4A320 /* 74-location-white.png */,
+				D940585915E6C2D300F4A320 /* 74-location-white@2x.png */,
+				D9AF4BD715F144410094A35A /* 74-location.png */,
+				D9AF4BD815F144410094A35A /* 74-location@2x.png */,
+				D92291C815F8E90B00438D05 /* arrow_left-white.png */,
+				D92291C915F8E90C00438D05 /* arrow_left-white@2x.png */,
+				D92291C215F8E6FC00438D05 /* arrow_left.png */,
+				D92291C315F8E6FD00438D05 /* arrow_left@2x.png */,
+				D92291CA15F8E90D00438D05 /* arrow_right-white.png */,
+				D92291CB15F8E90E00438D05 /* arrow_right-white@2x.png */,
+				D92291C015F8E6FB00438D05 /* arrow_right.png */,
+				D92291C115F8E6FC00438D05 /* arrow_right@2x.png */,
+				D9B3D61615E2BE3100140C4E /* closeX.png */,
+				D9B3D61715E2BE3100140C4E /* closeX@2x.png */,
+				D92F8E2715F526B9004B87A6 /* create_line.png */,
+				D92F8E2815F526B9004B87A6 /* create_line@2x.png */,
+				D922919415F6434E00438D05 /* create_point.png */,
+				D922919515F6434E00438D05 /* create_point@2x.png */,
+				D92F8E2515F526B9004B87A6 /* create_polygon.png */,
+				D92F8E2615F526B9004B87A6 /* create_polygon@2x.png */,
+				D97D9B0F1610CE59000FE2F3 /* Default-568h@2x.png */,
+				D92291E215F94A7900438D05 /* edit.png */,
+				D92291E315F94A7A00438D05 /* edit@2x.png */,
+				D92291BC15F7FCC100438D05 /* Finish-Flag.png */,
+				D92291BA15F7FCA000438D05 /* Finish-Flag@2x.png */,
+				D92291E015F949FE00438D05 /* Flag.png */,
+				D92291DE15F949D400438D05 /* Flag@2x.png */,
+				D92291B615F7FA4F00438D05 /* GreenFlag.png */,
+				D92291B715F7FA4F00438D05 /* GreenFlag@2x.png */,
+				D922919915F6496800438D05 /* help-white.png */,
+				D922919A15F6496800438D05 /* help-white@2x.png */,
+				D9AF4BF515F2D7360094A35A /* redo-white.png */,
+				D9AF4BF615F2D7360094A35A /* redo-white@2x.png */,
+				D92291A515F64EE200438D05 /* resize_full-white.png */,
+				D92291A615F64EE200438D05 /* resize_full-white@2x.png */,
+				D922919F15F64AF200438D05 /* resize_full.png */,
+				D92291A015F64AF200438D05 /* resize_full@2x.png */,
+				D922919D15F64AF200438D05 /* resize_small.png */,
+				D922919E15F64AF200438D05 /* resize_small@2x.png */,
+				E16E7193160CED5F0048EC29 /* riflescope-white.png */,
+				E16E7194160CED600048EC29 /* riflescope-white@2x.png */,
+				D9AF4BF715F2D7360094A35A /* undo-white.png */,
+				D9AF4BF815F2D7360094A35A /* undo-white@2x.png */,
 			);
-			name = Images;
+			path = Images;
 			sourceTree = "<group>";
 		};
 		D9FB2CD5156EF6ED0052E2AC /* Directions Display */ = {
@@ -756,7 +739,7 @@
 				D9EAB294156FE0AF008BCE8F /* EQSRouteDisplayHelper.m */,
 				D97D445315E32B970072457A /* UI */,
 			);
-			name = "Directions Display";
+			path = "Directions Display";
 			sourceTree = "<group>";
 		};
 		E16C07CD1559B96900776F3E /* Navigation */ = {
@@ -765,7 +748,7 @@
 				E16C07CE1559B9AA00776F3E /* AGSMapView+Navigation.h */,
 				E16C07CF1559B9AA00776F3E /* AGSMapView+Navigation.m */,
 			);
-			name = Navigation;
+			path = Navigation;
 			sourceTree = "<group>";
 		};
 		E16C28EA15598A5E00E2DB56 = {
@@ -808,7 +791,6 @@
 		E16C28FF15598A5E00E2DB56 /* QuickStartApp */ = {
 			isa = PBXGroup;
 			children = (
-				D9AF4BA915F13AC90094A35A /* iPhone Resources */,
 				E16C290E15598A5E00E2DB56 /* MainStoryboard_iPad.storyboard */,
 				E16C290B15598A5E00E2DB56 /* MainStoryboard_iPhone.storyboard */,
 				E16C290815598A5E00E2DB56 /* EQSSampleAppDelegate.h */,
@@ -819,8 +801,7 @@
 				E1AC7B8615D2E8EA00E4E1BE /* UI */,
 				E16C290015598A5E00E2DB56 /* Supporting Files */,
 			);
-			name = QuickStartApp;
-			path = iOSLite;
+			path = QuickStartApp;
 			sourceTree = "<group>";
 		};
 		E16C290015598A5E00E2DB56 /* Supporting Files */ = {
@@ -833,7 +814,7 @@
 				E16C290515598A5E00E2DB56 /* main.m */,
 				E16C290715598A5E00E2DB56 /* esriQuickStartApp-Prefix.pch */,
 			);
-			name = "Supporting Files";
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		E185887715D9C4020015414B /* Categories */ = {
@@ -842,7 +823,7 @@
 				D9754D7115ACAF830093BF1E /* UIApplication+AppDimensions.h */,
 				D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */,
 			);
-			name = Categories;
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		E1AC7B8615D2E8EA00E4E1BE /* UI */ = {
@@ -861,7 +842,7 @@
 				D92291D715F9417800438D05 /* EQSBorderedButton.h */,
 				D92291D815F9417800438D05 /* EQSBorderedButton.m */,
 			);
-			name = UI;
+			path = UI;
 			sourceTree = "<group>";
 		};
 		E1AC7B8815D2E91E00E4E1BE /* PortalItem Selector */ = {
@@ -889,7 +870,7 @@
 				E1E1809215DAEC2100BB30DD /* Categories */,
 				D9086D9E158B90C500FC1D43 /* Resources */,
 			);
-			name = "PortalItem Selector";
+			path = "PortalItem Selector";
 			sourceTree = "<group>";
 		};
 		E1B7171A1614E10E000A019C /* MBProgressHUD */ = {
@@ -899,7 +880,7 @@
 				E1B7171C1614E13D000A019C /* MBProgressHUD.m */,
 				E1B7171D1614E13D000A019C /* README.mdown */,
 			);
-			name = MBProgressHUD;
+			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
 		E1C12A6C15D5936500B1ADCB /* Resources */ = {
@@ -907,7 +888,7 @@
 			children = (
 				D9E27CB7155B1EDB008F8CCB /* EQSConfig.plist */,
 			);
-			name = Resources;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		E1E1809215DAEC2100BB30DD /* Categories */ = {
@@ -916,7 +897,7 @@
 				E1DCB32D156D455100A30BB2 /* UILabel+EQSAutoSizeMultiline.h */,
 				E1DCB32E156D455100A30BB2 /* UILabel+EQSAutoSizeMultiline.m */,
 			);
-			name = Categories;
+			path = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1150,7 +1131,8 @@
 				E16C290315598A5E00E2DB56 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
+			path = QuickStartApp;
+			sourceTree = SOURCE_ROOT;
 		};
 		E16C290B15598A5E00E2DB56 /* MainStoryboard_iPhone.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -1223,8 +1205,8 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/SDKs/ArcGIS/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "iOSLite/esriQuickStartApp-Prefix.pch";
-				INFOPLIST_FILE = "iOSLite/esriQuickStartApp-Info.plist";
+				GCC_PREFIX_HEADER = "esriQuickStartApp-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/esriQuickStartApp-Info.plist";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1241,8 +1223,8 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/SDKs/ArcGIS/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "iOSLite/esriQuickStartApp-Prefix.pch";
-				INFOPLIST_FILE = "iOSLite/esriQuickStartApp-Info.plist";
+				GCC_PREFIX_HEADER = "esriQuickStartApp-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/esriQuickStartApp-Info.plist";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
