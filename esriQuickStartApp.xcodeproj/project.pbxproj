@@ -31,7 +31,6 @@
 		D92291CD15F8E90F00438D05 /* arrow_left-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291C915F8E90C00438D05 /* arrow_left-white@2x.png */; };
 		D92291CE15F8E90F00438D05 /* arrow_right-white.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291CA15F8E90D00438D05 /* arrow_right-white.png */; };
 		D92291CF15F8E90F00438D05 /* arrow_right-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291CB15F8E90E00438D05 /* arrow_right-white@2x.png */; };
-		D92291D215F8ECE100438D05 /* EQSRouteResultsViewControllerCompact.m in Sources */ = {isa = PBXBuildFile; fileRef = D92291D115F8ECE100438D05 /* EQSRouteResultsViewControllerCompact.m */; };
 		D92291D915F9417900438D05 /* EQSBorderedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D92291D815F9417800438D05 /* EQSBorderedButton.m */; };
 		D92291DF15F949D800438D05 /* Flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291DE15F949D400438D05 /* Flag@2x.png */; };
 		D92291E115F94A0100438D05 /* Flag.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291E015F949FE00438D05 /* Flag.png */; };
@@ -39,7 +38,6 @@
 		D92291E515F94A7B00438D05 /* edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291E315F94A7A00438D05 /* edit@2x.png */; };
 		D92291E815F94C3F00438D05 /* 14-bothways.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291E615F94C3900438D05 /* 14-bothways.png */; };
 		D92291E915F94C3F00438D05 /* 14-bothways@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291E715F94C3C00438D05 /* 14-bothways@2x.png */; };
-		D927EBEA15A4D81F008CF54C /* AGSGraphicsLayer+EQSGraphics.m in Sources */ = {isa = PBXBuildFile; fileRef = D927EBE915A4D81F008CF54C /* AGSGraphicsLayer+EQSGraphics.m */; };
 		D92F8E2915F526B9004B87A6 /* create_polygon.png in Resources */ = {isa = PBXBuildFile; fileRef = D92F8E2515F526B9004B87A6 /* create_polygon.png */; };
 		D92F8E2A15F526B9004B87A6 /* create_polygon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92F8E2615F526B9004B87A6 /* create_polygon@2x.png */; };
 		D92F8E2B15F526B9004B87A6 /* create_line.png in Resources */ = {isa = PBXBuildFile; fileRef = D92F8E2715F526B9004B87A6 /* create_line.png */; };
@@ -48,10 +46,7 @@
 		D93D710F15EBCEC9002F7FA2 /* EQSAddressCandidateBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D93D710E15EBCEC9002F7FA2 /* EQSAddressCandidateBaseViewController.m */; };
 		D940585A15E6C2D300F4A320 /* 74-location-white.png in Resources */ = {isa = PBXBuildFile; fileRef = D940585815E6C2D300F4A320 /* 74-location-white.png */; };
 		D940585B15E6C2D300F4A320 /* 74-location-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D940585915E6C2D300F4A320 /* 74-location-white@2x.png */; };
-		D94260FD15EEBB3500B9CACE /* EQSGraphicCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = D94260FC15EEBB3500B9CACE /* EQSGraphicCallout.m */; };
-		D942610215EEBCBE00B9CACE /* EQSGraphicCalloutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D942610015EEBCBE00B9CACE /* EQSGraphicCalloutViewController.m */; };
 		D942610315EEBCBE00B9CACE /* EQSGraphicCalloutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D942610115EEBCBE00B9CACE /* EQSGraphicCalloutViewController.xib */; };
-		D94431A5156BE1FC00982D5C /* EQSHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D94431A4156BE1FC00982D5C /* EQSHelper.m */; };
 		D964FA1E15E67E970013B4D7 /* EQSAddressCandidateView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D964FA1D15E67E970013B4D7 /* EQSAddressCandidateView~ipad.xib */; };
 		D964FA2115E67EAA0013B4D7 /* EQSAddressCandidatePanelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D964FA2015E67EAA0013B4D7 /* EQSAddressCandidatePanelViewController.m */; };
 		D964FA2415E67EBD0013B4D7 /* EQSAddressCandidateView.m in Sources */ = {isa = PBXBuildFile; fileRef = D964FA2315E67EBD0013B4D7 /* EQSAddressCandidateView.m */; };
@@ -78,7 +73,6 @@
 		D982215C1587C6EB00EF53CC /* 06-map-pin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D982215A1587C6EB00EF53CC /* 06-map-pin@2x.png */; };
 		D98221601587C8DD00EF53CC /* 07-map-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = D982215E1587C8DD00EF53CC /* 07-map-marker.png */; };
 		D98221611587C8DD00EF53CC /* 07-map-marker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D982215F1587C8DD00EF53CC /* 07-map-marker@2x.png */; };
-		D99A58D01576B22A00AB05EE /* AGSLayer+Basemap.m in Sources */ = {isa = PBXBuildFile; fileRef = D99A58CF1576B22A00AB05EE /* AGSLayer+Basemap.m */; };
 		D99D987F158950F800F9D36B /* EQSPortalItemListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D99D987D158950F800F9D36B /* EQSPortalItemListViewController.m */; };
 		D99D9880158950F800F9D36B /* EQSPortalItemListView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D99D987E158950F800F9D36B /* EQSPortalItemListView~ipad.xib */; };
 		D99F975C161201CF0092DB48 /* EQSCodeView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D99F975B161201CF0092DB48 /* EQSCodeView~ipad.xib */; };
@@ -126,30 +120,17 @@
 		D9B3D61915E2BE3100140C4E /* closeX@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D61715E2BE3100140C4E /* closeX@2x.png */; };
 		D9B3D61C15E2BE4C00140C4E /* 298-circlex.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D61A15E2BE4C00140C4E /* 298-circlex.png */; };
 		D9B3D61D15E2BE4C00140C4E /* 298-circlex@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D61B15E2BE4C00140C4E /* 298-circlex@2x.png */; };
-		D9B3D62015E2C86300140C4E /* EQSDefaultSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B3D61F15E2C86300140C4E /* EQSDefaultSymbols.m */; };
-		D9B3D63715E2E2BE00140C4E /* EQSRouteResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B3D63515E2E2BE00140C4E /* EQSRouteResultsViewController.m */; };
 		D9B3D63815E2E2BE00140C4E /* EQSRouteResultsView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D63615E2E2BE00140C4E /* EQSRouteResultsView~ipad.xib */; };
-		D9B3D63B15E2E2E600140C4E /* EQSRouteResultsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B3D63A15E2E2E600140C4E /* EQSRouteResultsView.m */; };
-		D9B3D63E15E2E91E00140C4E /* EQSRouteResultsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B3D63D15E2E91E00140C4E /* EQSRouteResultsCell.m */; };
 		D9B3D64315E2EDC500140C4E /* 20-circle-east.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D63F15E2EDC300140C4E /* 20-circle-east.png */; };
 		D9B3D64415E2EDC500140C4E /* 20-circle-east@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D64015E2EDC400140C4E /* 20-circle-east@2x.png */; };
 		D9B3D64515E2EDC500140C4E /* 36-circle-west.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D64115E2EDC400140C4E /* 36-circle-west.png */; };
 		D9B3D64615E2EDC500140C4E /* 36-circle-west@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D64215E2EDC400140C4E /* 36-circle-west@2x.png */; };
-		D9B3D64A15E2F14C00140C4E /* EQSRouteResultsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B3D64915E2F14C00140C4E /* EQSRouteResultsTableViewController.m */; };
 		D9E01457158A45A4005DD7D8 /* EQSPortalItemListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E01456158A45A4005DD7D8 /* EQSPortalItemListView.m */; };
 		D9E27C9E155ABDC5008F8CCB /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */; };
-		D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */; };
-		D9E27CB8155B1EDB008F8CCB /* EQSConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9E27CB7155B1EDB008F8CCB /* EQSConfig.plist */; };
-		D9EAB292156FD1EF008BCE8F /* AGSMapView+RouteDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EAB291156FD1EE008BCE8F /* AGSMapView+RouteDisplay.m */; };
-		D9EAB295156FE0AF008BCE8F /* EQSRouteDisplayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EAB294156FE0AF008BCE8F /* EQSRouteDisplayHelper.m */; };
-		D9F9AE99157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9AE98157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m */; };
-		D9F9EE72156DE7FA00C2A15F /* AGSMapView+EQSGraphics.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9EE71156DE7FA00C2A15F /* AGSMapView+EQSGraphics.m */; };
 		D9FAAECF15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9FAAECE15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m */; };
 		D9FAAED515E84C87003E3F5B /* EQSAddressCandidateCalloutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9FAAED415E84C86003E3F5B /* EQSAddressCandidateCalloutViewController.m */; };
-		E11C2FB41593AC830004EBB6 /* AGSPoint+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E11C2FB31593AC830004EBB6 /* AGSPoint+GeneralUtilities.m */; };
 		E141D0E315DB02CE004F81F4 /* EQSPortalItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = E141D0E215DB02CD004F81F4 /* EQSPortalItemView.m */; };
 		E16C07CC1559B39C00776F3E /* ArcGIS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E16C07CB1559B39C00776F3E /* ArcGIS.bundle */; };
-		E16C07D01559B9AA00776F3E /* AGSMapView+Navigation.m in Sources */ = {isa = PBXBuildFile; fileRef = E16C07CF1559B9AA00776F3E /* AGSMapView+Navigation.m */; };
 		E16C28FA15598A5E00E2DB56 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E16C28F915598A5E00E2DB56 /* UIKit.framework */; };
 		E16C28FC15598A5E00E2DB56 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E16C28FB15598A5E00E2DB56 /* Foundation.framework */; };
 		E16C28FE15598A5E00E2DB56 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E16C28FD15598A5E00E2DB56 /* CoreGraphics.framework */; };
@@ -169,14 +150,115 @@
 		E1750BB91559B0F600C50929 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BB11559B0F600C50929 /* MobileCoreServices.framework */; };
 		E1750BBA1559B0F600C50929 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BB21559B0F600C50929 /* QuartzCore.framework */; };
 		E1750BBB1559B0F600C50929 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BB31559B0F600C50929 /* Security.framework */; };
+		E17BD5D816274E56002AEB7D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E16C28FB15598A5E00E2DB56 /* Foundation.framework */; };
+		E17BD5E316274F60002AEB7D /* EQSHelper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D94431A3156BE1FC00982D5C /* EQSHelper.h */; };
+		E17BD5E416274F60002AEB7D /* EQSGeoServicesNotifications.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D964FA1915E6783A0013B4D7 /* EQSGeoServicesNotifications.h */; };
+		E17BD5E516274F60002AEB7D /* EQSGeoServices.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1A5682B15ABAC74004AA6C1 /* EQSGeoServices.h */; };
+		E17BD5E616274F60002AEB7D /* EQSDefaultSymbols.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9B3D61E15E2C86300140C4E /* EQSDefaultSymbols.h */; };
+		E17BD5E716274F60002AEB7D /* EQSBasemapTypeEnum.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9CCC618156FECBE00EA4353 /* EQSBasemapTypeEnum.h */; };
+		E17BD5E816274F60002AEB7D /* EQSBasemapsNotifications.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9FAAECC15E82211003E3F5B /* EQSBasemapsNotifications.h */; };
+		E17BD5E916274F60002AEB7D /* AGSMapView+Basemaps.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9E27CB2155AEA6E008F8CCB /* AGSMapView+Basemaps.h */; };
+		E17BD5EA16274F60002AEB7D /* AGSLayer+Basemap.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D99A58CE1576B22A00AB05EE /* AGSLayer+Basemap.h */; };
+		E17BD5EB16274F60002AEB7D /* AGSMapView+Navigation.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = E16C07CE1559B9AA00776F3E /* AGSMapView+Navigation.h */; };
+		E17BD5EC16274F60002AEB7D /* AGSMapView+EQSGraphics.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9F9EE70156DE7FA00C2A15F /* AGSMapView+EQSGraphics.h */; };
+		E17BD5ED16274F60002AEB7D /* AGSGraphicsLayer+EQSGraphics.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D927EBE815A4D81F008CF54C /* AGSGraphicsLayer+EQSGraphics.h */; };
+		E17BD5EE16274F60002AEB7D /* EQSGraphicCallout.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D94260FB15EEBB3500B9CACE /* EQSGraphicCallout.h */; };
+		E17BD5EF16274F60002AEB7D /* EQSGraphicCalloutViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D94260FF15EEBCBE00B9CACE /* EQSGraphicCalloutViewController.h */; };
+		E17BD5F016274F60002AEB7D /* AGSMapView+RouteDisplay.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9EAB290156FD1EE008BCE8F /* AGSMapView+RouteDisplay.h */; };
+		E17BD5F116274F60002AEB7D /* EQSRouteDisplayHelper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9EAB293156FE0AF008BCE8F /* EQSRouteDisplayHelper.h */; };
+		E17BD5F216274F60002AEB7D /* EQSRouteResultsView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9B3D63915E2E2E600140C4E /* EQSRouteResultsView.h */; };
+		E17BD5F316274F60002AEB7D /* EQSRouteResultsViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9B3D63415E2E2BD00140C4E /* EQSRouteResultsViewController.h */; };
+		E17BD5F416274F60002AEB7D /* AGSMapView+GeneralUtilities.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9F9AE97157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.h */; };
+		E17BD5F516274F60002AEB7D /* AGSPoint+GeneralUtilities.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = E11C2FB21593AC830004EBB6 /* AGSPoint+GeneralUtilities.h */; };
+		E17BD5F616274F8F002AEB7D /* EQSHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D94431A4156BE1FC00982D5C /* EQSHelper.m */; };
+		E17BD5F716274F8F002AEB7D /* EQSGeoServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A5682C15ABAC74004AA6C1 /* EQSGeoServices.m */; };
+		E17BD5F816274F8F002AEB7D /* EQSDefaultSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B3D61F15E2C86300140C4E /* EQSDefaultSymbols.m */; };
+		E17BD5F916274F8F002AEB7D /* AGSMapView+Basemaps.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E27CB3155AEA6E008F8CCB /* AGSMapView+Basemaps.m */; };
+		E17BD5FA16274F8F002AEB7D /* AGSLayer+Basemap.m in Sources */ = {isa = PBXBuildFile; fileRef = D99A58CF1576B22A00AB05EE /* AGSLayer+Basemap.m */; };
+		E17BD5FB16274F8F002AEB7D /* AGSMapView+Navigation.m in Sources */ = {isa = PBXBuildFile; fileRef = E16C07CF1559B9AA00776F3E /* AGSMapView+Navigation.m */; };
+		E17BD5FC16274F8F002AEB7D /* AGSMapView+EQSGraphics.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9EE71156DE7FA00C2A15F /* AGSMapView+EQSGraphics.m */; };
+		E17BD5FD16274F8F002AEB7D /* AGSGraphicsLayer+EQSGraphics.m in Sources */ = {isa = PBXBuildFile; fileRef = D927EBE915A4D81F008CF54C /* AGSGraphicsLayer+EQSGraphics.m */; };
+		E17BD5FE16274F8F002AEB7D /* EQSGraphicCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = D94260FC15EEBB3500B9CACE /* EQSGraphicCallout.m */; };
+		E17BD5FF16274F8F002AEB7D /* EQSGraphicCalloutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D942610015EEBCBE00B9CACE /* EQSGraphicCalloutViewController.m */; };
+		E17BD60016274F8F002AEB7D /* AGSMapView+RouteDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EAB291156FD1EE008BCE8F /* AGSMapView+RouteDisplay.m */; };
+		E17BD60116274F8F002AEB7D /* EQSRouteDisplayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EAB294156FE0AF008BCE8F /* EQSRouteDisplayHelper.m */; };
+		E17BD60216274F8F002AEB7D /* EQSRouteResultsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B3D63A15E2E2E600140C4E /* EQSRouteResultsView.m */; };
+		E17BD60316274F8F002AEB7D /* EQSRouteResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B3D63515E2E2BE00140C4E /* EQSRouteResultsViewController.m */; };
+		E17BD60416274F8F002AEB7D /* EQSRouteResultsViewControllerCompact.m in Sources */ = {isa = PBXBuildFile; fileRef = D92291D115F8ECE100438D05 /* EQSRouteResultsViewControllerCompact.m */; };
+		E17BD60516274F8F002AEB7D /* EQSRouteResultsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B3D64915E2F14C00140C4E /* EQSRouteResultsTableViewController.m */; };
+		E17BD60616274F8F002AEB7D /* EQSRouteResultsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B3D63D15E2E91E00140C4E /* EQSRouteResultsCell.m */; };
+		E17BD60716275173002AEB7D /* AGSPoint+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E11C2FB31593AC830004EBB6 /* AGSPoint+GeneralUtilities.m */; };
+		E17BD60816275176002AEB7D /* AGSMapView+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F9AE98157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m */; };
+		E17BD60916275239002AEB7D /* EQSConfig.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9E27CB7155B1EDB008F8CCB /* EQSConfig.plist */; };
+		E17BD60A16275239002AEB7D /* EQSGraphicCalloutViewController.xib in CopyFiles */ = {isa = PBXBuildFile; fileRef = D942610115EEBCBE00B9CACE /* EQSGraphicCalloutViewController.xib */; };
+		E17BD60B16275239002AEB7D /* EQSRouteResultsView~ipad.xib in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9B3D63615E2E2BE00140C4E /* EQSRouteResultsView~ipad.xib */; };
+		E17BD60C16275239002AEB7D /* EQSRouteResultsView~iphone.xib in CopyFiles */ = {isa = PBXBuildFile; fileRef = D92291BE15F8DFAE00438D05 /* EQSRouteResultsView~iphone.xib */; };
+		E17BD60D16275239002AEB7D /* EQSRouteResultsCell.xib in CopyFiles */ = {isa = PBXBuildFile; fileRef = D97D445515E32E480072457A /* EQSRouteResultsCell.xib */; };
+		E17BD60E16275239002AEB7D /* 20-circle-east.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9B3D63F15E2EDC300140C4E /* 20-circle-east.png */; };
+		E17BD60F16275239002AEB7D /* 20-circle-east@2x.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9B3D64015E2EDC400140C4E /* 20-circle-east@2x.png */; };
+		E17BD61016275239002AEB7D /* 36-circle-west.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9B3D64115E2EDC400140C4E /* 36-circle-west.png */; };
+		E17BD61116275239002AEB7D /* 36-circle-west@2x.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9B3D64215E2EDC400140C4E /* 36-circle-west@2x.png */; };
+		E17BD612162754CD002AEB7D /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */; };
+		E17BD613162754D8002AEB7D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BAC1559B0F600C50929 /* CoreLocation.framework */; };
+		E17BD614162754D8002AEB7D /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BAD1559B0F600C50929 /* CoreText.framework */; };
+		E17BD615162754D8002AEB7D /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BAE1559B0F600C50929 /* libstdc++.dylib */; };
+		E17BD616162754D8002AEB7D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BAF1559B0F600C50929 /* libz.dylib */; };
+		E17BD617162754D8002AEB7D /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BB01559B0F600C50929 /* MediaPlayer.framework */; };
+		E17BD618162754D8002AEB7D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BB11559B0F600C50929 /* MobileCoreServices.framework */; };
+		E17BD619162754D8002AEB7D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BB21559B0F600C50929 /* QuartzCore.framework */; };
+		E17BD61A162754D8002AEB7D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BB31559B0F600C50929 /* Security.framework */; };
+		E17BD61B162754D8002AEB7D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E16C28F915598A5E00E2DB56 /* UIKit.framework */; };
+		E17BD61C162754D8002AEB7D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E16C28FD15598A5E00E2DB56 /* CoreGraphics.framework */; };
+		E17BD61E162755E6002AEB7D /* esriQuickStartLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E17BD5D716274E55002AEB7D /* esriQuickStartLib.a */; };
+		E17BD62016275B1B002AEB7D /* ArcGIS.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E16C07CB1559B39C00776F3E /* ArcGIS.bundle */; };
 		E1812BDC15DC767E00D3325A /* EQSBasemapPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1812BDB15DC767E00D3325A /* EQSBasemapPickerView.m */; };
-		E1A5682D15ABAC74004AA6C1 /* EQSGeoServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A5682C15ABAC74004AA6C1 /* EQSGeoServices.m */; };
 		E1AB2DEC15F26F6B00CA3096 /* EQSAddressCandidateView~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1AB2DEB15F26F6B00CA3096 /* EQSAddressCandidateView~iphone.xib */; };
 		E1B7171F1614E328000A019C /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B7171C1614E13D000A019C /* MBProgressHUD.m */; };
 		E1E1808515DAD2A300BB30DD /* EQSPortalItemPickerView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1E1808415DAD2A300BB30DD /* EQSPortalItemPickerView~ipad.xib */; };
 		E1E1808E15DAD38400BB30DD /* EQSPortalItemPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E1808D15DAD38400BB30DD /* EQSPortalItemPickerView.m */; };
 		E1E1809115DAD43D00BB30DD /* EQSPortalItemPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E1809015DAD43C00BB30DD /* EQSPortalItemPickerViewController.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E17BD5D516274E55002AEB7D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+				E17BD62016275B1B002AEB7D /* ArcGIS.bundle in CopyFiles */,
+				E17BD60916275239002AEB7D /* EQSConfig.plist in CopyFiles */,
+				E17BD60A16275239002AEB7D /* EQSGraphicCalloutViewController.xib in CopyFiles */,
+				E17BD60B16275239002AEB7D /* EQSRouteResultsView~ipad.xib in CopyFiles */,
+				E17BD60C16275239002AEB7D /* EQSRouteResultsView~iphone.xib in CopyFiles */,
+				E17BD60D16275239002AEB7D /* EQSRouteResultsCell.xib in CopyFiles */,
+				E17BD60E16275239002AEB7D /* 20-circle-east.png in CopyFiles */,
+				E17BD60F16275239002AEB7D /* 20-circle-east@2x.png in CopyFiles */,
+				E17BD61016275239002AEB7D /* 36-circle-west.png in CopyFiles */,
+				E17BD61116275239002AEB7D /* 36-circle-west@2x.png in CopyFiles */,
+				E17BD5E316274F60002AEB7D /* EQSHelper.h in CopyFiles */,
+				E17BD5E416274F60002AEB7D /* EQSGeoServicesNotifications.h in CopyFiles */,
+				E17BD5E516274F60002AEB7D /* EQSGeoServices.h in CopyFiles */,
+				E17BD5E616274F60002AEB7D /* EQSDefaultSymbols.h in CopyFiles */,
+				E17BD5E716274F60002AEB7D /* EQSBasemapTypeEnum.h in CopyFiles */,
+				E17BD5E816274F60002AEB7D /* EQSBasemapsNotifications.h in CopyFiles */,
+				E17BD5E916274F60002AEB7D /* AGSMapView+Basemaps.h in CopyFiles */,
+				E17BD5EA16274F60002AEB7D /* AGSLayer+Basemap.h in CopyFiles */,
+				E17BD5EB16274F60002AEB7D /* AGSMapView+Navigation.h in CopyFiles */,
+				E17BD5EC16274F60002AEB7D /* AGSMapView+EQSGraphics.h in CopyFiles */,
+				E17BD5ED16274F60002AEB7D /* AGSGraphicsLayer+EQSGraphics.h in CopyFiles */,
+				E17BD5EE16274F60002AEB7D /* EQSGraphicCallout.h in CopyFiles */,
+				E17BD5EF16274F60002AEB7D /* EQSGraphicCalloutViewController.h in CopyFiles */,
+				E17BD5F016274F60002AEB7D /* AGSMapView+RouteDisplay.h in CopyFiles */,
+				E17BD5F116274F60002AEB7D /* EQSRouteDisplayHelper.h in CopyFiles */,
+				E17BD5F216274F60002AEB7D /* EQSRouteResultsView.h in CopyFiles */,
+				E17BD5F316274F60002AEB7D /* EQSRouteResultsViewController.h in CopyFiles */,
+				E17BD5F416274F60002AEB7D /* AGSMapView+GeneralUtilities.h in CopyFiles */,
+				E17BD5F516274F60002AEB7D /* AGSPoint+GeneralUtilities.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		D9086D9F158B90D800FC1D43 /* description.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = description.css; sourceTree = "<group>"; };
@@ -364,10 +446,10 @@
 		E16C28F915598A5E00E2DB56 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E16C28FB15598A5E00E2DB56 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E16C28FD15598A5E00E2DB56 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		E16C290115598A5E00E2DB56 /* esriQuickStartApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "esriQuickStartApp-Info.plist"; sourceTree = SOURCE_ROOT; };
+		E16C290115598A5E00E2DB56 /* esriQuickStartApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "esriQuickStartApp-Info.plist"; path = "QuickStartApp/Supporting Files/esriQuickStartApp-Info.plist"; sourceTree = SOURCE_ROOT; };
 		E16C290315598A5E00E2DB56 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E16C290515598A5E00E2DB56 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ../main.m; sourceTree = "<group>"; };
-		E16C290715598A5E00E2DB56 /* esriQuickStartApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "esriQuickStartApp-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		E16C290715598A5E00E2DB56 /* esriQuickStartApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "esriQuickStartApp-Prefix.pch"; path = "QuickStartApp/Supporting Files/esriQuickStartApp-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		E16C290815598A5E00E2DB56 /* EQSSampleAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSSampleAppDelegate.h; sourceTree = "<group>"; };
 		E16C290915598A5E00E2DB56 /* EQSSampleAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EQSSampleAppDelegate.m; sourceTree = "<group>"; };
 		E16C290C15598A5E00E2DB56 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
@@ -384,6 +466,8 @@
 		E1750BB11559B0F600C50929 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		E1750BB21559B0F600C50929 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E1750BB31559B0F600C50929 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		E17BD5D716274E55002AEB7D /* esriQuickStartLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = esriQuickStartLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E17BD5DB16274E56002AEB7D /* esriQuickStartLib-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "esriQuickStartLib-Prefix.pch"; sourceTree = "<group>"; };
 		E1812BD815DC6FA200D3325A /* EQSPortalItemListView_int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSPortalItemListView_int.h; sourceTree = "<group>"; };
 		E1812BDA15DC767D00D3325A /* EQSBasemapPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSBasemapPickerView.h; sourceTree = "<group>"; };
 		E1812BDB15DC767E00D3325A /* EQSBasemapPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSBasemapPickerView.m; sourceTree = "<group>"; };
@@ -407,6 +491,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E17BD61E162755E6002AEB7D /* esriQuickStartLib.a in Frameworks */,
 				D9E27C9E155ABDC5008F8CCB /* ArcGIS.framework in Frameworks */,
 				E1750BB41559B0F600C50929 /* CoreLocation.framework in Frameworks */,
 				E1750BB51559B0F600C50929 /* CoreText.framework in Frameworks */,
@@ -419,6 +504,25 @@
 				E16C28FA15598A5E00E2DB56 /* UIKit.framework in Frameworks */,
 				E16C28FC15598A5E00E2DB56 /* Foundation.framework in Frameworks */,
 				E16C28FE15598A5E00E2DB56 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E17BD5D416274E55002AEB7D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E17BD612162754CD002AEB7D /* ArcGIS.framework in Frameworks */,
+				E17BD613162754D8002AEB7D /* CoreLocation.framework in Frameworks */,
+				E17BD614162754D8002AEB7D /* CoreText.framework in Frameworks */,
+				E17BD615162754D8002AEB7D /* libstdc++.dylib in Frameworks */,
+				E17BD616162754D8002AEB7D /* libz.dylib in Frameworks */,
+				E17BD617162754D8002AEB7D /* MediaPlayer.framework in Frameworks */,
+				E17BD618162754D8002AEB7D /* MobileCoreServices.framework in Frameworks */,
+				E17BD619162754D8002AEB7D /* QuartzCore.framework in Frameworks */,
+				E17BD61A162754D8002AEB7D /* Security.framework in Frameworks */,
+				E17BD61B162754D8002AEB7D /* UIKit.framework in Frameworks */,
+				E17BD5D816274E56002AEB7D /* Foundation.framework in Frameworks */,
+				E17BD61C162754D8002AEB7D /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,9 +716,10 @@
 			isa = PBXGroup;
 			children = (
 				D94431A7156C1EEC00982D5C /* Helper */,
+				D9E27CAF155AE891008F8CCB /* AGS Categories */,
 				D992A5B11627482A00B80154 /* GeoServices */,
 				D992A5B21627485200B80154 /* Default Symbols */,
-				D9E27CAF155AE891008F8CCB /* AGS Categories */,
+				E17BD5DA16274E56002AEB7D /* Supporting Files */,
 			);
 			path = QuickStartLib;
 			sourceTree = "<group>";
@@ -765,6 +870,7 @@
 			isa = PBXGroup;
 			children = (
 				E16C28F515598A5E00E2DB56 /* esriQuickStartApp.app */,
+				E17BD5D716274E55002AEB7D /* esriQuickStartLib.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -813,6 +919,14 @@
 				E16C290215598A5E00E2DB56 /* InfoPlist.strings */,
 				E16C290515598A5E00E2DB56 /* main.m */,
 				E16C290715598A5E00E2DB56 /* esriQuickStartApp-Prefix.pch */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E17BD5DA16274E56002AEB7D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E17BD5DB16274E56002AEB7D /* esriQuickStartLib-Prefix.pch */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -920,6 +1034,23 @@
 			productReference = E16C28F515598A5E00E2DB56 /* esriQuickStartApp.app */;
 			productType = "com.apple.product-type.application";
 		};
+		E17BD5D616274E55002AEB7D /* esriQuickStartLib */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E17BD5E016274E56002AEB7D /* Build configuration list for PBXNativeTarget "esriQuickStartLib" */;
+			buildPhases = (
+				E17BD5D316274E55002AEB7D /* Sources */,
+				E17BD5D416274E55002AEB7D /* Frameworks */,
+				E17BD5D516274E55002AEB7D /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = esriQuickStartLib;
+			productName = esriQuickStartLib;
+			productReference = E17BD5D716274E55002AEB7D /* esriQuickStartLib.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -943,6 +1074,7 @@
 			projectRoot = "";
 			targets = (
 				E16C28F415598A5E00E2DB56 /* esriQuickStartApp */,
+				E17BD5D616274E55002AEB7D /* esriQuickStartLib */,
 			);
 		};
 /* End PBXProject section */
@@ -956,7 +1088,6 @@
 				E16C290D15598A5E00E2DB56 /* MainStoryboard_iPhone.storyboard in Resources */,
 				E16C291015598A5E00E2DB56 /* MainStoryboard_iPad.storyboard in Resources */,
 				E16C07CC1559B39C00776F3E /* ArcGIS.bundle in Resources */,
-				D9E27CB8155B1EDB008F8CCB /* EQSConfig.plist in Resources */,
 				D982215B1587C6EB00EF53CC /* 06-map-pin.png in Resources */,
 				D982215C1587C6EB00EF53CC /* 06-map-pin@2x.png in Resources */,
 				D98221601587C8DD00EF53CC /* 07-map-marker.png in Resources */,
@@ -1080,31 +1211,15 @@
 				E16C290615598A5E00E2DB56 /* main.m in Sources */,
 				E16C290A15598A5E00E2DB56 /* EQSSampleAppDelegate.m in Sources */,
 				E16C291315598A5E00E2DB56 /* EQSSampleViewController.m in Sources */,
-				E16C07D01559B9AA00776F3E /* AGSMapView+Navigation.m in Sources */,
-				D9E27CB4155AEA6E008F8CCB /* AGSMapView+Basemaps.m in Sources */,
-				D94431A5156BE1FC00982D5C /* EQSHelper.m in Sources */,
 				D93C98A5156D8CC000A5F339 /* EQSBasemapDetailsViewController.m in Sources */,
-				D9F9EE72156DE7FA00C2A15F /* AGSMapView+EQSGraphics.m in Sources */,
-				D9EAB292156FD1EF008BCE8F /* AGSMapView+RouteDisplay.m in Sources */,
-				D9EAB295156FE0AF008BCE8F /* EQSRouteDisplayHelper.m in Sources */,
-				D99A58D01576B22A00AB05EE /* AGSLayer+Basemap.m in Sources */,
-				D9F9AE99157D6A9C004CFAA8 /* AGSMapView+GeneralUtilities.m in Sources */,
 				D9A985B715890C3D00A0DE40 /* EQSPortalItemViewController.m in Sources */,
 				D99D987F158950F800F9D36B /* EQSPortalItemListViewController.m in Sources */,
 				D9E01457158A45A4005DD7D8 /* EQSPortalItemListView.m in Sources */,
-				E11C2FB41593AC830004EBB6 /* AGSPoint+GeneralUtilities.m in Sources */,
-				D927EBEA15A4D81F008CF54C /* AGSGraphicsLayer+EQSGraphics.m in Sources */,
-				E1A5682D15ABAC74004AA6C1 /* EQSGeoServices.m in Sources */,
 				D9754D7315ACAF840093BF1E /* UIApplication+AppDimensions.m in Sources */,
 				E1E1808E15DAD38400BB30DD /* EQSPortalItemPickerView.m in Sources */,
 				E1E1809115DAD43D00BB30DD /* EQSPortalItemPickerViewController.m in Sources */,
 				E141D0E315DB02CE004F81F4 /* EQSPortalItemView.m in Sources */,
 				E1812BDC15DC767E00D3325A /* EQSBasemapPickerView.m in Sources */,
-				D9B3D62015E2C86300140C4E /* EQSDefaultSymbols.m in Sources */,
-				D9B3D63715E2E2BE00140C4E /* EQSRouteResultsViewController.m in Sources */,
-				D9B3D63B15E2E2E600140C4E /* EQSRouteResultsView.m in Sources */,
-				D9B3D63E15E2E91E00140C4E /* EQSRouteResultsCell.m in Sources */,
-				D9B3D64A15E2F14C00140C4E /* EQSRouteResultsTableViewController.m in Sources */,
 				D97D446115E464F10072457A /* EQSCodeView.m in Sources */,
 				D97D446415E465DD0072457A /* EQSCodeViewController.m in Sources */,
 				D964FA2115E67EAA0013B4D7 /* EQSAddressCandidatePanelViewController.m in Sources */,
@@ -1112,13 +1227,36 @@
 				D9FAAECF15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m in Sources */,
 				D9FAAED515E84C87003E3F5B /* EQSAddressCandidateCalloutViewController.m in Sources */,
 				D93D710F15EBCEC9002F7FA2 /* EQSAddressCandidateBaseViewController.m in Sources */,
-				D94260FD15EEBB3500B9CACE /* EQSGraphicCallout.m in Sources */,
-				D942610215EEBCBE00B9CACE /* EQSGraphicCalloutViewController.m in Sources */,
 				D9AF4BEE15F187DC0094A35A /* MJPopupBackgroundView.m in Sources */,
 				D9AF4BEF15F187DC0094A35A /* UIViewController+MJPopupViewController.m in Sources */,
-				D92291D215F8ECE100438D05 /* EQSRouteResultsViewControllerCompact.m in Sources */,
 				D92291D915F9417900438D05 /* EQSBorderedButton.m in Sources */,
 				D96C77511624CF140025FFF0 /* EQSUserGuideViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E17BD5D316274E55002AEB7D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E17BD5F616274F8F002AEB7D /* EQSHelper.m in Sources */,
+				E17BD5F716274F8F002AEB7D /* EQSGeoServices.m in Sources */,
+				E17BD5F816274F8F002AEB7D /* EQSDefaultSymbols.m in Sources */,
+				E17BD5F916274F8F002AEB7D /* AGSMapView+Basemaps.m in Sources */,
+				E17BD5FA16274F8F002AEB7D /* AGSLayer+Basemap.m in Sources */,
+				E17BD5FB16274F8F002AEB7D /* AGSMapView+Navigation.m in Sources */,
+				E17BD5FC16274F8F002AEB7D /* AGSMapView+EQSGraphics.m in Sources */,
+				E17BD5FD16274F8F002AEB7D /* AGSGraphicsLayer+EQSGraphics.m in Sources */,
+				E17BD5FE16274F8F002AEB7D /* EQSGraphicCallout.m in Sources */,
+				E17BD5FF16274F8F002AEB7D /* EQSGraphicCalloutViewController.m in Sources */,
+				E17BD60016274F8F002AEB7D /* AGSMapView+RouteDisplay.m in Sources */,
+				E17BD60116274F8F002AEB7D /* EQSRouteDisplayHelper.m in Sources */,
+				E17BD60216274F8F002AEB7D /* EQSRouteResultsView.m in Sources */,
+				E17BD60316274F8F002AEB7D /* EQSRouteResultsViewController.m in Sources */,
+				E17BD60416274F8F002AEB7D /* EQSRouteResultsViewControllerCompact.m in Sources */,
+				E17BD60516274F8F002AEB7D /* EQSRouteResultsTableViewController.m in Sources */,
+				E17BD60616274F8F002AEB7D /* EQSRouteResultsCell.m in Sources */,
+				E17BD60716275173002AEB7D /* AGSPoint+GeneralUtilities.m in Sources */,
+				E17BD60816275176002AEB7D /* AGSMapView+GeneralUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1205,8 +1343,8 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/SDKs/ArcGIS/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "esriQuickStartApp-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/esriQuickStartApp-Info.plist";
+				GCC_PREFIX_HEADER = "QuickStartApp/Supporting Files/esriQuickStartApp-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/QuickStartApp/Supporting Files/esriQuickStartApp-Info.plist";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1223,8 +1361,8 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/SDKs/ArcGIS/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "esriQuickStartApp-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/esriQuickStartApp-Info.plist";
+				GCC_PREFIX_HEADER = "QuickStartApp/Supporting Files/esriQuickStartApp-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/QuickStartApp/Supporting Files/esriQuickStartApp-Info.plist";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1233,6 +1371,51 @@
 				PRODUCT_NAME = esriQuickStartApp;
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		E17BD5E116274E56002AEB7D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DSTROOT = /tmp/esriQuickStartLib.dst;
+				EXECUTABLE_PREFIX = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Library/SDKs/ArcGIS\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "QuickStartLib/Supporting Files/esriQuickStartLib-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		E17BD5E216274E56002AEB7D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DSTROOT = /tmp/esriQuickStartLib.dst;
+				EXECUTABLE_PREFIX = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Library/SDKs/ArcGIS\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "QuickStartLib/Supporting Files/esriQuickStartLib-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -1256,6 +1439,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		E17BD5E016274E56002AEB7D /* Build configuration list for PBXNativeTarget "esriQuickStartLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E17BD5E116274E56002AEB7D /* Debug */,
+				E17BD5E216274E56002AEB7D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
