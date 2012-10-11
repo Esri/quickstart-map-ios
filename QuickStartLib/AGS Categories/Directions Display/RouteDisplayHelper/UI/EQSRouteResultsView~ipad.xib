@@ -54,7 +54,7 @@
 				<bool key="IBUIHorizontal">NO</bool>
 			</object>
 			<object class="IBUIView" id="191373211">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIView" id="276394893">
@@ -172,7 +172,7 @@
 								</object>
 								<object class="NSCustomResource" key="IBUINormalImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">36-circle-west.png</string>
+									<string key="NSResourceName">prev-dir-ipad.png</string>
 								</object>
 								<object class="IBUIFontDescription" key="IBUIFontDescription" id="155389989">
 									<int key="type">2</int>
@@ -203,7 +203,7 @@
 								<reference key="IBUINormalTitleShadowColor" ref="924947450"/>
 								<object class="NSCustomResource" key="IBUINormalImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">20-circle-east.png</string>
+									<string key="NSResourceName">next-dir-ipad.png</string>
 								</object>
 								<reference key="IBUIFontDescription" ref="155389989"/>
 								<reference key="IBUIFont" ref="889657973"/>
@@ -213,6 +213,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{308, 8}, {72, 33}}</string>
 								<reference key="NSSuperview" ref="937443034"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -283,6 +284,7 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{400, 400}</string>
+				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="276394893"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -585,8 +587,8 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="20-circle-east.png">{28, 28}</string>
-			<string key="36-circle-west.png">{28, 28}</string>
+			<string key="next-dir-ipad.png">{28, 28}</string>
+			<string key="prev-dir-ipad.png">{28, 28}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1929</string>
 	</data>
