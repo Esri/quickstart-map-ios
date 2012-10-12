@@ -18,7 +18,6 @@
 		D92291A815F64EE200438D05 /* resize_full-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291A615F64EE200438D05 /* resize_full-white@2x.png */; };
 		D92291BB15F7FCA000438D05 /* Finish-Flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291BA15F7FCA000438D05 /* Finish-Flag@2x.png */; };
 		D92291BD15F7FCC200438D05 /* Finish-Flag.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291BC15F7FCC100438D05 /* Finish-Flag.png */; };
-		D92291BF15F8DFAE00438D05 /* EQSRouteResultsView~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D92291BE15F8DFAE00438D05 /* EQSRouteResultsView~iphone.xib */; };
 		D92291D915F9417900438D05 /* EQSBorderedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D92291D815F9417800438D05 /* EQSBorderedButton.m */; };
 		D92291DF15F949D800438D05 /* Flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291DE15F949D400438D05 /* Flag@2x.png */; };
 		D92291E115F94A0100438D05 /* Flag.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291E015F949FE00438D05 /* Flag.png */; };
@@ -39,7 +38,6 @@
 		D96C77511624CF140025FFF0 /* EQSUserGuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D96C774F1624CF140025FFF0 /* EQSUserGuideViewController.m */; };
 		D96C77521624CF140025FFF0 /* EQSUserGuideViewController~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D96C77501624CF140025FFF0 /* EQSUserGuideViewController~iphone.xib */; };
 		D9754D7315ACAF840093BF1E /* UIApplication+AppDimensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */; };
-		D97D445615E32E480072457A /* EQSRouteResultsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D97D445515E32E480072457A /* EQSRouteResultsCell.xib */; };
 		D97D445915E45D5D0072457A /* EQSCodeView~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D97D445815E45D5D0072457A /* EQSCodeView~iphone.xib */; };
 		D97D445D15E4643A0072457A /* CodeTab.png in Resources */ = {isa = PBXBuildFile; fileRef = D97D445B15E4643A0072457A /* CodeTab.png */; };
 		D97D445E15E4643A0072457A /* CodeTab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D97D445C15E4643A0072457A /* CodeTab@2x.png */; };
@@ -63,6 +61,8 @@
 		D9911DD61627644600950AA7 /* next-dir-iphone@2x.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = D92291CB15F8E90E00438D05 /* next-dir-iphone@2x.png */; };
 		D9911DD71627644600950AA7 /* zoom-to-route.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9911DD1162760D200950AA7 /* zoom-to-route.png */; };
 		D9911DD81627644600950AA7 /* zoom-to-route@2x.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9AF4BFE15F2D7930094A35A /* zoom-to-route@2x.png */; };
+		D9911DF0162886D600950AA7 /* zoom-to-graphic.png in Resources */ = {isa = PBXBuildFile; fileRef = D9911DEE162886D600950AA7 /* zoom-to-graphic.png */; };
+		D9911DF1162886D600950AA7 /* zoom-to-graphic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9911DEF162886D600950AA7 /* zoom-to-graphic@2x.png */; };
 		D99D987F158950F800F9D36B /* EQSPortalItemListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D99D987D158950F800F9D36B /* EQSPortalItemListViewController.m */; };
 		D99D9880158950F800F9D36B /* EQSPortalItemListView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D99D987E158950F800F9D36B /* EQSPortalItemListView~ipad.xib */; };
 		D99F975C161201CF0092DB48 /* EQSCodeView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D99F975B161201CF0092DB48 /* EQSCodeView~ipad.xib */; };
@@ -98,7 +98,6 @@
 		D9B1044D156D98B900DF6287 /* UILabel+EQSAutoSizeMultiline.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DCB32E156D455100A30BB2 /* UILabel+EQSAutoSizeMultiline.m */; };
 		D9B3D61815E2BE3100140C4E /* closeX.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D61615E2BE3100140C4E /* closeX.png */; };
 		D9B3D61915E2BE3100140C4E /* closeX@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D61715E2BE3100140C4E /* closeX@2x.png */; };
-		D9B3D63815E2E2BE00140C4E /* EQSRouteResultsView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D63615E2E2BE00140C4E /* EQSRouteResultsView~ipad.xib */; };
 		D9E01457158A45A4005DD7D8 /* EQSPortalItemListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E01456158A45A4005DD7D8 /* EQSPortalItemListView.m */; };
 		D9E27C9E155ABDC5008F8CCB /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */; };
 		D9FAAECF15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9FAAECE15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m */; };
@@ -315,6 +314,9 @@
 		D98221591587C6EB00EF53CC /* 06-map-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "06-map-pin.png"; sourceTree = "<group>"; };
 		D982215A1587C6EB00EF53CC /* 06-map-pin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "06-map-pin@2x.png"; sourceTree = "<group>"; };
 		D9911DD1162760D200950AA7 /* zoom-to-route.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zoom-to-route.png"; sourceTree = "<group>"; };
+		D9911DEE162886D600950AA7 /* zoom-to-graphic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zoom-to-graphic.png"; sourceTree = "<group>"; };
+		D9911DEF162886D600950AA7 /* zoom-to-graphic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zoom-to-graphic@2x.png"; sourceTree = "<group>"; };
+		D9911DFD16288C2400950AA7 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		D99A58CE1576B22A00AB05EE /* AGSLayer+Basemap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSLayer+Basemap.h"; sourceTree = "<group>"; };
 		D99A58CF1576B22A00AB05EE /* AGSLayer+Basemap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSLayer+Basemap.m"; sourceTree = "<group>"; };
 		D99D987C158950F800F9D36B /* EQSPortalItemListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSPortalItemListViewController.h; sourceTree = "<group>"; };
@@ -732,6 +734,8 @@
 		D9F9EE77156DFD3200C2A15F /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D9911DEE162886D600950AA7 /* zoom-to-graphic.png */,
+				D9911DEF162886D600950AA7 /* zoom-to-graphic@2x.png */,
 				D98221591587C6EB00EF53CC /* 06-map-pin.png */,
 				D982215A1587C6EB00EF53CC /* 06-map-pin@2x.png */,
 				D9AF4BB315F141420094A35A /* 103-map.png */,
@@ -836,6 +840,7 @@
 				E16C28F915598A5E00E2DB56 /* UIKit.framework */,
 				E16C28FB15598A5E00E2DB56 /* Foundation.framework */,
 				E16C28FD15598A5E00E2DB56 /* CoreGraphics.framework */,
+				D9911DFD16288C2400950AA7 /* CoreFoundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1042,8 +1047,6 @@
 				E1E1808515DAD2A300BB30DD /* EQSPortalItemPickerView~ipad.xib in Resources */,
 				D9B3D61815E2BE3100140C4E /* closeX.png in Resources */,
 				D9B3D61915E2BE3100140C4E /* closeX@2x.png in Resources */,
-				D9B3D63815E2E2BE00140C4E /* EQSRouteResultsView~ipad.xib in Resources */,
-				D97D445615E32E480072457A /* EQSRouteResultsCell.xib in Resources */,
 				D97D445915E45D5D0072457A /* EQSCodeView~iphone.xib in Resources */,
 				D97D445D15E4643A0072457A /* CodeTab.png in Resources */,
 				D97D445E15E4643A0072457A /* CodeTab@2x.png in Resources */,
@@ -1100,7 +1103,6 @@
 				D92291A815F64EE200438D05 /* resize_full-white@2x.png in Resources */,
 				D92291BB15F7FCA000438D05 /* Finish-Flag@2x.png in Resources */,
 				D92291BD15F7FCC200438D05 /* Finish-Flag.png in Resources */,
-				D92291BF15F8DFAE00438D05 /* EQSRouteResultsView~iphone.xib in Resources */,
 				D92291DF15F949D800438D05 /* Flag@2x.png in Resources */,
 				D92291E115F94A0100438D05 /* Flag.png in Resources */,
 				D92291E815F94C3F00438D05 /* 14-bothways.png in Resources */,
@@ -1108,6 +1110,8 @@
 				D97D9B101610CE59000FE2F3 /* Default-568h@2x.png in Resources */,
 				D99F975C161201CF0092DB48 /* EQSCodeView~ipad.xib in Resources */,
 				D96C77521624CF140025FFF0 /* EQSUserGuideViewController~iphone.xib in Resources */,
+				D9911DF0162886D600950AA7 /* zoom-to-graphic.png in Resources */,
+				D9911DF1162886D600950AA7 /* zoom-to-graphic@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
