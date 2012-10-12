@@ -365,7 +365,7 @@
                                                 <rect key="frame" x="290" y="6" width="24" height="24"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
-                                                <state key="normal" image="riflescope-white.png">
+                                                <state key="normal" image="74-location-white.png">
                                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -408,7 +408,7 @@
                                                 <rect key="frame" x="290" y="6" width="24" height="24"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
-                                                <state key="normal" image="riflescope-white.png">
+                                                <state key="normal" image="74-location-white.png">
                                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -516,6 +516,7 @@
         <image name="33-cabinet.png" width="20" height="26"/>
         <image name="60-x.png" width="14" height="14"/>
         <image name="73-radar.png" width="27" height="27"/>
+        <image name="74-location-white.png" width="20" height="20"/>
         <image name="74-location.png" width="20" height="20"/>
         <image name="closeX.png" width="16" height="16"/>
         <image name="create_line.png" width="24" height="24"/>
@@ -525,9 +526,160 @@
         <image name="redo-white.png" width="23" height="17"/>
         <image name="resize_full-white.png" width="24" height="24"/>
         <image name="resize_small.png" width="24" height="24"/>
-        <image name="riflescope-white.png" width="25" height="25"/>
         <image name="undo-white.png" width="23" height="17"/>
     </resources>
+    <classes>
+        <class className="AGSMapView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AGSMapView.h"/>
+        </class>
+        <class className="EQSBasemapPickerView" superclassName="EQSPortalItemPickerView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSBasemapPickerView.h"/>
+        </class>
+        <class className="EQSBorderedButton" superclassName="UIButton">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSBorderedButton.h"/>
+        </class>
+        <class className="EQSCodeView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSCodeView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mainContainer" candidateClass="UIView"/>
+                <relationship kind="outlet" name="mapView" candidateClass="AGSMapView"/>
+                <relationship kind="outlet" name="tabBase" candidateClass="UIView"/>
+                <relationship kind="outlet" name="tabImage" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="topLevelView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="viewController" candidateClass="EQSCodeViewController"/>
+                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
+            </relationships>
+        </class>
+        <class className="EQSCodeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSCodeViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="tabTapped:"/>
+                <relationship kind="outlet" name="codeView" candidateClass="EQSCodeView"/>
+                <relationship kind="outlet" name="codeWebView" candidateClass="UIWebView"/>
+                <relationship kind="outlet" name="mainContainerView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="tabView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="EQSPortalItemListView" superclassName="UIScrollView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSPortalItemListView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="viewController" candidateClass="EQSPortalItemListViewController"/>
+            </relationships>
+        </class>
+        <class className="EQSPortalItemListViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSPortalItemListViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="portalItemsListView" candidateClass="EQSPortalItemListView"/>
+            </relationships>
+        </class>
+        <class className="EQSPortalItemPickerView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSPortalItemPickerView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="topLevelView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="viewController" candidateClass="EQSPortalItemPickerViewController"/>
+            </relationships>
+        </class>
+        <class className="EQSPortalItemPickerViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSPortalItemPickerViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="portalItemDetailsCreditsTextView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="portalItemDetailsDescriptionWebView" candidateClass="UIWebView"/>
+                <relationship kind="outlet" name="portalItemDetailsImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="portalItemDetailsTitleLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="portalItemDetailsViewController" candidateClass="UIViewController"/>
+                <relationship kind="outlet" name="portalItemListView" candidateClass="EQSPortalItemListView"/>
+                <relationship kind="outlet" name="portalItemPickerView" candidateClass="EQSPortalItemPickerView"/>
+                <relationship kind="outlet" name="selectPortalItemButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="EQSRouteResultsTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSRouteResultsTableViewController.h"/>
+        </class>
+        <class className="EQSRouteResultsView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSRouteResultsView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="footerView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="headerView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="topLevelView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="viewController" candidateClass="EQSRouteResultsViewController"/>
+            </relationships>
+        </class>
+        <class className="EQSRouteResultsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSRouteResultsViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="routeResultsDistanceLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="routeResultsTimeLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="tableViewController" candidateClass="EQSRouteResultsTableViewController"/>
+            </relationships>
+        </class>
+        <class className="EQSSampleViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSSampleViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelGraphicsEdit:"/>
+                <relationship kind="action" name="cancelKeyboardPressed:"/>
+                <relationship kind="action" name="createNewLnGraphic:"/>
+                <relationship kind="action" name="createNewPgGraphic:"/>
+                <relationship kind="action" name="createNewPtGraphic:"/>
+                <relationship kind="action" name="deleteSelectedGraphic:"/>
+                <relationship kind="action" name="findMe:"/>
+                <relationship kind="action" name="findPlacesTapped:"/>
+                <relationship kind="action" name="functionChanged:"/>
+                <relationship kind="action" name="messageBarCloseTapped:"/>
+                <relationship kind="action" name="redoGraphicsEdit:"/>
+                <relationship kind="action" name="resizeUIExitFullScreen:"/>
+                <relationship kind="action" name="resizeUIGoFullScreen:"/>
+                <relationship kind="action" name="saveGraphicsEdit:"/>
+                <relationship kind="action" name="swapRouteStartAndEnd:"/>
+                <relationship kind="action" name="toFromTapped:"/>
+                <relationship kind="action" name="undoGraphicsEdit:"/>
+                <relationship kind="action" name="zoomToEditGeometry:"/>
+                <relationship kind="outlet" name="basemapsPicker" candidateClass="EQSBasemapPickerView"/>
+                <relationship kind="outlet" name="cancelKeyboardButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="cloudDataPanel" candidateClass="UIView"/>
+                <relationship kind="outlet" name="codeViewer" candidateClass="EQSCodeView"/>
+                <relationship kind="outlet" name="deleteGraphicButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="editGraphicsToolbar" candidateClass="UIToolbar"/>
+                <relationship kind="outlet" name="findButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="findMeButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="findMeScrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="findPlacePanel" candidateClass="UIView"/>
+                <relationship kind="outlet" name="findPlacesNoResultsLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="findPlacesScrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="findPlacesSearchBar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="functionNavBar_iPhone" candidateClass="UINavigationBar"/>
+                <relationship kind="outlet" name="functionSegControl" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="functionToolBar" candidateClass="UIToolbar"/>
+                <relationship kind="outlet" name="geolocationPanel" candidateClass="UIView"/>
+                <relationship kind="outlet" name="graphicLineButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="graphicPointButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="graphicPolygonButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="graphicsCreatePanel" candidateClass="UIView"/>
+                <relationship kind="outlet" name="graphicsEditPanel" candidateClass="UIView"/>
+                <relationship kind="outlet" name="mapView" candidateClass="AGSMapView"/>
+                <relationship kind="outlet" name="messageBar" candidateClass="UIView"/>
+                <relationship kind="outlet" name="messageBarAlertBackdrop" candidateClass="UIView"/>
+                <relationship kind="outlet" name="messageBarLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="myLocationAddressLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="redoEditGraphicsButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="routeEndButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="routeEndLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="routeFromLeftView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="routeFromTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="routeResultsView" candidateClass="EQSRouteResultsView"/>
+                <relationship kind="outlet" name="routeStartButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="routeStartLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="routeToLeftView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="routeToTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="routingPanel" candidateClass="UIView"/>
+                <relationship kind="outlet" name="saveEditsGraphicsButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="showUIButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="undoEditGraphicsButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="zoomToGraphicButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
