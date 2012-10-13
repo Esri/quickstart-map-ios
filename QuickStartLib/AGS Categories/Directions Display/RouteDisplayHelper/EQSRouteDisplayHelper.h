@@ -6,10 +6,7 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <ArcGIS/ArcGIS.h>
-
-@class EQSRouteResultsViewController;
+#import "EQSRouteResultsViewController.h"
 
 #define kEQSRouteDisplayNotification_RouteCleared @"EQSRouteDisplayNotificationRouteCleared"
 #define kEQSRouteDisplayNotification_EditRequested @"EQSRouteDisplayNotificationEditRequested"

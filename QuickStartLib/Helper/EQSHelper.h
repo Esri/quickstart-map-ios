@@ -31,9 +31,4 @@ extern NSString* NSStringFromAGSDirectionGraphicTime(AGSDirectionGraphic *graphi
 + (AGSWebMap *) getBasemapWebMap:(EQSBasemapType)basemapType;
 + (NSString *) getPortalItemIDForBasemap:(EQSBasemapType)basemapType;
 + (EQSBasemapType) getBasemapTypeForPortalItemID:(NSString *)portalItemID;
-
-// Queuing. Some operations cannot be performed until the AGSMapView has loaded.
-// This single function takes a code block and only executes it once the provided
-// AGSMapView enters a loaded state.
-+ (void) queueBlock:(void (^)(void))block untilMapViewLoaded:(AGSMapView *)mapView;
 @end

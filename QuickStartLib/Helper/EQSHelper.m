@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "EQSHelper.h"
+#import "EQSHelper_int.h"
 
 #define kEQSConfigKey_ScaleLevels @"DefaultScaleLevels"
 #define kEQSConfigKey_DefaultScaleLevel @"DefaultScaleLevel"
@@ -128,11 +128,18 @@
     return self;
 }
 
++ (NSBundle *) getEQSBundle
+{
+    return [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"EQSResources" ofType:@"bundle"]];
+}
+
 - (void)LoadConfigData
 {
 	if (!self.isInitialized)
 	{
-		NSString *path = [[NSBundle mainBundle] pathForResource:@"EQSConfig" ofType:@"plist"];
+        // Get our bundle
+        NSBundle *eqsBundle = [EQSHelper getEQSBundle];
+		NSString *path = [eqsBundle pathForResource:@"EQSConfig" ofType:@"plist"];
 		NSData *pListData = [NSData dataWithContentsOfFile:path];
 		NSString *error;
 		NSPropertyListFormat format;

@@ -8,7 +8,7 @@
 
 #import "EQSRouteDisplayHelper.h"
 
-#import "EQSHelper.h"
+#import "EQSHelper_int.h"
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSMapView+Basemaps.h"
 #import "AGSMapView+EQSGraphics.h"
