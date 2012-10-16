@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
+#import "EQSRouteResultsView.h"
 
 @protocol EQSRouteDisplayViewDelegate <NSObject>
 - (void) direction:(AGSDirectionGraphic *)direction selectedFromRouteResult:(AGSRouteResult *)routeResult;

@@ -7,7 +7,7 @@
 //
 
 #import "EQSRouteResultsViewControllerCompact.h"
-#import "EQSHelper.h"
+#import "EQSHelper_int.h"
 
 @interface EQSRouteResultsViewController ()
 - (void) direction:(AGSDirectionGraphic *)direction selectedFromRouteResult:(AGSRouteResult *)routeResult;
@@ -23,6 +23,10 @@
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *stepBackwardsButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *stepForwardsButton;
+
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *zoomToRouteButton;
+
+
 @end
 
 @implementation EQSRouteResultsViewControllerCompact
@@ -43,10 +47,35 @@
     return self;
 }
 
+- (void) awakeFromNib
+{
+    NSBundle *eqsBundle = [EQSHelper getEQSBundle];
+    NSString *imagePath = [eqsBundle pathForResource:@"prev-dir-iphone" ofType:@"png"];
+    UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
+    self.stepBackwardsButton.image = image;
+    imagePath = [eqsBundle pathForResource:@"next-dir-iphone" ofType:@"png"];
+    image = [UIImage imageWithContentsOfFile:imagePath];
+    self.stepForwardsButton.image = image;
+    imagePath = [eqsBundle pathForResource:@"zoom-to-route" ofType:@"png"];
+    image = [UIImage imageWithContentsOfFile:imagePath];
+    self.zoomToRouteButton.image = image;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+//    NSLog(@"DidLoad: Zoom ButtonItem: %@", self.farfoo);
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+//    NSLog(@"WillAppear: Zoom ButtonItem: %@", self.farfoo);
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+//    NSLog(@"DidAppear: Zoom ButtonItem: %@", self.farfoo);
 }
 
 - (void)viewDidUnload

@@ -141,6 +141,8 @@ typedef enum {
 - (IBAction)toFromTapped:(id)sender;
 - (IBAction)swapRouteStartAndEnd:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UIView *directionsStartContainerView;
+@property (weak, nonatomic) IBOutlet UIView *directionsEndContainerView;
 
 #pragma mark - Geolocation UI
 @property (weak, nonatomic) IBOutlet UIButton *findMeButton;
@@ -353,6 +355,8 @@ typedef enum {
 	[self setRouteToTextField:nil];
 	[self setRouteToLeftView:nil];
 	[self setRouteFromLeftView:nil];
+    [self setDirectionsStartContainerView:nil];
+    [self setDirectionsEndContainerView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -554,12 +558,12 @@ typedef enum {
     switch (self.currentState) {
         case EQSSampleAppStateGraphics:
             if (graphics.count > 0)
-            {
+{
                 // The user selected a graphic. Let's edit it.
                 AGSGraphic *editGraphic = [self.mapView editGraphicFromMapViewDidClickAtPoint:graphics];
                 EQSSampleAppState newState = EQSSampleAppStateGraphics;
                 if (editGraphic)
-                {
+    {
                     AGSGeometryType geomType = AGSGeometryTypeForGeometry(editGraphic.geometry);
                     switch (geomType) {
                         case AGSGeometryTypePoint:
@@ -578,10 +582,10 @@ typedef enum {
                             break;
                     }
                     self.currentState = newState;
-                }
+    }
             }
             break;
-
+    
         case EQSSampleAppStateDirections_WaitingForRouteStart:
             [self didTapStartPoint:mapPoint];
             break;
@@ -589,13 +593,13 @@ typedef enum {
         case EQSSampleAppStateDirections_WaitingForRouteEnd:
             [self didTapEndPoint:mapPoint];
             break;
-            
+    
         case EQSSampleAppStateFindPlace:
         {
             BOOL shouldReverseGeocode = YES;
             AGSGraphic *g = [self nearestGraphicToPoint:mapPoint FromMapViewClickedGraphics:graphics];
             if (g && g.infoTemplateDelegate)
-            {
+    {
                 [self.mapView showCalloutAtPoint:mapPoint forGraphic:g animated:YES];
                 shouldReverseGeocode = NO;
             }
@@ -603,16 +607,16 @@ typedef enum {
             {
                 [self didTapToReverseGeocode:mapPoint];
             }
-        }
+    }
             break;
-            
+    
         default:
             for (id key in graphics.allKeys) {
                 NSArray *graphicsInLayer = [graphics objectForKey:key];
                 for (AGSGraphic *g in graphicsInLayer) {
                     NSLog(@"MVCAP: %@", g);
                     NSLog(@"MVCAP ITD: %@", g.infoTemplateDelegate);
-                }
+}
             }
             break;
     }
@@ -861,17 +865,20 @@ typedef enum {
 				self.routeStartButton.selected = NO;
 				self.routeEndButton.selected = NO;
 				[self setStartAndEndText];
+                [self setStartAndEndDisplayStyle];
 				break;
 
 			case EQSSampleAppStateDirections_WaitingForRouteStart:
 				self.routeStartButton.selected = YES;
 				self.routeEndButton.selected = NO;
 				[self setStartAndEndText];
+                [self setStartAndEndDisplayStyle];
 				break;
 			case EQSSampleAppStateDirections_WaitingForRouteEnd:
 				self.routeEndButton.selected = YES;
 				self.routeStartButton.selected = NO;
 				[self setStartAndEndText];
+                [self setStartAndEndDisplayStyle];
 				break;
 				
 			case EQSSampleAppStateGraphics_Editing_Point:
@@ -1993,6 +2000,43 @@ typedef enum {
 	[self setEndText];
 }
 
+- (void) setStartAndEndDisplayStyle
+{
+    CGFloat passiveAlpha = 0.5;
+    CGAffineTransform passiveT = CGAffineTransformMakeScale(0.95, 0.95 );
+    
+    CGFloat startAlpha = 1;
+    CGFloat endAlpha = 1;
+    
+    CGAffineTransform startT = CGAffineTransformIdentity;
+    CGAffineTransform endT = CGAffineTransformIdentity;
+    
+    if (self.currentState == EQSSampleAppStateDirections_WaitingForRouteStart)
+    {
+        endAlpha = passiveAlpha;
+        endT = passiveT;
+    }
+    else if (self.currentState == EQSSampleAppStateDirections_WaitingForRouteEnd)
+    {
+        startAlpha = passiveAlpha;
+        startT = passiveT;
+    }
+    
+    [UIView animateWithDuration:0.4
+                     animations:^{
+                         if (self.directionsStartContainerView.alpha != startAlpha)
+                         {
+                             self.directionsStartContainerView.alpha = startAlpha;
+                             self.directionsStartContainerView.transform = startT;
+                         }
+                         if (self.directionsEndContainerView.alpha != endAlpha)
+                         {
+                             self.directionsEndContainerView.alpha = endAlpha;
+                             self.directionsEndContainerView.transform = endT;
+                         }
+                     }];
+}
+
 - (void) setStartText
 {
     NSString *latLongText = nil;
@@ -2029,7 +2073,7 @@ typedef enum {
 //        {
 //            self.routeStartLabel.text = @"Tap button";
 //        }
-		self.routeStartLabel.text = @"";
+		self.routeStartLabel.text = self.routeFromTextField.text = @"";
     }
 }
 
@@ -2065,7 +2109,7 @@ typedef enum {
 //        {
 //            self.routeEndLabel.text = @"Tap button";
 //        }
-		self.routeEndLabel.text = @"";
+		self.routeEndLabel.text = self.routeToTextField.text = @"";
     }
 }
 
@@ -2100,7 +2144,6 @@ typedef enum {
                          [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
                          self.view.frame = [UIScreen mainScreen].applicationFrame;
                          self.mapView.frame = CGRectMake(0, 0, self.mapView.frame.size.width, self.mapView.frame.size.height + self.functionNavBar_iPhone.frame.size.height);
-//                         self.mapView.frame = self.view.frame;
                          self.showUIButton.hidden = NO;
                      }
                      completion:^(BOOL finished) {

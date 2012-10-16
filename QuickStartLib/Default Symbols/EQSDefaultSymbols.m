@@ -64,55 +64,73 @@
 
 - (AGSMarkerSymbol *)geolocation
 {
-    [self waitUntilLoaded];
+    if (!_geolocation) {
+        [self waitUntilLoaded];
+    }
     return _geolocation;
 }
 
 - (AGSMarkerSymbol *)findPlace
 {
-    [self waitUntilLoaded];
+    if (!_geocode) {
+        [self waitUntilLoaded];
+    }
     return _geocode;
 }
 
 - (AGSMarkerSymbol *)reverseGeocode
 {
-    [self waitUntilLoaded];
+    if (!_reverseGeocode) {
+        [self waitUntilLoaded];
+    }
     return _reverseGeocode;
 }
 
 - (AGSMarkerSymbol *)failedGeocode
 {
-    [self waitUntilLoaded];
+    if (!_failedGeocode) {
+        [self waitUntilLoaded];
+    }
     return _failedGeocode;
 }
 
 - (AGSSimpleLineSymbol *)route
 {
-    [self waitUntilLoaded];
+    if (!_route) {
+        [self waitUntilLoaded];
+    }
     return _route;
 }
 
 - (AGSMarkerSymbol *)routeStart
 {
-    [self waitUntilLoaded];
+    if (!_routeStart) {
+        [self waitUntilLoaded];
+    }
     return _routeStart;
 }
 
 - (AGSMarkerSymbol *)routeEnd
 {
-    [self waitUntilLoaded];
+    if (!_routeEnd) {
+        [self waitUntilLoaded];
+    }
     return _routeEnd;
 }
 
 - (AGSSimpleLineSymbol *)routeSegment
 {
-    [self waitUntilLoaded];
+    if (!_routeSegment) {
+        [self waitUntilLoaded];
+    }
     return _routeSegment;
 }
 
 - (AGSMarkerSymbol *)routeSegmentStart
 {
-    [self waitUntilLoaded];
+    if (!_routeSegmentStart) {
+        [self waitUntilLoaded];
+    }
     return _routeSegmentStart;
 }
 
@@ -120,12 +138,13 @@
 
 - (void)waitUntilLoaded
 {
-    if (self.loadingQueue)
+    if (self.loadingQueue &&
+        self.loadingQueue.operationCount > 0)
     {
-        NSLog(@"Waiting for Default Symbols to load…");
+//        NSLog(@"Waiting for Default Symbols to load…");
+//        NSLog(@"%@",[NSThread callStackSymbols]);
         [self.loadingQueue waitUntilAllOperationsAreFinished];
-        self.loadingQueue = nil;
-        NSLog(@"Default Symbols loaded…");
+//        NSLog(@"Finished Waiting for Symbols to load");
     }
 }
 
@@ -154,15 +173,21 @@
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
+//    NSLog(@"operationCount Changed");
     if (self.loadingQueue)
     {
         if (self.loadingQueue == object)
         {
             if (self.loadingQueue.operationCount == 0)
             {
-                // Death to L'NSOperation! Down with that sort of thing.
-                self.loadingQueue = nil;
-                NSLog(@"Cleaned up after Symbol Load");
+                // This could come through on any thread, but we could be waiting in waitUntilLoaded
+                // on the main UI thread.
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    [self.loadingQueue waitUntilAllOperationsAreFinished];
+                    [self.loadingQueue removeObserver:self forKeyPath:@"operationCount"];
+                    self.loadingQueue = nil;
+                    NSLog(@"Cleaned up after Symbol Load");
+                }];
             }
         }
     }
