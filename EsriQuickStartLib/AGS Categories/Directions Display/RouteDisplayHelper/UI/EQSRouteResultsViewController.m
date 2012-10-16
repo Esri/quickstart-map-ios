@@ -158,7 +158,12 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    _hidden = YES;
+//    _hidden = YES;
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    _hidden = self.routeResult == nil;
     [self setHiddenInternal];
 }
 
@@ -227,6 +232,7 @@
 
 - (void) setHiddenInternal
 {
+    NSLog(@"New Hidden Value: %@", _hidden?@"HIDDEN":@"SHOWN");
     double animationDuration = 0.4;
     if (!_hidden)
     {

@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'esriQuickStartLib' target in the 'esriQuickStartLib' project
+// Prefix header for all source files of the 'EsriQuickStart' target in the 'EsriQuickStart' project
 //
 
 #import <Availability.h>
