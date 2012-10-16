@@ -9,34 +9,19 @@
 #import <EsriQuickStart/EsriQuickStart.h>
 
 #import "EQSSampleViewController.h"
+
 #import "EQSPortalItemPickerView.h"
-
-//#import "EQSHelper.h"
-//
-//#import	"AGSMapView+Navigation.h"
-//#import "AGSMapView+Basemaps.h"
-//#import "AGSMapView+EQSGraphics.h"
-//#import "AGSMapView+RouteDisplay.h"
-
 #import "EQSSampleAppStateEnums.h"
-
-//#import "EQSGeoServices.h"
-//#import "EQSDefaultSymbols.h"
-
-//#import "EQSRouteResultsView.h"
 #import "EQSCodeView.h"
 #import "EQSAddressCandidateView.h"
-
-//#import "AGSMapView+GeneralUtilities.h"
-//#import "AGSPoint+GeneralUtilities.h"
-
 #import "UIApplication+AppDimensions.h"
 
 #import "EQSBasemapPickerView.h"
 #import "EQSBasemapDetailsViewController.h"
-#import <objc/runtime.h>
 
 #import "MBProgressHUD.h"
+
+#import <objc/runtime.h>
 
 typedef enum {
 	EQSSampleAppMessageStateNormal,
