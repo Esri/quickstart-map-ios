@@ -43,7 +43,7 @@
 @synthesize currentRouteResult = _currentRouteResult;
 
 @synthesize startSymbol = _startSymbol;
-@synthesize endSymbol = _stopSymbol;
+@synthesize endSymbol = _endSymbol;
 @synthesize routeSymbol = _routeSymbol;
 
 @synthesize mapView = _mapView;
@@ -60,9 +60,8 @@
 }
 
 #pragma mark - Public methods
-- (void) showRouteResult:(AGSRouteTaskResult *)routeTaskResult;
+- (void) showRouteResult:(AGSRouteTaskResult *)routeTaskResult
 {
-    NSLog(@"Entered showRouteResults");
 	if (routeTaskResult.routeResults.count > 0)
 	{
 		[self.routeGraphicsLayer removeAllGraphics];
@@ -126,13 +125,11 @@
         
         for (AGSStopGraphic *stopGraphic in routeResult.stopGraphics)
         {
-            NSLog(@"Route Stop Point: \"%@\"", stopGraphic.name);
-            NSLog(@"Stop point attribtues:\n%@", stopGraphic.attributes);
-            if (stopGraphic.sequence == 1)//.name isEqualToString:kEQSRoutingStartPointName])
+            if (stopGraphic.sequence == 1)
             {
 				[self setStartGraphic:stopGraphic];
             }
-            else if (stopGraphic.sequence == routeResult.stopGraphics.count)//.name isEqualToString:kEQSRoutingEndPointName])
+            else if (stopGraphic.sequence == routeResult.stopGraphics.count)
             {
 				[self setEndGraphic:stopGraphic];
             }
@@ -218,7 +215,7 @@
 #pragma mark - RouteDisplayDelegate
 - (void) direction:(AGSDirectionGraphic *)direction selectedFromRouteResult:(AGSRouteResult *)routeResult
 {
-    NSLog(@"%@", direction);
+//    NSLog(@"%@", direction);
     AGSGraphicsLayer *routeDisplayLayer = self.routeGraphicsLayer;
     [routeDisplayLayer removeGraphicsMatchingCriteria:^BOOL(AGSGraphic *graphic) {
         return [graphic.attributes objectForKey:@"DirectionStepGraphic"] != nil;
@@ -252,7 +249,7 @@
 #pragma mark - Internal init/dealloc, etc.
 - (id) initForMapView:(AGSMapView *)mapView
 {
-    self = [self init];
+    self = [super init];
     if (self)
     {
 		// Create a new Graphics Layer
@@ -266,10 +263,14 @@
 		// immediately. This is some tight coupling, but since this is all part of the starter library,
 		// this is just about OK.
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-            self.startSymbol = mapView.defaultSymbols.routeStart;
-            self.endSymbol = mapView.defaultSymbols.routeEnd;
-            self.routeSymbol = mapView.defaultSymbols.route;
-		});
+            @synchronized(self)
+            {
+                self.startSymbol = mapView.defaultSymbols.routeStart;
+                self.endSymbol = mapView.defaultSymbols.routeEnd;
+                self.routeSymbol = mapView.defaultSymbols.route;
+            };
+//            NSLog(@"#### Loaded Route Symbols");
+        });
 		
 		// Keep a handle onto our AGSMapView
 		self.mapView = mapView;
@@ -284,6 +285,45 @@
     }
     
     return self;
+}
+
+- (void) setStartSymbol:(AGSMarkerSymbol *)startSymbol
+{
+    _startSymbol = startSymbol;
+}
+
+- (AGSMarkerSymbol *) startSymbol
+{
+    @synchronized(self)
+    {
+        return _startSymbol;
+    }
+}
+
+- (void) setEndSymbol:(AGSMarkerSymbol *)endSymbol
+{
+    _endSymbol = endSymbol;
+}
+
+- (AGSMarkerSymbol *) endSymbol
+{
+    @synchronized(self)
+    {
+        return _endSymbol;
+    }
+}
+
+- (void) setRouteSymbol:(AGSSimpleLineSymbol *)routeSymbol
+{
+    _routeSymbol = routeSymbol;
+}
+
+- (AGSSimpleLineSymbol *) routeSymbol
+{
+    @synchronized(self)
+    {
+        return _routeSymbol;
+    }
 }
 
 - (void) dealloc

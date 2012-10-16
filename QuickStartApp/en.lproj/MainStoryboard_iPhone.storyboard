@@ -451,6 +451,8 @@
                         <outlet property="basemapsPicker" destination="9xk-Cj-0Wc" id="d8k-Eb-U4M"/>
                         <outlet property="cancelKeyboardButton" destination="ngc-U8-Gkb" id="NaR-GE-zWo"/>
                         <outlet property="deleteGraphicButton" destination="CMk-b9-ReK" id="g8R-Zw-Pam"/>
+                        <outlet property="directionsEndContainerView" destination="X9E-Dt-qf8" id="110-rn-ycV"/>
+                        <outlet property="directionsStartContainerView" destination="iv3-h1-fsN" id="p4I-vO-fzt"/>
                         <outlet property="editGraphicsToolbar" destination="oKn-KG-Yke" id="d0U-0D-Dh9"/>
                         <outlet property="findMeButton" destination="kG1-zr-0oz" id="wUJ-CI-eF8"/>
                         <outlet property="findMeScrollView" destination="Bhy-KT-aOF" id="73q-cN-SiS"/>
@@ -640,6 +642,8 @@
                 <relationship kind="outlet" name="cloudDataPanel" candidateClass="UIView"/>
                 <relationship kind="outlet" name="codeViewer" candidateClass="EQSCodeView"/>
                 <relationship kind="outlet" name="deleteGraphicButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="directionsEndContainerView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="directionsStartContainerView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="editGraphicsToolbar" candidateClass="UIToolbar"/>
                 <relationship kind="outlet" name="findButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="findMeButton" candidateClass="UIButton"/>

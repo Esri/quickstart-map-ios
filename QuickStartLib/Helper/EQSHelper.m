@@ -56,25 +56,33 @@
 
 - (void) queueBlock:(void (^)(void))block untilMapViewLoaded:(AGSMapView *)mapView
 {
-    if (!self.mapViewQueues)
+    if (mapView.loaded)
     {
-        // Lazy Init
-        self.mapViewQueues = [NSMutableDictionary dictionary];
+        NSLog(@"MapView is already loaded - executing immediately!");
+        block();
     }
-    
-    NSNumber *key = [self getHashForMapView:mapView];
-    NSMutableArray *ops = [self.mapViewQueues objectForKey:key];
-    if (!ops)
+    else
     {
-        // Each mapView object gets its own NSOperationQueue to queue up operations until the map has loaded.
-        ops = [NSMutableArray array];
-        // Add it to our dictionary to find later.
-        [self.mapViewQueues setObject:ops forKey:key];
-        // Watch the AGSMapView to see when it loads.
-        [mapView addObserver:self forKeyPath:@"loaded" options:NSKeyValueObservingOptionNew context:(__bridge_retained void *)key];
+        if (!self.mapViewQueues)
+        {
+            // Lazy Init
+            self.mapViewQueues = [NSMutableDictionary dictionary];
+        }
+        
+        NSNumber *key = [self getHashForMapView:mapView];
+        NSMutableArray *ops = [self.mapViewQueues objectForKey:key];
+        if (!ops)
+        {
+            // Each mapView object gets its own NSOperationQueue to queue up operations until the map has loaded.
+            ops = [NSMutableArray array];
+            // Add it to our dictionary to find later.
+            [self.mapViewQueues setObject:ops forKey:key];
+            // Watch the AGSMapView to see when it loads.
+            [mapView addObserver:self forKeyPath:@"loaded" options:NSKeyValueObservingOptionNew context:(__bridge_retained void *)key];
+        }
+        // And add the block to the queue.
+        [ops addObject:[NSBlockOperation blockOperationWithBlock:block]];
     }
-    // And add the block to the queue.
-    [ops addObject:[NSBlockOperation blockOperationWithBlock:block]];
 }
 
 - (NSNumber *) getHashForMapView:(AGSMapView *)mapView
@@ -130,7 +138,12 @@
 
 + (NSBundle *) getEQSBundle
 {
-    return [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"EQSResources" ofType:@"bundle"]];
+    NSBundle *eqsBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"EQSResources" ofType:@"bundle"]];
+    if (!eqsBundle)
+    {
+        eqsBundle = [NSBundle mainBundle];
+    }
+    return eqsBundle;
 }
 
 - (void)LoadConfigData

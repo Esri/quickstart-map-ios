@@ -15,16 +15,16 @@
 #import <objc/runtime.h>
 
 @implementation AGSMapView (EQSDirections)
-#define kEQSRouteDisplayHelperKey @"EQSRouteDisplayHelper"
+//#define kEQSRouteDisplayHelperKey @"EQSRouteDisplayHelper"
 
 #pragma mark - Properties
 - (EQSRouteDisplayHelper *)routeDisplayHelper
 {
-    EQSRouteDisplayHelper *helper = objc_getAssociatedObject(self, kEQSRouteDisplayHelperKey);
+    static EQSRouteDisplayHelper *helper = nil; //objc_getAssociatedObject(self, kEQSRouteDisplayHelperKey);
     if (helper == nil)
     {
         helper = [EQSRouteDisplayHelper routeDisplayHelperForMapView:self];
-        objc_setAssociatedObject(self, kEQSRouteDisplayHelperKey, helper, OBJC_ASSOCIATION_RETAIN);
+//        objc_setAssociatedObject(self, kEQSRouteDisplayHelperKey, helper, OBJC_ASSOCIATION_RETAIN);
     }
     return helper;
 }

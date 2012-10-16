@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "EQSRouteResultsViewController.h"
+@class EQSRouteResultsViewController;
 
 @interface EQSRouteResultsView : UIView
 @property (strong, nonatomic) IBOutlet EQSRouteResultsViewController *viewController;

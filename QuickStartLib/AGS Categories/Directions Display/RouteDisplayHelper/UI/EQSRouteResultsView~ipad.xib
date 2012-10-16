@@ -59,7 +59,7 @@
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIView" id="276394893">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">288</int>
+						<int key="NSvFlags">290</int>
 						<array class="NSMutableArray" key="NSSubviews">
 							<object class="IBUILabel" id="1032884799">
 								<reference key="NSNextResponder" ref="276394893"/>
@@ -152,7 +152,7 @@
 					</object>
 					<object class="IBUIView" id="937443034">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">264</int>
+						<int key="NSvFlags">266</int>
 						<array class="NSMutableArray" key="NSSubviews">
 							<object class="IBUIButton" id="309498812">
 								<reference key="NSNextResponder" ref="937443034"/>
@@ -641,6 +641,35 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">EQSRouteResultsViewController</string>
 					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="clearRoute:">id</string>
+						<string key="editRoute:">id</string>
+						<string key="selectNextDirection:">id</string>
+						<string key="selectPreviousDirection:">id</string>
+						<string key="zoomToRoute:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="clearRoute:">
+							<string key="name">clearRoute:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="editRoute:">
+							<string key="name">editRoute:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="selectNextDirection:">
+							<string key="name">selectNextDirection:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="selectPreviousDirection:">
+							<string key="name">selectPreviousDirection:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="zoomToRoute:">
+							<string key="name">zoomToRoute:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="routeResultsDistanceLabel">UILabel</string>
 						<string key="routeResultsTimeLabel">UILabel</string>

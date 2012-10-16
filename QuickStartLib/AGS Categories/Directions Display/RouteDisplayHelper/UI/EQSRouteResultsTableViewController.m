@@ -8,6 +8,7 @@
 
 #import "EQSRouteResultsTableViewController.h"
 #import "EQSRouteResultsCell.h"
+#import "EQSHelper_int.h"
 #import <ArcGIS/ArcGIS.h>
 
 @interface AGSDirectionSet (GeneralUtilities)
@@ -36,7 +37,7 @@
     [super viewDidLoad];
 
     // Load a template cell. We'll use this when calculating cell heights. Why? See below...
-    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"EQSRouteResultsCell" owner:self options:nil];
+    NSArray *nib = [[EQSHelper getEQSBundle] loadNibNamed:@"EQSRouteResultsCell" owner:self options:nil];
     self.templateCell = (EQSRouteResultsCell *)[nib objectAtIndex:0];
     
     // Make sure the template cell is the right width for when it comes to calculating each row height.
@@ -83,7 +84,7 @@
         // So the TableView didn't have a spare cell handy for us to reuse. Let's create one.
         // We've defined the cell in its own NIB. Since it's the only thing in there, we know
         // how to access it. Yes, this is sanctioned code by Apple.
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"EQSRouteResultsCell" owner:self options:nil];
+        NSArray *nib = [[EQSHelper getEQSBundle] loadNibNamed:@"EQSRouteResultsCell" owner:self options:nil];
         cell = (EQSRouteResultsCell *)[nib objectAtIndex:0];
     }
 

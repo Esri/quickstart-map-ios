@@ -37,6 +37,20 @@
 		D964FA2415E67EBD0013B4D7 /* EQSAddressCandidateView.m in Sources */ = {isa = PBXBuildFile; fileRef = D964FA2315E67EBD0013B4D7 /* EQSAddressCandidateView.m */; };
 		D96C77511624CF140025FFF0 /* EQSUserGuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D96C774F1624CF140025FFF0 /* EQSUserGuideViewController.m */; };
 		D96C77521624CF140025FFF0 /* EQSUserGuideViewController~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D96C77501624CF140025FFF0 /* EQSUserGuideViewController~iphone.xib */; };
+		D975099B162A0B51001447A4 /* EQSConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9E27CB7155B1EDB008F8CCB /* EQSConfig.plist */; };
+		D975099C162A0B5A001447A4 /* EQSRouteResultsView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D63615E2E2BE00140C4E /* EQSRouteResultsView~ipad.xib */; };
+		D975099D162A0B62001447A4 /* EQSRouteResultsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D97D445515E32E480072457A /* EQSRouteResultsCell.xib */; };
+		D975099E162A0B65001447A4 /* EQSRouteResultsView~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D92291BE15F8DFAE00438D05 /* EQSRouteResultsView~iphone.xib */; };
+		D975099F162A0C72001447A4 /* prev-dir-iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291C815F8E90B00438D05 /* prev-dir-iphone.png */; };
+		D97509A0162A0C72001447A4 /* prev-dir-iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291C915F8E90C00438D05 /* prev-dir-iphone@2x.png */; };
+		D97509A1162A0C72001447A4 /* next-dir-iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291CA15F8E90D00438D05 /* next-dir-iphone.png */; };
+		D97509A2162A0C72001447A4 /* next-dir-iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92291CB15F8E90E00438D05 /* next-dir-iphone@2x.png */; };
+		D97509A3162A0C72001447A4 /* zoom-to-route.png in Resources */ = {isa = PBXBuildFile; fileRef = D9911DD1162760D200950AA7 /* zoom-to-route.png */; };
+		D97509A4162A0C72001447A4 /* zoom-to-route@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9AF4BFE15F2D7930094A35A /* zoom-to-route@2x.png */; };
+		D97509A5162A0C72001447A4 /* next-dir-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D63F15E2EDC300140C4E /* next-dir-ipad.png */; };
+		D97509A6162A0C72001447A4 /* next-dir-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D64015E2EDC400140C4E /* next-dir-ipad@2x.png */; };
+		D97509A7162A0C72001447A4 /* prev-dir-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D64115E2EDC400140C4E /* prev-dir-ipad.png */; };
+		D97509A8162A0C72001447A4 /* prev-dir-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D64215E2EDC400140C4E /* prev-dir-ipad@2x.png */; };
 		D9754D7315ACAF840093BF1E /* UIApplication+AppDimensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */; };
 		D97D445915E45D5D0072457A /* EQSCodeView~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D97D445815E45D5D0072457A /* EQSCodeView~iphone.xib */; };
 		D97D445D15E4643A0072457A /* CodeTab.png in Resources */ = {isa = PBXBuildFile; fileRef = D97D445B15E4643A0072457A /* CodeTab.png */; };
@@ -268,6 +282,7 @@
 		D92F8E2615F526B9004B87A6 /* create_polygon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "create_polygon@2x.png"; sourceTree = "<group>"; };
 		D92F8E2715F526B9004B87A6 /* create_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = create_line.png; sourceTree = "<group>"; };
 		D92F8E2815F526B9004B87A6 /* create_line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "create_line@2x.png"; sourceTree = "<group>"; };
+		D939FBE81629FBFE00E8B8ED /* EQSHelper_int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSHelper_int.h; sourceTree = "<group>"; };
 		D93C98A3156D8CC000A5F339 /* EQSBasemapDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSBasemapDetailsViewController.h; sourceTree = "<group>"; };
 		D93C98A4156D8CC000A5F339 /* EQSBasemapDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSBasemapDetailsViewController.m; sourceTree = "<group>"; };
 		D93D710D15EBCEC9002F7FA2 /* EQSAddressCandidateBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSAddressCandidateBaseViewController.h; sourceTree = "<group>"; };
@@ -496,6 +511,7 @@
 		D94431A7156C1EEC00982D5C /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				D939FBE81629FBFE00E8B8ED /* EQSHelper_int.h */,
 				D94431A3156BE1FC00982D5C /* EQSHelper.h */,
 				D94431A4156BE1FC00982D5C /* EQSHelper.m */,
 				E1C12A6C15D5936500B1ADCB /* Resources */,
@@ -1112,6 +1128,20 @@
 				D96C77521624CF140025FFF0 /* EQSUserGuideViewController~iphone.xib in Resources */,
 				D9911DF0162886D600950AA7 /* zoom-to-graphic.png in Resources */,
 				D9911DF1162886D600950AA7 /* zoom-to-graphic@2x.png in Resources */,
+				D975099B162A0B51001447A4 /* EQSConfig.plist in Resources */,
+				D975099C162A0B5A001447A4 /* EQSRouteResultsView~ipad.xib in Resources */,
+				D975099D162A0B62001447A4 /* EQSRouteResultsCell.xib in Resources */,
+				D975099E162A0B65001447A4 /* EQSRouteResultsView~iphone.xib in Resources */,
+				D975099F162A0C72001447A4 /* prev-dir-iphone.png in Resources */,
+				D97509A0162A0C72001447A4 /* prev-dir-iphone@2x.png in Resources */,
+				D97509A1162A0C72001447A4 /* next-dir-iphone.png in Resources */,
+				D97509A2162A0C72001447A4 /* next-dir-iphone@2x.png in Resources */,
+				D97509A3162A0C72001447A4 /* zoom-to-route.png in Resources */,
+				D97509A4162A0C72001447A4 /* zoom-to-route@2x.png in Resources */,
+				D97509A5162A0C72001447A4 /* next-dir-ipad.png in Resources */,
+				D97509A6162A0C72001447A4 /* next-dir-ipad@2x.png in Resources */,
+				D97509A7162A0C72001447A4 /* prev-dir-ipad.png in Resources */,
+				D97509A8162A0C72001447A4 /* prev-dir-ipad@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

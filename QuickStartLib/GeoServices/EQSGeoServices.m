@@ -210,8 +210,11 @@
 
 - (NSOperation *) findDirectionsFrom:(AGSPoint *)startPoint to:(AGSPoint *)endPoint
 {
-	AGSRouteTaskParameters *routeTaskParams = [self getParametersToRouteFromStart:startPoint ToStop:endPoint];
-	return [self.routeTask solveWithParameters:routeTaskParams];
+    NSString *startName = [NSString stringWithFormat:@"Start Point (%.3f,%.3f)", startPoint.latitude, startPoint.longitude];
+    NSString *endName = [NSString stringWithFormat:@"End Point (%.3f,%.3f)", endPoint.latitude, endPoint.longitude];
+
+	return [self findDirectionsFrom:startPoint named:startName
+                                 to:endPoint named:endName];
 }
 
 - (NSOperation *) findDirectionsFrom:(AGSPoint *)startPoint named:(NSString *)startPointName

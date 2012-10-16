@@ -7,6 +7,7 @@
 //
 
 #import "EQSRouteResultsView.h"
+#import "EQSHelper_int.h"
 
 @interface EQSRouteResultsView ()
 @property (strong, nonatomic) IBOutlet UIView *topLevelView;
@@ -36,7 +37,7 @@
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-        [[NSBundle mainBundle] loadNibNamed:@"EQSRouteResultsView" owner:self options:nil];
+        [[EQSHelper getEQSBundle] loadNibNamed:@"EQSRouteResultsView" owner:self options:nil];
         [self addSubview:self.topLevelView];
 
         UIColor *bgCol = self.backgroundColor;
@@ -48,16 +49,14 @@
         self.headerView.backgroundColor = [self.headerView.backgroundColor colorWithAlphaComponent:a];
         self.footerView.backgroundColor = [self.footerView.backgroundColor colorWithAlphaComponent:a];
 
+        self.topLevelView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+
         if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
         {
             self.topLevelView.layer.cornerRadius = 7;
             self.layer.cornerRadius = 7;
             self.layer.masksToBounds = YES;
         }
-		if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
-		{
-			self.topLevelView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-		}
     }
     return self;
 }
