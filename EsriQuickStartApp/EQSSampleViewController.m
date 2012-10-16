@@ -6,27 +6,29 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
+#import <EsriQuickStart/EsriQuickStart.h>
+
 #import "EQSSampleViewController.h"
 #import "EQSPortalItemPickerView.h"
 
-#import "EQSHelper.h"
-
-#import	"AGSMapView+Navigation.h"
-#import "AGSMapView+Basemaps.h"
-#import "AGSMapView+EQSGraphics.h"
-#import "AGSMapView+RouteDisplay.h"
+//#import "EQSHelper.h"
+//
+//#import	"AGSMapView+Navigation.h"
+//#import "AGSMapView+Basemaps.h"
+//#import "AGSMapView+EQSGraphics.h"
+//#import "AGSMapView+RouteDisplay.h"
 
 #import "EQSSampleAppStateEnums.h"
 
-#import "EQSGeoServices.h"
-#import "EQSDefaultSymbols.h"
+//#import "EQSGeoServices.h"
+//#import "EQSDefaultSymbols.h"
 
-#import "EQSRouteResultsView.h"
+//#import "EQSRouteResultsView.h"
 #import "EQSCodeView.h"
 #import "EQSAddressCandidateView.h"
 
-#import "AGSMapView+GeneralUtilities.h"
-#import "AGSPoint+GeneralUtilities.h"
+//#import "AGSMapView+GeneralUtilities.h"
+//#import "AGSPoint+GeneralUtilities.h"
 
 #import "UIApplication+AppDimensions.h"
 

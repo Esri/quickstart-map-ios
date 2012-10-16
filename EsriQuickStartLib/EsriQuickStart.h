@@ -20,4 +20,6 @@
 #import "AGSMapView+GeneralUtilities.h"
 #import "AGSPoint+GeneralUtilities.h"
 
+#import "EQSHelper.h"
+
 #endif

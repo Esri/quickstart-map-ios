@@ -6,13 +6,12 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
+#import <EsriQuickStart/EsriQuickStart.h>
+
 #import "EQSAddressCandidatePanelViewController.h"
 #import "EQSAddressCandidateView.h"
 #import "EQSAddressCandidateCalloutView.h"
 #import "EQSAddressCandidateCalloutViewController.h"
-#import "AGSPoint+GeneralUtilities.h"
-
-#import "EQSGeoServicesNotifications.h"
 
 #define kEQSAddressCandidateViewSpacing 10
 

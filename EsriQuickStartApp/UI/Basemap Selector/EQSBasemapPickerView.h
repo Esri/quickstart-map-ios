@@ -7,7 +7,7 @@
 //
 
 #import "EQSPortalItemPickerView.h"
-#import "EQSHelper.h"
+#import <EsriQuickStart/EsriQuickStart.h>
 
 @protocol EQSBasemapPickerDelegate <NSObject>
 - (void)basemapSelected:(EQSBasemapType)basemapType;

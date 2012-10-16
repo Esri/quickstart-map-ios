@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
+#import <EsriQuickStart/EsriQuickStart.h>
+
 #import "EQSAddressCandidateBaseViewController.h"
-#import "AGSPoint+GeneralUtilities.h"
-#import "EQSGeoServicesNotifications.h"
 
 @interface EQSAddressCandidateBaseViewController ()
 @property (strong, nonatomic) IBOutlet UILabel *colorRefLabelReverse;

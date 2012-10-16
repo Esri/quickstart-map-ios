@@ -6,9 +6,10 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
+#import <EsriQuickStart/EsriQuickStart.h>
+
 #import "EQSAddressCandidateCalloutViewController.h"
 #import "EQSAddressCandidatePanelViewController.h"
-#import "AGSPoint+GeneralUtilities.h"
 
 @interface EQSAddressCandidateCalloutViewController () 
 @property (weak, nonatomic) IBOutlet EQSAddressCandidatePanelViewController *mainViewController;

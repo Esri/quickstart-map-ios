@@ -8,8 +8,9 @@
 //  This subclass of the PortalItemsPickerView abstracts the AGSPortalItem behaviour away from
 //  the user. Instead, the control's interface works on the EQSBasemapType enumeration.
 
+#import <EsriQuickStart/EsriQuickStart.h>
+
 #import "EQSBasemapPickerView.h"
-#import "EQSHelper.h"
 
 // We modify the interface declaration here to show that we're going to implement
 // the <EQSPortalItemPickerDelegate> handler

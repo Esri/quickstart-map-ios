@@ -6,12 +6,12 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
+#import <EsriQuickStart/EsriQuickStart.h>
+
 #import "EQSPortalItemPickerViewController.h"
 #import "EQSPortalItemPickerView.h"
 #import "EQSPortalItemListView_int.h"
 #import "EQSPortalItemView.h"
-#import "EQSBasemapTypeEnum.h"
-#import "EQSHelper.h"
 
 #import "UIViewController+MJPopupViewController.h"
 

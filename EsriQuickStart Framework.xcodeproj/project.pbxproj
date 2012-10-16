@@ -23,7 +23,6 @@
 
 /* Begin PBXBuildFile section */
 		D9E1615D1629C9020055844C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D9E1615B1629C9020055844C /* InfoPlist.strings */; };
-		D9E161751629CA1C0055844C /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E161671629CA1B0055844C /* ArcGIS.framework */; };
 		D9E161841629CAA60055844C /* AGSLayer+Basemap.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161091629C8B40055844C /* AGSLayer+Basemap.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D9E161851629CAA60055844C /* AGSMapView+Basemaps.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E1610B1629C8B40055844C /* AGSMapView+Basemaps.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9E161861629CAA60055844C /* EQSBasemapsNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E1610D1629C8B40055844C /* EQSBasemapsNotifications.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -189,7 +188,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9E161751629CA1C0055844C /* ArcGIS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

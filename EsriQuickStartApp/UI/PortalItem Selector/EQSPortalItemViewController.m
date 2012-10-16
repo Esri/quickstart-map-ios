@@ -159,8 +159,6 @@
     if (g &&
         g.state == UIGestureRecognizerStateBegan)
     {
-        NSLog(@"Tapped and held!");
-        
         if (self.touchDelegate &&
             [self.touchDelegate respondsToSelector:@selector(portalItemViewTappedAndHeld:)])
         {

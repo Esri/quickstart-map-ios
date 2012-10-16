@@ -134,7 +134,7 @@
     while (recentView.superview != nil &&
            ![recentView.superview isKindOfClass:[UIWindow class]])
     {
-        NSLog(@"%@", NSStringFromClass([recentView.superview class]));
+//        NSLog(@"%@", NSStringFromClass([recentView.superview class]));
         recentView = recentView.superview;
     }
     return recentView;
