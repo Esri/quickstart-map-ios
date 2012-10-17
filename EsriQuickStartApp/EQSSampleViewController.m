@@ -454,18 +454,10 @@ typedef enum {
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification object:nil];
 	
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(routeDisplayCleared:)
-                                                 name:kEQSRouteDisplayNotification_RouteCleared
-                                               object:self.mapView.routeDisplayHelper];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(routeEditRequested:)
-                                                 name:kEQSRouteDisplayNotification_EditRequested
-                                               object:self.mapView.routeDisplayHelper];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(routeNavigationStepSelected:)
-                                                 name:kEQSRouteDisplayNotification_StepSelected
-                                               object:self.mapView.routeDisplayHelper];
+	[self.mapView.routeDisplayHelper registerHandler:self
+										  forDirEdit:@selector(routeEditRequested:)
+										   clearDirs:@selector(routeDisplayCleared:)
+										  andDirStep:@selector(routeNavigationStepSelected:)];
 }
 
 #pragma mark - GeoServices Registration
@@ -483,15 +475,9 @@ typedef enum {
 											   object:self.mapView.geoServices];
     
     // And I also want to know when it found directions we asked for.
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(didSolveRouteOK:)
-												 name:kEQSGeoServicesNotification_FindRoute_OK
-											   object:self.mapView.geoServices];
-    // Or not...
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(didFailToSolveRoute:)
-												 name:kEQSGeoServicesNotification_FindRoute_Error
-											   object:self.mapView.geoServices];
+	[self.mapView.geoServices registerHandler:self
+					 forFindDirectionsSuccess:@selector(didSolveRouteOK:)
+								   andFailure:@selector(didFailToSolveRoute:)];
     
     // And let me know when it finds points for an address.
     [[NSNotificationCenter defaultCenter] addObserver:self

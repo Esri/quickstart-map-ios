@@ -72,6 +72,32 @@
     }
 }
 
+- (void) registerHandler:(id)object forDirEdit:(SEL)editMethod clearDirs:(SEL)clearMethod andDirStep:(SEL)dirStepMethod
+{
+	if (editMethod)
+	{
+		[[NSNotificationCenter defaultCenter] addObserver:object
+												 selector:editMethod
+													 name:kEQSRouteDisplayNotification_EditRequested
+												   object:self];
+	}
+	if (clearMethod)
+	{
+		[[NSNotificationCenter defaultCenter] addObserver:object
+												 selector:clearMethod
+													 name:kEQSRouteDisplayNotification_RouteCleared
+												   object:self];
+	}
+	if (dirStepMethod)
+	{
+		[[NSNotificationCenter defaultCenter] addObserver:object
+												 selector:dirStepMethod
+													 name:kEQSRouteDisplayNotification_StepSelected
+												   object:self];
+	}
+}
+
+
 - (void) setCurrentRouteResult:(AGSRouteResult *)currentRouteResult
 {
     _currentRouteResult = currentRouteResult;

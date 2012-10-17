@@ -121,6 +121,7 @@
 		E1E1808515DAD2A300BB30DD /* EQSPortalItemPickerView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1E1808415DAD2A300BB30DD /* EQSPortalItemPickerView~ipad.xib */; };
 		E1E1808E15DAD38400BB30DD /* EQSPortalItemPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E1808D15DAD38400BB30DD /* EQSPortalItemPickerView.m */; };
 		E1E1809115DAD43D00BB30DD /* EQSPortalItemPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E1809015DAD43C00BB30DD /* EQSPortalItemPickerViewController.m */; };
+		E1FBDFC0162E56A8001EF29D /* EQSResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E1FBDFBF162E56A8001EF29D /* EQSResources.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -269,6 +270,7 @@
 		E1E1808D15DAD38400BB30DD /* EQSPortalItemPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSPortalItemPickerView.m; sourceTree = "<group>"; };
 		E1E1808F15DAD43C00BB30DD /* EQSPortalItemPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSPortalItemPickerViewController.h; sourceTree = "<group>"; };
 		E1E1809015DAD43C00BB30DD /* EQSPortalItemPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSPortalItemPickerViewController.m; sourceTree = "<group>"; };
+		E1FBDFBF162E56A8001EF29D /* EQSResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = EQSResources.bundle; path = Products/EsriQuickStart.framework/Versions/A/Resources/EQSResources.bundle; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -508,6 +510,7 @@
 			children = (
 				D9F9EE77156DFD3200C2A15F /* Images */,
 				E16C07CB1559B39C00776F3E /* ArcGIS.bundle */,
+				E1FBDFBF162E56A8001EF29D /* EQSResources.bundle */,
 				E16C290115598A5E00E2DB56 /* esriQuickStartApp-Info.plist */,
 				E16C290215598A5E00E2DB56 /* InfoPlist.strings */,
 				E16C290515598A5E00E2DB56 /* main.m */,
@@ -719,6 +722,7 @@
 				D96C77521624CF140025FFF0 /* EQSUserGuideViewController~iphone.xib in Resources */,
 				D9911DF0162886D600950AA7 /* zoom-to-graphic.png in Resources */,
 				D9911DF1162886D600950AA7 /* zoom-to-graphic@2x.png in Resources */,
+				E1FBDFC0162E56A8001EF29D /* EQSResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

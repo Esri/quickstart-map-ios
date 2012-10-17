@@ -23,6 +23,8 @@
 - (AGSGraphic *) setStartPoint:(AGSPoint *)startPoint;
 - (AGSGraphic *) setEndPoint:(AGSPoint *)endPoint;
 
+- (void) registerHandler:(id)object forDirEdit:(SEL)editMethod clearDirs:(SEL)clearMethod andDirStep:(SEL)dirStepMethod;
+
 @property (nonatomic, retain, readonly) AGSRouteResult *currentRouteResult;
 
 @property (nonatomic, retain) EQSRouteResultsViewController *routeResultsViewController;

@@ -64,28 +64,5 @@
 		<key>Hybrid</key>
 		<string>413fd05bbd7342f5991d5ec96f4f8b18</string>
 	</dict>
-	<key>BasemapURLs</key>
-	<dict>
-		<key>Street</key>
-		<string>http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer</string>
-		<key>Satellite</key>
-		<string>http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer</string>
-		<key>Canvas</key>
-		<array>
-			<string>http://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer</string>
-			<string>http://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer</string>
-		</array>
-		<key>National Geographic</key>
-		<string>http://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer</string>
-		<key>Topographic</key>
-		<string>http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer</string>
-		<key>OpenStreetMap</key>
-		<string>N/A</string>
-		<key>Hybrid</key>
-		<array>
-			<string>http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer</string>
-			<string>http://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer</string>
-		</array>
-	</dict>
 </dict>
 </plist>

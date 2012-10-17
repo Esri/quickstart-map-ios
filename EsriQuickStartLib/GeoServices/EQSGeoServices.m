@@ -156,6 +156,24 @@
 }
 
 #pragma mark - Public Methods
+- (void) registerHandler:(id)object forFindDirectionsSuccess:(SEL)successHandler andFailure:(SEL)failureHandler
+{
+	if (successHandler)
+	{
+		[[NSNotificationCenter defaultCenter] addObserver:object
+												 selector:successHandler
+													 name:kEQSGeoServicesNotification_FindRoute_OK
+												   object:self];
+	}
+	if (failureHandler)
+	{
+		[[NSNotificationCenter defaultCenter] addObserver:object
+												 selector:failureHandler
+													 name:kEQSGeoServicesNotification_FindRoute_Error
+												   object:self];
+	}
+}
+
 - (NSOperation *) findPlaces:(NSString *)singleLineAddress 
 {
     return [self findPlaces:singleLineAddress withinEnvelope:nil];

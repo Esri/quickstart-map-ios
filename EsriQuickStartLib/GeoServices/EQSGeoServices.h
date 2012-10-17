@@ -25,6 +25,9 @@
 // Geolocation
 - (BOOL) isGeolocationEnabled;
 - (void) findMyLocation;
+
+// Notification Registration
+- (void) registerHandler:(id)object forFindDirectionsSuccess:(SEL)successHandler andFailure:(SEL)failureHandler;
 @end
 
 
