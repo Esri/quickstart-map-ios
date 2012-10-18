@@ -13,8 +13,6 @@
 #import "EQSBasemapTypeEnum.h"
 
 #define kEQSNotification_BasemapDidChange @"BasemapDidChange"
-#define kEQSNotification_BasemapDidChange_PortalItemKey @"PortalItem"
-#define kEQSNotification_BasemapDidChange_BasemapsTypeKey @"BasemapType"
 
 @interface NSNotification (EQSBasemaps)
 // Convenience accessors to read info from the basemap notifications

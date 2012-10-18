@@ -17,6 +17,9 @@
 
 #define kEQSBasemapTypeKey @"EQSBasemapTypeAsNumber"
 
+#define kEQSNotification_BasemapDidChange_PortalItemKey @"PortalItem"
+#define kEQSNotification_BasemapDidChange_BasemapsTypeKey @"BasemapType"
+
 @interface AGSMapView()<AGSWebMapDelegate>
 @end
 
