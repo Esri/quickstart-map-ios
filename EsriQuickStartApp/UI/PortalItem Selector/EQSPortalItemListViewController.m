@@ -8,12 +8,12 @@
 
 #import <ArcGIS/ArcGIS.h>
 #import "EQSPortalItemListView_int.h"
-#import "EQSPortalItemListViewController.h"
+#import "EQSPortalItemListViewController_int.h"
 #import "EQSPortalItemViewController.h"
 
 #import "EQSPortalItemView.h"
 
-@interface EQSPortalItemListViewController () <PortalItemViewTouchDelegate>
+@interface EQSPortalItemListViewController ()
 @property (weak, nonatomic) IBOutlet EQSPortalItemListView *portalItemsListView;
 @end
 

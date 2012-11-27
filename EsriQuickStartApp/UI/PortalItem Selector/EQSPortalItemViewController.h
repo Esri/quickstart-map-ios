@@ -9,13 +9,13 @@
 #import <ArcGIS/ArcGIS.h>
 #import "EQSPortalItemView.h"
 
-@protocol PortalItemViewTouchDelegate <NSObject>
+@protocol EQSPortalItemViewTouchDelegate <NSObject>
 -(void)portalItemViewTapped:(EQSPortalItemView *)portalItemView;
 -(void)portalItemViewTappedAndHeld:(EQSPortalItemView *)portalItemView;
 @end
 
 @interface EQSPortalItemViewController : UIViewController
-@property (nonatomic, weak) id<PortalItemViewTouchDelegate> touchDelegate;
+@property (nonatomic, weak) id<EQSPortalItemViewTouchDelegate> touchDelegate;
 
 @property (strong, nonatomic) IBOutlet EQSPortalItemView *portalItemView;
 

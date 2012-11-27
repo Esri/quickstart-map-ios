@@ -7,7 +7,7 @@
 //
 
 #import "EQSPortalItemListView.h"
-#import "EQSPortalItemListViewController.h"
+#import "EQSPortalItemListViewController_int.h"
 
 #import "EQSPortalItemViewController.h"
 

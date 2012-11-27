@@ -152,6 +152,7 @@
 		D93D710E15EBCEC9002F7FA2 /* EQSAddressCandidateBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSAddressCandidateBaseViewController.m; sourceTree = "<group>"; };
 		D940585815E6C2D300F4A320 /* 74-location-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "74-location-white.png"; sourceTree = "<group>"; };
 		D940585915E6C2D300F4A320 /* 74-location-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "74-location-white@2x.png"; sourceTree = "<group>"; };
+		D958684316652156000DC972 /* EQSPortalItemListViewController_int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSPortalItemListViewController_int.h; sourceTree = "<group>"; };
 		D964FA1D15E67E970013B4D7 /* EQSAddressCandidateView~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "EQSAddressCandidateView~ipad.xib"; sourceTree = "<group>"; };
 		D964FA1F15E67EAA0013B4D7 /* EQSAddressCandidatePanelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSAddressCandidatePanelViewController.h; sourceTree = "<group>"; };
 		D964FA2015E67EAA0013B4D7 /* EQSAddressCandidatePanelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSAddressCandidatePanelViewController.m; sourceTree = "<group>"; };
@@ -562,6 +563,7 @@
 				E1812BD815DC6FA200D3325A /* EQSPortalItemListView_int.h */,
 				D9E01456158A45A4005DD7D8 /* EQSPortalItemListView.m */,
 				D99D987C158950F800F9D36B /* EQSPortalItemListViewController.h */,
+				D958684316652156000DC972 /* EQSPortalItemListViewController_int.h */,
 				D99D987D158950F800F9D36B /* EQSPortalItemListViewController.m */,
 				D9A985B615890C3D00A0DE40 /* EQSPortalItemView~ipad.xib */,
 				D9AF4BDB15F1472B0094A35A /* EQSPortalItemView~iphone.xib */,
