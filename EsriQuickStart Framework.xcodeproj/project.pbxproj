@@ -22,6 +22,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		D9586847166525E7000DC972 /* EQSShadowLineSymbol.h in Headers */ = {isa = PBXBuildFile; fileRef = D9586845166525E7000DC972 /* EQSShadowLineSymbol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D9586848166525E7000DC972 /* EQSShadowLineSymbol.m in Sources */ = {isa = PBXBuildFile; fileRef = D9586846166525E7000DC972 /* EQSShadowLineSymbol.m */; };
 		D9E1615D1629C9020055844C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D9E1615B1629C9020055844C /* InfoPlist.strings */; };
 		D9E161841629CAA60055844C /* AGSLayer+Basemap.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161091629C8B40055844C /* AGSLayer+Basemap.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D9E161851629CAA60055844C /* AGSMapView+Basemaps.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E1610B1629C8B40055844C /* AGSMapView+Basemaps.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -103,6 +105,8 @@
 
 /* Begin PBXFileReference section */
 		D939FBE71629EE3400E8B8ED /* EQSHelper_int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSHelper_int.h; sourceTree = "<group>"; };
+		D9586845166525E7000DC972 /* EQSShadowLineSymbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSShadowLineSymbol.h; sourceTree = "<group>"; };
+		D9586846166525E7000DC972 /* EQSShadowLineSymbol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSShadowLineSymbol.m; sourceTree = "<group>"; };
 		D9E161091629C8B40055844C /* AGSLayer+Basemap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSLayer+Basemap.h"; sourceTree = "<group>"; };
 		D9E1610A1629C8B40055844C /* AGSLayer+Basemap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AGSLayer+Basemap.m"; sourceTree = "<group>"; };
 		D9E1610B1629C8B40055844C /* AGSMapView+Basemaps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+Basemaps.h"; sourceTree = "<group>"; };
@@ -343,6 +347,8 @@
 			children = (
 				D9E161421629C8B40055844C /* EQSDefaultSymbols.h */,
 				D9E161431629C8B40055844C /* EQSDefaultSymbols.m */,
+				D9586845166525E7000DC972 /* EQSShadowLineSymbol.h */,
+				D9586846166525E7000DC972 /* EQSShadowLineSymbol.m */,
 			);
 			path = "Default Symbols";
 			sourceTree = "<group>";
@@ -476,6 +482,7 @@
 				D9E1618A1629CAA60055844C /* EQSRouteResultsCell.h in Headers */,
 				D9E1618B1629CAA60055844C /* EQSRouteResultsTableViewController.h in Headers */,
 				D9E1618E1629CAA60055844C /* EQSRouteResultsViewControllerCompact.h in Headers */,
+				D9586847166525E7000DC972 /* EQSShadowLineSymbol.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -620,6 +627,7 @@
 				D9E161AE1629CB1E0055844C /* EQSDefaultSymbols.m in Sources */,
 				D9E161AF1629CB1E0055844C /* EQSGeoServices.m in Sources */,
 				D9E161B01629CB1E0055844C /* EQSHelper.m in Sources */,
+				D9586848166525E7000DC972 /* EQSShadowLineSymbol.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -199,7 +199,8 @@
     // written the property getters to block on this thread...
     self.geolocation = [self getPinSizedPictureMarkerSymbolForURL:kEQSBluePinURL];
     
-    self.route = [AGSSimpleLineSymbol simpleLineSymbolWithColor:[[UIColor orangeColor] colorWithAlphaComponent:0.7f]
+    
+    self.route = [EQSShadowLineSymbol simpleLineSymbolWithColor:[[UIColor orangeColor] colorWithAlphaComponent:0.7f]
                                                           width:6.0f];
     _route.lineCap = kCGLineCapRound;
     _route.lineJoin = kCGLineJoinRound;
