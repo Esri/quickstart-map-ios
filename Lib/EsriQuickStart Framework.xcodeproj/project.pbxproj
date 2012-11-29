@@ -209,7 +209,6 @@
 			isa = PBXGroup;
 			children = (
 				D9E161581629C9020055844C /* EsriQuickStartLib */,
-				D9E162181629DDF30055844C /* EQSResources */,
 				D9E161821629CA2B0055844C /* Frameworks */,
 				D9E161541629C9020055844C /* Products */,
 			);
@@ -400,9 +399,10 @@
 				D9E161441629C8B40055844C /* GeoServices */,
 				D9E161481629C8B40055844C /* Helper */,
 				D9E161591629C9020055844C /* Supporting Files */,
+				D9E162181629DDF30055844C /* EQSResources */,
 			);
 			path = EsriQuickStartLib;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		D9E161591629C9020055844C /* Supporting Files */ = {
 			isa = PBXGroup;
@@ -853,7 +853,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "EQSResources/Supporting Files/EQSResources-Info.plist";
+				INFOPLIST_FILE = "EsriQuickStartLib/EQSResources/Supporting Files/EQSResources-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LINK_WITH_STANDARD_LIBRARIES = NO;
@@ -893,7 +893,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "EQSResources/Supporting Files/EQSResources-Info.plist";
+				INFOPLIST_FILE = "EsriQuickStartLib/EQSResources/Supporting Files/EQSResources-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LINK_WITH_STANDARD_LIBRARIES = NO;
