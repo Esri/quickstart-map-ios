@@ -89,7 +89,6 @@
 		D9F3D19E1668271900FB6A8D = {
 			isa = PBXGroup;
 			children = (
-				D9F3D1ED1668331F00FB6A8D /* EsriQuickStart.framework */,
 				D9F3D1B31668271A00FB6A8D /* Basemaps */,
 				D9F3D1AC1668271A00FB6A8D /* Frameworks */,
 				D9F3D1AA1668271A00FB6A8D /* Products */,
@@ -107,6 +106,7 @@
 		D9F3D1AC1668271A00FB6A8D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D9F3D1ED1668331F00FB6A8D /* EsriQuickStart.framework */,
 				D9F3D1D3166828A600FB6A8D /* CoreLocation.framework */,
 				D9F3D1D4166828A600FB6A8D /* CoreText.framework */,
 				D9F3D1D5166828A600FB6A8D /* libstdc++.dylib */,
@@ -320,6 +320,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Basemaps/Basemaps-Prefix.pch";
 				INFOPLIST_FILE = "Basemaps/Basemaps-Info.plist";
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
@@ -327,6 +328,7 @@
 					ArcGIS,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -348,6 +350,7 @@
 					ArcGIS,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
