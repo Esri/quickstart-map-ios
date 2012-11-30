@@ -28,8 +28,6 @@
 		D9F3D1E1166828A600FB6A8D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9F3D1D9166828A600FB6A8D /* QuartzCore.framework */; };
 		D9F3D1E2166828A600FB6A8D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9F3D1DA166828A600FB6A8D /* Security.framework */; };
 		D9F3D1E41668293000FB6A8D /* ArcGIS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D9F3D1E31668293000FB6A8D /* ArcGIS.bundle */; };
-		D9F3D1EE1668331F00FB6A8D /* EsriQuickStart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9F3D1ED1668331F00FB6A8D /* EsriQuickStart.framework */; };
-		D9F3D1F11668333700FB6A8D /* EQSResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D9F3D1F01668333700FB6A8D /* EQSResources.bundle */; };
 		D9F3D22116694CEC00FB6A8D /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9F3D22016694CEC00FB6A8D /* ArcGIS.framework */; };
 /* End PBXBuildFile section */
 
@@ -60,8 +58,6 @@
 		D9F3D1D9166828A600FB6A8D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D9F3D1DA166828A600FB6A8D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		D9F3D1E31668293000FB6A8D /* ArcGIS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ArcGIS.bundle; path = $HOME/Library/SDKs/ArcGIS/ArcGIS.framework/Versions/Current/Resources/ArcGIS.bundle; sourceTree = "<absolute>"; };
-		D9F3D1ED1668331F00FB6A8D /* EsriQuickStart.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EsriQuickStart.framework; path = ../../Lib/Products/EsriQuickStart.framework; sourceTree = "<group>"; };
-		D9F3D1F01668333700FB6A8D /* EQSResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = EQSResources.bundle; path = ../../../Lib/Products/EsriQuickStart.framework/Versions/A/Resources/EQSResources.bundle; sourceTree = "<group>"; };
 		D9F3D22016694CEC00FB6A8D /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = ../../../../../Library/SDKs/ArcGIS/ArcGIS.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -71,7 +67,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9F3D22116694CEC00FB6A8D /* ArcGIS.framework in Frameworks */,
-				D9F3D1EE1668331F00FB6A8D /* EsriQuickStart.framework in Frameworks */,
 				D9F3D1B21668271A00FB6A8D /* CoreGraphics.framework in Frameworks */,
 				D9F3D1DB166828A600FB6A8D /* CoreLocation.framework in Frameworks */,
 				D9F3D1B01668271A00FB6A8D /* Foundation.framework in Frameworks */,
@@ -110,7 +105,6 @@
 			isa = PBXGroup;
 			children = (
 				D9F3D22016694CEC00FB6A8D /* ArcGIS.framework */,
-				D9F3D1ED1668331F00FB6A8D /* EsriQuickStart.framework */,
 				D9F3D1D3166828A600FB6A8D /* CoreLocation.framework */,
 				D9F3D1D4166828A600FB6A8D /* CoreText.framework */,
 				D9F3D1D5166828A600FB6A8D /* libstdc++.dylib */,
@@ -144,7 +138,6 @@
 			isa = PBXGroup;
 			children = (
 				D9F3D1E31668293000FB6A8D /* ArcGIS.bundle */,
-				D9F3D1F01668333700FB6A8D /* EQSResources.bundle */,
 				D9F3D1B51668271A00FB6A8D /* Basemaps-Info.plist */,
 				D9F3D1B61668271A00FB6A8D /* InfoPlist.strings */,
 				D9F3D1B91668271A00FB6A8D /* main.m */,
@@ -215,7 +208,6 @@
 				D9F3D1C71668271A00FB6A8D /* MainStoryboard_iPhone.storyboard in Resources */,
 				D9F3D1CA1668271A00FB6A8D /* MainStoryboard_iPad.storyboard in Resources */,
 				D9F3D1E41668293000FB6A8D /* ArcGIS.bundle in Resources */,
-				D9F3D1F11668333700FB6A8D /* EQSResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,10 +309,7 @@
 		D9F3D1D11668271A00FB6A8D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(HOME)/Library/SDKs/ArcGIS/**",
-					"\"$(SRCROOT)/../../Lib/Products\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/SDKs/ArcGIS/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Basemaps/Basemaps-Prefix.pch";
 				INFOPLIST_FILE = "Basemaps/Basemaps-Info.plist";
@@ -340,10 +329,7 @@
 		D9F3D1D21668271A00FB6A8D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(HOME)/Library/SDKs/ArcGIS/**",
-					"\"$(SRCROOT)/../../Lib/Products\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/SDKs/ArcGIS/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Basemaps/Basemaps-Prefix.pch";
 				INFOPLIST_FILE = "Basemaps/Basemaps-Info.plist";
