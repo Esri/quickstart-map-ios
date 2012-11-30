@@ -25,6 +25,33 @@
     [self.mapView zoomToLevel:15 withLat:40.7262 lon:-73.98186 animated:YES];
 }
 
+- (IBAction)basemapSelected:(id)sender {
+    UISegmentedControl *basemapPicker = sender;
+    
+    EQSBasemapType newBasemapType = EQSBasemapTypeFirst;
+    
+    switch (basemapPicker.selectedSegmentIndex) {
+        case 0:
+            newBasemapType = EQSBasemapTypeTopographic;
+            break;
+        case 1:
+            newBasemapType = EQSBasemapTypeStreet;
+            break;
+        case 2:
+            newBasemapType = EQSBasemapTypeCanvas;
+            break;
+        case 3:
+            newBasemapType = EQSBasemapTypeOpenStreetMap;
+            break;
+            
+        default:
+            NSLog(@"Unexpected basemap type index: %d", basemapPicker.selectedSegmentIndex);
+            return;
+    }
+    
+    [self.mapView setBasemap:newBasemapType];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

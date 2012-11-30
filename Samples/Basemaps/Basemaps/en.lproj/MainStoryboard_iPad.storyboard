@@ -1,18 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2519" systemVersion="12A206j" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1856"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
     <scenes>
-        <!--class Prefix:identifier View Controller-->
+        <!--View Controller-->
         <scene sceneID="4">
             <objects>
                 <viewController id="2" customClass="EQSViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5">
                         <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pyf-HJ-x7L" customClass="AGSMapView">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="JTU-oY-wcw">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="610" id="cgB-im-YRG"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Topographic"/>
+                                    <segment title="Street"/>
+                                    <segment title="Grey Canvas"/>
+                                    <segment title="OpenStreetMap"/>
+                                </segments>
+                                <connections>
+                                    <action selector="basemapSelected:" destination="2" eventType="valueChanged" id="hxZ-gc-bRk"/>
+                                </connections>
+                            </segmentedControl>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Pyf-HJ-x7L" firstAttribute="top" secondItem="5" secondAttribute="top" type="default" id="1yN-b1-lfP"/>
+                            <constraint firstItem="JTU-oY-wcw" firstAttribute="centerX" secondItem="5" secondAttribute="centerX" type="default" id="2f6-3Z-sMM"/>
+                            <constraint firstItem="JTU-oY-wcw" firstAttribute="centerX" secondItem="Pyf-HJ-x7L" secondAttribute="centerX" type="default" id="7NC-xm-KMQ"/>
+                            <constraint firstItem="Pyf-HJ-x7L" firstAttribute="bottom" secondItem="5" secondAttribute="bottom" type="default" id="CeC-ns-M17"/>
+                            <constraint firstItem="Pyf-HJ-x7L" firstAttribute="leading" secondItem="5" secondAttribute="leading" type="default" id="fPT-oP-5MU"/>
+                            <constraint firstAttribute="bottom" secondItem="JTU-oY-wcw" secondAttribute="bottom" constant="51" id="q4d-5t-IHE"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="mapView" destination="Pyf-HJ-x7L" id="Y7a-IM-YqJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3" sceneMemberID="firstResponder"/>
             </objects>
