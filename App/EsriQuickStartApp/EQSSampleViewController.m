@@ -45,6 +45,8 @@ typedef enum {
 @property (weak, nonatomic) IBOutlet UINavigationBar *functionNavBar_iPhone;
 @property (weak, nonatomic) IBOutlet UIToolbar *functionToolBar;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *functionSegControl;
+@property (strong, nonatomic) IBOutlet NSArray *functionSelectedImages;
+@property (strong, nonatomic) IBOutlet NSArray *functionDefaultImages;
 - (IBAction)functionChanged:(id)sender;
 
 
@@ -426,12 +428,13 @@ typedef enum {
 
 	[self initBasemapPicker];
     
+    [self initFunctionPicker];
+    
     // And show the UI by default. Note, at present the UI is always visible.
     self.uiControlsVisible = YES;
     
     [self registerForUINotifications];
 }
-
 
 - (void)registerForUINotifications
 {
@@ -1105,7 +1108,7 @@ typedef enum {
 			}
 			break;
         case EQSSampleAppStateFindPlace:
-            newMessage = @"Enter search text, or tap the map to find an address";
+            newMessage = @"Enter search text or tap the map";
 			break;
 		case EQSSampleAppStateFindPlace_Finding:
 			newMessage = @"Searching for results…";
@@ -1148,6 +1151,27 @@ typedef enum {
 	self.messageState = newState;
 }
 
+- (void)initFunctionPicker
+{
+    self.functionSelectedImages = [NSArray arrayWithObjects:[UIImage imageNamed:@"basemaps-white.png"],
+                                   [UIImage imageNamed:@"location-white.png"],
+                                   [UIImage imageNamed:@"graphics-white.png"],
+                                   [UIImage imageNamed:@"cloud-white.png"],
+                                   [UIImage imageNamed:@"find-white.png"],
+                                   [UIImage imageNamed:@"directions-white.png"],
+                                   nil];
+    
+    NSMutableArray *images = [NSMutableArray array];
+    for (NSInteger i = 0; i < self.functionSegControl.numberOfSegments; i++)
+    {
+        [images addObject:[self.functionSegControl imageForSegmentAtIndex:i]];
+    }
+    
+    self.functionDefaultImages = images;
+    
+    [self setFunctionPickerImages];
+}
+
 - (IBAction)functionChanged:(id)sender {
     UISegmentedControl *seg = sender;
 	EQSSampleAppState newState;
@@ -1181,8 +1205,28 @@ typedef enum {
             NSLog(@"Set state to unknown seg index %d", seg.selectedSegmentIndex);
             return;
     }
+    
+    [self setFunctionPickerImages];
 	
 	self.currentState = newState;
+}
+
+- (void)setFunctionPickerImages
+{
+    UISegmentedControl *seg = self.functionSegControl;
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
+    {
+        // Set the old images
+        for (NSInteger i = 0; i < seg.numberOfSegments; i++)
+        {
+            NSArray *srcArray = self.functionDefaultImages;
+            if (i == seg.selectedSegmentIndex)
+            {
+                srcArray = self.functionSelectedImages;
+            }
+            [seg setImage:[srcArray objectAtIndex:i] forSegmentAtIndex:i];
+        }
+    }
 }
 
 - (NSMutableArray *)allUIViews

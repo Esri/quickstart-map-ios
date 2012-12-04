@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2843" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="2">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1929"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
     <scenes>
         <!--Sample View Controller-->
@@ -107,24 +107,24 @@
                                                 </connections>
                                             </button>
                                         </barButtonItem>
-                                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="bar" selectedSegmentIndex="0" id="Kh6-Xj-xT5">
+                                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="bar" id="Kh6-Xj-xT5">
                                             <rect key="frame" x="46" y="7" width="228" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
-                                                <segment title="" image="103-map.png"/>
-                                                <segment title="" image="74-location.png"/>
-                                                <segment title="" image="240-sketchbook.png"/>
-                                                <segment title="" image="234-cloud.png" enabled="NO"/>
-                                                <segment title="" image="73-radar.png"/>
-                                                <segment title="" image="113-navigation.png"/>
+                                                <segment title="" image="basemaps-grey.png"/>
+                                                <segment title="" image="location-grey.png"/>
+                                                <segment title="" image="graphics-grey.png"/>
+                                                <segment title="" image="cloud-grey.png" enabled="NO"/>
+                                                <segment title="" image="find-grey.png"/>
+                                                <segment title="" image="directions-grey.png"/>
                                             </segments>
-                                            <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <action selector="functionChanged:" destination="2" eventType="valueChanged" id="9vy-fm-mme"/>
                                             </connections>
                                         </segmentedControl>
                                         <barButtonItem key="rightBarButtonItem" image="33-cabinet.png" id="4Pu-xu-1YQ">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="E5r-pf-F7u" userLabel="Button - HideUI">
+                                            <button key="customView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="E5r-pf-F7u" userLabel="Button - HideUI">
                                                 <rect key="frame" x="282" y="5" width="33" height="33"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -508,22 +508,22 @@
         </scene>
     </scenes>
     <resources>
-        <image name="103-map.png" width="26" height="21"/>
-        <image name="113-navigation.png" width="28" height="28"/>
         <image name="14-bothways.png" width="24" height="12"/>
         <image name="17-check.png" width="16" height="18"/>
-        <image name="234-cloud.png" width="28" height="17"/>
-        <image name="240-sketchbook.png" width="34" height="25"/>
         <image name="33-cabinet.png" width="20" height="26"/>
         <image name="60-x.png" width="14" height="14"/>
-        <image name="73-radar.png" width="27" height="27"/>
         <image name="74-location-white.png" width="20" height="20"/>
-        <image name="74-location.png" width="20" height="20"/>
+        <image name="basemaps-grey.png" width="24" height="21"/>
         <image name="closeX.png" width="16" height="16"/>
+        <image name="cloud-grey.png" width="27" height="17"/>
         <image name="create_line.png" width="24" height="24"/>
         <image name="create_point.png" width="25" height="25"/>
         <image name="create_polygon.png" width="26" height="25"/>
+        <image name="directions-grey.png" width="28" height="24"/>
+        <image name="find-grey.png" width="24" height="24"/>
+        <image name="graphics-grey.png" width="24" height="24"/>
         <image name="help-white.png" width="26" height="26"/>
+        <image name="location-grey.png" width="16" height="24"/>
         <image name="redo-white.png" width="23" height="17"/>
         <image name="resize_full-white.png" width="24" height="24"/>
         <image name="resize_small.png" width="24" height="24"/>
@@ -531,9 +531,6 @@
         <image name="zoom-to-graphic.png" width="32" height="12"/>
     </resources>
     <classes>
-        <class className="AGSMapView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AGSMapView.h"/>
-        </class>
         <class className="EQSBasemapPickerView" superclassName="EQSPortalItemPickerView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSBasemapPickerView.h"/>
         </class>
@@ -595,26 +592,14 @@
                 <relationship kind="outlet" name="selectPortalItemButton" candidateClass="UIButton"/>
             </relationships>
         </class>
-        <class className="EQSRouteResultsTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSRouteResultsTableViewController.h"/>
-        </class>
         <class className="EQSRouteResultsView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSRouteResultsView.h"/>
             <relationships>
-                <relationship kind="outlet" name="footerView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="headerView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="topLevelView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="viewController" candidateClass="EQSRouteResultsViewController"/>
             </relationships>
         </class>
         <class className="EQSRouteResultsViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSRouteResultsViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="routeResultsDistanceLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="routeResultsTimeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="tableViewController" candidateClass="EQSRouteResultsTableViewController"/>
-            </relationships>
         </class>
         <class className="EQSSampleViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSSampleViewController.h"/>
@@ -652,8 +637,10 @@
                 <relationship kind="outlet" name="findPlacesNoResultsLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="findPlacesScrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="findPlacesSearchBar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="functionDefaultImages" candidateClass="NSArray"/>
                 <relationship kind="outlet" name="functionNavBar_iPhone" candidateClass="UINavigationBar"/>
                 <relationship kind="outlet" name="functionSegControl" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="functionSelectedImages" candidateClass="NSArray"/>
                 <relationship kind="outlet" name="functionToolBar" candidateClass="UIToolbar"/>
                 <relationship kind="outlet" name="geolocationPanel" candidateClass="UIView"/>
                 <relationship kind="outlet" name="graphicLineButton" candidateClass="UIButton"/>
