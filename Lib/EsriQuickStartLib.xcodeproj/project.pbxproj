@@ -533,7 +533,7 @@
 			attributes = {
 				LastUpgradeCheck = 0450;
 			};
-			buildConfigurationList = D9E161021629C8870055844C /* Build configuration list for PBXProject "EsriQuickStart Framework" */;
+			buildConfigurationList = D9E161021629C8870055844C /* Build configuration list for PBXProject "EsriQuickStartLib" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -910,7 +910,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D9E161021629C8870055844C /* Build configuration list for PBXProject "EsriQuickStart Framework" */ = {
+		D9E161021629C8870055844C /* Build configuration list for PBXProject "EsriQuickStartLib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D9E161041629C8870055844C /* Debug */,
