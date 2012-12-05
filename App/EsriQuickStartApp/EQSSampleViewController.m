@@ -1153,23 +1153,26 @@ typedef enum {
 
 - (void)initFunctionPicker
 {
-    self.functionSelectedImages = [NSArray arrayWithObjects:[UIImage imageNamed:@"basemaps-white.png"],
-                                   [UIImage imageNamed:@"location-white.png"],
-                                   [UIImage imageNamed:@"graphics-white.png"],
-                                   [UIImage imageNamed:@"cloud-white.png"],
-                                   [UIImage imageNamed:@"find-white.png"],
-                                   [UIImage imageNamed:@"directions-white.png"],
-                                   nil];
-    
-    NSMutableArray *images = [NSMutableArray array];
-    for (NSInteger i = 0; i < self.functionSegControl.numberOfSegments; i++)
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
-        [images addObject:[self.functionSegControl imageForSegmentAtIndex:i]];
+        self.functionSelectedImages = [NSArray arrayWithObjects:[UIImage imageNamed:@"basemaps-white.png"],
+                                       [UIImage imageNamed:@"location-white.png"],
+                                       [UIImage imageNamed:@"graphics-white.png"],
+                                       [UIImage imageNamed:@"cloud-white.png"],
+                                       [UIImage imageNamed:@"find-white.png"],
+                                       [UIImage imageNamed:@"directions-white.png"],
+                                       nil];
+        
+        NSMutableArray *images = [NSMutableArray array];
+        for (NSInteger i = 0; i < self.functionSegControl.numberOfSegments; i++)
+        {
+            [images addObject:[self.functionSegControl imageForSegmentAtIndex:i]];
+        }
+        
+        self.functionDefaultImages = images;
+        
+        [self setFunctionPickerImages];
     }
-    
-    self.functionDefaultImages = images;
-    
-    [self setFunctionPickerImages];
 }
 
 - (IBAction)functionChanged:(id)sender {
@@ -1213,9 +1216,9 @@ typedef enum {
 
 - (void)setFunctionPickerImages
 {
-    UISegmentedControl *seg = self.functionSegControl;
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
     {
+        UISegmentedControl *seg = self.functionSegControl;
         // Set the old images
         for (NSInteger i = 0; i < seg.numberOfSegments; i++)
         {
