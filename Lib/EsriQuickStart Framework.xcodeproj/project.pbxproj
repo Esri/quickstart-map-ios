@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		D9E161B11629CBD00055844C /* EsriQuickStart Universal Framework */ = {
+		D9E161B11629CBD00055844C /* Universal Framework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = D9E161B21629CBD00055844C /* Build configuration list for PBXAggregateTarget "EsriQuickStart Universal Framework" */;
+			buildConfigurationList = D9E161B21629CBD00055844C /* Build configuration list for PBXAggregateTarget "Universal Framework" */;
 			buildPhases = (
 				D9E161B51629CC1C0055844C /* ShellScript */,
 			);
 			dependencies = (
 				D9750A00162CA49C001447A4 /* PBXTargetDependency */,
 			);
-			name = "EsriQuickStart Universal Framework";
+			name = "Universal Framework";
 			productName = "EsriQuickStart Universal Framework";
 		};
 /* End PBXAggregateTarget section */
@@ -547,7 +547,7 @@
 			targets = (
 				D9E162151629DDF30055844C /* EQSResources */,
 				D9E161521629C9020055844C /* EsriQuickStart */,
-				D9E161B11629CBD00055844C /* EsriQuickStart Universal Framework */,
+				D9E161B11629CBD00055844C /* Universal Framework */,
 			);
 		};
 /* End PBXProject section */
@@ -928,7 +928,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D9E161B21629CBD00055844C /* Build configuration list for PBXAggregateTarget "EsriQuickStart Universal Framework" */ = {
+		D9E161B21629CBD00055844C /* Build configuration list for PBXAggregateTarget "Universal Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D9E161B31629CBD00055844C /* Debug */,
