@@ -3,7 +3,7 @@ quickstart-map-ios
 
 A library and sample app to get started with Esri's iOS Runtime SDK.
 
-See the repo's wiki for additional details: https://github.com/Esri/quickstart-map-ios/wiki
+See the repo's [wiki](https://github.com/Esri/quickstart-map-ios/wiki) for additional details.
 
 ![App](https://raw.github.com/Esri/quickstart-map-ios/master/quickstart-map-ios.jpg)
 
@@ -12,13 +12,21 @@ See the repo's wiki for additional details: https://github.com/Esri/quickstart-m
 * Demonstrate samples of using ArcGIS services and ArcGIS Runtime coding patterns for Geolocation, Directions, Geocoding and Searching
 * Demonstrate client-side graphics editing
 
-## Instructions
+## Getting Started
 
-1. Ensure both Xcode and the ArcGIS Runtime SDK for iOS are installed
-2. Download and unzip the .zip file or clone the repo
-3. Open the EsriQuickStartLib project in Xcode
-4. Build the Universal Framework scheme.
-5. Open and run the EsriQuickStartApp Xcode project on your device or simulator.
+### Configure your Dev environment
+1. Download and install Xcode [here](https://developer.apple.com/xcode/)
+2. Download and install the ArcGIS Runtime SDK for iOS [here](http://www.esri.com/apps/products/download/index.cfm?fuseaction=download.all#ArcGIS_Runtime_SDK_for_iOS)
+   
+   Note: You will need to create an ESRI account to do so. Learn more here.
+
+### Add and build the Quick Start Library
+1. Download and unzip the .zip file or clone the repo
+2. Open the EsriQuickStartLib project in Xcode
+3. Build the Universal Framework scheme.
+
+### Build the Quick Start Sample Application
+1. Open and run the EsriQuickStartApp Xcode project on your device or simulator.
 
 [New to Github? Get started here.](http://htmlpreview.github.com/?https://github.com/Esri/esri.github.com/blob/master/help/esri-getting-to-know-github.html)
 
@@ -26,7 +34,7 @@ See the repo's wiki for additional details: https://github.com/Esri/quickstart-m
 
 * Xcode and the iOS SDK (download [here](https://developer.apple.com/xcode/))
 * ArcGIS Runtime SDK for iOS (download [here](http://www.esri.com/apps/products/download/index.cfm?fuseaction=download.all#ArcGIS_Runtime_SDK_for_iOS))
-* Some experience building an iOS application
+* Some experience with iOS development
 
 ## Resources
 
