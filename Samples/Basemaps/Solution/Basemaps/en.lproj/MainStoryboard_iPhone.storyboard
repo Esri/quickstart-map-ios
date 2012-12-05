@@ -27,7 +27,7 @@
                                     <segment title="OSM"/>
                                 </segments>
                                 <connections>
-                                    <action selector="basemapSelected:" destination="2" eventType="valueChanged" id="8cf-ps-IbG"/>
+                                    <action selector="basemapSelected:" destination="2" eventType="valueChanged" id="ceG-oJ-gnc"/>
                                 </connections>
                             </segmentedControl>
                         </subviews>
@@ -48,6 +48,7 @@
         <class className="EQSViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EQSViewController.h"/>
             <relationships>
+                <relationship kind="action" name="basemapSelected:"/>
                 <relationship kind="outlet" name="mapView" candidateClass="AGSMapView"/>
             </relationships>
         </class>
