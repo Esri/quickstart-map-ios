@@ -45,8 +45,8 @@ typedef enum {
 @property (weak, nonatomic) IBOutlet UINavigationBar *functionNavBar_iPhone;
 @property (weak, nonatomic) IBOutlet UIToolbar *functionToolBar;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *functionSegControl;
-@property (strong, nonatomic) IBOutlet NSArray *functionSelectedImages;
-@property (strong, nonatomic) IBOutlet NSArray *functionDefaultImages;
+@property (strong, nonatomic) NSArray *functionSelectedImages;
+@property (strong, nonatomic) NSArray *functionDefaultImages;
 - (IBAction)functionChanged:(id)sender;
 
 
@@ -125,13 +125,13 @@ typedef enum {
 @property (weak, nonatomic) IBOutlet UIView *routeFromLeftView;
 @property (weak, nonatomic) IBOutlet UIView *routeToLeftView;
 
-
 @property (strong, nonatomic) IBOutlet EQSRouteResultsView *routeResultsView;
 - (IBAction)toFromTapped:(id)sender;
 - (IBAction)swapRouteStartAndEnd:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIView *directionsStartContainerView;
 @property (weak, nonatomic) IBOutlet UIView *directionsEndContainerView;
+
 
 #pragma mark - Geolocation UI
 @property (weak, nonatomic) IBOutlet UIButton *findMeButton;
