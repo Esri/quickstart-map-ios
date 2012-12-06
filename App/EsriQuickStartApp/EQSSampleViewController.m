@@ -360,7 +360,7 @@ typedef enum {
 - (void) initApp
 {
 	// Track the application state
-    self.currentState = EQSSampleAppStateDirections;
+    self.currentState = EQSSampleAppStateBasemaps;
 	
 	// Initialize our property for tracking the current basemap type.
     self.currentBasemapType = EQSBasemapTypeTopographic;
