@@ -41,7 +41,7 @@ See the repo's [wiki](https://github.com/Esri/quickstart-map-ios/wiki) for addit
 * [ArcGIS Runtime SDK for iOS Resource Center](http://resources.arcgis.com/en/help/runtime-ios-sdk/concepts/#//00pw00000003000000)
 * [ArcGIS Runtime SDK Forums](http://forums.arcgis.com/forums/78-ArcGIS-Runtime-SDK-for-iOS)
 * [ArcGIS Blog](http://blogs.esri.com/esri/arcgis/)
-* [twitter@esri](http://twitter.com/esri)
+* Twitter [@esri](http://twitter.com/esri)
 * [Apple iOS Dev Center](https://developer.apple.com/devcenter/ios/index.action)
 
 ## Issues
