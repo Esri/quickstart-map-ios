@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "AGSPoint+GeneralUtilities.h"
+#import "AGSPoint+EQSGeneralUtilities.h"
 #import "EQSHelper.h"
 
-@implementation AGSPoint (EQSGeneral)
+@implementation AGSPoint (EQSGeneralUtilities)
 + (AGSPoint *) pointFromLat:(double)latitude lon:(double)longitude
 {
     // Ensure we're passed sensible values for lat and long

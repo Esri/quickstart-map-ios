@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "AGSMapView+GeneralUtilities.h"
-#import "AGSMapView+Navigation.h"
+#import "AGSMapView+EQSGeneralUtilities.h"
+#import "AGSMapView+EQSNavigation.h"
 #import "EQSGeoServices.h"
 
-#import "AGSPoint+GeneralUtilities.h"
+#import "AGSPoint+EQSGeneralUtilities.h"
 
 #import "EQSHelper.h"
 #import <CoreLocation/CoreLocation.h>

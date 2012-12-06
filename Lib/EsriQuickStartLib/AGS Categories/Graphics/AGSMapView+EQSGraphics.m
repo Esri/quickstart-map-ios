@@ -8,8 +8,8 @@
 
 #import "EQSBasemapsNotifications.h"
 #import "AGSMapView+EQSGraphics.h"
-#import "AGSMapView+GeneralUtilities.h"
-#import "AGSPoint+GeneralUtilities.h"
+#import "AGSMapView+EQSGeneralUtilities.h"
+#import "AGSPoint+EQSGeneralUtilities.h"
 
 #import "EQSGraphicCallout.h"
 

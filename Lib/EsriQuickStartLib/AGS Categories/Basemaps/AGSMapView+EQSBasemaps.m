@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "AGSMapView+Basemaps.h"
+#import "AGSMapView+EQSBasemaps.h"
 #import "EQSHelper.h"
-#import "AGSLayer+Basemap.h"
+#import "AGSLayer+EQSBasemap.h"
 
 #import <objc/runtime.h>
 

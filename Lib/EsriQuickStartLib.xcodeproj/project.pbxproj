@@ -25,8 +25,8 @@
 		D9586847166525E7000DC972 /* EQSShadowLineSymbol.h in Headers */ = {isa = PBXBuildFile; fileRef = D9586845166525E7000DC972 /* EQSShadowLineSymbol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9586848166525E7000DC972 /* EQSShadowLineSymbol.m in Sources */ = {isa = PBXBuildFile; fileRef = D9586846166525E7000DC972 /* EQSShadowLineSymbol.m */; };
 		D9E1615D1629C9020055844C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D9E1615B1629C9020055844C /* InfoPlist.strings */; };
-		D9E161841629CAA60055844C /* AGSLayer+Basemap.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161091629C8B40055844C /* AGSLayer+Basemap.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		D9E161851629CAA60055844C /* AGSMapView+Basemaps.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E1610B1629C8B40055844C /* AGSMapView+Basemaps.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D9E161841629CAA60055844C /* AGSLayer+EQSBasemap.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161091629C8B40055844C /* AGSLayer+EQSBasemap.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		D9E161851629CAA60055844C /* AGSMapView+EQSBasemaps.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E1610B1629C8B40055844C /* AGSMapView+EQSBasemaps.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9E161861629CAA60055844C /* EQSBasemapsNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E1610D1629C8B40055844C /* EQSBasemapsNotifications.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9E161871629CAA60055844C /* EQSBasemapTypeEnum.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E1610E1629C8B40055844C /* EQSBasemapTypeEnum.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9E161881629CAA60055844C /* AGSMapView+RouteDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161101629C8B40055844C /* AGSMapView+RouteDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -36,19 +36,19 @@
 		D9E1618C1629CAA60055844C /* EQSRouteResultsView.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E1611B1629C8B40055844C /* EQSRouteResultsView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9E1618D1629CAA60055844C /* EQSRouteResultsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E1611D1629C8B40055844C /* EQSRouteResultsViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9E1618E1629CAA60055844C /* EQSRouteResultsViewControllerCompact.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E1611F1629C8B40055844C /* EQSRouteResultsViewControllerCompact.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		D9E1618F1629CAA60055844C /* AGSMapView+GeneralUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161301629C8B40055844C /* AGSMapView+GeneralUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D9E161901629CAA60055844C /* AGSPoint+GeneralUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161321629C8B40055844C /* AGSPoint+GeneralUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D9E1618F1629CAA60055844C /* AGSMapView+EQSGeneralUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161301629C8B40055844C /* AGSMapView+EQSGeneralUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D9E161901629CAA60055844C /* AGSPoint+EQSGeneralUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161321629C8B40055844C /* AGSPoint+EQSGeneralUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9E161911629CAA60055844C /* AGSGraphicsLayer+EQSGraphics.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161351629C8B40055844C /* AGSGraphicsLayer+EQSGraphics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9E161921629CAA60055844C /* AGSMapView+EQSGraphics.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161371629C8B40055844C /* AGSMapView+EQSGraphics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9E161931629CAA60055844C /* EQSGraphicCallout.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161391629C8B40055844C /* EQSGraphicCallout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9E161941629CAA60055844C /* EQSGraphicCalloutViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E1613B1629C8B40055844C /* EQSGraphicCalloutViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D9E161951629CAA60055844C /* AGSMapView+Navigation.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E1613F1629C8B40055844C /* AGSMapView+Navigation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D9E161951629CAA60055844C /* AGSMapView+EQSNavigation.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E1613F1629C8B40055844C /* AGSMapView+EQSNavigation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9E161961629CAA60055844C /* EQSDefaultSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161421629C8B40055844C /* EQSDefaultSymbols.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9E161971629CAA60055844C /* EQSGeoServices.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161451629C8B40055844C /* EQSGeoServices.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9E161981629CAA60055844C /* EQSGeoServicesNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161471629C8B40055844C /* EQSGeoServicesNotifications.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9E161991629CAA60055844C /* EQSHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161491629C8B40055844C /* EQSHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D9E1619E1629CB1E0055844C /* AGSLayer+Basemap.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E1610A1629C8B40055844C /* AGSLayer+Basemap.m */; };
-		D9E1619F1629CB1E0055844C /* AGSMapView+Basemaps.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E1610C1629C8B40055844C /* AGSMapView+Basemaps.m */; };
+		D9E1619E1629CB1E0055844C /* AGSLayer+EQSBasemap.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E1610A1629C8B40055844C /* AGSLayer+EQSBasemap.m */; };
+		D9E1619F1629CB1E0055844C /* AGSMapView+EQSBasemaps.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E1610C1629C8B40055844C /* AGSMapView+EQSBasemaps.m */; };
 		D9E161A01629CB1E0055844C /* AGSMapView+RouteDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E161111629C8B40055844C /* AGSMapView+RouteDisplay.m */; };
 		D9E161A11629CB1E0055844C /* EQSRouteDisplayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E161141629C8B40055844C /* EQSRouteDisplayHelper.m */; };
 		D9E161A21629CB1E0055844C /* EQSRouteResultsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E161171629C8B40055844C /* EQSRouteResultsCell.m */; };
@@ -56,8 +56,8 @@
 		D9E161A41629CB1E0055844C /* EQSRouteResultsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E1611C1629C8B40055844C /* EQSRouteResultsView.m */; };
 		D9E161A51629CB1E0055844C /* EQSRouteResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E1611E1629C8B40055844C /* EQSRouteResultsViewController.m */; };
 		D9E161A61629CB1E0055844C /* EQSRouteResultsViewControllerCompact.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E161201629C8B40055844C /* EQSRouteResultsViewControllerCompact.m */; };
-		D9E161A71629CB1E0055844C /* AGSMapView+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E161311629C8B40055844C /* AGSMapView+GeneralUtilities.m */; };
-		D9E161A81629CB1E0055844C /* AGSPoint+GeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E161331629C8B40055844C /* AGSPoint+GeneralUtilities.m */; };
+		D9E161A71629CB1E0055844C /* AGSMapView+EQSGeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E161311629C8B40055844C /* AGSMapView+EQSGeneralUtilities.m */; };
+		D9E161A81629CB1E0055844C /* AGSPoint+EQSGeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E161331629C8B40055844C /* AGSPoint+EQSGeneralUtilities.m */; };
 		D9E161A91629CB1E0055844C /* AGSGraphicsLayer+EQSGraphics.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E161361629C8B40055844C /* AGSGraphicsLayer+EQSGraphics.m */; };
 		D9E161AA1629CB1E0055844C /* AGSMapView+EQSGraphics.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E161381629C8B40055844C /* AGSMapView+EQSGraphics.m */; };
 		D9E161AB1629CB1E0055844C /* EQSGraphicCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E1613A1629C8B40055844C /* EQSGraphicCallout.m */; };
@@ -107,10 +107,10 @@
 		D939FBE71629EE3400E8B8ED /* EQSHelper_int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSHelper_int.h; sourceTree = "<group>"; };
 		D9586845166525E7000DC972 /* EQSShadowLineSymbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSShadowLineSymbol.h; sourceTree = "<group>"; };
 		D9586846166525E7000DC972 /* EQSShadowLineSymbol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSShadowLineSymbol.m; sourceTree = "<group>"; };
-		D9E161091629C8B40055844C /* AGSLayer+Basemap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSLayer+Basemap.h"; sourceTree = "<group>"; };
-		D9E1610A1629C8B40055844C /* AGSLayer+Basemap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AGSLayer+Basemap.m"; sourceTree = "<group>"; };
-		D9E1610B1629C8B40055844C /* AGSMapView+Basemaps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+Basemaps.h"; sourceTree = "<group>"; };
-		D9E1610C1629C8B40055844C /* AGSMapView+Basemaps.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+Basemaps.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		D9E161091629C8B40055844C /* AGSLayer+EQSBasemap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSLayer+EQSBasemap.h"; sourceTree = "<group>"; };
+		D9E1610A1629C8B40055844C /* AGSLayer+EQSBasemap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AGSLayer+EQSBasemap.m"; sourceTree = "<group>"; };
+		D9E1610B1629C8B40055844C /* AGSMapView+EQSBasemaps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+EQSBasemaps.h"; sourceTree = "<group>"; };
+		D9E1610C1629C8B40055844C /* AGSMapView+EQSBasemaps.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+EQSBasemaps.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D9E1610D1629C8B40055844C /* EQSBasemapsNotifications.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSBasemapsNotifications.h; sourceTree = "<group>"; };
 		D9E1610E1629C8B40055844C /* EQSBasemapTypeEnum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSBasemapTypeEnum.h; sourceTree = "<group>"; };
 		D9E161101629C8B40055844C /* AGSMapView+RouteDisplay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+RouteDisplay.h"; sourceTree = "<group>"; };
@@ -140,10 +140,10 @@
 		D9E1612C1629C8B40055844C /* prev-dir-iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prev-dir-iphone@2x.png"; sourceTree = "<group>"; };
 		D9E1612D1629C8B40055844C /* zoom-to-route.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zoom-to-route.png"; sourceTree = "<group>"; };
 		D9E1612E1629C8B40055844C /* zoom-to-route@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zoom-to-route@2x.png"; sourceTree = "<group>"; };
-		D9E161301629C8B40055844C /* AGSMapView+GeneralUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+GeneralUtilities.h"; sourceTree = "<group>"; };
-		D9E161311629C8B40055844C /* AGSMapView+GeneralUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+GeneralUtilities.m"; sourceTree = "<group>"; };
-		D9E161321629C8B40055844C /* AGSPoint+GeneralUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSPoint+GeneralUtilities.h"; sourceTree = "<group>"; };
-		D9E161331629C8B40055844C /* AGSPoint+GeneralUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AGSPoint+GeneralUtilities.m"; sourceTree = "<group>"; };
+		D9E161301629C8B40055844C /* AGSMapView+EQSGeneralUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+EQSGeneralUtilities.h"; sourceTree = "<group>"; };
+		D9E161311629C8B40055844C /* AGSMapView+EQSGeneralUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+EQSGeneralUtilities.m"; sourceTree = "<group>"; };
+		D9E161321629C8B40055844C /* AGSPoint+EQSGeneralUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSPoint+EQSGeneralUtilities.h"; sourceTree = "<group>"; };
+		D9E161331629C8B40055844C /* AGSPoint+EQSGeneralUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AGSPoint+EQSGeneralUtilities.m"; sourceTree = "<group>"; };
 		D9E161351629C8B40055844C /* AGSGraphicsLayer+EQSGraphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSGraphicsLayer+EQSGraphics.h"; sourceTree = "<group>"; };
 		D9E161361629C8B40055844C /* AGSGraphicsLayer+EQSGraphics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AGSGraphicsLayer+EQSGraphics.m"; sourceTree = "<group>"; };
 		D9E161371629C8B40055844C /* AGSMapView+EQSGraphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+EQSGraphics.h"; sourceTree = "<group>"; };
@@ -153,7 +153,7 @@
 		D9E1613B1629C8B40055844C /* EQSGraphicCalloutViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSGraphicCalloutViewController.h; sourceTree = "<group>"; };
 		D9E1613C1629C8B40055844C /* EQSGraphicCalloutViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EQSGraphicCalloutViewController.m; sourceTree = "<group>"; };
 		D9E1613D1629C8B40055844C /* EQSGraphicCalloutViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EQSGraphicCalloutViewController.xib; sourceTree = "<group>"; };
-		D9E1613F1629C8B40055844C /* AGSMapView+Navigation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+Navigation.h"; sourceTree = "<group>"; };
+		D9E1613F1629C8B40055844C /* AGSMapView+EQSNavigation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+EQSNavigation.h"; sourceTree = "<group>"; };
 		D9E161401629C8B40055844C /* AGSMapView+Navigation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+Navigation.m"; sourceTree = "<group>"; };
 		D9E161421629C8B40055844C /* EQSDefaultSymbols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSDefaultSymbols.h; sourceTree = "<group>"; };
 		D9E161431629C8B40055844C /* EQSDefaultSymbols.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EQSDefaultSymbols.m; sourceTree = "<group>"; };
@@ -229,10 +229,10 @@
 		D9E161081629C8B40055844C /* Basemaps */ = {
 			isa = PBXGroup;
 			children = (
-				D9E1610B1629C8B40055844C /* AGSMapView+Basemaps.h */,
-				D9E1610C1629C8B40055844C /* AGSMapView+Basemaps.m */,
-				D9E161091629C8B40055844C /* AGSLayer+Basemap.h */,
-				D9E1610A1629C8B40055844C /* AGSLayer+Basemap.m */,
+				D9E1610B1629C8B40055844C /* AGSMapView+EQSBasemaps.h */,
+				D9E1610C1629C8B40055844C /* AGSMapView+EQSBasemaps.m */,
+				D9E161091629C8B40055844C /* AGSLayer+EQSBasemap.h */,
+				D9E1610A1629C8B40055844C /* AGSLayer+EQSBasemap.m */,
 				D9E1610D1629C8B40055844C /* EQSBasemapsNotifications.h */,
 				D9E1610E1629C8B40055844C /* EQSBasemapTypeEnum.h */,
 			);
@@ -308,10 +308,10 @@
 		D9E1612F1629C8B40055844C /* General */ = {
 			isa = PBXGroup;
 			children = (
-				D9E161301629C8B40055844C /* AGSMapView+GeneralUtilities.h */,
-				D9E161311629C8B40055844C /* AGSMapView+GeneralUtilities.m */,
-				D9E161321629C8B40055844C /* AGSPoint+GeneralUtilities.h */,
-				D9E161331629C8B40055844C /* AGSPoint+GeneralUtilities.m */,
+				D9E161301629C8B40055844C /* AGSMapView+EQSGeneralUtilities.h */,
+				D9E161311629C8B40055844C /* AGSMapView+EQSGeneralUtilities.m */,
+				D9E161321629C8B40055844C /* AGSPoint+EQSGeneralUtilities.h */,
+				D9E161331629C8B40055844C /* AGSPoint+EQSGeneralUtilities.m */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -335,7 +335,7 @@
 		D9E1613E1629C8B40055844C /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
-				D9E1613F1629C8B40055844C /* AGSMapView+Navigation.h */,
+				D9E1613F1629C8B40055844C /* AGSMapView+EQSNavigation.h */,
 				D9E161401629C8B40055844C /* AGSMapView+Navigation.m */,
 			);
 			path = Navigation;
@@ -460,25 +460,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9E162391629E3580055844C /* EsriQuickStart.h in Headers */,
-				D9E161851629CAA60055844C /* AGSMapView+Basemaps.h in Headers */,
+				D9E161851629CAA60055844C /* AGSMapView+EQSBasemaps.h in Headers */,
 				D9E161861629CAA60055844C /* EQSBasemapsNotifications.h in Headers */,
 				D9E161871629CAA60055844C /* EQSBasemapTypeEnum.h in Headers */,
 				D9E161881629CAA60055844C /* AGSMapView+RouteDisplay.h in Headers */,
 				D9E161891629CAA60055844C /* EQSRouteDisplayHelper.h in Headers */,
 				D9E1618C1629CAA60055844C /* EQSRouteResultsView.h in Headers */,
 				D9E1618D1629CAA60055844C /* EQSRouteResultsViewController.h in Headers */,
-				D9E1618F1629CAA60055844C /* AGSMapView+GeneralUtilities.h in Headers */,
-				D9E161901629CAA60055844C /* AGSPoint+GeneralUtilities.h in Headers */,
+				D9E1618F1629CAA60055844C /* AGSMapView+EQSGeneralUtilities.h in Headers */,
+				D9E161901629CAA60055844C /* AGSPoint+EQSGeneralUtilities.h in Headers */,
 				D9E161911629CAA60055844C /* AGSGraphicsLayer+EQSGraphics.h in Headers */,
 				D9E161921629CAA60055844C /* AGSMapView+EQSGraphics.h in Headers */,
 				D9E161931629CAA60055844C /* EQSGraphicCallout.h in Headers */,
 				D9E161941629CAA60055844C /* EQSGraphicCalloutViewController.h in Headers */,
-				D9E161951629CAA60055844C /* AGSMapView+Navigation.h in Headers */,
+				D9E161951629CAA60055844C /* AGSMapView+EQSNavigation.h in Headers */,
 				D9E161961629CAA60055844C /* EQSDefaultSymbols.h in Headers */,
 				D9E161971629CAA60055844C /* EQSGeoServices.h in Headers */,
 				D9E161981629CAA60055844C /* EQSGeoServicesNotifications.h in Headers */,
 				D9E161991629CAA60055844C /* EQSHelper.h in Headers */,
-				D9E161841629CAA60055844C /* AGSLayer+Basemap.h in Headers */,
+				D9E161841629CAA60055844C /* AGSLayer+EQSBasemap.h in Headers */,
 				D9E1618A1629CAA60055844C /* EQSRouteResultsCell.h in Headers */,
 				D9E1618B1629CAA60055844C /* EQSRouteResultsTableViewController.h in Headers */,
 				D9E1618E1629CAA60055844C /* EQSRouteResultsViewControllerCompact.h in Headers */,
@@ -608,8 +608,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9E1619E1629CB1E0055844C /* AGSLayer+Basemap.m in Sources */,
-				D9E1619F1629CB1E0055844C /* AGSMapView+Basemaps.m in Sources */,
+				D9E1619E1629CB1E0055844C /* AGSLayer+EQSBasemap.m in Sources */,
+				D9E1619F1629CB1E0055844C /* AGSMapView+EQSBasemaps.m in Sources */,
 				D9E161A01629CB1E0055844C /* AGSMapView+RouteDisplay.m in Sources */,
 				D9E161A11629CB1E0055844C /* EQSRouteDisplayHelper.m in Sources */,
 				D9E161A21629CB1E0055844C /* EQSRouteResultsCell.m in Sources */,
@@ -617,8 +617,8 @@
 				D9E161A41629CB1E0055844C /* EQSRouteResultsView.m in Sources */,
 				D9E161A51629CB1E0055844C /* EQSRouteResultsViewController.m in Sources */,
 				D9E161A61629CB1E0055844C /* EQSRouteResultsViewControllerCompact.m in Sources */,
-				D9E161A71629CB1E0055844C /* AGSMapView+GeneralUtilities.m in Sources */,
-				D9E161A81629CB1E0055844C /* AGSPoint+GeneralUtilities.m in Sources */,
+				D9E161A71629CB1E0055844C /* AGSMapView+EQSGeneralUtilities.m in Sources */,
+				D9E161A81629CB1E0055844C /* AGSPoint+EQSGeneralUtilities.m in Sources */,
 				D9E161A91629CB1E0055844C /* AGSGraphicsLayer+EQSGraphics.m in Sources */,
 				D9E161AA1629CB1E0055844C /* AGSMapView+EQSGraphics.m in Sources */,
 				D9E161AB1629CB1E0055844C /* EQSGraphicCallout.m in Sources */,

@@ -9,7 +9,7 @@
 #import "EQSGeoServices.h"
 #import "EQSHelper.h"
 
-#import "AGSPoint+GeneralUtilities.h"
+#import "AGSPoint+EQSGeneralUtilities.h"
 
 #import <objc/runtime.h>
 

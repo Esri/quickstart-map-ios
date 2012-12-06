@@ -37,17 +37,3 @@
 - (EQSGeoServices *) geoServices;
 @end
 
-
-
-//@interface AGSAddressCandidate (EQSGeoServices)
-//- (AGSPoint *) displayPoint;
-//@end
-
-//#import <objc/runtime.h>
-
-//@implementation AGSAddressCandidate (EQSGeoServices)
-//- (AGSPoint *) displayPoint
-//{
-//    return objc_getAssociatedObject(self, @"DisplayPoint");
-//}
-//@end

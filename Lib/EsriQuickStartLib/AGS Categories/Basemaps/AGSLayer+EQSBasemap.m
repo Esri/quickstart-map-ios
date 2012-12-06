@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "AGSLayer+Basemap.h"
+#import "AGSLayer+EQSBasemap.h"
 #import <objc/runtime.h>
 
 #define kEQSInternalLayerTag @"EQSLayerTag"

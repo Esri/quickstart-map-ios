@@ -8,7 +8,7 @@
 
 #import "EQSGraphicCalloutViewController.h"
 #import <ArcGIS/ArcGIS.h>
-#import "AGSPoint+GeneralUtilities.h"
+#import "AGSPoint+EQSGeneralUtilities.h"
 
 #import "EQSHelper.h"
 

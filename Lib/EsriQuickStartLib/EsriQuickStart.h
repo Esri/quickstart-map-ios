@@ -9,16 +9,16 @@
 #ifndef EsriQuickStart_EsriQuickStart_h
 #define EsriQuickStart_EsriQuickStart_h
 
-#import "AGSMapView+Basemaps.h"
-#import "AGSMapView+Navigation.h"
-#import "AGSMapView+RouteDisplay.h"
+#import "AGSMapView+EQSBasemaps.h"
+#import "AGSMapView+EQSNavigation.h"
+#import "AGSMapView+EQSRouteDisplay.h"
 #import "AGSMapView+EQSGraphics.h"
-#import "AGSMapView+Navigation.h"
+#import "AGSMapView+EQSNavigation.h"
 #import "EQSDefaultSymbols.h"
 #import "EQSGeoServices.h"
 
-#import "AGSMapView+GeneralUtilities.h"
-#import "AGSPoint+GeneralUtilities.h"
+#import "AGSMapView+EQSGeneralUtilities.h"
+#import "AGSPoint+EQSGeneralUtilities.h"
 
 #import "EQSHelper.h"
 
