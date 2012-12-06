@@ -1326,7 +1326,8 @@ typedef enum {
 
     BOOL hideStatusBar = YES;
 	
-    if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation) && ![self isFullScreen])
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad ||
+        (UIInterfaceOrientationIsPortrait(toInterfaceOrientation) && ![self isFullScreen]))
     {
 		hideStatusBar = NO;
     }
