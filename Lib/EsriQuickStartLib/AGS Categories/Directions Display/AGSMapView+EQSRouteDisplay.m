@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "AGSMapView+RouteDisplay.h"
+#import "AGSMapView+EQSRouteDisplay.h"
 #import "AGSMapView+EQSGeneralUtilities.h"
 #import "EQSHelper.h"
 #import "EQSRouteDisplayHelper.h"
@@ -15,16 +15,14 @@
 #import <objc/runtime.h>
 
 @implementation AGSMapView (EQSDirections)
-//#define kEQSRouteDisplayHelperKey @"EQSRouteDisplayHelper"
 
 #pragma mark - Properties
 - (EQSRouteDisplayHelper *)routeDisplayHelper
 {
-    static EQSRouteDisplayHelper *helper = nil; //objc_getAssociatedObject(self, kEQSRouteDisplayHelperKey);
+    static EQSRouteDisplayHelper *helper = nil;
     if (helper == nil)
     {
         helper = [EQSRouteDisplayHelper routeDisplayHelperForMapView:self];
-//        objc_setAssociatedObject(self, kEQSRouteDisplayHelperKey, helper, OBJC_ASSOCIATION_RETAIN);
     }
     return helper;
 }

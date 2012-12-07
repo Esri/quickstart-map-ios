@@ -29,7 +29,7 @@
 		D9E161851629CAA60055844C /* AGSMapView+EQSBasemaps.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E1610B1629C8B40055844C /* AGSMapView+EQSBasemaps.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9E161861629CAA60055844C /* EQSBasemapsNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E1610D1629C8B40055844C /* EQSBasemapsNotifications.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9E161871629CAA60055844C /* EQSBasemapTypeEnum.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E1610E1629C8B40055844C /* EQSBasemapTypeEnum.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D9E161881629CAA60055844C /* AGSMapView+RouteDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161101629C8B40055844C /* AGSMapView+RouteDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D9E161881629CAA60055844C /* AGSMapView+EQSRouteDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161101629C8B40055844C /* AGSMapView+EQSRouteDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9E161891629CAA60055844C /* EQSRouteDisplayHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161131629C8B40055844C /* EQSRouteDisplayHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9E1618A1629CAA60055844C /* EQSRouteResultsCell.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161161629C8B40055844C /* EQSRouteResultsCell.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D9E1618B1629CAA60055844C /* EQSRouteResultsTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161191629C8B40055844C /* EQSRouteResultsTableViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -49,7 +49,7 @@
 		D9E161991629CAA60055844C /* EQSHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161491629C8B40055844C /* EQSHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9E1619E1629CB1E0055844C /* AGSLayer+EQSBasemap.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E1610A1629C8B40055844C /* AGSLayer+EQSBasemap.m */; };
 		D9E1619F1629CB1E0055844C /* AGSMapView+EQSBasemaps.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E1610C1629C8B40055844C /* AGSMapView+EQSBasemaps.m */; };
-		D9E161A01629CB1E0055844C /* AGSMapView+RouteDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E161111629C8B40055844C /* AGSMapView+RouteDisplay.m */; };
+		D9E161A01629CB1E0055844C /* AGSMapView+EQSRouteDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E161111629C8B40055844C /* AGSMapView+EQSRouteDisplay.m */; };
 		D9E161A11629CB1E0055844C /* EQSRouteDisplayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E161141629C8B40055844C /* EQSRouteDisplayHelper.m */; };
 		D9E161A21629CB1E0055844C /* EQSRouteResultsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E161171629C8B40055844C /* EQSRouteResultsCell.m */; };
 		D9E161A31629CB1E0055844C /* EQSRouteResultsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E1611A1629C8B40055844C /* EQSRouteResultsTableViewController.m */; };
@@ -113,8 +113,8 @@
 		D9E1610C1629C8B40055844C /* AGSMapView+EQSBasemaps.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+EQSBasemaps.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D9E1610D1629C8B40055844C /* EQSBasemapsNotifications.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSBasemapsNotifications.h; sourceTree = "<group>"; };
 		D9E1610E1629C8B40055844C /* EQSBasemapTypeEnum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSBasemapTypeEnum.h; sourceTree = "<group>"; };
-		D9E161101629C8B40055844C /* AGSMapView+RouteDisplay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+RouteDisplay.h"; sourceTree = "<group>"; };
-		D9E161111629C8B40055844C /* AGSMapView+RouteDisplay.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+RouteDisplay.m"; sourceTree = "<group>"; };
+		D9E161101629C8B40055844C /* AGSMapView+EQSRouteDisplay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+EQSRouteDisplay.h"; sourceTree = "<group>"; };
+		D9E161111629C8B40055844C /* AGSMapView+EQSRouteDisplay.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+EQSRouteDisplay.m"; sourceTree = "<group>"; };
 		D9E161131629C8B40055844C /* EQSRouteDisplayHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSRouteDisplayHelper.h; sourceTree = "<group>"; };
 		D9E161141629C8B40055844C /* EQSRouteDisplayHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EQSRouteDisplayHelper.m; sourceTree = "<group>"; };
 		D9E161161629C8B40055844C /* EQSRouteResultsCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSRouteResultsCell.h; sourceTree = "<group>"; };
@@ -242,8 +242,8 @@
 		D9E1610F1629C8B40055844C /* Directions Display */ = {
 			isa = PBXGroup;
 			children = (
-				D9E161101629C8B40055844C /* AGSMapView+RouteDisplay.h */,
-				D9E161111629C8B40055844C /* AGSMapView+RouteDisplay.m */,
+				D9E161101629C8B40055844C /* AGSMapView+EQSRouteDisplay.h */,
+				D9E161111629C8B40055844C /* AGSMapView+EQSRouteDisplay.m */,
 				D9E161121629C8B40055844C /* RouteDisplayHelper */,
 			);
 			path = "Directions Display";
@@ -463,7 +463,7 @@
 				D9E161851629CAA60055844C /* AGSMapView+EQSBasemaps.h in Headers */,
 				D9E161861629CAA60055844C /* EQSBasemapsNotifications.h in Headers */,
 				D9E161871629CAA60055844C /* EQSBasemapTypeEnum.h in Headers */,
-				D9E161881629CAA60055844C /* AGSMapView+RouteDisplay.h in Headers */,
+				D9E161881629CAA60055844C /* AGSMapView+EQSRouteDisplay.h in Headers */,
 				D9E161891629CAA60055844C /* EQSRouteDisplayHelper.h in Headers */,
 				D9E1618C1629CAA60055844C /* EQSRouteResultsView.h in Headers */,
 				D9E1618D1629CAA60055844C /* EQSRouteResultsViewController.h in Headers */,
@@ -610,7 +610,7 @@
 			files = (
 				D9E1619E1629CB1E0055844C /* AGSLayer+EQSBasemap.m in Sources */,
 				D9E1619F1629CB1E0055844C /* AGSMapView+EQSBasemaps.m in Sources */,
-				D9E161A01629CB1E0055844C /* AGSMapView+RouteDisplay.m in Sources */,
+				D9E161A01629CB1E0055844C /* AGSMapView+EQSRouteDisplay.m in Sources */,
 				D9E161A11629CB1E0055844C /* EQSRouteDisplayHelper.m in Sources */,
 				D9E161A21629CB1E0055844C /* EQSRouteResultsCell.m in Sources */,
 				D9E161A31629CB1E0055844C /* EQSRouteResultsTableViewController.m in Sources */,
