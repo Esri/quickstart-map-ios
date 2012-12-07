@@ -19,7 +19,7 @@ See the repo's [wiki](https://github.com/Esri/quickstart-map-ios/wiki) for addit
    
    Note: You will need to create an ESRI account to do so. Learn more [here](https://webaccounts.esri.com/cas/index.cfm).
 
-2. Either clone or [download and unzip](https://github.com/Esri/quickstart-map-ios/archive/master.zip) the code from [this repository](https://github.com/Esri/quickstart-map-ios).
+2. Either clone or [download and unzip](https://github.com/Esri/quickstart-map-ios/archive/master.zip) this repository.
 3. Open the EsriQuickStartLib project and build the "Universal Framework" scheme.
 
 ### Build the Quick Start Sample Application
