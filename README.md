@@ -15,15 +15,12 @@ See the repo's [wiki](https://github.com/Esri/quickstart-map-ios/wiki) for addit
 ## Getting Started
 
 ### Configure your Dev environment
-1. Download and install Xcode [here](https://developer.apple.com/xcode/)
-2. Download and install the ArcGIS Runtime SDK for iOS [here](http://www.esri.com/apps/products/download/index.cfm?fuseaction=download.all#ArcGIS_Runtime_SDK_for_iOS)
+1. Follow the [steps on the ArcGIS Runtime SDK for iOS Resource Center](http://resources.arcgis.com/en/help/runtime-ios-sdk/concepts/#/Installation/00pw0000000w000000/) to install the SDK.
    
-   Note: You will need to create an ESRI account to do so. Learn more here.
+   Note: You will need to create an ESRI account to do so. Learn more [here](https://webaccounts.esri.com/cas/index.cfm).
 
-### Add and build the Quick Start Library
-1. Download and unzip the .zip file or clone the repo
-2. Open the EsriQuickStartLib project in Xcode
-3. Build the Universal Framework scheme.
+2. Either clone or [download and unzip](https://github.com/Esri/quickstart-map-ios/archive/master.zip) the code from [this repository](https://github.com/Esri/quickstart-map-ios).
+3. Open the EsriQuickStartLib project and build the "Universal Framework" scheme.
 
 ### Build the Quick Start Sample Application
 1. Open and run the EsriQuickStartApp Xcode project on your device or simulator.
