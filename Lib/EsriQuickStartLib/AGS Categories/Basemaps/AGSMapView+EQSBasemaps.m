@@ -16,6 +16,7 @@
 #define kEQSBasemapWebMapPayloadKey_ExtentToKeep @"EQSExtentToKeepAcrossWebMapLoad"
 
 #define kEQSBasemapTypeKey @"EQSBasemapTypeAsNumber"
+#define kEQSBasemapNativeResolutionKey @"EQSBasemapRenderNative"
 
 #define kEQSNotification_BasemapDidChange_PortalItemKey @"PortalItem"
 #define kEQSNotification_BasemapDidChange_BasemapsTypeKey @"BasemapType"
@@ -24,6 +25,71 @@
 @end
 
 @implementation AGSMapView (EQSBasemaps)
+- (void) setRenderBasemapsAtNativeResolution:(BOOL)renderBasemapsAtNativeResolution
+{
+    // We will keep a flag of the desired setting (YES/NO) for rendering native
+    NSNumber *n = [NSNumber numberWithBool:renderBasemapsAtNativeResolution];
+    objc_setAssociatedObject(self, kEQSBasemapNativeResolutionKey, n, OBJC_ASSOCIATION_ASSIGN);
+    
+    // And now we'll try to set the layers we do have to reflect that stored setting.
+    [self updateBasemapLayersNativeResolutionSetting];
+}
+
+- (void) updateBasemapLayersNativeResolutionSetting
+{
+    NSNumber *n = objc_getAssociatedObject(self, kEQSBasemapNativeResolutionKey);
+    BOOL renderNative = NO;
+    
+    if (n)
+    {
+        renderNative = n.boolValue;
+    }
+    
+    NSLog(@"Updating basemap rendering to :%d", renderNative);
+    
+    for (id l in self.mapLayers)
+    {
+        AGSLayer *ll = l;
+        NSLog(@"Layer: %@ %d", ll.name, ll.isEQSBasemapLayer);
+        if ([l isEQSBasemapLayer] &&
+            [l respondsToSelector:@selector(setRenderNativeResolution:)])
+        {
+            NSLog(@"Setting layer '%@' to %@", [(AGSLayer *)l name], renderNative?@"Native":@"Non-Native");
+            [l setRenderNativeResolution:renderNative];
+        }
+    }
+}
+
+- (BOOL) renderBasemapsAtNativeResolution
+{
+    // If the setting has been stored before, we'll just use that.
+    NSNumber *n = objc_getAssociatedObject(self, kEQSBasemapNativeResolutionKey);
+    if (n)
+    {
+        return n.boolValue;
+    }
+    else
+    {
+        BOOL renderNative = NO;
+        // Otherwise, let's figure it out from the layers we have.
+        for (AGSLayer *l in self.mapLayers)
+        {
+            if ([l isEQSBasemapLayer] &&
+                [l respondsToSelector:@selector(renderNativeResolution)])
+            {
+                // If one basemap layer renders native, that's good enough for us.
+                renderNative = renderNative | l.renderNativeResolution;
+            }
+        }
+        
+        // Store the value (because we're here because it wasn't stored before).
+        NSNumber *n = [NSNumber numberWithBool:renderNative];
+        objc_setAssociatedObject(self, kEQSBasemapNativeResolutionKey, n, OBJC_ASSOCIATION_ASSIGN);
+        
+        // And return.
+        return renderNative;
+    }
+}
 
 - (void) setBasemap:(EQSBasemapType)basemapType
 {
@@ -78,6 +144,8 @@
             // So, flag them as basemap layers
             layer.isEQSBasemapLayer = YES;
         }
+        
+        [self updateBasemapLayersNativeResolutionSetting];
         
         // Read the envelope to restore the map to, and restore it.
         AGSEnvelope *envelopeToRestoreTo = objc_getAssociatedObject(webMap, kEQSBasemapWebMapPayloadKey_ExtentToKeep);
