@@ -25,41 +25,6 @@
 @end
 
 @implementation AGSMapView (EQSBasemaps)
-- (void) setRenderBasemapsAtNativeResolution:(BOOL)renderBasemapsAtNativeResolution
-{
-    // We will keep a flag of the desired setting (YES/NO) for rendering native
-    NSNumber *n = [NSNumber numberWithBool:renderBasemapsAtNativeResolution];
-    objc_setAssociatedObject(self, kEQSBasemapNativeResolutionKey, n, OBJC_ASSOCIATION_ASSIGN);
-    
-    // And now we'll try to set the layers we do have to reflect that stored setting.
-    [self updateBasemapLayersNativeResolutionSetting];
-}
-
-- (void) updateBasemapLayersNativeResolutionSetting
-{
-    NSNumber *n = objc_getAssociatedObject(self, kEQSBasemapNativeResolutionKey);
-    BOOL renderNative = NO;
-    
-    if (n)
-    {
-        renderNative = n.boolValue;
-    }
-    
-    NSLog(@"Updating basemap rendering to :%d", renderNative);
-    
-    for (id l in self.mapLayers)
-    {
-        AGSLayer *ll = l;
-        NSLog(@"Layer: %@ %d", ll.name, ll.isEQSBasemapLayer);
-        if ([l isEQSBasemapLayer] &&
-            [l respondsToSelector:@selector(setRenderNativeResolution:)])
-        {
-            NSLog(@"Setting layer '%@' to %@", [(AGSLayer *)l name], renderNative?@"Native":@"Non-Native");
-            [l setRenderNativeResolution:renderNative];
-        }
-    }
-}
-
 - (BOOL) renderBasemapsAtNativeResolution
 {
     // If the setting has been stored before, we'll just use that.
@@ -84,11 +49,70 @@
         
         // Store the value (because we're here because it wasn't stored before).
         NSNumber *n = [NSNumber numberWithBool:renderNative];
-        objc_setAssociatedObject(self, kEQSBasemapNativeResolutionKey, n, OBJC_ASSOCIATION_ASSIGN);
+        objc_setAssociatedObject(self, kEQSBasemapNativeResolutionKey, n, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         
         // And return.
         return renderNative;
     }
+}
+
+- (void) setRenderBasemapsAtNativeResolution:(BOOL)renderBasemapsAtNativeResolution
+{
+    // We will keep a flag of the desired setting (YES/NO) for rendering native
+    NSNumber *n = [NSNumber numberWithBool:renderBasemapsAtNativeResolution];
+    objc_setAssociatedObject(self, kEQSBasemapNativeResolutionKey, n, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    
+    // And now we'll try to set the layers we do have to reflect that stored setting.
+    if ([self updateBasemapLayersNativeResolutionSetting])
+    {
+        // We had to change a layer from it's previous state.
+        [self setBasemap:[self getBasemapType]];
+    }
+}
+
+- (BOOL) updateBasemapLayersNativeResolutionSetting
+{
+    NSNumber *n = objc_getAssociatedObject(self, kEQSBasemapNativeResolutionKey);
+    BOOL renderNative = NO;
+    
+    if (n)
+    {
+        renderNative = n.boolValue;
+    }
+    
+    BOOL updatedLayer = NO;
+    NSUInteger nativeLayers = 0;
+    NSUInteger nonNativeLayers = 0;
+    
+    for (AGSLayer *l in self.mapLayers)
+    {
+        if (l.isEQSBasemapLayer)
+        {
+            if (l.renderNativeResolution != renderNative &&
+            [l respondsToSelector:@selector(setRenderNativeResolution:)])
+            {
+                [(id)l setRenderNativeResolution:renderNative];
+                updatedLayer = YES;
+            }
+
+            if (l.renderNativeResolution)
+            {
+                nativeLayers++;
+            }
+            else
+            {
+                nonNativeLayers++;
+            }
+        }
+    }
+    
+    if (renderNative &&
+        nativeLayers == 0)
+    {
+        NSLog(@"WARNING: Tried to set Native Rendering, but no suitable basemap layers were found!");
+    }
+    
+    return updatedLayer;
 }
 
 - (void) setBasemap:(EQSBasemapType)basemapType
