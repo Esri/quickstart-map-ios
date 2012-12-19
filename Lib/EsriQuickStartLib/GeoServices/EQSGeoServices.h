@@ -37,3 +37,9 @@
 - (EQSGeoServices *) geoServices;
 @end
 
+
+
+// Provide a way to get an envelope for a geocode result. Note, this may return nil.
+@interface AGSAddressCandidate (EQSGeoServices)
+@property (readonly, nonatomic) AGSEnvelope *placeExtent;
+@end

@@ -22,7 +22,7 @@
 }
 
 
-- (void) doActionWhenLoaded:(void (^)(void))actionBlock
+- (void) doActionWhenLoaded:(void (^)(void))actionBlock withName:(NSString *)actionName
 {
     // The Action Block needs to wait until the MapView is loaded.
     // Let's see if we want to run it now, or need to queue it up until the AGSMapView is loaded.
@@ -36,7 +36,7 @@
         // Otherwise we queue this block up to be run when self (an AGSMapView) *has* loaded
         // since the behaviour doesn't work before then. This is because the map will not yet
         // be fully initialized for UI interaction until then.
-        [EQSHelper queueBlock:actionBlock untilMapViewLoaded:self];
+        [EQSHelper queueBlock:actionBlock untilMapViewLoaded:self withBlockName:actionName];
     }
 }
 @end

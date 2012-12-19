@@ -17,6 +17,8 @@
 - (void) zoomToLevel:(NSUInteger)level withCenterPoint:(AGSPoint *)centerPoint animated:(BOOL)animated;
 - (void) zoomToLevel:(NSUInteger)level withLat:(double)latitude lon:(double)longitude animated:(BOOL)animated;
 
+- (void) zoomToPlace:(NSString *)searchString animated:(BOOL)animated;
+
 // Add some methods to center and zoom to a device's geolocation. See also the EQSGeoServices class.
 - (void) centerAtMyLocation;
 - (void) centerAtMyLocationWithZoomLevel:(NSUInteger)level;
@@ -25,4 +27,8 @@
 - (AGSPoint *) getCenterPoint;
 // Get the map's nearest zoom level (an integer in the range 1-20).
 - (NSUInteger) getZoomLevel;
+@end
+
+@interface NSNotification (EQSNavigation)
+- (BOOL) findPlacesWasZoomToPlaceRequest;
 @end

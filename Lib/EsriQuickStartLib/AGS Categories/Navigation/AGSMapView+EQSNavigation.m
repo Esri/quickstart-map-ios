@@ -10,14 +10,17 @@
 #import "AGSMapView+EQSNavigation.h"
 #import "EQSGeoServices.h"
 
+#import "AGSMapView+EQSGraphics.h"
+
 #import "AGSPoint+EQSGeneralUtilities.h"
 
-#import "EQSHelper.h"
+#import "EQSHelper_int.h"
 #import <CoreLocation/CoreLocation.h>
 #import <objc/runtime.h>
 
 @implementation AGSMapView (EQSNavigation)
-#define kEQSNavigationGeolocationTargetScaleKey @"EQSGeolocationTarkeyScale"
+#define kEQSNavigationGeolocationTargetScaleKey @"EQSGeolocationTargetScale"
+#define kEQSNavigationZoomToPlaceShouldAnimateKey @"EQSNavigationZoomAnimate"
 
 #pragma mark - Center
 - (void) centerAtLat:(double) latitude lon:(double) longitude animated:(BOOL)animated
@@ -29,7 +32,8 @@
     
     [self doActionWhenLoaded:^void {
         [self centerAtPoint:p animated:animated];
-    }];
+    }
+                    withName:@"Center at Lat Lon"];
 }
 
 #pragma mark - Zoom
@@ -47,7 +51,8 @@
     [self doActionWhenLoaded:^void {
         AGSPoint *zoomPoint = [centerPoint getWebMercatorAuxSpherePoint];
         [self zoomToScale:scaleForLevel withCenterPoint:zoomPoint animated:animated];
-    }];
+    }
+                    withName:@"Zoom To Level With Centerpoint"];
 }
 
 - (void) zoomToLevel:(NSUInteger)level withLat:(double)latitude lon:(double)longitude animated:(BOOL)animated
@@ -57,6 +62,64 @@
     
     [self zoomToLevel:level withCenterPoint:p animated:animated];
 }
+
+- (void) zoomToPlace:(NSString *)searchString animated:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(gotZoomResult:)
+                                                 name:kEQSGeoServicesNotification_PointsFromAddress_OK
+                                               object:self.geoServices];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(errorGettingZoomResult:)
+                                                 name:kEQSGeoServicesNotification_PointsFromAddress_Error
+                                               object:self.geoServices];
+    
+    NSOperation *findOp = [self.geoServices findPlaces:searchString];
+    objc_setAssociatedObject(findOp, kEQSNavigationZoomToPlaceShouldAnimateKey, [NSNumber numberWithBool:animated], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (void) gotZoomResult:(NSNotification *)notification
+{
+    NSNumber *n = objc_getAssociatedObject(notification.geoServicesOperation, kEQSNavigationZoomToPlaceShouldAnimateKey);
+    BOOL b = n.boolValue;
+    if (b)
+    {
+        NSArray *foundPlaces = notification.findPlacesCandidatesSortedByScore;
+        
+        if (foundPlaces.count > 0)
+        {
+            for (AGSAddressCandidate *candidate in foundPlaces)
+            {
+                AGSEnvelope *extent = candidate.placeExtent;
+                if (extent)
+                {
+                    NSNumber *boolNum = objc_getAssociatedObject(notification.geoServicesOperation, kEQSNavigationZoomToPlaceShouldAnimateKey);
+                    BOOL animated = boolNum.boolValue;
+                    [EQSHelper queueBlock:^{
+                        [self zoomToEnvelope:extent animated:animated];
+                        [self removeGraphicsByAttribute:@"ZoomGraphic" withValue:@"YES"];
+                    } untilMapViewLoaded:self withBlockName:@"zoomToPlace"];
+                    return;
+                }
+            }
+            NSLog(@"No address candidates had extents defined to zoom the map to: %@", notification.findPlacesSearchString);
+            return;
+        }
+        
+        NSLog(@"No address candidates to zoom the map to: %@", notification.findPlacesSearchString);
+    }
+}
+
+- (void) errorGettingZoomResult:(NSNotification *)notification
+{
+    if (notification.findPlacesWasZoomToPlaceRequest)
+    {
+        NSError *error = notification.geoServicesError;
+        NSLog(@"Error finding candidates to zoom the map to (%@): %@", notification.findPlacesSearchString, error.localizedDescription);
+    }
+}
+
 
 #pragma mark - Geolocation (GPS)
 - (void) centerAtMyLocation
@@ -116,7 +179,8 @@
                           lon:newLocation.coordinate.longitude
                      animated:YES];
         }
-    }];
+    }
+                    withName:@"Zoom/Center to my location"];
 }
 
 - (void) failedToGetLocation:(NSNotification *)notification
@@ -137,3 +201,12 @@
 											   object:self.geoServices];
 }
 @end
+
+@implementation NSNotification (EQSNavigation)
+- (BOOL) findPlacesWasZoomToPlaceRequest
+{
+    NSNumber *n = objc_getAssociatedObject(self, kEQSNavigationZoomToPlaceShouldAnimateKey);
+    return n != nil;
+}
+@end
+

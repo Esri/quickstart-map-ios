@@ -45,20 +45,20 @@
 @synthesize mapViewQueues = _mapViewQueues;
 
 #pragma mark - Queued Operations
-+ (void) queueBlock:(void (^)(void))block untilMapViewLoaded:(AGSMapView *)mapView
++ (void) queueBlock:(void (^)(void))block untilMapViewLoaded:(AGSMapView *)mapView withBlockName:(NSString *)blockName
 {
     // This little bit of code does some magic to queue up code blocks for execution
     // until such time as the AGSMapView is loaded. An NSOperationQueue is populated
     // with code blocks, but is not processed until the AGSMapView is observer to have
     // loaded (using KVO).
-    [[EQSHelper defaultHelper] queueBlock:block untilMapViewLoaded:mapView];
+    [[EQSHelper defaultHelper] queueBlock:block untilMapViewLoaded:mapView withBlockName:blockName];
 }
 
-- (void) queueBlock:(void (^)(void))block untilMapViewLoaded:(AGSMapView *)mapView
+- (void) queueBlock:(void (^)(void))block untilMapViewLoaded:(AGSMapView *)mapView  withBlockName:(NSString *)blockName
 {
     if (mapView.loaded)
     {
-        NSLog(@"MapView is already loaded - executing immediately!");
+        NSLog(@"AGSMapView is already loaded - executing immediately: %@", blockName);
         block();
     }
     else
@@ -80,8 +80,13 @@
             // Watch the AGSMapView to see when it loads.
             [mapView addObserver:self forKeyPath:@"loaded" options:NSKeyValueObservingOptionNew context:(__bridge_retained void *)key];
         }
+
         // And add the block to the queue.
-        [ops addObject:[NSBlockOperation blockOperationWithBlock:block]];
+        [ops addObject:[NSBlockOperation blockOperationWithBlock:^{
+            NSLog(@"AGSMapView Loaded. Executing delayed operation: %@", blockName);
+            block();
+        }]];
+//        [ops addObject:[NSBlockOperation blockOperationWithBlock:block]];
     }
 }
 

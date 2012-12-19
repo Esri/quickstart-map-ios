@@ -39,10 +39,25 @@
 {
     return [self.userInfo objectForKey:kEQSGeoServicesNotification_PointsFromAddress_LocationCandidatesKey];
 }
+
+- (NSArray *) findPlacesCandidatesSortedByScore
+{
+    NSArray *unsortedCandidates = self.findPlacesCandidates;
+    
+    NSArray *sortedCandidates = [unsortedCandidates sortedArrayUsingComparator:^(id obj1, id obj2) {
+        AGSAddressCandidate *c1 = obj1;
+        AGSAddressCandidate *c2 = obj2;
+        return (c1.score==c2.score)?NSOrderedSame:(c1.score > c2.score)?NSOrderedAscending:NSOrderedDescending;
+    }];
+    
+    return sortedCandidates;
+}
+
 - (NSString *) findPlacesSearchString
 {
     return [self.userInfo objectForKey:kEQSGeoServicesNotification_PointsFromAddress_AddressKey];
 }
+
 - (AGSEnvelope *) findPlacesSearchExtent
 {
     return [self.userInfo objectForKey:kEQSGeoServicesNotification_PointsFromAddress_ExtentKey];
@@ -71,6 +86,7 @@
     return [self.userInfo objectForKey:kEQSGeoServicesNotification_FindRoute_RouteTaskResultsKey];
 }
 
+
 // kEQSGeoServicesNotification_Geolocation_OK
 // kEQSGeoServicesNotification_Geolocation_Error
 - (CLLocation *) geolocationResult
@@ -95,7 +111,11 @@
 //#define kEQSNALocatorURL @"http://tasks.arcgisonline.com/ArcGIS/rest/services/Locators/TA_Address_NA_10/GeocodeServer"
 #define kEQSNALocatorURL @"http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
 #define kEQSFindAddress_AddressKey @"SingleLine"
-#define kEQSFindAddress_ReturnFields @"Loc_name", @"Shape", @"Country", @"Addr_Type", @"Type", @"Match_Addr", @"DisplayX",@"DisplayY"
+#define kEQSFindAddress_ReturnField_xmin @"Xmin"
+#define kEQSFindAddress_ReturnField_xmax @"Xmax"
+#define kEQSFindAddress_ReturnField_ymin @"Ymin"
+#define kEQSFindAddress_ReturnField_ymax @"Ymax"
+#define kEQSFindAddress_ReturnFields @"Loc_name", @"Shape", @"Country", @"Addr_Type", @"Type", @"Match_Addr"
 #define kEQSFindAddress_AssociatedAddressKey "address"
 #define kEQSFindAddress_AssociatedExtentKey "extent"
 
@@ -193,7 +213,10 @@
     }
     
     // List the fields we want back.
-    NSArray *outFields = [NSArray arrayWithObjects:kEQSFindAddress_ReturnFields, nil];
+    NSArray *outFields = [NSArray arrayWithObjects:kEQSFindAddress_ReturnFields,
+                          kEQSFindAddress_ReturnField_xmin, kEQSFindAddress_ReturnField_xmax,
+                          kEQSFindAddress_ReturnField_ymin, kEQSFindAddress_ReturnField_ymax,
+                          nil];
     
     // Set off the request, using Web Mercator
     NSOperation *op = [self.locator locationsForAddress:params
@@ -316,20 +339,6 @@
         NSString *address = objc_getAssociatedObject(op, kEQSFindAddress_AssociatedAddressKey);
         AGSEnvelope *env = objc_getAssociatedObject(op, kEQSFindAddress_AssociatedExtentKey);
         
-        for (AGSAddressCandidate *candidate in candidates)
-        {
-            NSLog(@"Found candidate: %@ %@", candidate.addressString, candidate.attributes);
-
-//            NSNumber *x = [candidate.attributes objectForKey:@"DisplayX"];
-//            NSNumber *y = [candidate.attributes objectForKey:@"DisplayY"];
-//            
-//            if (x != nil && y != nil)
-//            {
-//                AGSPoint *displayPoint = [AGSPoint pointFromLat:y.doubleValue lon:x.doubleValue];
-//                objc_setAssociatedObject(candidate, @"DisplayPoint", displayPoint, OBJC_ASSOCIATION_RETAIN);
-//            }
-        }
-
         // Build a dictionary of useful info which listeners to our notification might want.
         NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                                   op, kEQSGeoServicesNotification_WorkerOperationKey,
@@ -503,5 +512,37 @@
                                                         object:self
                                                       userInfo:[NSDictionary dictionaryWithObject:error
                                                                                            forKey:kEQSGeoServicesNotification_ErrorKey]];
+}
+@end
+
+@implementation AGSAddressCandidate (EQSGeoServices)
+- (AGSEnvelope *) placeExtent
+{
+	// Extract the extent of that result
+    id xMinRaw = [self.attributes objectForKey:kEQSFindAddress_ReturnField_xmin];
+    id xMaxRaw = [self.attributes objectForKey:kEQSFindAddress_ReturnField_xmax];
+    id yMinRaw = [self.attributes objectForKey:kEQSFindAddress_ReturnField_ymin];
+    id yMaxRaw = [self.attributes objectForKey:kEQSFindAddress_ReturnField_ymax];
+
+    if (xMinRaw != nil && xMaxRaw != nil &&
+        yMinRaw != nil && yMaxRaw != nil)
+    {
+        double xMin = [xMinRaw doubleValue];
+        double xMax = [xMaxRaw doubleValue];
+        double yMin = [yMinRaw doubleValue];
+        double yMax = [yMaxRaw doubleValue];
+
+    	AGSEnvelope *ext = [AGSEnvelope envelopeWithXmin:xMin
+                                                    ymin:yMin
+                                                    xmax:xMax
+                                                    ymax:yMax
+                                        spatialReference:[AGSSpatialReference wgs84SpatialReference]];
+        
+        // Return a Web Mercator version (currently, geocode extents come back in Lat/Lon)
+        return (AGSEnvelope *)AGSGeometryGeographicToWebMercator(ext);
+    }
+
+    NSLog(@"Returned AddressCandidate did not have extent information available.");
+    return nil;
 }
 @end

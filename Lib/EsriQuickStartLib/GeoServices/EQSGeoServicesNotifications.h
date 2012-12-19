@@ -84,6 +84,7 @@
 // kEQSGeoServicesNotification_PointsFromAddress_OK
 // kEQSGeoServicesNotification_PointsFromAddress_Error
 - (NSArray *) findPlacesCandidates;
+- (NSArray *) findPlacesCandidatesSortedByScore;
 - (NSString *) findPlacesSearchString;
 - (AGSEnvelope *) findPlacesSearchExtent; // optional
 

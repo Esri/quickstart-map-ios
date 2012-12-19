@@ -283,7 +283,8 @@
         [EQSHelper queueBlock:^{
             [mapView addMapLayer:self.routeGraphicsLayer withName:kEQSRouteResultsLayerName];
         }
-           untilMapViewLoaded:mapView];
+           untilMapViewLoaded:mapView
+                withBlockName:@"Adding route graphics layer"];
 		
 		// Load the symbols we need, but don't block the main thread or the map might not load
 		// immediately. This is some tight coupling, but since this is all part of the starter library,
