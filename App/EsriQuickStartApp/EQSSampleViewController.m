@@ -30,14 +30,13 @@ typedef enum {
 	EQSSampleAppMessageStateAlert
 } EQSSampleAppMessageState;
 
-@interface EQSSampleViewController ()
-                                        <AGSMapViewTouchDelegate,
-                                        UISearchBarDelegate,
-                                        UIWebViewDelegate,
-                                        EQSBasemapPickerDelegate,
+@interface EQSSampleViewController ()  <AGSMapViewTouchDelegate,
                                         AGSMapViewCalloutDelegate,
+                                        EQSBasemapPickerDelegate,
 										EQSAddressCandidateViewDelegate,
                                         EQSCodeViewControllerDelegate,
+                                        UISearchBarDelegate,
+                                        UIWebViewDelegate,
                                         UIAlertViewDelegate>
 
 #pragma mark - Function Selection UI
@@ -295,6 +294,7 @@ typedef enum {
 //    [self.mapView zoomToLevel:7];
 //    [self.mapView centerAtMyLocation];
 //    [self.mapView centerAtMyLocationWithScaleLevel:15];
+//    [self.mapView zoomToPlace:@"New York" animated:YES];
 
 - (void)viewDidUnload
 {

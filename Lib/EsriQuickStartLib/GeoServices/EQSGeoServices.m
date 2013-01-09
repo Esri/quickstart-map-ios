@@ -155,18 +155,38 @@
 {
 	if (self = [super init])
 	{
-        // Set up the locator and route task.
-		self.locator = [AGSLocator locatorWithURL:[NSURL URLWithString:kEQSNALocatorURL]];
-        self.locator.delegate = self;
-		
-		self.routeTask = [AGSRouteTask routeTaskWithURL:[NSURL URLWithString:kEQSRoutingRouteTaskUrl]];
-		self.routeTask.delegate = self;
-		
-        // Try to get the default parameters for the route task.
-		[self.routeTask retrieveDefaultRouteTaskParameters];
+		[self setupLocator];
+        [self setupRouteTask];
 	}
 	
 	return self;
+}
+
+- (id) initForLocationOnly
+{
+    if (self = [super init])
+    {
+        [self setupLocator];
+        self.routeTask = nil;
+    }
+    return self;
+}
+
+-(void) setupLocator
+{
+    // Set up the locator.
+    self.locator = [AGSLocator locatorWithURL:[NSURL URLWithString:kEQSNALocatorURL]];
+    self.locator.delegate = self;
+}
+
+-(void) setupRouteTask
+{
+    // Set up the route task.
+    self.routeTask = [AGSRouteTask routeTaskWithURL:[NSURL URLWithString:kEQSRoutingRouteTaskUrl]];
+    self.routeTask.delegate = self;
+    
+    // Try to get the default parameters for the route task.
+    [self.routeTask retrieveDefaultRouteTaskParameters];
 }
 
 - (void) dealloc
@@ -261,6 +281,8 @@
 - (NSOperation *) findDirectionsFrom:(AGSPoint *)startPoint named:(NSString *)startPointName
                                   to:(AGSPoint *)endPoint named:(NSString *)endPointName
 {
+    NSAssert(self.routeTask != nil, @"EQSGeoServices Initialized without RouteTask.");
+    
 	AGSRouteTaskParameters *routeTaskParams = [self getParametersToRouteFromStart:startPoint Named:startPointName
                                                                            ToStop:endPoint Named:endPointName];
 	return [self.routeTask solveWithParameters:routeTaskParams];

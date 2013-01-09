@@ -18,6 +18,14 @@
 #import <CoreLocation/CoreLocation.h>
 #import <objc/runtime.h>
 
+@interface EQSGeoServices (EQSNavigation)
+-(id)initForLocationOnly;
+@end
+
+@interface AGSMapView (EQSNavigation_Internal)
+@property (nonatomic, readonly) EQSGeoServices *eqs_nav_geoServices;
+@end
+
 @implementation AGSMapView (EQSNavigation)
 #define kEQSNavigationGeolocationTargetScaleKey @"EQSGeolocationTargetScale"
 #define kEQSNavigationZoomToPlaceShouldAnimateKey @"EQSNavigationZoomAnimate"
@@ -65,26 +73,40 @@
 
 - (void) zoomToPlace:(NSString *)searchString animated:(BOOL)animated
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(gotZoomResult:)
-                                                 name:kEQSGeoServicesNotification_PointsFromAddress_OK
-                                               object:self.geoServices];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(gotZoomResult:)
+                                                     name:kEQSGeoServicesNotification_PointsFromAddress_OK
+                                                   object:self.eqs_nav_geoServices];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(errorGettingZoomResult:)
+                                                     name:kEQSGeoServicesNotification_PointsFromAddress_Error
+                                                   object:self.eqs_nav_geoServices];
+    });
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(errorGettingZoomResult:)
-                                                 name:kEQSGeoServicesNotification_PointsFromAddress_Error
-                                               object:self.geoServices];
-    
-    NSOperation *findOp = [self.geoServices findPlaces:searchString];
+    NSOperation *findOp = [self.eqs_nav_geoServices findPlaces:searchString];
     objc_setAssociatedObject(findOp, kEQSNavigationZoomToPlaceShouldAnimateKey, [NSNumber numberWithBool:animated], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+-(EQSGeoServices *)eqs_nav_geoServices
+{
+    static EQSGeoServices *geoServices = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        geoServices = [[EQSGeoServices alloc] initForLocationOnly];
+    });
+    
+    return geoServices;
 }
 
 - (void) gotZoomResult:(NSNotification *)notification
 {
-    NSNumber *n = objc_getAssociatedObject(notification.geoServicesOperation, kEQSNavigationZoomToPlaceShouldAnimateKey);
-    BOOL b = n.boolValue;
-    if (b)
+    if ([notification findPlacesWasZoomToPlaceRequest])
     {
+        NSLog(@"Got results for ZoomToPlace");
         NSArray *foundPlaces = notification.findPlacesCandidatesSortedByScore;
         
         if (foundPlaces.count > 0)
