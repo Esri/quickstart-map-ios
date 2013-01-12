@@ -111,21 +111,18 @@
     {
         gl = [self getGraphicsLayer:EQSGraphicsLayerTypePoint];
         [gl removeAllGraphics];
-        [gl dataChanged];
     }
     
     if (layerType & EQSGraphicsLayerTypePolyline)
     {
         gl = [self getGraphicsLayer:EQSGraphicsLayerTypePolyline];
         [gl removeAllGraphics];
-        [gl dataChanged];
     }
     
     if (layerType & EQSGraphicsLayerTypePolygon)
     {
         gl = [self getGraphicsLayer:EQSGraphicsLayerTypePolygon];
         [gl removeAllGraphics];
-        [gl dataChanged];
     }
 }
 
@@ -142,33 +139,17 @@
     return [self __eqsGraphics_AddGraphicToAppropriateGraphicsLayer:graphic];
 }
 
-- (AGSGraphicsLayer *) addGraphic:(AGSGraphic *)graphic withAttribute:(id)attribute withValue:(id)value
+- (AGSGraphicsLayer *) addGraphic:(AGSGraphic *)graphic withAttribute:(NSString *)attributeName withValue:(id)value
 {
     AGSGraphicsLayer *targetLayer = [self __eqsGraphics_GetGraphicsLayerForGraphic:graphic];
-    if (!graphic.attributes)
-    {
-        graphic.attributes = [NSMutableDictionary dictionaryWithCapacity:1];
-    }
-    [graphic.attributes setObject:value forKey:attribute];
+    [graphic setAttribute:value forKey:attributeName];
     [targetLayer addGraphic:graphic];
-    [targetLayer dataChanged];
     return targetLayer;
 }
 
 
 #pragma mark - Remove graphic
 - (AGSGraphicsLayer *) removeGraphic:(AGSGraphic *)graphic
-{
-    AGSGraphicsLayer *owningLayer = [self removeGraphicNoRefresh:graphic];
-    if (owningLayer)
-    {
-        [owningLayer dataChanged];
-    }
-    
-    return owningLayer;
-}
-
-- (AGSGraphicsLayer *) removeGraphicNoRefresh:(AGSGraphic *)graphic
 {
 	if (graphic)
 	{
@@ -198,27 +179,22 @@
             }
         }
     }
-    
+
+    // TODO: Does this perform well at 10.1.1 or do we want to group by layer?
     // Remove each graphic from its layer, and remember the set of layers affected
     NSMutableSet *layersToUpdate = [NSMutableSet set];
     for (AGSGraphic *g in graphicsToRemove) {
         [layersToUpdate addObject:g.layer];
-        [self removeGraphicNoRefresh:g];
-    }
-    
-    // Flag the affected layers for redraw
-    for (AGSGraphicsLayer *gl in layersToUpdate)
-    {
-        [gl dataChanged];
+        [self removeGraphic:g];
     }
     
     return layersToUpdate;
 }
 
-- (NSSet *) removeGraphicsByAttribute:(id)attribute withValue:(id)value
+- (NSSet *) removeGraphicsByAttribute:(NSString *)attributeName withValue:(id)value
 {
     return [self removeGraphicsMatchingCriteria:^BOOL(AGSGraphic *graphic) {
-        id gVal = [graphic.attributes objectForKey:attribute];
+        id gVal = [graphic attributeForKey:attributeName];
         return [gVal isEqual:value];
     }];
 }
@@ -287,11 +263,8 @@
     if (editingGraphic)
     {
         // Editing an existing graphic
+        // TODO: Test whether this works in 10.1.1
         editingGraphic.geometry = editedGeometry;
-        AGSGraphicsLayer *owningLayer = editingGraphic.layer;
-        // Get the owning layer and refresh it.
-        [owningLayer dataChanged];
-        
         editedGraphic = editingGraphic;
     }
     else
@@ -553,7 +526,6 @@
         if (gLayer)
         {
             [gLayer addGraphic:graphic];
-            [gLayer dataChanged];
         }
         
         return gLayer;

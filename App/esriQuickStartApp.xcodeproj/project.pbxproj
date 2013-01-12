@@ -51,6 +51,8 @@
 		D93B0093166D2A52009586A4 /* location-grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D93B007B166D2A52009586A4 /* location-grey@2x.png */; };
 		D93B0094166D2A52009586A4 /* location-white.png in Resources */ = {isa = PBXBuildFile; fileRef = D93B007C166D2A52009586A4 /* location-white.png */; };
 		D93B0095166D2A52009586A4 /* location-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D93B007D166D2A52009586A4 /* location-white@2x.png */; };
+		D93B553C16A0CF59004F3D19 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D93B553B16A0CF59004F3D19 /* libc++.dylib */; };
+		D93B553E16A0CF62004F3D19 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D93B553D16A0CF62004F3D19 /* OpenGLES.framework */; };
 		D93C98A5156D8CC000A5F339 /* EQSBasemapDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D93C98A4156D8CC000A5F339 /* EQSBasemapDetailsViewController.m */; };
 		D93D710F15EBCEC9002F7FA2 /* EQSAddressCandidateBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D93D710E15EBCEC9002F7FA2 /* EQSAddressCandidateBaseViewController.m */; };
 		D940585A15E6C2D300F4A320 /* 74-location-white.png in Resources */ = {isa = PBXBuildFile; fileRef = D940585815E6C2D300F4A320 /* 74-location-white.png */; };
@@ -117,7 +119,6 @@
 		D9B3D61815E2BE3100140C4E /* closeX.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D61615E2BE3100140C4E /* closeX.png */; };
 		D9B3D61915E2BE3100140C4E /* closeX@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D61715E2BE3100140C4E /* closeX@2x.png */; };
 		D9E01457158A45A4005DD7D8 /* EQSPortalItemListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E01456158A45A4005DD7D8 /* EQSPortalItemListView.m */; };
-		D9E27C9E155ABDC5008F8CCB /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */; };
 		D9FAAECF15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9FAAECE15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m */; };
 		D9FAAED515E84C87003E3F5B /* EQSAddressCandidateCalloutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9FAAED415E84C86003E3F5B /* EQSAddressCandidateCalloutViewController.m */; };
 		E141D0E315DB02CE004F81F4 /* EQSPortalItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = E141D0E215DB02CD004F81F4 /* EQSPortalItemView.m */; };
@@ -133,7 +134,6 @@
 		E16C291315598A5E00E2DB56 /* EQSSampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E16C291215598A5E00E2DB56 /* EQSSampleViewController.m */; };
 		E1750BB41559B0F600C50929 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BAC1559B0F600C50929 /* CoreLocation.framework */; };
 		E1750BB51559B0F600C50929 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BAD1559B0F600C50929 /* CoreText.framework */; };
-		E1750BB61559B0F600C50929 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BAE1559B0F600C50929 /* libstdc++.dylib */; };
 		E1750BB71559B0F600C50929 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BAF1559B0F600C50929 /* libz.dylib */; };
 		E1750BB81559B0F600C50929 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BB01559B0F600C50929 /* MediaPlayer.framework */; };
 		E1750BB91559B0F600C50929 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BB11559B0F600C50929 /* MobileCoreServices.framework */; };
@@ -147,6 +147,30 @@
 		E1E1809115DAD43D00BB30DD /* EQSPortalItemPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E1809015DAD43C00BB30DD /* EQSPortalItemPickerViewController.m */; };
 		E1FBDFC0162E56A8001EF29D /* EQSResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E1FBDFBF162E56A8001EF29D /* EQSResources.bundle */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D93B554D16A0D39E004F3D19 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D93B554416A0D39E004F3D19 /* EsriQuickStartLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D9E162161629DDF30055844C;
+			remoteInfo = EQSResources;
+		};
+		D93B554F16A0D39E004F3D19 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D93B554416A0D39E004F3D19 /* EsriQuickStartLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D9E161531629C9020055844C;
+			remoteInfo = EsriQuickStart;
+		};
+		D93B555116A0D3AF004F3D19 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D93B554416A0D39E004F3D19 /* EsriQuickStartLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D9E161B11629CBD00055844C;
+			remoteInfo = "Universal Framework";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		D9086D9F158B90D800FC1D43 /* description.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = description.css; sourceTree = "<group>"; };
@@ -194,6 +218,9 @@
 		D93B007B166D2A52009586A4 /* location-grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location-grey@2x.png"; sourceTree = "<group>"; };
 		D93B007C166D2A52009586A4 /* location-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location-white.png"; sourceTree = "<group>"; };
 		D93B007D166D2A52009586A4 /* location-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location-white@2x.png"; sourceTree = "<group>"; };
+		D93B553B16A0CF59004F3D19 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		D93B553D16A0CF62004F3D19 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		D93B554416A0D39E004F3D19 /* EsriQuickStartLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EsriQuickStartLib.xcodeproj; path = ../Lib/EsriQuickStartLib.xcodeproj; sourceTree = "<group>"; };
 		D93C98A3156D8CC000A5F339 /* EQSBasemapDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSBasemapDetailsViewController.h; sourceTree = "<group>"; };
 		D93C98A4156D8CC000A5F339 /* EQSBasemapDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSBasemapDetailsViewController.m; sourceTree = "<group>"; };
 		D93D710D15EBCEC9002F7FA2 /* EQSAddressCandidateBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSAddressCandidateBaseViewController.h; sourceTree = "<group>"; };
@@ -275,14 +302,13 @@
 		D9B3D61715E2BE3100140C4E /* closeX@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "closeX@2x.png"; sourceTree = "<group>"; };
 		D9E01455158A45A4005DD7D8 /* EQSPortalItemListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSPortalItemListView.h; sourceTree = "<group>"; };
 		D9E01456158A45A4005DD7D8 /* EQSPortalItemListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSPortalItemListView.m; sourceTree = "<group>"; };
-		D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = $HOME/Library/SDKs/ArcGIS/ArcGIS.framework; sourceTree = "<absolute>"; };
 		D9FAAECD15E83D88003E3F5B /* EQSAddressCandidateCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSAddressCandidateCalloutView.h; sourceTree = "<group>"; };
 		D9FAAECE15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSAddressCandidateCalloutView.m; sourceTree = "<group>"; };
 		D9FAAED315E84C86003E3F5B /* EQSAddressCandidateCalloutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSAddressCandidateCalloutViewController.h; sourceTree = "<group>"; };
 		D9FAAED415E84C86003E3F5B /* EQSAddressCandidateCalloutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSAddressCandidateCalloutViewController.m; sourceTree = "<group>"; };
 		E141D0E115DB02CD004F81F4 /* EQSPortalItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSPortalItemView.h; sourceTree = "<group>"; };
 		E141D0E215DB02CD004F81F4 /* EQSPortalItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSPortalItemView.m; sourceTree = "<group>"; };
-		E16C07CB1559B39C00776F3E /* ArcGIS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ArcGIS.bundle; path = $HOME/Library/SDKs/ArcGIS/ArcGIS.framework/Versions/Current/Resources/ArcGIS.bundle; sourceTree = "<absolute>"; };
+		E16C07CB1559B39C00776F3E /* ArcGIS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ArcGIS.bundle; path = $HOME/Library/SDKs/ArcGIS/iOS/ArcGIS.framework/Versions/Current/Resources/ArcGIS.bundle; sourceTree = "<absolute>"; };
 		E16C28F515598A5E00E2DB56 /* esriQuickStartApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = esriQuickStartApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E16C28F915598A5E00E2DB56 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E16C28FB15598A5E00E2DB56 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -299,7 +325,6 @@
 		E16C291215598A5E00E2DB56 /* EQSSampleViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EQSSampleViewController.m; sourceTree = "<group>"; };
 		E1750BAC1559B0F600C50929 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E1750BAD1559B0F600C50929 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
-		E1750BAE1559B0F600C50929 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		E1750BAF1559B0F600C50929 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		E1750BB01559B0F600C50929 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		E1750BB11559B0F600C50929 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -327,11 +352,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D93B553E16A0CF62004F3D19 /* OpenGLES.framework in Frameworks */,
+				D93B553C16A0CF59004F3D19 /* libc++.dylib in Frameworks */,
 				D9963CA016681FB800C7D51F /* EsriQuickStart.framework in Frameworks */,
-				D9E27C9E155ABDC5008F8CCB /* ArcGIS.framework in Frameworks */,
 				E1750BB41559B0F600C50929 /* CoreLocation.framework in Frameworks */,
 				E1750BB51559B0F600C50929 /* CoreText.framework in Frameworks */,
-				E1750BB61559B0F600C50929 /* libstdc++.dylib in Frameworks */,
 				E1750BB71559B0F600C50929 /* libz.dylib in Frameworks */,
 				E1750BB81559B0F600C50929 /* MediaPlayer.framework in Frameworks */,
 				E1750BB91559B0F600C50929 /* MobileCoreServices.framework in Frameworks */,
@@ -383,6 +408,15 @@
 				D93B007D166D2A52009586A4 /* location-white@2x.png */,
 			);
 			path = Functions;
+			sourceTree = "<group>";
+		};
+		D93B554516A0D39E004F3D19 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D93B554E16A0D39E004F3D19 /* EQSResources.bundle */,
+				D93B555016A0D39E004F3D19 /* EsriQuickStart.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		D964FA1A15E67E2E0013B4D7 /* Address Candidate Views */ = {
@@ -534,6 +568,7 @@
 		E16C28EA15598A5E00E2DB56 = {
 			isa = PBXGroup;
 			children = (
+				D93B554416A0D39E004F3D19 /* EsriQuickStartLib.xcodeproj */,
 				E16C28FF15598A5E00E2DB56 /* QuickStartApp */,
 				E16C28F815598A5E00E2DB56 /* Frameworks */,
 				E16C28F615598A5E00E2DB56 /* Products */,
@@ -551,20 +586,20 @@
 		E16C28F815598A5E00E2DB56 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D9963C9F16681FB800C7D51F /* EsriQuickStart.framework */,
-				D9E27C9D155ABDC5008F8CCB /* ArcGIS.framework */,
+				D9911DFD16288C2400950AA7 /* CoreFoundation.framework */,
+				E16C28FD15598A5E00E2DB56 /* CoreGraphics.framework */,
 				E1750BAC1559B0F600C50929 /* CoreLocation.framework */,
 				E1750BAD1559B0F600C50929 /* CoreText.framework */,
-				E1750BAE1559B0F600C50929 /* libstdc++.dylib */,
+				D9963C9F16681FB800C7D51F /* EsriQuickStart.framework */,
+				E16C28FB15598A5E00E2DB56 /* Foundation.framework */,
+				D93B553B16A0CF59004F3D19 /* libc++.dylib */,
 				E1750BAF1559B0F600C50929 /* libz.dylib */,
 				E1750BB01559B0F600C50929 /* MediaPlayer.framework */,
 				E1750BB11559B0F600C50929 /* MobileCoreServices.framework */,
+				D93B553D16A0CF62004F3D19 /* OpenGLES.framework */,
 				E1750BB21559B0F600C50929 /* QuartzCore.framework */,
 				E1750BB31559B0F600C50929 /* Security.framework */,
 				E16C28F915598A5E00E2DB56 /* UIKit.framework */,
-				E16C28FB15598A5E00E2DB56 /* Foundation.framework */,
-				E16C28FD15598A5E00E2DB56 /* CoreGraphics.framework */,
-				D9911DFD16288C2400950AA7 /* CoreFoundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -690,6 +725,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D93B555216A0D3AF004F3D19 /* PBXTargetDependency */,
 			);
 			name = esriQuickStartApp;
 			productName = iOSLite;
@@ -716,12 +752,35 @@
 			mainGroup = E16C28EA15598A5E00E2DB56;
 			productRefGroup = E16C28F615598A5E00E2DB56 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = D93B554516A0D39E004F3D19 /* Products */;
+					ProjectRef = D93B554416A0D39E004F3D19 /* EsriQuickStartLib.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				E16C28F415598A5E00E2DB56 /* esriQuickStartApp */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		D93B554E16A0D39E004F3D19 /* EQSResources.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = EQSResources.bundle;
+			remoteRef = D93B554D16A0D39E004F3D19 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D93B555016A0D39E004F3D19 /* EsriQuickStart.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = EsriQuickStart.framework;
+			remoteRef = D93B554F16A0D39E004F3D19 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		E16C28F315598A5E00E2DB56 /* Resources */ = {
@@ -869,6 +928,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		D93B555216A0D3AF004F3D19 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Universal Framework";
+			targetProxy = D93B555116A0D3AF004F3D19 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		E16C290215598A5E00E2DB56 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -949,7 +1016,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(HOME)/Library/SDKs/ArcGIS/**",
+					"$(HOME)/Library/SDKs/ArcGIS/iOS/**",
 					"\"$(SRCROOT)/../Lib/Products\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -959,6 +1026,8 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
+					"-framework",
+					ArcGIS,
 				);
 				PRODUCT_NAME = esriQuickStartApp;
 				VALID_ARCHS = armv7;
@@ -970,7 +1039,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(HOME)/Library/SDKs/ArcGIS/**",
+					"$(HOME)/Library/SDKs/ArcGIS/iOS/**",
 					"\"$(SRCROOT)/../Lib/Products\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -980,6 +1049,8 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
+					"-framework",
+					ArcGIS,
 				);
 				PRODUCT_NAME = esriQuickStartApp;
 				VALID_ARCHS = armv7;

@@ -9,6 +9,6 @@
 #import <ArcGIS/ArcGIS.h>
 
 @interface EQSShadowLineSymbol : AGSSimpleLineSymbol
-+ (EQSShadowLineSymbol *) simpleLineSymbolWithColor:(UIColor *)color width:(double)width;
+//+ (EQSShadowLineSymbol *) simpleLineSymbolWithColor:(UIColor *)color width:(double)width;
 @end
 

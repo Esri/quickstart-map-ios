@@ -109,17 +109,17 @@
 
 #pragma mark - Constant Definitions
 //#define kEQSNALocatorURL @"http://tasks.arcgisonline.com/ArcGIS/rest/services/Locators/TA_Address_NA_10/GeocodeServer"
-#define kEQSNALocatorURL @"http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
-#define kEQSFindAddress_AddressKey @"SingleLine"
+//#define kEQSNALocatorURL @"http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+#define kEQSFindAddress_AddressKey @"text"
 #define kEQSFindAddress_ReturnField_xmin @"Xmin"
 #define kEQSFindAddress_ReturnField_xmax @"Xmax"
 #define kEQSFindAddress_ReturnField_ymin @"Ymin"
 #define kEQSFindAddress_ReturnField_ymax @"Ymax"
-#define kEQSFindAddress_ReturnFields @"Loc_name", @"Shape", @"Country", @"Addr_Type", @"Type", @"Match_Addr"
+#define kEQSFindAddress_ReturnFields @"Loc_name", @"Shape", @"Country", @"Addr_type", @"Type", @"Match_addr"
 #define kEQSFindAddress_AssociatedAddressKey "address"
 #define kEQSFindAddress_AssociatedExtentKey "extent"
 
-#define kEQSNewStyleGeocoderURL @"http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+//#define kEQSNewStyleGeocoderURL @"http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
 
 #define kEQSFindLocation_AssociatedLocationKey "location"
 #define kEQSFindLocation_AssociatedDistanceKey "searchDistance"
@@ -175,7 +175,7 @@
 -(void) setupLocator
 {
     // Set up the locator.
-    self.locator = [AGSLocator locatorWithURL:[NSURL URLWithString:kEQSNALocatorURL]];
+    self.locator = [AGSLocator locator];
     self.locator.delegate = self;
 }
 
@@ -222,14 +222,15 @@
 - (NSOperation *) findPlaces:(NSString *)singleLineAddress withinEnvelope:(AGSEnvelope *)env
 {
 	// Tell the service we are providing a single line address.
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:singleLineAddress forKey:kEQSFindAddress_AddressKey];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:singleLineAddress
+                                                                     forKey:kEQSFindAddress_AddressKey];
 
     if (env)
     {
         NSDictionary *json = [env encodeToJSON];
-        NSString *envStr = [json AGSJSONRepresentation];
+        NSString *envStr = [json ags_JSONRepresentation];
         NSLog(@"Envelope is: %@", envStr);
-        [params setObject:envStr forKey:@"searchExtent"];
+        [params setObject:envStr forKey:@"bbox"];
     }
     
     // List the fields we want back.
@@ -242,7 +243,9 @@
     NSOperation *op = [self.locator locationsForAddress:params
                                            returnFields:outFields
                                     outSpatialReference:[AGSSpatialReference webMercatorSpatialReference]];
-    
+
+//    NSOperation *op = [self.locator locationsForAddress:params returnFields:nil];
+
     // Associate the requested address with the operation - we'll read this later.
     objc_setAssociatedObject(op, kEQSFindAddress_AssociatedAddressKey, singleLineAddress, OBJC_ASSOCIATION_RETAIN);
     objc_setAssociatedObject(op, kEQSFindAddress_AssociatedExtentKey, env, OBJC_ASSOCIATION_RETAIN);

@@ -283,6 +283,7 @@ typedef enum {
 
 	// Set up our map with a basemap, and jump to a location and scale level.
     [self.mapView setBasemap: self.currentBasemapType];
+//    [self.mapView zoomToPlace:@"New York" animated:YES];
     [self.mapView zoomToLevel:13 withLat:40.7302 lon:-73.9958 animated:YES];
 
 	[self registerForGeoServicesNotifications];
@@ -418,7 +419,7 @@ typedef enum {
 - (void)initUI
 {
 	// Set up the map UI a little.
-    self.mapView.wrapAround = YES;
+    [self.mapView enableWrapAround];
     self.mapView.touchDelegate = self;
     self.mapView.calloutDelegate = self;
     
@@ -576,7 +577,7 @@ typedef enum {
             AGSGraphic *g = [self nearestGraphicToPoint:mapPoint FromMapViewClickedGraphics:graphics];
             if (g && g.infoTemplateDelegate)
     {
-                [self.mapView showCalloutAtPoint:mapPoint forGraphic:g animated:YES];
+                [self.mapView.callout showCalloutAtPoint:mapPoint forGraphic:g animated:YES];
                 shouldReverseGeocode = NO;
             }
             if (shouldReverseGeocode)
@@ -1688,8 +1689,11 @@ typedef enum {
 			{
                 AGSPoint *p = candidate.location;//] getWebMercatorAuxSpherePoint];
                 AGSGraphic *g = [self.mapView addPoint:p withSymbol:self.mapView.defaultSymbols.reverseGeocode];
-                [g.attributes setObject:@"ReverseGeocoded" forKey:@"Source"];
-                [g.attributes addEntriesFromDictionary:candidate.attributes];
+                [g setAttributeWithString:@"ReverseGeocoded" forKey:@"Source"];
+                for (NSString *key in candidate.attributes.allKeys)
+                {
+                    [g setAttribute:[candidate.attributes objectForKey:key] forKey:key];
+                }
                 
                 EQSAddressCandidatePanelViewController *cvc =
                 [[EQSAddressCandidatePanelViewController alloc] initWithAddressCandidate:candidate
@@ -1699,7 +1703,7 @@ typedef enum {
                 [cvc addToScrollView:self.findPlacesScrollView];
                 [self.geocodeResults addObject:cvc];
 
-                [self.mapView showCalloutAtPoint:p forGraphic:g animated:YES];
+                [self.mapView.callout showCalloutAtPoint:p forGraphic:g animated:YES];
 			}
             else if ([source isEqualToString:kEQSGetAddressReason_AddressForGeolocation])
             {
@@ -1709,8 +1713,11 @@ typedef enum {
                 
                 AGSPoint *geoLocation = [notification findAddressSearchPoint];
                 AGSGraphic *g = [self.mapView addPoint:geoLocation withSymbol:self.mapView.defaultSymbols.geolocation];
-                [g.attributes setObject:@"Geolocation" forKey:@"Source"];
-                [g.attributes addEntriesFromDictionary:candidate.attributes];
+                [g setAttributeWithString:@"Geolocation" forKey:@"Source"];
+                for (NSString *key in candidate.attributes.allKeys)
+                {
+                    [g setAttribute:[candidate.attributes objectForKey:key] forKey:key];
+                }
 
                 EQSAddressCandidatePanelViewController *cvc =
                 [[EQSAddressCandidatePanelViewController alloc] initWithAddressCandidate:candidate
@@ -1722,7 +1729,7 @@ typedef enum {
 
                 self.myLocationAddressLabel.text = address;
 
-                [self.mapView showCalloutAtPoint:geoLocation forGraphic:g animated:YES];
+                [self.mapView.callout showCalloutAtPoint:geoLocation forGraphic:g animated:YES];
             }
 			
 			[self updateUIDisplayState];
@@ -2299,10 +2306,13 @@ typedef enum {
 				AGSGraphic *g = [self.mapView addPoint:p withSymbol:self.mapView.defaultSymbols.findPlace];
 				
 				// Let's track the graphic in the map.
-				[g.attributes setObject:@"Geocoded" forKey:@"Source"];
+				[g setAttributeWithString:@"Geocoded" forKey:@"Source"];
 				
 				// And let's get the graphic to inherit the attributes from the candidate.
-				[g.attributes addEntriesFromDictionary:c.attributes];
+                for (NSString *key in c.attributes.allKeys)
+                {
+                    [g setAttribute:[c.attributes objectForKey:key] forKey:key];
+                }
 				
 				// NSLog(@"Point: %@", p);
 				// NSLog(@"Loc  : %@", c.location);
@@ -2402,7 +2412,7 @@ typedef enum {
         AGSGraphic *g = candidateVC.graphic;
         if (g)
         {
-            [self.mapView showCalloutAtPoint:location forGraphic:g animated:YES];
+            [self.mapView.callout showCalloutAtPoint:location forGraphic:g animated:YES];
         }
     }
 	// And let's scroll the containing view to show the result fully.

@@ -22,6 +22,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		D93B555916A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = D93B555716A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.h */; };
+		D93B555A16A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D93B555816A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.m */; };
 		D9586847166525E7000DC972 /* EQSShadowLineSymbol.h in Headers */ = {isa = PBXBuildFile; fileRef = D9586845166525E7000DC972 /* EQSShadowLineSymbol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9586848166525E7000DC972 /* EQSShadowLineSymbol.m in Sources */ = {isa = PBXBuildFile; fileRef = D9586846166525E7000DC972 /* EQSShadowLineSymbol.m */; };
 		D9E1615D1629C9020055844C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D9E1615B1629C9020055844C /* InfoPlist.strings */; };
@@ -105,6 +107,8 @@
 
 /* Begin PBXFileReference section */
 		D939FBE71629EE3400E8B8ED /* EQSHelper_int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSHelper_int.h; sourceTree = "<group>"; };
+		D93B555716A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapViewBase+EQSHelper.h"; sourceTree = "<group>"; };
+		D93B555816A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapViewBase+EQSHelper.m"; sourceTree = "<group>"; };
 		D9586845166525E7000DC972 /* EQSShadowLineSymbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSShadowLineSymbol.h; sourceTree = "<group>"; };
 		D9586846166525E7000DC972 /* EQSShadowLineSymbol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSShadowLineSymbol.m; sourceTree = "<group>"; };
 		D9E161091629C8B40055844C /* AGSLayer+EQSBasemap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSLayer+EQSBasemap.h"; sourceTree = "<group>"; };
@@ -167,10 +171,8 @@
 		D9E1615A1629C9020055844C /* EsriQuickStartLib-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "EsriQuickStartLib-Info.plist"; sourceTree = "<group>"; };
 		D9E1615C1629C9020055844C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D9E1615E1629C9020055844C /* EsriQuickStartLib-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EsriQuickStartLib-Prefix.pch"; sourceTree = "<group>"; };
-		D9E161671629CA1B0055844C /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = ../../../Library/SDKs/ArcGIS/ArcGIS.framework; sourceTree = "<group>"; };
 		D9E161681629CA1B0055844C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		D9E161691629CA1B0055844C /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
-		D9E1616A1629CA1B0055844C /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/usr/lib/libstdc++.dylib"; sourceTree = DEVELOPER_DIR; };
 		D9E1616B1629CA1B0055844C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
 		D9E1616C1629CA1B0055844C /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/MediaPlayer.framework; sourceTree = DEVELOPER_DIR; };
 		D9E1616D1629CA1B0055844C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
@@ -369,6 +371,8 @@
 				D939FBE71629EE3400E8B8ED /* EQSHelper_int.h */,
 				D9E1614A1629C8B40055844C /* EQSHelper.m */,
 				D9E1614B1629C8B40055844C /* Resources */,
+				D93B555716A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.h */,
+				D93B555816A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.m */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -417,13 +421,11 @@
 		D9E161821629CA2B0055844C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D9E161671629CA1B0055844C /* ArcGIS.framework */,
 				D9E161731629CA1C0055844C /* CoreFoundation.framework */,
 				D9E161721629CA1C0055844C /* CoreGraphics.framework */,
 				D9E161681629CA1B0055844C /* CoreLocation.framework */,
 				D9E161691629CA1B0055844C /* CoreText.framework */,
 				D9E161711629CA1C0055844C /* Foundation.framework */,
-				D9E1616A1629CA1B0055844C /* libstdc++.dylib */,
 				D9E1616B1629CA1B0055844C /* libz.dylib */,
 				D9E1616C1629CA1B0055844C /* MediaPlayer.framework */,
 				D9E1616D1629CA1B0055844C /* MobileCoreServices.framework */,
@@ -483,6 +485,7 @@
 				D9E1618B1629CAA60055844C /* EQSRouteResultsTableViewController.h in Headers */,
 				D9E1618E1629CAA60055844C /* EQSRouteResultsViewControllerCompact.h in Headers */,
 				D9586847166525E7000DC972 /* EQSShadowLineSymbol.h in Headers */,
+				D93B555916A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -628,6 +631,7 @@
 				D9E161AF1629CB1E0055844C /* EQSGeoServices.m in Sources */,
 				D9E161B01629CB1E0055844C /* EQSHelper.m in Sources */,
 				D9586848166525E7000DC972 /* EQSShadowLineSymbol.m in Sources */,
+				D93B555A16A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -791,11 +795,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$HOME/Library/SDKs/ArcGIS/iOS/**";
 				INSTALL_PATH = Products;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
+					"-framework",
+					ArcGIS,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -808,11 +815,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$HOME/Library/SDKs/ArcGIS/iOS/**";
 				INSTALL_PATH = Products;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
+					"-framework",
+					ArcGIS,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;

@@ -7,8 +7,12 @@
 
 #import "EQSHelper.h"
 
-@interface EQSHelper ()
+#define kEQSMapViewNotification_MapViewDidLoad @"EQSMapViewDidLoadNotification"
+#define kEQSInterceptedDelegate "EQSInterceptedMapViewLayerDelegate"
+
+@interface EQSHelper () <AGSMapViewLayerDelegate>
 + (NSBundle *) getEQSBundle;
++ (id)defaultHelper;
 
 
 // Queuing. Some operations cannot be performed until the AGSMapView has loaded.

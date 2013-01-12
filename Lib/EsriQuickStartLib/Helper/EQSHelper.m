@@ -7,6 +7,8 @@
 //
 
 #import "EQSHelper_int.h"
+#import "AGSMapViewBase+EQSHelper.h"
+#import <objc/runtime.h>
 
 #define kEQSConfigKey_ScaleLevels @"DefaultScaleLevels"
 #define kEQSConfigKey_DefaultScaleLevel @"DefaultScaleLevel"
@@ -20,8 +22,9 @@
 #define kEQSConfigKey_Basemap_Topographic @"Topographic"
 #define kEQSConfigKey_Basemap_OSM @"OpenStreetMap"
 
+#define kEQSMapViewKey_HashCodeValue @"EQSMapViewHashCodeKey"
+
 @interface EQSHelper () <CLLocationManagerDelegate>
-+ (id)defaultHelper;
 - (double) getScaleForLevel:(NSUInteger)level;
 
 @property (nonatomic, assign) BOOL isInitialized;
@@ -43,6 +46,36 @@
 @synthesize basemapPortalItemIDs;
 
 @synthesize mapViewQueues = _mapViewQueues;
+
+-(BOOL)mapView:(AGSMapView *)mapView shouldFindGraphicsInLayer:(AGSGraphicsLayer *)graphicsLayer
+       atPoint:(CGPoint)screen
+      mapPoint:(AGSPoint *)mappoint
+{
+    id<AGSMapViewLayerDelegate> realDelegate = objc_getAssociatedObject(mapView, kEQSInterceptedDelegate);
+    if (realDelegate &&
+        [realDelegate respondsToSelector:@selector(mapView:shouldFindGraphicsInLayer:atPoint:mapPoint:)])
+    {
+        return [realDelegate mapView:mapView shouldFindGraphicsInLayer:graphicsLayer
+                             atPoint:screen
+                            mapPoint:mappoint];
+    }
+    
+    // Default is YES
+    return YES;
+}
+
+-(void)mapViewDidLoad:(AGSMapView *)mapView
+{
+    id<AGSMapViewLayerDelegate> realDelegate = objc_getAssociatedObject(mapView, kEQSInterceptedDelegate);
+    if (realDelegate &&
+        [realDelegate respondsToSelector:@selector(mapViewDidLoad:)])
+    {
+        [realDelegate mapViewDidLoad:mapView];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kEQSMapViewNotification_MapViewDidLoad
+                                                        object:mapView];
+}
+
 
 #pragma mark - Queued Operations
 + (void) queueBlock:(void (^)(void))block untilMapViewLoaded:(AGSMapView *)mapView withBlockName:(NSString *)blockName
@@ -78,7 +111,12 @@
             // Add it to our dictionary to find later.
             [self.mapViewQueues setObject:ops forKey:key];
             // Watch the AGSMapView to see when it loads.
-            [mapView addObserver:self forKeyPath:@"loaded" options:NSKeyValueObservingOptionNew context:(__bridge_retained void *)key];
+//            [mapView addObserver:self forKeyPath:@"loaded" options:NSKeyValueObservingOptionNew context:(__bridge_retained void *)key];
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(handleMapLoadNotification:)
+                                                         name:kEQSMapViewNotification_MapViewDidLoad
+                                                       object:mapView];
+            mapView.layerDelegate = self;
         }
 
         // And add the block to the queue.
@@ -103,29 +141,43 @@
     {
         // Get the map view whose loaded value just changed.
         AGSMapView *theMapView = (AGSMapView *)object;
+//        NSNumber *key = (__bridge_transfer NSNumber *)context;
+        [self handleMapLoad:theMapView];
+    }
+}
 
-        if (theMapView.loaded)
+-(void)handleMapLoadNotification:(NSNotification *)notification
+{
+    AGSMapView *theMapView = notification.object;
+    [self handleMapLoad:theMapView];
+}
+
+- (void)handleMapLoad:(AGSMapView *)theMapView
+{
+    if (theMapView.loaded)
+    {
+        // It just changed to Loaded. We can now run the queued operations
+        // that rely on the MapView being loaded.
+        //
+        // First, take the hashcode and dig out the list of code blocks that's specific to the loaded AGSMapView
+        NSNumber *key = [self getHashForMapView:theMapView];
+        NSMutableArray *ops = [self.mapViewQueues objectForKey:key];
+        if (ops)
         {
-            // It just changed to Loaded. We can now run the queued operations
-            // that rely on the MapView being loaded.
-            //
-            // First, take the hashcode and dig out the list of code blocks that's specific to the loaded AGSMapView
-            NSNumber *key = (__bridge_transfer NSNumber *)context;
-            NSMutableArray *ops = [self.mapViewQueues objectForKey:key];
-            if (ops)
+            // Don't need the queue of operations any more
+            [self.mapViewQueues removeObjectForKey:key];
+            // Don't need to watch any more.
+//            [theMapView removeObserver:self forKeyPath:@"loaded"];
+            [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                            name:kEQSMapViewNotification_MapViewDidLoad
+                                                          object:theMapView];
+            // Add all the code blocks to the mainQueue. This is the thread we want UI stuff to run on, and these will
+            // be UI operations.
+            for (NSBlockOperation *op in ops)
             {
-                // Don't need the queue of operations any more
-                [self.mapViewQueues removeObjectForKey:key];
-                // Don't need to watch any more.
-                [theMapView removeObserver:self forKeyPath:@"loaded"];
-                // Add all the code blocks to the mainQueue. This is the thread we want UI stuff to run on, and these will
-                // be UI operations.
-                for (NSBlockOperation *op in ops) 
-                {
-                    // Add each queued operation to the Main OperationQueue...
-                    // They'll get run as soon as possible now.
-                    [[NSOperationQueue mainQueue] addOperation:op];
-                }
+                // Add each queued operation to the Main OperationQueue...
+                // They'll get run as soon as possible now.
+                [[NSOperationQueue mainQueue] addOperation:op];
             }
         }
     }

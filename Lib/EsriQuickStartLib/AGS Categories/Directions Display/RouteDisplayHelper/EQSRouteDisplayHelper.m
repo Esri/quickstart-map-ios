@@ -163,8 +163,6 @@
         
         [self.mapView zoomToGeometry:routeResult.routeGraphic.geometry withPadding:100 animated:YES];
     }
-    
-    [self.routeGraphicsLayer dataChanged];
 }
 
 - (AGSGraphic *) setStartPoint:(AGSPoint *)startPoint
@@ -244,7 +242,7 @@
 //    NSLog(@"%@", direction);
     AGSGraphicsLayer *routeDisplayLayer = self.routeGraphicsLayer;
     [routeDisplayLayer removeGraphicsMatchingCriteria:^BOOL(AGSGraphic *graphic) {
-        return [graphic.attributes objectForKey:@"DirectionStepGraphic"] != nil;
+        return [graphic hasAttributeForKey:@"DirectionStepGraphic"];
     }];
     
     if ([direction.geometry isKindOfClass:[AGSPolyline class]])
