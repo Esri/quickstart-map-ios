@@ -169,7 +169,7 @@
             {
                 case EQSCandidateTypeForwardGeocode:
                 {
-                    NSString *locatorName = [self.candidate.attributes objectForKey:@"Addr_Type"];
+                    NSString *locatorName = [self.candidate.attributes objectForKey:@"Addr_type"];
                     
                     self.primaryLabel.text =self.candidate.addressString;
                     //                self.secondaryLabel.text = @"";
@@ -190,7 +190,7 @@
                                         [addData objectForKey:kEQSAddressCandidateCityField],
                                         [addData objectForKey:kEQSAddressCandidateStateField],
                                         [addData objectForKey:kEQSAddressCandidateZipField]];
-                    NSString *locatorName = [self.candidate.address objectForKey:@"Loc_name"];
+                    NSString *locatorName = [self.candidate.address objectForKey:@"Addr_type"];
                     
                     self.primaryLabel.text =addStr;
                     //                self.secondaryLabel.text = @"";
