@@ -284,7 +284,6 @@ typedef enum {
 	// Set up our map with a basemap, and jump to a location and scale level.
     [self.mapView setBasemap: self.currentBasemapType];
     [self.mapView zoomToPlace:@"New York" animated:YES];
-//    [self.mapView zoomToLevel:13 withLat:40.7302 lon:-73.9958 animated:YES];
 
 	[self registerForGeoServicesNotifications];
 }
@@ -293,6 +292,7 @@ typedef enum {
 //    [self.mapView centerAtPoint:nyc withScaleLevel:0];
 //    [self.mapView centerAtLat:40.7302 Long:-73.9958];
 //    [self.mapView zoomToLevel:7];
+//    [self.mapView zoomToLevel:13 withLat:40.7302 lon:-73.9958 animated:YES];
 //    [self.mapView centerAtMyLocation];
 //    [self.mapView centerAtMyLocationWithScaleLevel:15];
 //    [self.mapView zoomToPlace:@"New York" animated:YES];

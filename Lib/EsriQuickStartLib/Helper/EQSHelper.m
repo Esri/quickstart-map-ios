@@ -47,11 +47,16 @@
 
 @synthesize mapViewQueues = _mapViewQueues;
 
+#pragma mark - AGSMapViewLayerDelegate used with AGSMapViewBase+EQSHelper
 -(BOOL)mapView:(AGSMapView *)mapView shouldFindGraphicsInLayer:(AGSGraphicsLayer *)graphicsLayer
        atPoint:(CGPoint)screen
       mapPoint:(AGSPoint *)mappoint
 {
+    // We're not the real delegate. We're here because of an intercept set up on AGSMapViewBaseClass
+    // in the AGSMapViewBaseClass (EQSHelper) category's +load method.
     id<AGSMapViewLayerDelegate> realDelegate = objc_getAssociatedObject(mapView, kEQSInterceptedDelegate);
+    
+    // If there is a real, externally set delegate, let's pass on this call to it.
     if (realDelegate &&
         [realDelegate respondsToSelector:@selector(mapView:shouldFindGraphicsInLayer:atPoint:mapPoint:)])
     {
@@ -66,12 +71,18 @@
 
 -(void)mapViewDidLoad:(AGSMapView *)mapView
 {
+    // We're not the real delegate. We're here because of an intercept set up on AGSMapViewBaseClass
+    // in the AGSMapViewBaseClass (EQSHelper) category's +load method.
     id<AGSMapViewLayerDelegate> realDelegate = objc_getAssociatedObject(mapView, kEQSInterceptedDelegate);
+
+    // If there is a real, externally set delegate, let's pass on this call to it.
     if (realDelegate &&
         [realDelegate respondsToSelector:@selector(mapViewDidLoad:)])
     {
         [realDelegate mapViewDidLoad:mapView];
     }
+    
+    // But importantly, we now also get to raise a notification that the map view is loaded!
     [[NSNotificationCenter defaultCenter] postNotificationName:kEQSMapViewNotification_MapViewDidLoad
                                                         object:mapView];
 }
