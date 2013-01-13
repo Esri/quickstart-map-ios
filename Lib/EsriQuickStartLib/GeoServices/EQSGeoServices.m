@@ -30,6 +30,22 @@
 }
 @end
 
+#pragma mark - AGSLocatorFindResult Category
+@implementation AGSLocatorFindResult (EQSGeoServices)
+-(CGFloat)score
+{
+    BOOL found;
+    CGFloat resultScore = [self.graphic attributeAsFloatForKey:@"Score" exists:&found];
+    if (found)
+    {
+        return resultScore;
+    }
+    else
+    {
+        return 0;
+    }
+}
+@end
 
 #pragma mark - NSNotification Category
 @implementation NSNotification (EQSGeoServices)
@@ -37,7 +53,7 @@
 // kEQSGeoServicesNotification_PointsFromAddress_Error
 - (NSArray *) findPlacesCandidates
 {
-    return [self.userInfo objectForKey:kEQSGeoServicesNotification_PointsFromAddress_LocationCandidatesKey];
+    return [self.userInfo objectForKey:kEQSGeoServicesNotification_PointsFromAddress_ResultsKey];
 }
 
 - (NSArray *) findPlacesCandidatesSortedByScore
@@ -45,9 +61,9 @@
     NSArray *unsortedCandidates = self.findPlacesCandidates;
     
     NSArray *sortedCandidates = [unsortedCandidates sortedArrayUsingComparator:^(id obj1, id obj2) {
-        AGSAddressCandidate *c1 = obj1;
-        AGSAddressCandidate *c2 = obj2;
-        return (c1.score==c2.score)?NSOrderedSame:(c1.score > c2.score)?NSOrderedAscending:NSOrderedDescending;
+        AGSLocatorFindResult *r1 = obj1;
+        AGSLocatorFindResult *r2 = obj2;
+        return (r1.score==r2.score)?NSOrderedSame:(r1.score > r2.score)?NSOrderedAscending:NSOrderedDescending;
     }];
     
     return sortedCandidates;
@@ -115,7 +131,7 @@
 #define kEQSFindAddress_ReturnField_xmax @"Xmax"
 #define kEQSFindAddress_ReturnField_ymin @"Ymin"
 #define kEQSFindAddress_ReturnField_ymax @"Ymax"
-#define kEQSFindAddress_ReturnFields @"Loc_name", @"Shape", @"Country", @"Addr_type", @"Type", @"Match_addr"
+#define kEQSFindAddress_ReturnFields @"Shape", @"Addr_type", @"Type", @"Match_addr", @"Score"
 #define kEQSFindAddress_AssociatedAddressKey "address"
 #define kEQSFindAddress_AssociatedExtentKey "extent"
 
@@ -221,30 +237,23 @@
 
 - (NSOperation *) findPlaces:(NSString *)singleLineAddress withinEnvelope:(AGSEnvelope *)env
 {
-	// Tell the service we are providing a single line address.
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:singleLineAddress
-                                                                     forKey:kEQSFindAddress_AddressKey];
-
-    if (env)
-    {
-        NSDictionary *json = [env encodeToJSON];
-        NSString *envStr = [json ags_JSONRepresentation];
-        NSLog(@"Envelope is: %@", envStr);
-        [params setObject:envStr forKey:@"bbox"];
-    }
+    AGSLocatorFindParameters *findParams = [[AGSLocatorFindParameters alloc] init];
+    // TODO: Remove when bug fixed
+    // 10.1.1 *always* sends "distance" in the Geocoder URL. This requires location to be sent too.
+    findParams.location = [AGSPoint pointFromLat:0 lon:0];
+    findParams.distance = 0;
+    // END TODO
     
-    // List the fields we want back.
-    NSArray *outFields = [NSArray arrayWithObjects:kEQSFindAddress_ReturnFields,
-                          kEQSFindAddress_ReturnField_xmin, kEQSFindAddress_ReturnField_xmax,
-                          kEQSFindAddress_ReturnField_ymin, kEQSFindAddress_ReturnField_ymax,
-                          nil];
+    findParams.searchExtent = env;
+    findParams.text = singleLineAddress;
+    findParams.outSpatialReference = [AGSSpatialReference webMercatorSpatialReference];
+    findParams.outFields = [NSArray arrayWithObjects:kEQSFindAddress_ReturnFields,
+                            kEQSFindAddress_ReturnField_xmin, kEQSFindAddress_ReturnField_xmax,
+                            kEQSFindAddress_ReturnField_ymin, kEQSFindAddress_ReturnField_ymax,
+                            nil];
     
     // Set off the request, using Web Mercator
-    NSOperation *op = [self.locator locationsForAddress:params
-                                           returnFields:outFields
-                                    outSpatialReference:[AGSSpatialReference webMercatorSpatialReference]];
-
-//    NSOperation *op = [self.locator locationsForAddress:params returnFields:nil];
+    NSOperation *op = [self.locator findWithParameters:findParams];
 
     // Associate the requested address with the operation - we'll read this later.
     objc_setAssociatedObject(op, kEQSFindAddress_AssociatedAddressKey, singleLineAddress, OBJC_ASSOCIATION_RETAIN);
@@ -292,6 +301,69 @@
 }
 
 #pragma mark - AGSLocatorDelegate
+
+-(void)locator:(AGSLocator *)locator operation:(NSOperation *)op didFind:(NSArray *)results
+{
+    @try
+    {
+        // Get the address that we associated with the NSOperation when we made the request.
+        NSString *address = objc_getAssociatedObject(op, kEQSFindAddress_AssociatedAddressKey);
+        AGSEnvelope *env = objc_getAssociatedObject(op, kEQSFindAddress_AssociatedExtentKey);
+        
+        // Build a dictionary of useful info which listeners to our notification might want.
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  op, kEQSGeoServicesNotification_WorkerOperationKey,
+                                  results, kEQSGeoServicesNotification_PointsFromAddress_ResultsKey,
+                                  address, kEQSGeoServicesNotification_PointsFromAddress_AddressKey,
+                                  env, kEQSGeoServicesNotification_PointsFromAddress_ExtentKey,
+                                  nil];
+        
+        // Post the notification.
+        [[NSNotificationCenter defaultCenter] postNotificationName:kEQSGeoServicesNotification_FindPlace_OK
+                                                            object:self
+                                                          userInfo:userInfo];
+    }
+    @finally
+    {
+        // Remove the associated address. This would probably happen automatically when the
+        // operation is released, but it's good to be responsile.
+        objc_setAssociatedObject(op, kEQSFindAddress_AddressKey, nil, OBJC_ASSOCIATION_ASSIGN);
+        objc_setAssociatedObject(op, kEQSFindAddress_AssociatedExtentKey , nil, OBJC_ASSOCIATION_ASSIGN);
+    }
+}
+
+-(void)locator:(AGSLocator *)locator operation:(NSOperation *)op didFailToFindWithError:(NSError *)error
+{
+    @try
+    {
+        // Get the address that we associated with the NSOperation when we made the request.
+        NSString *address = objc_getAssociatedObject(op, kEQSFindAddress_AssociatedAddressKey);
+        AGSEnvelope *env = objc_getAssociatedObject(op, kEQSFindAddress_AssociatedExtentKey);
+        
+        // Log to the console.
+        NSLog(@"Failed to find place for Address \"%@\" (within extent %@)", address, env);
+        NSLog(@"Error: %@", error);
+        
+        // Build the UserInfo package that goes on the NSNotification
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+								  op, kEQSGeoServicesNotification_WorkerOperationKey,
+                                  error, kEQSGeoServicesNotification_ErrorKey,
+                                  address, kEQSGeoServicesNotification_PointsFromAddress_AddressKey,
+                                  env, kEQSGeoServicesNotification_PointsFromAddress_ExtentKey,
+								  nil];
+        
+        // And alert our listeners that there was an error.
+        [[NSNotificationCenter defaultCenter] postNotificationName:kEQSGeoServicesNotification_FindPlace_Error
+                                                            object:self
+                                                          userInfo:userInfo];
+    }
+    @finally {
+        // Remove the associated address. This would probably happen automatically when the
+        // operation is released, but it's good to be responsile.
+        objc_setAssociatedObject(op, kEQSFindAddress_AddressKey, nil, OBJC_ASSOCIATION_ASSIGN);
+        objc_setAssociatedObject(op, kEQSFindAddress_AssociatedExtentKey , nil, OBJC_ASSOCIATION_ASSIGN);
+    }
+}
 
 - (void) locator:(AGSLocator *)locator operation:(NSOperation *)op didFindAddressForLocation:(AGSAddressCandidate *)candidate
 {
@@ -354,70 +426,6 @@
         objc_setAssociatedObject(op, kEQSFindLocation_AssociatedLocationKey, nil, OBJC_ASSOCIATION_ASSIGN);
         objc_setAssociatedObject(op, kEQSFindLocation_AssociatedDistanceKey, nil, OBJC_ASSOCIATION_ASSIGN);
     }    
-}
-
-- (void) locator:(AGSLocator *)locator operation:(NSOperation *)op didFindLocationsForAddress:(NSArray *)candidates
-{
-    @try
-    {
-        // Get the address that we associated with the NSOperation when we made the request.
-        NSString *address = objc_getAssociatedObject(op, kEQSFindAddress_AssociatedAddressKey);
-        AGSEnvelope *env = objc_getAssociatedObject(op, kEQSFindAddress_AssociatedExtentKey);
-        
-        // Build a dictionary of useful info which listeners to our notification might want.
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                                  op, kEQSGeoServicesNotification_WorkerOperationKey,
-                                  candidates, kEQSGeoServicesNotification_PointsFromAddress_LocationCandidatesKey,
-                                  address, kEQSGeoServicesNotification_PointsFromAddress_AddressKey,
-                                  env, kEQSGeoServicesNotification_PointsFromAddress_ExtentKey,
-                                  nil];
-
-        // Post the notification.
-        [[NSNotificationCenter defaultCenter] postNotificationName:kEQSGeoServicesNotification_PointsFromAddress_OK
-                                                            object:self
-                                                          userInfo:userInfo];
-        
-    }
-    @finally
-    {
-        // Remove the associated address. This would probably happen automatically when the
-        // operation is released, but it's good to be responsile.
-        objc_setAssociatedObject(op, kEQSFindAddress_AddressKey, nil, OBJC_ASSOCIATION_ASSIGN);
-        objc_setAssociatedObject(op, kEQSFindAddress_AssociatedExtentKey , nil, OBJC_ASSOCIATION_ASSIGN);
-    }
-
-}
-
-- (void) locator:(AGSLocator *)locator operation:(NSOperation *)op didFailLocationsForAddress:(NSError *)error
-{
-    @try {
-        // Get the address that we associated with the NSOperation when we made the request.
-        NSString *address = objc_getAssociatedObject(op, kEQSFindAddress_AssociatedAddressKey);
-        AGSEnvelope *env = objc_getAssociatedObject(op, kEQSFindAddress_AssociatedExtentKey);
-
-        // Log to the console.
-        NSLog(@"Failed to get locations for Address \"%@\" (within extent %@)", address, env);
-        NSLog(@"Error: %@", error);
-        
-        // Build the UserInfo package that goes on the NSNotification
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-								  op, kEQSGeoServicesNotification_WorkerOperationKey,
-                                  error, kEQSGeoServicesNotification_ErrorKey,
-                                  address, kEQSGeoServicesNotification_PointsFromAddress_AddressKey,
-                                  env, kEQSGeoServicesNotification_PointsFromAddress_ExtentKey,
-								  nil];
-
-        // And alert our listeners that there was an error.
-        [[NSNotificationCenter defaultCenter] postNotificationName:kEQSGeoServicesNotification_PointsFromAddress_Error
-                                                            object:self
-                                                          userInfo:userInfo];
-    }
-    @finally {
-        // Remove the associated address. This would probably happen automatically when the
-        // operation is released, but it's good to be responsile.
-        objc_setAssociatedObject(op, kEQSFindAddress_AddressKey, nil, OBJC_ASSOCIATION_ASSIGN);
-        objc_setAssociatedObject(op, kEQSFindAddress_AssociatedExtentKey , nil, OBJC_ASSOCIATION_ASSIGN);
-    }
 }
 
 #pragma mark - RouteTask Deletegate

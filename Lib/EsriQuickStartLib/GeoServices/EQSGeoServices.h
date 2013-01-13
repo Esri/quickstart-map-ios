@@ -43,3 +43,7 @@
 @interface AGSAddressCandidate (EQSGeoServices)
 @property (readonly, nonatomic) AGSEnvelope *placeExtent;
 @end
+
+@interface AGSLocatorFindResult (EQSGeoServices)
+@property (nonatomic, readonly) CGFloat score;
+@end

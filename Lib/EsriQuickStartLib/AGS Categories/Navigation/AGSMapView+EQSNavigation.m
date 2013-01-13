@@ -77,12 +77,12 @@
     dispatch_once(&onceToken, ^{
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(gotZoomResult:)
-                                                     name:kEQSGeoServicesNotification_PointsFromAddress_OK
+                                                     name:kEQSGeoServicesNotification_FindPlace_OK
                                                    object:self.eqs_nav_geoServices];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(errorGettingZoomResult:)
-                                                     name:kEQSGeoServicesNotification_PointsFromAddress_Error
+                                                     name:kEQSGeoServicesNotification_FindPlace_Error
                                                    object:self.eqs_nav_geoServices];
     });
     
@@ -111,16 +111,15 @@
         
         if (foundPlaces.count > 0)
         {
-            for (AGSAddressCandidate *candidate in foundPlaces)
+            for (AGSLocatorFindResult *candidate in foundPlaces)
             {
-                AGSEnvelope *extent = candidate.placeExtent;
+                AGSEnvelope *extent = candidate.extent;
                 if (extent)
                 {
                     NSNumber *boolNum = objc_getAssociatedObject(notification.geoServicesOperation, kEQSNavigationZoomToPlaceShouldAnimateKey);
                     BOOL animated = boolNum.boolValue;
                     [EQSHelper queueBlock:^{
                         [self zoomToEnvelope:extent animated:animated];
-                        [self removeGraphicsByAttribute:@"ZoomGraphic" withValue:@"YES"];
                     } untilMapViewLoaded:self withBlockName:@"zoomToPlace"];
                     return;
                 }
@@ -227,8 +226,13 @@
 @implementation NSNotification (EQSNavigation)
 - (BOOL) findPlacesWasZoomToPlaceRequest
 {
-    NSNumber *n = objc_getAssociatedObject(self, kEQSNavigationZoomToPlaceShouldAnimateKey);
-    return n != nil;
+    NSOperation *op = self.geoServicesOperation;
+    if (op)
+    {
+        NSNumber *n = objc_getAssociatedObject(op, kEQSNavigationZoomToPlaceShouldAnimateKey);
+        return n != nil;
+    }
+    return NO;
 }
 @end
 
