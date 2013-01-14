@@ -111,9 +111,9 @@
         
         if (foundPlaces.count > 0)
         {
-            for (AGSLocatorFindResult *candidate in foundPlaces)
+            for (AGSLocatorFindResult *result in foundPlaces)
             {
-                AGSEnvelope *extent = candidate.extent;
+                AGSEnvelope *extent = result.extent;
                 if (extent)
                 {
                     NSNumber *boolNum = objc_getAssociatedObject(notification.geoServicesOperation, kEQSNavigationZoomToPlaceShouldAnimateKey);

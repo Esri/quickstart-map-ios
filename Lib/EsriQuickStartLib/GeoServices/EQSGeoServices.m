@@ -45,6 +45,16 @@
         return 0;
     }
 }
+
+-(AGSPoint *)location
+{
+    if (self.graphic && self.graphic.geometry && [self.graphic.geometry isKindOfClass:[AGSPoint class]])
+    {
+        return (AGSPoint *)self.graphic.geometry;
+    }
+NSLog(@"AGSLocatorFindResult geometry is not a point!");
+return nil;
+}
 @end
 
 #pragma mark - NSNotification Category
@@ -545,37 +555,5 @@
                                                         object:self
                                                       userInfo:[NSDictionary dictionaryWithObject:error
                                                                                            forKey:kEQSGeoServicesNotification_ErrorKey]];
-}
-@end
-
-@implementation AGSAddressCandidate (EQSGeoServices)
-- (AGSEnvelope *) placeExtent
-{
-	// Extract the extent of that result
-    id xMinRaw = [self.attributes objectForKey:kEQSFindAddress_ReturnField_xmin];
-    id xMaxRaw = [self.attributes objectForKey:kEQSFindAddress_ReturnField_xmax];
-    id yMinRaw = [self.attributes objectForKey:kEQSFindAddress_ReturnField_ymin];
-    id yMaxRaw = [self.attributes objectForKey:kEQSFindAddress_ReturnField_ymax];
-
-    if (xMinRaw != nil && xMaxRaw != nil &&
-        yMinRaw != nil && yMaxRaw != nil)
-    {
-        double xMin = [xMinRaw doubleValue];
-        double xMax = [xMaxRaw doubleValue];
-        double yMin = [yMinRaw doubleValue];
-        double yMax = [yMaxRaw doubleValue];
-
-    	AGSEnvelope *ext = [AGSEnvelope envelopeWithXmin:xMin
-                                                    ymin:yMin
-                                                    xmax:xMax
-                                                    ymax:yMax
-                                        spatialReference:[AGSSpatialReference wgs84SpatialReference]];
-        
-        // Return a Web Mercator version (currently, geocode extents come back in Lat/Lon)
-        return (AGSEnvelope *)AGSGeometryGeographicToWebMercator(ext);
-    }
-
-    NSLog(@"Returned AddressCandidate did not have extent information available.");
-    return nil;
 }
 @end

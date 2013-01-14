@@ -54,12 +54,12 @@
 		D93B553C16A0CF59004F3D19 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D93B553B16A0CF59004F3D19 /* libc++.dylib */; };
 		D93B553E16A0CF62004F3D19 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D93B553D16A0CF62004F3D19 /* OpenGLES.framework */; };
 		D93C98A5156D8CC000A5F339 /* EQSBasemapDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D93C98A4156D8CC000A5F339 /* EQSBasemapDetailsViewController.m */; };
-		D93D710F15EBCEC9002F7FA2 /* EQSAddressCandidateBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D93D710E15EBCEC9002F7FA2 /* EQSAddressCandidateBaseViewController.m */; };
+		D93D710F15EBCEC9002F7FA2 /* EQSSearchResultBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D93D710E15EBCEC9002F7FA2 /* EQSSearchResultBaseViewController.m */; };
 		D940585A15E6C2D300F4A320 /* 74-location-white.png in Resources */ = {isa = PBXBuildFile; fileRef = D940585815E6C2D300F4A320 /* 74-location-white.png */; };
 		D940585B15E6C2D300F4A320 /* 74-location-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D940585915E6C2D300F4A320 /* 74-location-white@2x.png */; };
-		D964FA1E15E67E970013B4D7 /* EQSAddressCandidateView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D964FA1D15E67E970013B4D7 /* EQSAddressCandidateView~ipad.xib */; };
-		D964FA2115E67EAA0013B4D7 /* EQSAddressCandidatePanelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D964FA2015E67EAA0013B4D7 /* EQSAddressCandidatePanelViewController.m */; };
-		D964FA2415E67EBD0013B4D7 /* EQSAddressCandidateView.m in Sources */ = {isa = PBXBuildFile; fileRef = D964FA2315E67EBD0013B4D7 /* EQSAddressCandidateView.m */; };
+		D964FA1E15E67E970013B4D7 /* EQSSearchResultView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D964FA1D15E67E970013B4D7 /* EQSSearchResultView~ipad.xib */; };
+		D964FA2115E67EAA0013B4D7 /* EQSSearchResultPanelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D964FA2015E67EAA0013B4D7 /* EQSSearchResultPanelViewController.m */; };
+		D964FA2415E67EBD0013B4D7 /* EQSSearchResultView.m in Sources */ = {isa = PBXBuildFile; fileRef = D964FA2315E67EBD0013B4D7 /* EQSSearchResultView.m */; };
 		D96C77511624CF140025FFF0 /* EQSUserGuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D96C774F1624CF140025FFF0 /* EQSUserGuideViewController.m */; };
 		D96C77521624CF140025FFF0 /* EQSUserGuideViewController~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D96C77501624CF140025FFF0 /* EQSUserGuideViewController~iphone.xib */; };
 		D9754D7315ACAF840093BF1E /* UIApplication+AppDimensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D9754D7215ACAF830093BF1E /* UIApplication+AppDimensions.m */; };
@@ -119,8 +119,8 @@
 		D9B3D61815E2BE3100140C4E /* closeX.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D61615E2BE3100140C4E /* closeX.png */; };
 		D9B3D61915E2BE3100140C4E /* closeX@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9B3D61715E2BE3100140C4E /* closeX@2x.png */; };
 		D9E01457158A45A4005DD7D8 /* EQSPortalItemListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E01456158A45A4005DD7D8 /* EQSPortalItemListView.m */; };
-		D9FAAECF15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9FAAECE15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m */; };
-		D9FAAED515E84C87003E3F5B /* EQSAddressCandidateCalloutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9FAAED415E84C86003E3F5B /* EQSAddressCandidateCalloutViewController.m */; };
+		D9FAAECF15E83D88003E3F5B /* EQSSearchResultCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9FAAECE15E83D88003E3F5B /* EQSSearchResultCalloutView.m */; };
+		D9FAAED515E84C87003E3F5B /* EQSSearchResultCalloutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9FAAED415E84C86003E3F5B /* EQSSearchResultCalloutViewController.m */; };
 		E141D0E315DB02CE004F81F4 /* EQSPortalItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = E141D0E215DB02CD004F81F4 /* EQSPortalItemView.m */; };
 		E16C07CC1559B39C00776F3E /* ArcGIS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E16C07CB1559B39C00776F3E /* ArcGIS.bundle */; };
 		E16C28FA15598A5E00E2DB56 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E16C28F915598A5E00E2DB56 /* UIKit.framework */; };
@@ -140,7 +140,7 @@
 		E1750BBA1559B0F600C50929 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BB21559B0F600C50929 /* QuartzCore.framework */; };
 		E1750BBB1559B0F600C50929 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1750BB31559B0F600C50929 /* Security.framework */; };
 		E1812BDC15DC767E00D3325A /* EQSBasemapPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1812BDB15DC767E00D3325A /* EQSBasemapPickerView.m */; };
-		E1AB2DEC15F26F6B00CA3096 /* EQSAddressCandidateView~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1AB2DEB15F26F6B00CA3096 /* EQSAddressCandidateView~iphone.xib */; };
+		E1AB2DEC15F26F6B00CA3096 /* EQSSearchResultView~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1AB2DEB15F26F6B00CA3096 /* EQSSearchResultView~iphone.xib */; };
 		E1B7171F1614E328000A019C /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B7171C1614E13D000A019C /* MBProgressHUD.m */; };
 		E1E1808515DAD2A300BB30DD /* EQSPortalItemPickerView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1E1808415DAD2A300BB30DD /* EQSPortalItemPickerView~ipad.xib */; };
 		E1E1808E15DAD38400BB30DD /* EQSPortalItemPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E1808D15DAD38400BB30DD /* EQSPortalItemPickerView.m */; };
@@ -223,16 +223,16 @@
 		D93B554416A0D39E004F3D19 /* EsriQuickStartLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EsriQuickStartLib.xcodeproj; path = ../Lib/EsriQuickStartLib.xcodeproj; sourceTree = "<group>"; };
 		D93C98A3156D8CC000A5F339 /* EQSBasemapDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSBasemapDetailsViewController.h; sourceTree = "<group>"; };
 		D93C98A4156D8CC000A5F339 /* EQSBasemapDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSBasemapDetailsViewController.m; sourceTree = "<group>"; };
-		D93D710D15EBCEC9002F7FA2 /* EQSAddressCandidateBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSAddressCandidateBaseViewController.h; sourceTree = "<group>"; };
-		D93D710E15EBCEC9002F7FA2 /* EQSAddressCandidateBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSAddressCandidateBaseViewController.m; sourceTree = "<group>"; };
+		D93D710D15EBCEC9002F7FA2 /* EQSSearchResultBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSSearchResultBaseViewController.h; sourceTree = "<group>"; };
+		D93D710E15EBCEC9002F7FA2 /* EQSSearchResultBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSSearchResultBaseViewController.m; sourceTree = "<group>"; };
 		D940585815E6C2D300F4A320 /* 74-location-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "74-location-white.png"; sourceTree = "<group>"; };
 		D940585915E6C2D300F4A320 /* 74-location-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "74-location-white@2x.png"; sourceTree = "<group>"; };
 		D958684316652156000DC972 /* EQSPortalItemListViewController_int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSPortalItemListViewController_int.h; sourceTree = "<group>"; };
-		D964FA1D15E67E970013B4D7 /* EQSAddressCandidateView~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "EQSAddressCandidateView~ipad.xib"; sourceTree = "<group>"; };
-		D964FA1F15E67EAA0013B4D7 /* EQSAddressCandidatePanelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSAddressCandidatePanelViewController.h; sourceTree = "<group>"; };
-		D964FA2015E67EAA0013B4D7 /* EQSAddressCandidatePanelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSAddressCandidatePanelViewController.m; sourceTree = "<group>"; };
-		D964FA2215E67EBD0013B4D7 /* EQSAddressCandidateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSAddressCandidateView.h; sourceTree = "<group>"; };
-		D964FA2315E67EBD0013B4D7 /* EQSAddressCandidateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSAddressCandidateView.m; sourceTree = "<group>"; };
+		D964FA1D15E67E970013B4D7 /* EQSSearchResultView~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "EQSSearchResultView~ipad.xib"; sourceTree = "<group>"; };
+		D964FA1F15E67EAA0013B4D7 /* EQSSearchResultPanelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSSearchResultPanelViewController.h; sourceTree = "<group>"; };
+		D964FA2015E67EAA0013B4D7 /* EQSSearchResultPanelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSSearchResultPanelViewController.m; sourceTree = "<group>"; };
+		D964FA2215E67EBD0013B4D7 /* EQSSearchResultView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSSearchResultView.h; sourceTree = "<group>"; };
+		D964FA2315E67EBD0013B4D7 /* EQSSearchResultView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSSearchResultView.m; sourceTree = "<group>"; };
 		D96C774E1624CF140025FFF0 /* EQSUserGuideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSUserGuideViewController.h; sourceTree = "<group>"; };
 		D96C774F1624CF140025FFF0 /* EQSUserGuideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSUserGuideViewController.m; sourceTree = "<group>"; };
 		D96C77501624CF140025FFF0 /* EQSUserGuideViewController~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "EQSUserGuideViewController~iphone.xib"; sourceTree = "<group>"; };
@@ -302,10 +302,10 @@
 		D9B3D61715E2BE3100140C4E /* closeX@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "closeX@2x.png"; sourceTree = "<group>"; };
 		D9E01455158A45A4005DD7D8 /* EQSPortalItemListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSPortalItemListView.h; sourceTree = "<group>"; };
 		D9E01456158A45A4005DD7D8 /* EQSPortalItemListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSPortalItemListView.m; sourceTree = "<group>"; };
-		D9FAAECD15E83D88003E3F5B /* EQSAddressCandidateCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSAddressCandidateCalloutView.h; sourceTree = "<group>"; };
-		D9FAAECE15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSAddressCandidateCalloutView.m; sourceTree = "<group>"; };
-		D9FAAED315E84C86003E3F5B /* EQSAddressCandidateCalloutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSAddressCandidateCalloutViewController.h; sourceTree = "<group>"; };
-		D9FAAED415E84C86003E3F5B /* EQSAddressCandidateCalloutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSAddressCandidateCalloutViewController.m; sourceTree = "<group>"; };
+		D9FAAECD15E83D88003E3F5B /* EQSSearchResultCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSSearchResultCalloutView.h; sourceTree = "<group>"; };
+		D9FAAECE15E83D88003E3F5B /* EQSSearchResultCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSSearchResultCalloutView.m; sourceTree = "<group>"; };
+		D9FAAED315E84C86003E3F5B /* EQSSearchResultCalloutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSSearchResultCalloutViewController.h; sourceTree = "<group>"; };
+		D9FAAED415E84C86003E3F5B /* EQSSearchResultCalloutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSSearchResultCalloutViewController.m; sourceTree = "<group>"; };
 		E141D0E115DB02CD004F81F4 /* EQSPortalItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSPortalItemView.h; sourceTree = "<group>"; };
 		E141D0E215DB02CD004F81F4 /* EQSPortalItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSPortalItemView.m; sourceTree = "<group>"; };
 		E16C07CB1559B39C00776F3E /* ArcGIS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ArcGIS.bundle; path = $HOME/Library/SDKs/ArcGIS/iOS/ArcGIS.framework/Versions/Current/Resources/ArcGIS.bundle; sourceTree = "<absolute>"; };
@@ -333,7 +333,7 @@
 		E1812BD815DC6FA200D3325A /* EQSPortalItemListView_int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSPortalItemListView_int.h; sourceTree = "<group>"; };
 		E1812BDA15DC767D00D3325A /* EQSBasemapPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSBasemapPickerView.h; sourceTree = "<group>"; };
 		E1812BDB15DC767E00D3325A /* EQSBasemapPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSBasemapPickerView.m; sourceTree = "<group>"; };
-		E1AB2DEB15F26F6B00CA3096 /* EQSAddressCandidateView~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "EQSAddressCandidateView~iphone.xib"; sourceTree = "<group>"; };
+		E1AB2DEB15F26F6B00CA3096 /* EQSSearchResultView~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "EQSSearchResultView~iphone.xib"; sourceTree = "<group>"; };
 		E1B7171B1614E13D000A019C /* MBProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		E1B7171C1614E13D000A019C /* MBProgressHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		E1B7171D1614E13D000A019C /* README.mdown */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.mdown; sourceTree = "<group>"; };
@@ -422,18 +422,18 @@
 		D964FA1A15E67E2E0013B4D7 /* Address Candidate Views */ = {
 			isa = PBXGroup;
 			children = (
-				D964FA1D15E67E970013B4D7 /* EQSAddressCandidateView~ipad.xib */,
-				E1AB2DEB15F26F6B00CA3096 /* EQSAddressCandidateView~iphone.xib */,
-				D964FA2215E67EBD0013B4D7 /* EQSAddressCandidateView.h */,
-				D964FA2315E67EBD0013B4D7 /* EQSAddressCandidateView.m */,
-				D9FAAECD15E83D88003E3F5B /* EQSAddressCandidateCalloutView.h */,
-				D9FAAECE15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m */,
-				D93D710D15EBCEC9002F7FA2 /* EQSAddressCandidateBaseViewController.h */,
-				D93D710E15EBCEC9002F7FA2 /* EQSAddressCandidateBaseViewController.m */,
-				D964FA1F15E67EAA0013B4D7 /* EQSAddressCandidatePanelViewController.h */,
-				D964FA2015E67EAA0013B4D7 /* EQSAddressCandidatePanelViewController.m */,
-				D9FAAED315E84C86003E3F5B /* EQSAddressCandidateCalloutViewController.h */,
-				D9FAAED415E84C86003E3F5B /* EQSAddressCandidateCalloutViewController.m */,
+				D964FA1D15E67E970013B4D7 /* EQSSearchResultView~ipad.xib */,
+				E1AB2DEB15F26F6B00CA3096 /* EQSSearchResultView~iphone.xib */,
+				D964FA2215E67EBD0013B4D7 /* EQSSearchResultView.h */,
+				D964FA2315E67EBD0013B4D7 /* EQSSearchResultView.m */,
+				D9FAAECD15E83D88003E3F5B /* EQSSearchResultCalloutView.h */,
+				D9FAAECE15E83D88003E3F5B /* EQSSearchResultCalloutView.m */,
+				D93D710D15EBCEC9002F7FA2 /* EQSSearchResultBaseViewController.h */,
+				D93D710E15EBCEC9002F7FA2 /* EQSSearchResultBaseViewController.m */,
+				D964FA1F15E67EAA0013B4D7 /* EQSSearchResultPanelViewController.h */,
+				D964FA2015E67EAA0013B4D7 /* EQSSearchResultPanelViewController.m */,
+				D9FAAED315E84C86003E3F5B /* EQSSearchResultCalloutViewController.h */,
+				D9FAAED415E84C86003E3F5B /* EQSSearchResultCalloutViewController.m */,
 			);
 			path = "Address Candidate Views";
 			sourceTree = "<group>";
@@ -811,7 +811,7 @@
 				D97D447A15E523840072457A /* shLegacy.js in Resources */,
 				D97D448015E52CCF0072457A /* shCoreDefault.css in Resources */,
 				D97D448215E53BEA0072457A /* shThemeDefault.css in Resources */,
-				D964FA1E15E67E970013B4D7 /* EQSAddressCandidateView~ipad.xib in Resources */,
+				D964FA1E15E67E970013B4D7 /* EQSSearchResultView~ipad.xib in Resources */,
 				D940585A15E6C2D300F4A320 /* 74-location-white.png in Resources */,
 				D940585B15E6C2D300F4A320 /* 74-location-white@2x.png in Resources */,
 				D9AF4BB115F13B390094A35A /* 33-cabinet.png in Resources */,
@@ -831,7 +831,7 @@
 				D9AF4BDC15F1472B0094A35A /* EQSPortalItemView~iphone.xib in Resources */,
 				D9AF4BDE15F14A380094A35A /* EQSPortalItemListView~iphone.xib in Resources */,
 				D9AF4BE015F14AB80094A35A /* EQSPortalItemPickerView~iphone.xib in Resources */,
-				E1AB2DEC15F26F6B00CA3096 /* EQSAddressCandidateView~iphone.xib in Resources */,
+				E1AB2DEC15F26F6B00CA3096 /* EQSSearchResultView~iphone.xib in Resources */,
 				D9AF4BF915F2D7360094A35A /* redo-white.png in Resources */,
 				D9AF4BFA15F2D7360094A35A /* redo-white@2x.png in Resources */,
 				D9AF4BFB15F2D7360094A35A /* undo-white.png in Resources */,
@@ -914,11 +914,11 @@
 				E1812BDC15DC767E00D3325A /* EQSBasemapPickerView.m in Sources */,
 				D97D446115E464F10072457A /* EQSCodeView.m in Sources */,
 				D97D446415E465DD0072457A /* EQSCodeViewController.m in Sources */,
-				D964FA2115E67EAA0013B4D7 /* EQSAddressCandidatePanelViewController.m in Sources */,
-				D964FA2415E67EBD0013B4D7 /* EQSAddressCandidateView.m in Sources */,
-				D9FAAECF15E83D88003E3F5B /* EQSAddressCandidateCalloutView.m in Sources */,
-				D9FAAED515E84C87003E3F5B /* EQSAddressCandidateCalloutViewController.m in Sources */,
-				D93D710F15EBCEC9002F7FA2 /* EQSAddressCandidateBaseViewController.m in Sources */,
+				D964FA2115E67EAA0013B4D7 /* EQSSearchResultPanelViewController.m in Sources */,
+				D964FA2415E67EBD0013B4D7 /* EQSSearchResultView.m in Sources */,
+				D9FAAECF15E83D88003E3F5B /* EQSSearchResultCalloutView.m in Sources */,
+				D9FAAED515E84C87003E3F5B /* EQSSearchResultCalloutViewController.m in Sources */,
+				D93D710F15EBCEC9002F7FA2 /* EQSSearchResultBaseViewController.m in Sources */,
 				D9AF4BEE15F187DC0094A35A /* MJPopupBackgroundView.m in Sources */,
 				D9AF4BEF15F187DC0094A35A /* UIViewController+MJPopupViewController.m in Sources */,
 				D92291D915F9417900438D05 /* EQSBorderedButton.m in Sources */,

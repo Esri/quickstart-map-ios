@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
-#import "EQSAddressCandidateBaseViewController.h"
+#import "EQSSearchResultBaseViewController.h"
 
-@interface EQSAddressCandidateCalloutViewController : EQSAddressCandidateBaseViewController <AGSInfoTemplateDelegate>
+@interface EQSSearchResultCalloutViewController : EQSSearchResultBaseViewController <AGSInfoTemplateDelegate>
 @end
