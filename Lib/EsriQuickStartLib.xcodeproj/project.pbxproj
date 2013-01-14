@@ -22,10 +22,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		D93B555916A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = D93B555716A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.h */; };
 		D93B555A16A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D93B555816A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.m */; };
-		D9586847166525E7000DC972 /* EQSShadowLineSymbol.h in Headers */ = {isa = PBXBuildFile; fileRef = D9586845166525E7000DC972 /* EQSShadowLineSymbol.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D9586848166525E7000DC972 /* EQSShadowLineSymbol.m in Sources */ = {isa = PBXBuildFile; fileRef = D9586846166525E7000DC972 /* EQSShadowLineSymbol.m */; };
 		D9E1615D1629C9020055844C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D9E1615B1629C9020055844C /* InfoPlist.strings */; };
 		D9E161841629CAA60055844C /* AGSLayer+EQSBasemap.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161091629C8B40055844C /* AGSLayer+EQSBasemap.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D9E161851629CAA60055844C /* AGSMapView+EQSBasemaps.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E1610B1629C8B40055844C /* AGSMapView+EQSBasemaps.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -109,8 +106,6 @@
 		D939FBE71629EE3400E8B8ED /* EQSHelper_int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSHelper_int.h; sourceTree = "<group>"; };
 		D93B555716A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapViewBase+EQSHelper.h"; sourceTree = "<group>"; };
 		D93B555816A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapViewBase+EQSHelper.m"; sourceTree = "<group>"; };
-		D9586845166525E7000DC972 /* EQSShadowLineSymbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSShadowLineSymbol.h; sourceTree = "<group>"; };
-		D9586846166525E7000DC972 /* EQSShadowLineSymbol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSShadowLineSymbol.m; sourceTree = "<group>"; };
 		D9E161091629C8B40055844C /* AGSLayer+EQSBasemap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSLayer+EQSBasemap.h"; sourceTree = "<group>"; };
 		D9E1610A1629C8B40055844C /* AGSLayer+EQSBasemap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AGSLayer+EQSBasemap.m"; sourceTree = "<group>"; };
 		D9E1610B1629C8B40055844C /* AGSMapView+EQSBasemaps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+EQSBasemaps.h"; sourceTree = "<group>"; };
@@ -348,8 +343,6 @@
 			children = (
 				D9E161421629C8B40055844C /* EQSDefaultSymbols.h */,
 				D9E161431629C8B40055844C /* EQSDefaultSymbols.m */,
-				D9586845166525E7000DC972 /* EQSShadowLineSymbol.h */,
-				D9586846166525E7000DC972 /* EQSShadowLineSymbol.m */,
 			);
 			path = "Default Symbols";
 			sourceTree = "<group>";
@@ -370,9 +363,9 @@
 				D9E161491629C8B40055844C /* EQSHelper.h */,
 				D939FBE71629EE3400E8B8ED /* EQSHelper_int.h */,
 				D9E1614A1629C8B40055844C /* EQSHelper.m */,
-				D9E1614B1629C8B40055844C /* Resources */,
 				D93B555716A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.h */,
 				D93B555816A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.m */,
+				D9E1614B1629C8B40055844C /* Resources */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -484,8 +477,6 @@
 				D9E1618A1629CAA60055844C /* EQSRouteResultsCell.h in Headers */,
 				D9E1618B1629CAA60055844C /* EQSRouteResultsTableViewController.h in Headers */,
 				D9E1618E1629CAA60055844C /* EQSRouteResultsViewControllerCompact.h in Headers */,
-				D9586847166525E7000DC972 /* EQSShadowLineSymbol.h in Headers */,
-				D93B555916A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -630,7 +621,6 @@
 				D9E161AE1629CB1E0055844C /* EQSDefaultSymbols.m in Sources */,
 				D9E161AF1629CB1E0055844C /* EQSGeoServices.m in Sources */,
 				D9E161B01629CB1E0055844C /* EQSHelper.m in Sources */,
-				D9586848166525E7000DC972 /* EQSShadowLineSymbol.m in Sources */,
 				D93B555A16A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

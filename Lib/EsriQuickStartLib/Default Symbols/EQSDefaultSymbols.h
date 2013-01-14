@@ -9,8 +9,6 @@
 #import <ArcGIS/ArcGIS.h>
 #import <Foundation/Foundation.h>
 
-#import "EQSShadowLineSymbol.h"
-
 // Forward reference the class
 @class EQSDefaultSymbols;
 

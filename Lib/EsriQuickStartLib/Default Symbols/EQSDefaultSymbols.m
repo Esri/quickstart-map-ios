@@ -200,7 +200,7 @@
     self.geolocation = [self getPinSizedPictureMarkerSymbolForURL:kEQSBluePinURL];
     
     
-    self.route = [EQSShadowLineSymbol simpleLineSymbolWithColor:[[UIColor orangeColor] colorWithAlphaComponent:0.7f]
+    self.route = [AGSSimpleLineSymbol simpleLineSymbolWithColor:[[UIColor orangeColor] colorWithAlphaComponent:0.7f]
                                                           width:6.0f];
 
     self.routeStart = [self getPinSizedPictureMarkerSymbolForURL:kEQSGreenPinURL];
