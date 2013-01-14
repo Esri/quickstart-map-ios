@@ -9,9 +9,6 @@
 #import <ArcGIS/ArcGIS.h>
 
 @interface AGSMapView (EQSGeneralUtilities)
-// Get layer based off the name.
-- (AGSLayer *) getLayerForName:(NSString *)layerName;
-
 // Perform an operation, but if it needs to wait until the AGSMapView has loaded, wait until then.
 - (void) doActionWhenLoaded:(void (^)(void))actionBlock withName:(NSString *)actionName;
 @end

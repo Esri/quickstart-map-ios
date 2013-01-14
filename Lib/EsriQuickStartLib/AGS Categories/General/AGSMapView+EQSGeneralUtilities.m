@@ -10,18 +10,6 @@
 #import "EQSHelper_int.h"
 
 @implementation AGSMapView (EQSGeneralUtilities)
-- (AGSLayer *) getLayerForName:(NSString *)layerName
-{
-    for (AGSLayer *l in self.mapLayers) {
-        if (l.name == layerName)
-        {
-            return l;
-        }
-    }
-    return nil;
-}
-
-
 - (void) doActionWhenLoaded:(void (^)(void))actionBlock withName:(NSString *)actionName
 {
     // The Action Block needs to wait until the MapView is loaded.

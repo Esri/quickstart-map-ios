@@ -213,9 +213,9 @@
     for (NSString *layerName in graphics.allKeys)
     {
 		NSLog(@"Layer: %@", layerName);
-        if (layerName == kEQSGraphicsLayerName_Point ||
-            layerName == kEQSGraphicsLayerName_Polyline ||
-            layerName == kEQSGraphicsLayerName_Polygon)
+        if ([layerName isEqualToString:kEQSGraphicsLayerName_Point] ||
+            [layerName isEqualToString:kEQSGraphicsLayerName_Polyline] ||
+            [layerName isEqualToString:kEQSGraphicsLayerName_Polygon])
         {
             NSArray *graphicsToEditFromLayer = [graphics objectForKey:layerName];
             if (graphicsToEditFromLayer.count > 0)
@@ -391,19 +391,19 @@
 
 - (void) __eqsGraphics_EnsureEQSGraphicsLayersArePresent
 {
-	if (![self getLayerForName:kEQSGraphicsLayerName_Polygon])
+	if (![self mapLayerForName:kEQSGraphicsLayerName_Polygon])
     {
         [self addMapLayer:[self __eqsGraphics_GetGraphicsLayerForGeometryType:AGSGeometryTypePolygon]
                  withName:kEQSGraphicsLayerName_Polygon];
     }
 	
-    if (![self getLayerForName:kEQSGraphicsLayerName_Polyline])
+    if (![self mapLayerForName:kEQSGraphicsLayerName_Polyline])
     {
         [self addMapLayer:[self __eqsGraphics_GetGraphicsLayerForGeometryType:AGSGeometryTypePolyline]
                  withName:kEQSGraphicsLayerName_Polyline];
     }
     
-    if (![self getLayerForName:kEQSGraphicsLayerName_Point])
+    if (![self mapLayerForName:kEQSGraphicsLayerName_Point])
     {
         [self addMapLayer:[self __eqsGraphics_GetGraphicsLayerForGeometryType:AGSGeometryTypePoint]
                  withName:kEQSGraphicsLayerName_Point];
@@ -449,7 +449,7 @@
     {
         // The layer should always be the topmost layer so, even if we've added it previously, let's
         // remove it now so we can add it to the top again.
-        if (![self getLayerForName:kEQSSketchGraphicsLayerName])
+        if (![self mapLayerForName:kEQSSketchGraphicsLayerName])
         {
             [self removeMapLayerWithName:kEQSSketchGraphicsLayerName];
         }
