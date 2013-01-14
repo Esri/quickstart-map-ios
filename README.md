@@ -19,7 +19,9 @@ See the repo's [wiki](https://github.com/Esri/quickstart-map-ios/wiki) for addit
    
    Note: You will need to create an ESRI account to do so. Learn more [here](https://webaccounts.esri.com/cas/index.cfm).
 
-2. Either clone or [download and unzip](https://github.com/Esri/quickstart-map-ios/archive/master.zip) this repository. For iOS Runtime SDK 10.1.1 and later, be sure to choose the appropriate branch.
+2. Either clone or [download and unzip](https://github.com/Esri/quickstart-map-ios/archive/master.zip) this repository.
+   
+   This branch is for iOS Runtime SDK 2.3.2. For iOS Runtime SDK 10.1.1 and later, use [this](https://github.com/Esri/quickstart-map-ios/tree/runtime-sdk-10-1-1) branch.
 3. Open the EsriQuickStartLib project and build the "Universal Framework" scheme.
 
 ### Build the Quick Start Sample Application
