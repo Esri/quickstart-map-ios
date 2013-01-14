@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "EQSAddressCandidateView.h"
+#import "EQSSearchResultView.h"
 
-@implementation EQSAddressCandidateView
+@implementation EQSSearchResultView
 @synthesize viewController;
 
 - (id)initWithFrame:(CGRect)frame

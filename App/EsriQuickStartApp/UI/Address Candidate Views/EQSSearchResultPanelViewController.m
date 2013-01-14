@@ -8,19 +8,19 @@
 
 #import <EsriQuickStart/EsriQuickStart.h>
 
-#import "EQSAddressCandidatePanelViewController.h"
-#import "EQSAddressCandidateView.h"
-#import "EQSAddressCandidateCalloutView.h"
-#import "EQSAddressCandidateCalloutViewController.h"
+#import "EQSSearchResultPanelViewController.h"
+#import "EQSSearchResultView.h"
+#import "EQSSearchResultCalloutView.h"
+#import "EQSSearchResultCalloutViewController.h"
 
 #define kEQSAddressCandidateViewSpacing 10
 
-@interface EQSAddressCandidatePanelViewController ()
+@interface EQSSearchResultPanelViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *secondaryLabel;
-@property (strong, nonatomic) IBOutlet EQSAddressCandidateCalloutViewController *calloutViewController;
+@property (strong, nonatomic) IBOutlet EQSSearchResultCalloutViewController *calloutViewController;
 @end
 
-@implementation EQSAddressCandidatePanelViewController
+@implementation EQSSearchResultPanelViewController
 @synthesize secondaryLabel;
 @synthesize calloutViewController = _calloutViewController;
 @dynamic nextPosition;
@@ -36,8 +36,6 @@
 {
     [self setSecondaryLabel:nil];
     
-//    [self setCalloutViewController:nil];
-
     [super viewDidUnload];
 }
 
@@ -60,25 +58,43 @@
     }];
 }
 
-+ (id) viewControllerWithCandidate:(AGSAddressCandidate *)candidate OfType:(EQSCandidateType)candidateType
++ (id) viewControllerWithAddressCandidate:(AGSAddressCandidate *)candidate OfType:(EQSSearchResultType)candidateType
 {
-    return [[EQSAddressCandidatePanelViewController alloc] initWithAddressCandidate:candidate
-                                                                             OfType:candidateType];
+    return [[EQSSearchResultPanelViewController alloc] initWithAddressCandidate:candidate
+                                                                         OfType:candidateType];
 }
 
-- (id) initWithAddressCandidate:(AGSAddressCandidate *)candidate OfType:(EQSCandidateType)candidateType
+- (id) initWithAddressCandidate:(AGSAddressCandidate *)candidate OfType:(EQSSearchResultType)candidateType
 {
-    self = [super initWithNibName:@"EQSAddressCandidateView" bundle:nil];
+    self = [super initWithNibName:@"EQSSearchResultView" bundle:nil];
 
     if (self)
     {
-        self.candidateType = candidateType;
+        self.resultType = candidateType;
         self.candidate = candidate;
     }
     
     return self;
 }
 
++(id)viewControllerWithFindResult:(AGSLocatorFindResult *)result OfType:(EQSSearchResultType)resultType;
+{
+    return [[EQSSearchResultPanelViewController alloc] initWithFindResult:result
+                                                                   OfType:resultType];
+}
+
+-(id)initWithFindResult:(AGSLocatorFindResult *)result OfType:(EQSSearchResultType)resultType;
+{
+    self = [super initWithNibName:@"EQSSearchResultView" bundle:nil];
+    
+    if (self)
+    {
+        self.resultType = resultType;
+        self.findResult = result;
+    }
+    
+    return self;
+}
 
 #pragma mark - Property setters
 - (void) setGraphic:(AGSGraphic *)graphic
@@ -92,13 +108,14 @@
     }
 }
 
-- (void) setCalloutViewController:(EQSAddressCandidateCalloutViewController *)calloutViewController
+- (void) setCalloutViewController:(EQSSearchResultCalloutViewController *)calloutViewController
 {
     _calloutViewController = calloutViewController;
     if (_calloutViewController)
     {
         _calloutViewController.candidate = self.candidate;
-        _calloutViewController.candidateType = self.candidateType;
+        _calloutViewController.findResult = self.findResult;
+        _calloutViewController.resultType = self.resultType;
         _calloutViewController.graphic = self.graphic;
     }
 }
@@ -140,7 +157,7 @@
 }
 
 - (void) addToScrollView:(UIScrollView *)parentView
-              RelativeTo:(EQSAddressCandidatePanelViewController *)previousCandidate
+              RelativeTo:(EQSSearchResultPanelViewController *)previousCandidate
 {
     [self setPositionInScrollView:parentView RelativeTo:previousCandidate Rearranging:NO];
     
@@ -150,7 +167,7 @@
 }
 
 - (void)setPositionInScrollView:(UIScrollView *)parentView
-                     RelativeTo:(EQSAddressCandidatePanelViewController *)previousCandidate
+                     RelativeTo:(EQSSearchResultPanelViewController *)previousCandidate
                     Rearranging:(BOOL)rearranging
 {
     CGRect proposedPosition = CGRectNull;
@@ -161,8 +178,8 @@
     else
     {
         // Add at end.
-        EQSAddressCandidatePanelViewController *rightmostCandidateVC =
-            rearranging?previousCandidate:[EQSAddressCandidatePanelViewController findRightmostItemIn:(UIScrollView *)parentView];
+        EQSSearchResultPanelViewController *rightmostCandidateVC =
+            rearranging?previousCandidate:[EQSSearchResultPanelViewController findRightmostItemIn:(UIScrollView *)parentView];
         if (rightmostCandidateVC)
         {
             proposedPosition = rightmostCandidateVC.nextPosition;
@@ -188,7 +205,7 @@
         [UIView animateWithDuration:0.4
                          animations:^{
                              [self.view removeFromSuperview];
-                             [EQSAddressCandidatePanelViewController positionAddressCandidateViewsIn:exSuperView]; 
+                             [EQSSearchResultPanelViewController positionAddressCandidateViewsIn:exSuperView]; 
                          }];
         return exSuperView;
     }
@@ -197,19 +214,19 @@
 
 + (void) positionAddressCandidateViewsIn:(UIScrollView *)superView
 {
-    EQSAddressCandidatePanelViewController *previousCandidate = nil;
+    EQSSearchResultPanelViewController *previousCandidate = nil;
 
     for (UIView *v in superView.subviews)
     {
-        if ([v isKindOfClass:[EQSAddressCandidateView class]])
+        if ([v isKindOfClass:[EQSSearchResultView class]])
         {
-            EQSAddressCandidateView *acv = (EQSAddressCandidateView *)v;
+            EQSSearchResultView *acv = (EQSSearchResultView *)v;
             [acv.viewController setPositionInScrollView:superView RelativeTo:previousCandidate Rearranging:YES];
             previousCandidate = acv.viewController;
         }
     }
     
-    [EQSAddressCandidatePanelViewController sizeScrollView:superView];
+    [EQSSearchResultPanelViewController sizeScrollView:superView];
 }
 
 - (void) ensureVisibleInParentUIScrollView
@@ -226,16 +243,16 @@
     }
 }
 
-+ (EQSAddressCandidatePanelViewController *) findRightmostItemIn:(UIScrollView *)parentView
++ (EQSSearchResultPanelViewController *) findRightmostItemIn:(UIScrollView *)parentView
 {
     CGFloat maxOriginX = CGFLOAT_MIN;
-    EQSAddressCandidateView *rightmostView = nil;
+    EQSSearchResultView *rightmostView = nil;
     
     for (UIView *subView in parentView.subviews)
     {
-        if ([subView isKindOfClass:[EQSAddressCandidateView class]])
+        if ([subView isKindOfClass:[EQSSearchResultView class]])
         {
-            EQSAddressCandidateView *v = (EQSAddressCandidateView *)subView;
+            EQSSearchResultView *v = (EQSSearchResultView *)subView;
             if (v.frame.origin.x + v.frame.size.width > maxOriginX)
             {
                 maxOriginX = v.frame.origin.x + v.frame.size.width;
@@ -252,7 +269,7 @@
     CGRect totalRect = CGRectZero;
     for (UIView *v in containingScrollView.subviews)
     {
-        if ([v isKindOfClass:[EQSAddressCandidateView class]])
+        if ([v isKindOfClass:[EQSSearchResultView class]])
         {
             totalRect = CGRectUnion(totalRect, v.frame);
         }
@@ -276,16 +293,16 @@
     if ([self.view.superview isKindOfClass:[UIScrollView class]])
     {
         UIScrollView *containingScrollView = (UIScrollView *)self.view.superview;
-        [EQSAddressCandidatePanelViewController sizeScrollView:containingScrollView];
+        [EQSSearchResultPanelViewController sizeScrollView:containingScrollView];
     }
 }
 
 - (IBAction)zoomButtonTapped:(id)sender {
-    if (self.candidateViewDelegate)
+    if (self.searchResultViewDelegate)
     {
-        if ([self.candidateViewDelegate respondsToSelector:@selector(candidateViewController:DidTapViewType:)])
+        if ([self.searchResultViewDelegate respondsToSelector:@selector(searchResultViewController:DidTapViewType:)])
         {
-            [self.candidateViewDelegate candidateViewController:self DidTapViewType:EQSCandidateViewTypePanelView];
+            [self.searchResultViewDelegate searchResultViewController:self DidTapViewType:EQSSearchResultViewTypePanelView];
         }
     }
 }
