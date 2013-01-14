@@ -30,7 +30,7 @@ See the repo's [wiki](https://github.com/Esri/quickstart-map-ios/wiki) for addit
 ## Requirements
 
 * Xcode and the iOS SDK (download [here](https://developer.apple.com/xcode/))
-* ArcGIS Runtime SDK for iOS (download [here](http://www.esri.com/apps/products/download/index.cfm?fuseaction=download.all#ArcGIS_Runtime_SDK_for_iOS))
+* ArcGIS Runtime SDK for iOS 10.1.1 or later (download [here](http://www.esri.com/apps/products/download/index.cfm?fuseaction=download.all#ArcGIS_Runtime_SDK_for_iOS))
 * Some experience with iOS development
 
 ## Resources
