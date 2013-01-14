@@ -40,7 +40,7 @@ typedef enum {
 - (AGSGraphicsLayer *) addGraphic:(AGSGraphic *)graphic;
 // Shortcut to populate the AGSGraphic.attributes dictionary with a key/value
 // See also removeGraphicsByAttribute:withValue
-- (AGSGraphicsLayer *) addGraphic:(AGSGraphic *)graphic withAttribute:(id)attribute withValue:(id)value;
+- (AGSGraphicsLayer *) addGraphic:(AGSGraphic *)graphic withAttribute:(NSString *)attributeName withValue:(id)value;
 
 
 
@@ -53,7 +53,7 @@ typedef enum {
 // Remove graphics by matching some criteria. The NSSet will contain AGSGraphicsLayers that were updated.
 - (NSSet *) removeGraphicsMatchingCriteria:(BOOL(^)(AGSGraphic *graphic))checkBlock;
 // See also addGraphic:withAttribute:withValue
-- (NSSet *) removeGraphicsByAttribute:(id)attribute withValue:(id)value;
+- (NSSet *) removeGraphicsByAttribute:(NSString *)attributeName withValue:(id)value;
 
 // Clear graphics from the map. Optionally specify what type or types of graphics to clear.
 - (void) clearGraphics:(EQSGraphicsLayerType)layerType;

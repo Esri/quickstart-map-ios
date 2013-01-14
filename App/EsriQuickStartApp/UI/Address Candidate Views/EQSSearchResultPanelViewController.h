@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
-#import "EQSAddressCandidateBaseViewController.h"
+#import "EQSSearchResultBaseViewController.h"
 
 //@class EQSAddressCandidateView;
 //@class EQSAddressCandidatePanelViewController;
 
-@interface EQSAddressCandidatePanelViewController : EQSAddressCandidateBaseViewController
+@interface EQSSearchResultPanelViewController : EQSSearchResultBaseViewController
 - (void) addToScrollView:(UIScrollView *)parentView;
 - (UIScrollView *) removeFromParentScrollView;
 - (void) ensureVisibleInParentUIScrollView;

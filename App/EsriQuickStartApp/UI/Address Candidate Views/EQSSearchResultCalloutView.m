@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "EQSAddressCandidateCalloutView.h"
+#import "EQSSearchResultCalloutView.h"
 
-@implementation EQSAddressCandidateCalloutView
+@implementation EQSSearchResultCalloutView
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {

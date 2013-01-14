@@ -13,7 +13,7 @@
 #import "EQSPortalItemPickerView.h"
 #import "EQSSampleAppStateEnums.h"
 #import "EQSCodeView.h"
-#import "EQSAddressCandidateView.h"
+#import "EQSSearchResultView.h"
 #import "UIApplication+AppDimensions.h"
 
 #import "EQSBasemapPickerView.h"
@@ -33,7 +33,7 @@ typedef enum {
 @interface EQSSampleViewController ()  <AGSMapViewTouchDelegate,
                                         AGSMapViewCalloutDelegate,
                                         EQSBasemapPickerDelegate,
-										EQSAddressCandidateViewDelegate,
+										EQSSearchResultViewDelegate,
                                         EQSCodeViewControllerDelegate,
                                         UISearchBarDelegate,
                                         UIWebViewDelegate,
@@ -292,6 +292,7 @@ typedef enum {
 //    [self.mapView centerAtPoint:nyc withScaleLevel:0];
 //    [self.mapView centerAtLat:40.7302 Long:-73.9958];
 //    [self.mapView zoomToLevel:7];
+//    [self.mapView zoomToLevel:13 withLat:40.7302 lon:-73.9958 animated:YES];
 //    [self.mapView centerAtMyLocation];
 //    [self.mapView centerAtMyLocationWithScaleLevel:15];
 //    [self.mapView zoomToPlace:@"New York" animated:YES];
@@ -418,7 +419,7 @@ typedef enum {
 - (void)initUI
 {
 	// Set up the map UI a little.
-    self.mapView.wrapAround = YES;
+    [self.mapView enableWrapAround];
     self.mapView.touchDelegate = self;
     self.mapView.calloutDelegate = self;
     
@@ -484,12 +485,12 @@ typedef enum {
     
     // And let me know when it finds points for an address.
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(gotCandidatesForAddress:)
+                                             selector:@selector(gotFindPlacesResults:)
                                                  name:kEQSGeoServicesNotification_PointsFromAddress_OK
                                                object:self.mapView.geoServices];
     // Or not...
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didFailToGetCandidatesForAddress:)
+                                             selector:@selector(didFailToFindPlaces:)
                                                  name:kEQSGeoServicesNotification_PointsFromAddress_Error
                                                object:self.mapView.geoServices];
     
@@ -576,7 +577,7 @@ typedef enum {
             AGSGraphic *g = [self nearestGraphicToPoint:mapPoint FromMapViewClickedGraphics:graphics];
             if (g && g.infoTemplateDelegate)
     {
-                [self.mapView showCalloutAtPoint:mapPoint forGraphic:g animated:YES];
+                [self.mapView.callout showCalloutAtPoint:mapPoint forGraphic:g animated:YES];
                 shouldReverseGeocode = NO;
             }
             if (shouldReverseGeocode)
@@ -1688,18 +1689,21 @@ typedef enum {
 			{
                 AGSPoint *p = candidate.location;//] getWebMercatorAuxSpherePoint];
                 AGSGraphic *g = [self.mapView addPoint:p withSymbol:self.mapView.defaultSymbols.reverseGeocode];
-                [g.attributes setObject:@"ReverseGeocoded" forKey:@"Source"];
-                [g.attributes addEntriesFromDictionary:candidate.attributes];
+                [g setAttributeWithString:@"ReverseGeocoded" forKey:@"Source"];
+                for (NSString *key in candidate.attributes.allKeys)
+                {
+                    [g setAttribute:[candidate.attributes objectForKey:key] forKey:key];
+                }
                 
-                EQSAddressCandidatePanelViewController *cvc =
-                [[EQSAddressCandidatePanelViewController alloc] initWithAddressCandidate:candidate
-                                                                             OfType:EQSCandidateTypeReverseGeocode];
-                cvc.candidateViewDelegate = self;
+                EQSSearchResultPanelViewController *cvc =
+                [[EQSSearchResultPanelViewController alloc] initWithAddressCandidate:candidate
+                                                                             OfType:EQSSearchResultTypeReverseGeocode];
+                cvc.searchResultViewDelegate = self;
                 cvc.graphic = g;
                 [cvc addToScrollView:self.findPlacesScrollView];
                 [self.geocodeResults addObject:cvc];
 
-                [self.mapView showCalloutAtPoint:p forGraphic:g animated:YES];
+                [self.mapView.callout showCalloutAtPoint:p forGraphic:g animated:YES];
 			}
             else if ([source isEqualToString:kEQSGetAddressReason_AddressForGeolocation])
             {
@@ -1709,20 +1713,23 @@ typedef enum {
                 
                 AGSPoint *geoLocation = [notification findAddressSearchPoint];
                 AGSGraphic *g = [self.mapView addPoint:geoLocation withSymbol:self.mapView.defaultSymbols.geolocation];
-                [g.attributes setObject:@"Geolocation" forKey:@"Source"];
-                [g.attributes addEntriesFromDictionary:candidate.attributes];
+                [g setAttributeWithString:@"Geolocation" forKey:@"Source"];
+                for (NSString *key in candidate.attributes.allKeys)
+                {
+                    [g setAttribute:[candidate.attributes objectForKey:key] forKey:key];
+                }
 
-                EQSAddressCandidatePanelViewController *cvc =
-                [[EQSAddressCandidatePanelViewController alloc] initWithAddressCandidate:candidate
-                                                                             OfType:EQSCandidateTypeGeolocation];
-                cvc.candidateViewDelegate = self;
+                EQSSearchResultPanelViewController *cvc =
+                [[EQSSearchResultPanelViewController alloc] initWithAddressCandidate:candidate
+                                                                             OfType:EQSSearchResultTypeGeolocation];
+                cvc.searchResultViewDelegate = self;
                 cvc.graphic = g;
                 [cvc addToScrollView:self.findMeScrollView];
                 [self.geolocationResults addObject:cvc];
 
                 self.myLocationAddressLabel.text = address;
 
-                [self.mapView showCalloutAtPoint:geoLocation forGraphic:g animated:YES];
+                [self.mapView.callout showCalloutAtPoint:geoLocation forGraphic:g animated:YES];
             }
 			
 			[self updateUIDisplayState];
@@ -1753,21 +1760,6 @@ typedef enum {
 			[self.mapView.routeDisplayHelper setEndPoint:nil];
 		}
 	}
-
-//    AGSGraphic *g = [self.mapView addPoint:failedPoint withSymbol:self.mapView.defaultSymbols.failedGeocode];
-//    [g.attributes setObject:@"FailedGeocode" forKey:@"Source"];
-//    
-//    EQSDummyAddressCandidate *dummyCandidate =
-//        [[EQSDummyAddressCandidate alloc] initWithLocation:failedPoint
-//                                           andSearchRadius:[notification findAddressSearchDistance]];
-//    EQSAddressCandidatePanelViewController *acvc =
-//        [EQSAddressCandidatePanelViewController viewControllerWithCandidate:dummyCandidate
-//                                                                OfType:EQSCandidateTypeFailedGeocode];
-//    acvc.candidateViewDelegate = self;
-//    acvc.graphic =g;
-//    [acvc addToScrollView:self.findPlacesScrollView];
-//    [self.geocodeResults addObject:acvc];
-//    [self.mapView showCalloutAtPoint:failedPoint forGraphic:g animated:YES];
 }
 
 
@@ -2242,20 +2234,20 @@ typedef enum {
 }
 
 #pragma mark - Find Places Service Handlers
-- (void) gotCandidatesForAddress:(NSNotification *)notification
+- (void) gotFindPlacesResults:(NSNotification *)notification
 {
     NSOperation *op = [notification geoServicesOperation];
 	
     if (op)
     {
-        NSArray *candidates = [notification findPlacesCandidates];
+        NSArray *candidates = notification.findPlacesCandidatesSortedByScore;
         if (candidates.count > 0)
         {
             // First, let's remove all the old items from the UI (if any)
             NSMutableArray *geocodeResultsToDiscard = [NSMutableArray array];
-            for (EQSAddressCandidatePanelViewController *gcvc in self.geocodeResults)
+            for (EQSSearchResultPanelViewController *gcvc in self.geocodeResults)
             {
-                if (gcvc.candidateType == EQSCandidateTypeForwardGeocode)
+                if (gcvc.resultType == EQSSearchResultTypeForwardGeocode)
                 {
                     [gcvc.graphic.layer removeGraphic:gcvc.graphic];
                     [gcvc removeFromParentScrollView];
@@ -2270,44 +2262,34 @@ typedef enum {
 			// Make sure the "No results" text is hidden.
             self.findPlacesNoResultsLabel.hidden = YES;
 
-			// Sort the candidates we got back in decreasing order of "score".
-			// "Score" is the service's rank of how well it thinks the result represents the query.
-            NSArray *sortedCandidates = [candidates sortedArrayUsingComparator:^(id obj1, id obj2) {
-                AGSAddressCandidate *c1 = obj1;
-                AGSAddressCandidate *c2 = obj2;
-                return (c1.score==c2.score)?NSOrderedSame:(c1.score > c2.score)?NSOrderedAscending:NSOrderedDescending;
-            }];
-
 			// Now, we're only going to show results in the top 20% (rank-wise)
-            double maxScore = ((AGSAddressCandidate *)[sortedCandidates objectAtIndex:0]).score;
+            double maxScore = ((AGSAddressCandidate *)[candidates objectAtIndex:0]).score;
             maxScore = maxScore * 0.9f;
 			
 			// Only considering the top results, in terms of score relative to top score.
-			sortedCandidates = [sortedCandidates filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings)
+			candidates = [candidates filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings)
 			{
-				AGSAddressCandidate *c = evaluatedObject;
-				return c.score >= maxScore;
+				AGSLocatorFindResult *r = evaluatedObject;
+				return r.score >= maxScore;
 			}]];
 
 			// Go through the results, adding them to the UI and map as appropriate, and zooming the map.
             AGSMutableEnvelope *totalEnv = nil;
-            EQSAddressCandidatePanelViewController *firstResultVC = nil;
-            for (AGSAddressCandidate *c in sortedCandidates)
+            EQSSearchResultPanelViewController *firstResultVC = nil;
+            for (AGSLocatorFindResult *r in candidates)
 			{
-				AGSPoint *p = c.location; //c.displayPoint;
 				// Add a graphic to the map for this result.
-				AGSGraphic *g = [self.mapView addPoint:p withSymbol:self.mapView.defaultSymbols.findPlace];
-				
+				AGSGraphic *g = r.graphic;
 				// Let's track the graphic in the map.
-				[g.attributes setObject:@"Geocoded" forKey:@"Source"];
+				[g setAttributeWithString:@"Geocoded" forKey:@"Source"];
+                g.symbol = self.mapView.defaultSymbols.findPlace;
+
+                // And now we add it to the map.
+                [self.mapView addGraphic:g];
 				
-				// And let's get the graphic to inherit the attributes from the candidate.
-				[g.attributes addEntriesFromDictionary:c.attributes];
-				
-				// NSLog(@"Point: %@", p);
-				// NSLog(@"Loc  : %@", c.location);
 				
 				// Update/Create the overall envelope containing all results.
+				AGSPoint *p = (AGSPoint *)g.geometry;
 				if (!totalEnv)
 				{
 					totalEnv = [AGSMutableEnvelope envelopeWithXmin:p.x-1 ymin:p.y-1
@@ -2320,9 +2302,9 @@ typedef enum {
 				}
 				
 				// Now create our custom candidate<>UI component.
-				EQSAddressCandidatePanelViewController *cvc =
-				[EQSAddressCandidatePanelViewController viewControllerWithCandidate:c
-																			 OfType:EQSCandidateTypeForwardGeocode];
+				EQSSearchResultPanelViewController *cvc =
+				[EQSSearchResultPanelViewController viewControllerWithFindResult:r
+                                                                                OfType:EQSSearchResultTypeForwardGeocode];
 				// Add it to the Find Places scroll view.
 				[cvc addToScrollView:self.findPlacesScrollView];
 				
@@ -2330,7 +2312,7 @@ typedef enum {
 				cvc.graphic = g;
 				
 				// And let us handle interactions with the component
-				cvc.candidateViewDelegate = self;
+				cvc.searchResultViewDelegate = self;
 				
 				// Lastly, store a handle onto our result container.
 				[self.geocodeResults addObject:cvc];
@@ -2349,7 +2331,7 @@ typedef enum {
                 [firstResultVC ensureVisibleInParentUIScrollView];
             }
             
-			if (sortedCandidates.count == 1)
+			if (candidates.count == 1)
             {
 				// We had one result. Zoom to a set zoom level.
                 [self.mapView zoomToLevel:16 withCenterPoint:[totalEnv center] animated:YES];
@@ -2381,7 +2363,7 @@ typedef enum {
     }
 }
 
-- (void) didFailToGetCandidatesForAddress:(NSNotification *)notification
+- (void) didFailToFindPlaces:(NSNotification *)notification
 {
 	NSError *error = [notification geoServicesError];
 	NSLog(@"Failed to get candidates for address: %@", error);
@@ -2389,12 +2371,12 @@ typedef enum {
 
 
 #pragma mark - Geocode Candidate Interacation Delegate Handler
-- (void) candidateViewController:(EQSAddressCandidatePanelViewController *)candidateVC
-                  DidTapViewType:(EQSCandidateViewType)viewType
+- (void) searchResultViewController:(EQSSearchResultPanelViewController *)candidateVC
+                  DidTapViewType:(EQSSearchResultViewType)viewType
 {
 	// The user tapped the candidate object. Let's make sure its map point is
 	// visible on the map
-    AGSPoint *location = candidateVC.candidateLocation;
+    AGSPoint *location = candidateVC.resultLocation;
     if (location)
     {
         [self.mapView centerAtPoint:location animated:YES];
@@ -2402,7 +2384,7 @@ typedef enum {
         AGSGraphic *g = candidateVC.graphic;
         if (g)
         {
-            [self.mapView showCalloutAtPoint:location forGraphic:g animated:YES];
+            [self.mapView.callout showCalloutAtPoint:location forGraphic:g animated:YES];
         }
     }
 	// And let's scroll the containing view to show the result fully.

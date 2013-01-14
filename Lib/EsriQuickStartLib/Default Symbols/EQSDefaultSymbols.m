@@ -200,10 +200,8 @@
     self.geolocation = [self getPinSizedPictureMarkerSymbolForURL:kEQSBluePinURL];
     
     
-    self.route = [EQSShadowLineSymbol simpleLineSymbolWithColor:[[UIColor orangeColor] colorWithAlphaComponent:0.7f]
+    self.route = [AGSSimpleLineSymbol simpleLineSymbolWithColor:[[UIColor orangeColor] colorWithAlphaComponent:0.7f]
                                                           width:6.0f];
-    _route.lineCap = kCGLineCapRound;
-    _route.lineJoin = kCGLineJoinRound;
 
     self.routeStart = [self getPinSizedPictureMarkerSymbolForURL:kEQSGreenPinURL];
     self.routeEnd = [self getPinSizedPictureMarkerSymbolForURL:kEQSRedPinURL];
@@ -211,9 +209,6 @@
     self.routeSegmentStart = [self getCircleSizedPictureMarkerSymbolForURL:kEQSGreenCircleURL];
     self.routeSegment = [AGSSimpleLineSymbol simpleLineSymbolWithColor:[[UIColor greenColor] colorWithAlphaComponent:0.5f]
                                                                  width:10.0f];
-    
-    _routeSegment.lineCap = kCGLineCapRound;
-    _routeSegment.lineJoin = kCGLineJoinRound;
     
     self.findPlace = [self getPinSizedPictureMarkerSymbolForURL:kEQSOrangePinURL];
     self.reverseGeocode = [self getPinSizedPictureMarkerSymbolForURL:kEQSYellowPinURL];
@@ -229,10 +224,9 @@
 - (AGSPictureMarkerSymbol *) getPinSizedPictureMarkerSymbolForURL:(NSString *)url
 {
     AGSPictureMarkerSymbol *pms = [self pictureMarkerSymbol:url];
-    pms.xoffset = kEQSPinXOffset;
-    pms.yoffset = kEQSPinYOffset;
+    pms.offset = CGPointMake(kEQSPinXOffset, kEQSPinYOffset);
     pms.size = kEQSPinSize;
-    pms.hotspot = CGPointMake(-pms.xoffset, -pms.yoffset);
+    pms.leaderPoint = CGPointMake(-pms.offset.x, -pms.offset.y);
     
     return pms;
 }
@@ -240,10 +234,9 @@
 - (AGSPictureMarkerSymbol *) getCircleSizedPictureMarkerSymbolForURL:(NSString *)url
 {
     AGSPictureMarkerSymbol *pms = [self pictureMarkerSymbol:url];
-    pms.xoffset = kEQSCircleXOffset;
-    pms.yoffset = kEQSCircleYOffset;
+    pms.offset = CGPointMake(kEQSCircleXOffset, kEQSCircleYOffset);
     pms.size = kEQSCircleSize;
-    pms.hotspot = CGPointMake(-pms.xoffset, -pms.yoffset);
+    pms.leaderPoint = CGPointMake(-pms.offset.x, -pms.offset.y);
     
     return pms;
 }

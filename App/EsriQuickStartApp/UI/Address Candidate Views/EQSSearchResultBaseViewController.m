@@ -8,9 +8,9 @@
 
 #import <EsriQuickStart/EsriQuickStart.h>
 
-#import "EQSAddressCandidateBaseViewController.h"
+#import "EQSSearchResultBaseViewController.h"
 
-@interface EQSAddressCandidateBaseViewController ()
+@interface EQSSearchResultBaseViewController ()
 @property (strong, nonatomic) IBOutlet UILabel *colorRefLabelReverse;
 @property (strong, nonatomic) IBOutlet UILabel *colorRefLabelForward;
 @property (strong, nonatomic) IBOutlet UILabel *colorRefLabelGeolocate;
@@ -22,7 +22,7 @@
 @property (strong, nonatomic) IBOutlet UIView *candidateTypeRepresentationView;
 @end
 
-@implementation EQSAddressCandidateBaseViewController
+@implementation EQSSearchResultBaseViewController
 
 @synthesize colorRefLabelReverse;
 @synthesize colorRefLabelForward;
@@ -40,49 +40,92 @@
 @synthesize candidateTypeRepresentationView;
 
 @synthesize candidate = _candidate;
-@synthesize candidateType = _candidateType;
+@synthesize findResult = _findResult;
+@synthesize resultType = _resultType;
 @synthesize graphic = _graphic;
 
-@dynamic candidateLocation;
+@dynamic resultLocation;
 @dynamic refLabel;
 
-@synthesize candidateViewDelegate = _candidateViewDelegate;
+@synthesize searchResultViewDelegate = _candidateViewDelegate;
 
 @synthesize latLonFormatString = _latLonFormatString;
 
-+ (id) viewControllerWithCandidate:(AGSAddressCandidate *)candidate OfType:(EQSCandidateType)candidateType
++ (id) viewControllerWithAddressCandidate:(AGSAddressCandidate *)candidate OfType:(EQSSearchResultType)candidateType
 {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
                                  userInfo:nil];
 }
 
-- (id) initWithAddressCandidate:(AGSAddressCandidate *)candidate OfType:(EQSCandidateType)candidateType
+- (id) initWithAddressCandidate:(AGSAddressCandidate *)candidate OfType:(EQSSearchResultType)candidateType
 {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
                                  userInfo:nil];
 }
 
-- (AGSPoint *)candidateLocation
++(id)viewControllerWithFindResult:(AGSLocatorFindResult *)result OfType:(EQSSearchResultType)resultType;
 {
-    if ([self.candidate isKindOfClass:[EQSDummyAddressCandidate class]])
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+}
+
+-(id)initWithFindResult:(AGSLocatorFindResult *)result OfType:(EQSSearchResultType)resultType;
+{
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+}
+
+- (AGSPoint *)resultLocation
+{
+    if (self.candidate)
     {
-        EQSDummyAddressCandidate *dummy = (EQSDummyAddressCandidate *)self.candidate;
-        return dummy.dummyLocation;
+        if ([self.candidate isKindOfClass:[EQSDummyAddressCandidate class]])
+        {
+            EQSDummyAddressCandidate *dummy = (EQSDummyAddressCandidate *)self.candidate;
+            return dummy.dummyLocation;
+        }
+        return self.candidate.location;
     }
-    return self.candidate.location;
+    else if (self.findResult)
+    {
+        return (AGSPoint *)self.findResult.graphic.geometry;
+    }
+    NSLog(@"No candidate or find result to get location for!");
+    return nil;
+}
+
+-(CGFloat)resultScore
+{
+    if (self.candidate)
+    {
+        return self.candidate.score;
+    }
+    else if (self.findResult)
+    {
+        return self.findResult.score;
+    }
+    NSLog(@"No candidate or find result to get score for!");
+    return 0;
 }
 
 
-- (void) setCandidateType:(EQSCandidateType)candidateType
+- (void) setResultType:(EQSSearchResultType)resultType
 {
-    _candidateType = candidateType;
+    _resultType = resultType;
 }
 
 - (void)setCandidate:(AGSAddressCandidate *)candidate
 {
     _candidate = candidate;
+}
+
+-(void)setFindResult:(AGSLocatorFindResult *)findResult
+{
+    _findResult = findResult;
 }
 
 
@@ -124,27 +167,27 @@
 - (UILabel *)refLabel
 {
     UILabel *referenceTemplateLabel = nil;
-    switch (self.candidateType) {
-        case EQSCandidateTypeForwardGeocode:
+    switch (self.resultType) {
+        case EQSSearchResultTypeForwardGeocode:
             referenceTemplateLabel = self.colorRefLabelForward;
             break;
-        case EQSCandidateTypeReverseGeocode:
+        case EQSSearchResultTypeReverseGeocode:
             referenceTemplateLabel = self.colorRefLabelReverse;
             break;
-        case EQSCandidateTypeGeolocation:
+        case EQSSearchResultTypeGeolocation:
             referenceTemplateLabel = self.colorRefLabelGeolocate;
             break;
-        case EQSCandidateTypeDirectionsStart:
+        case EQSSearchResultTypeDirectionsStart:
             referenceTemplateLabel = self.colorRefLabelDirectionsStart;
             break;
-        case EQSCandidateTypeDirectionsEnd:
+        case EQSSearchResultTypeDirectionsEnd:
             referenceTemplateLabel = self.colorRefLabelDirectionsEnd;
             break;
-        case EQSCandidateTypeFailedGeocode:
+        case EQSSearchResultTypeFailedGeocode:
             referenceTemplateLabel = self.colorRefLabelGeocodeFailed;
             break;
         default:
-            NSLog(@"Unexpected EQSCandidateType: %d", self.candidateType);
+            NSLog(@"Unexpected EQSSearchResultType: %d", self.resultType);
             break;
     }
     return referenceTemplateLabel;
@@ -158,52 +201,51 @@
         
         self.candidateTypeRepresentationView.backgroundColor = refView.backgroundColor;
         
-        if (self.candidate)
+        if (self.candidate || self.findResult)
         {
             NSString *latLonString = [NSString stringWithFormat:self.latLonFormatString,
-                                      self.candidateLocation.latitude,
-                                      self.candidateLocation.longitude];
-            NSString *scoreString = [NSString stringWithFormat:@"%.2f%%", self.candidate.score];
+                                      self.resultLocation.latitude,
+                                      self.resultLocation.longitude];
+            NSString *scoreString = [NSString stringWithFormat:@"%.2f%%", self.resultScore];
             
-            switch (self.candidateType)
+            switch (self.resultType)
             {
-                case EQSCandidateTypeForwardGeocode:
+                case EQSSearchResultTypeForwardGeocode:
                 {
-                    NSString *locatorName = [self.candidate.attributes objectForKey:@"Addr_Type"];
+                    // Using the FindResult
+                    NSString *locatorName = [self.findResult.graphic attributeAsStringForKey:@"Addr_type"];
                     
-                    self.primaryLabel.text =self.candidate.addressString;
-                    //                self.secondaryLabel.text = @"";
+                    self.primaryLabel.text = [self.findResult.graphic attributeAsStringForKey:@"Match_addr"];
                     self.latLonLabel.text = latLonString;
                     self.locatorLabel.text = locatorName;
                     self.scoreLabel.text = scoreString;
                 }
                     break;
                     
-                case EQSCandidateTypeReverseGeocode:
-                case EQSCandidateTypeGeolocation:
-                case EQSCandidateTypeDirectionsStart:
-                case EQSCandidateTypeDirectionsEnd:
+                case EQSSearchResultTypeReverseGeocode:
+                case EQSSearchResultTypeGeolocation:
+                case EQSSearchResultTypeDirectionsStart:
+                case EQSSearchResultTypeDirectionsEnd:
                 {
+                    // Use the AGSAddressCandidate
                     NSDictionary *addData = self.candidate.address;
                     NSString *addStr = [NSString stringWithFormat:@"%@, %@, %@ %@",
                                         [addData objectForKey:kEQSAddressCandidateAddressField],
                                         [addData objectForKey:kEQSAddressCandidateCityField],
                                         [addData objectForKey:kEQSAddressCandidateStateField],
                                         [addData objectForKey:kEQSAddressCandidateZipField]];
-                    NSString *locatorName = [self.candidate.address objectForKey:@"Loc_name"];
+                    NSString *locatorName = [self.candidate.address objectForKey:@"Addr_type"];
                     
-                    self.primaryLabel.text =addStr;
-                    //                self.secondaryLabel.text = @"";
+                    self.primaryLabel.text = addStr;
                     self.latLonLabel.text = latLonString;
                     self.locatorLabel.text = locatorName;
                     self.scoreLabel.text = @"";
                 }
                     break;
                     
-                case EQSCandidateTypeFailedGeocode:
+                case EQSSearchResultTypeFailedGeocode:
                 {
                     self.primaryLabel.text = @"Unable to find address for location!";
-                    //                self.secondaryLabel.text = @"";
                     self.latLonLabel.text = latLonString;
                     self.locatorLabel.text = @"";
                     self.scoreLabel.text = @"";

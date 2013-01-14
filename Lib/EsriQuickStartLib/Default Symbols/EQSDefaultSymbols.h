@@ -9,8 +9,6 @@
 #import <ArcGIS/ArcGIS.h>
 #import <Foundation/Foundation.h>
 
-#import "EQSShadowLineSymbol.h"
-
 // Forward reference the class
 @class EQSDefaultSymbols;
 
@@ -25,7 +23,7 @@
 @property (nonatomic, strong) AGSMarkerSymbol *reverseGeocode;
 @property (nonatomic, strong) AGSMarkerSymbol *failedGeocode;
 
-@property (nonatomic, strong) EQSShadowLineSymbol *route;
+@property (nonatomic, strong) AGSSimpleLineSymbol *route;
 @property (nonatomic, strong) AGSMarkerSymbol *routeStart;
 @property (nonatomic, strong) AGSMarkerSymbol *routeEnd;
 

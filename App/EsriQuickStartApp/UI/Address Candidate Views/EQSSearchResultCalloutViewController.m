@@ -8,28 +8,28 @@
 
 #import <EsriQuickStart/EsriQuickStart.h>
 
-#import "EQSAddressCandidateCalloutViewController.h"
-#import "EQSAddressCandidatePanelViewController.h"
+#import "EQSSearchResultCalloutViewController.h"
+#import "EQSSearchResultPanelViewController.h"
 
-@interface EQSAddressCandidateCalloutViewController () 
-@property (weak, nonatomic) IBOutlet EQSAddressCandidatePanelViewController *mainViewController;
+@interface EQSSearchResultCalloutViewController () 
+@property (weak, nonatomic) IBOutlet EQSSearchResultPanelViewController *mainViewController;
 @end
 
-@implementation EQSAddressCandidateCalloutViewController
+@implementation EQSSearchResultCalloutViewController
 @synthesize mainViewController = _mainViewController;
 
-+ (id) viewControllerWithCandidate:(AGSAddressCandidate *)candidate OfType:(EQSCandidateType)candidateType
++ (id) viewControllerWithAddressCandidate:(AGSAddressCandidate *)candidate OfType:(EQSSearchResultType)candidateType
 {
-    return [[EQSAddressCandidateCalloutViewController alloc] initWithAddressCandidate:candidate
+    return [[EQSSearchResultCalloutViewController alloc] initWithAddressCandidate:candidate
                                                                                OfType:candidateType];
 }
 
-- (id) initWithAddressCandidate:(AGSAddressCandidate *)candidate OfType:(EQSCandidateType)candidateType
+- (id) initWithAddressCandidate:(AGSAddressCandidate *)candidate OfType:(EQSSearchResultType)candidateType
 {
     if (self)
     {
         self.candidate = candidate;
-        self.candidateType = candidateType;
+        self.resultType = candidateType;
     }
     
     return self;
@@ -92,11 +92,11 @@
 }
 
 - (IBAction)zoomButtonTapped:(id)sender {
-    if (self.candidateViewDelegate)
+    if (self.searchResultViewDelegate)
     {
-        if ([self.candidateViewDelegate respondsToSelector:@selector(candidateViewController:DidTapViewType:)])
+        if ([self.searchResultViewDelegate respondsToSelector:@selector(searchResultViewController:DidTapViewType:)])
         {
-            [self.candidateViewDelegate candidateViewController:self DidTapViewType:EQSCandidateViewTypeCalloutView];
+            [self.searchResultViewDelegate searchResultViewController:self DidTapViewType:EQSSearchResultViewTypeCalloutView];
         }
     }
 }

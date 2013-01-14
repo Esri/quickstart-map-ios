@@ -21,6 +21,9 @@
 #define kEQSGeoServicesNotification_AddressFromPoint_OK @"EQSGeocodingGetAddressOK"
 #define kEQSGeoServicesNotification_AddressFromPoint_Error @"EQSGeocodingGetAddressError"
 
+#define kEQSGeoServicesNotification_FindPlace_OK @"EQSGeocodingAddressSearchOK"
+#define kEQSGeoServicesNotification_FindPlace_Error @"EQSGeocodingAddressSearchError"
+
 #define kEQSGeoServicesNotification_FindRoute_OK @"EQSGeoservicesFindRouteOK"
 #define kEQSGeoServicesNotification_FindRoute_Error @"EQSGeoservicesFindRouteError"
 
@@ -44,7 +47,7 @@
 
 #pragma mark - Dictionary Keys for reading values from specific EQSGeoServices Notification UserInfos
 
-#define kEQSGeoServicesNotification_PointsFromAddress_LocationCandidatesKey @"candidates"
+#define kEQSGeoServicesNotification_PointsFromAddress_ResultsKey @"candidates"
 #define kEQSGeoServicesNotification_PointsFromAddress_AddressKey @"address"
 #define kEQSGeoServicesNotification_PointsFromAddress_ExtentKey @"searchExtent"
 
@@ -62,8 +65,8 @@
 
 // Getting address values from the raw AddressFromPoint geoservice result.
 #define kEQSAddressCandidateAddressField @"Address"
-#define kEQSAddressCandidateCityField @"Admin1"
-#define kEQSAddressCandidateStateField @"Admin2"
+#define kEQSAddressCandidateCityField @"City"
+#define kEQSAddressCandidateStateField @"Region"
 #define kEQSAddressCandidateZipField @"Postal"
 
 

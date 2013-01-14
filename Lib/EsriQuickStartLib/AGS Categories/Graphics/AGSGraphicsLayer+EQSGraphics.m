@@ -13,19 +13,15 @@
 
 - (void) addGraphic:(AGSGraphic *)graphic withID:(NSString *)graphicID
 {
-    if (graphic.attributes == nil)
-    {
-        graphic.attributes = [NSMutableDictionary dictionary];
-    }
-    [graphic.attributes setObject:graphicID forKey:kEQSGraphicsLayerIDAttribute];
+    [graphic setAttributeWithString:graphicID forKey:kEQSGraphicsLayerIDAttribute];
     [self addGraphic:graphic];
 }
 
 - (AGSGraphic *)getGraphicForID:(NSString *)graphicID
 {
     for (AGSGraphic *g in self.graphics) {
-        NSString *gID = [g.attributes objectForKey:kEQSGraphicsLayerIDAttribute];
-        if (!(gID == nil || [gID isKindOfClass:[NSNull class]]))
+        NSString *gID = [g attributeAsStringForKey:kEQSGraphicsLayerIDAttribute];
+        if (!(gID == nil || gID == (id)[NSNull null]))
         {
             if ([gID isEqualToString:graphicID])
             {
@@ -36,15 +32,10 @@
     return nil;
 }
 
-- (void) addGraphic:(AGSGraphic *)graphic withAttribute:(id)attribute withValue:(id)value
+- (void) addGraphic:(AGSGraphic *)graphic withAttribute:(NSString *)attribute withValue:(id)value
 {
-    if (!graphic.attributes)
-    {
-        graphic.attributes = [NSMutableDictionary dictionaryWithCapacity:1];
-    }
-    [graphic.attributes setObject:value forKey:attribute];
+    [graphic setAttribute:value forKey:attribute];
     [self addGraphic:graphic];
-    [self dataChanged];
 }
 
 
@@ -65,22 +56,20 @@
         [self removeGraphic:g];
     }
     
-    [self dataChanged];
-    
     return graphicsToRemove;
 }
 
-- (NSSet *) removeGraphicsByAttribute:(id)attribute withValue:(id)value
+- (NSSet *) removeGraphicsByAttribute:(NSString *)attribute withValue:(id)value
 {
     return [self removeGraphicsMatchingCriteria:^BOOL(AGSGraphic *graphic) {
-        return [[graphic.attributes objectForKey:attribute] isEqual:value];
+        return [[graphic attributeForKey:attribute] isEqual:value];
     }];
 }
 
 - (NSSet *) removeGraphicsByID:(NSString *)graphicID
 {
 	return [self removeGraphicsMatchingCriteria:^BOOL(AGSGraphic *graphic) {
-		return [[graphic.attributes objectForKey:kEQSGraphicsLayerIDAttribute] isEqualToString:graphicID];
+		return [[graphic attributeAsStringForKey:kEQSGraphicsLayerIDAttribute] isEqualToString:graphicID];
 	}];
 }
 @end

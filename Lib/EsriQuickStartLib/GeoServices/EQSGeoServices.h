@@ -39,7 +39,7 @@
 
 
 
-// Provide a way to get an envelope for a geocode result. Note, this may return nil.
-@interface AGSAddressCandidate (EQSGeoServices)
-@property (readonly, nonatomic) AGSEnvelope *placeExtent;
+@interface AGSLocatorFindResult (EQSGeoServices)
+@property (nonatomic, readonly) CGFloat score;
+@property (nonatomic, readonly) AGSPoint *location;
 @end
