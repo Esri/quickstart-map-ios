@@ -3,7 +3,9 @@ quickstart-map-ios
 
 A library and sample app to get started with Esri's iOS Runtime SDK.
 
-See the [wiki](https://github.com/Esri/quickstart-map-ios/wiki) and [Library Reference](https://github.com/Esri/quickstart-map-ios/wiki/Reference) for additional details.
+Be sure to check out the:
+* [Wiki](https://github.com/Esri/quickstart-map-ios/wiki)
+* [Library Reference](https://github.com/Esri/quickstart-map-ios/wiki/Reference)
 
 ![App](https://raw.github.com/Esri/quickstart-map-ios/master/quickstart-map-ios.jpg)
 
