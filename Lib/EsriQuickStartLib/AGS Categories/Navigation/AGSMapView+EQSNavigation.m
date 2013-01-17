@@ -22,6 +22,10 @@
 -(id)initForLocationOnly;
 @end
 
+@interface NSNotification (EQSNavigation)
+- (BOOL) findPlacesWasZoomToPlaceRequest;
+@end
+
 @interface AGSMapView (EQSNavigation_Internal)
 @property (nonatomic, readonly) EQSGeoServices *eqs_nav_geoServices;
 @end
@@ -77,12 +81,12 @@
     dispatch_once(&onceToken, ^{
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(gotZoomResult:)
-                                                     name:kEQSGeoServicesNotification_FindPlace_OK
+                                                     name:kEQSGeoServicesNotification_FindPlaces_OK
                                                    object:self.eqs_nav_geoServices];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(errorGettingZoomResult:)
-                                                     name:kEQSGeoServicesNotification_FindPlace_Error
+                                                     name:kEQSGeoServicesNotification_FindPlaces_Error
                                                    object:self.eqs_nav_geoServices];
     });
     

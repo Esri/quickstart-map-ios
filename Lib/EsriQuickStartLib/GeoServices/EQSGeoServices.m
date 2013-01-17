@@ -57,6 +57,32 @@ return nil;
 }
 @end
 
+#pragma mark - Dictionary Keys for reading common values from EQSGeoServices Notification UserInfos
+
+// Each Notification's userInfo dictionary will contain service-specific values, but some are common
+// kEQSGeoServicesNotification_WorkerOperationKey: The NSOperation handling the call.
+#define kEQSGeoServicesNotification_WorkerOperationKey @"operation"
+
+// kEQSGeoServicesNotification_ErrorKey: The NSError object in the case a call failed.
+#define kEQSGeoServicesNotification_ErrorKey @"error"
+
+
+
+
+#pragma mark - Dictionary Keys for reading values from specific EQSGeoServices Notification UserInfos
+
+#define kEQSGeoServicesNotification_PointsFromAddress_ResultsKey @"candidates"
+#define kEQSGeoServicesNotification_PointsFromAddress_AddressKey @"address"
+#define kEQSGeoServicesNotification_PointsFromAddress_ExtentKey @"searchExtent"
+
+#define kEQSGeoServicesNotification_AddressFromPoint_AddressCandidateKey @"candidate"
+#define kEQSGeoServicesNotification_AddressFromPoint_MapPointKey @"mapPoint"
+#define kEQSGeoServicesNotification_AddressFromPoint_DistanceKey @"distance"
+
+#define kEQSGeoServicesNotification_FindRoute_RouteTaskResultsKey @"routeResult"
+
+#define kEQSGeoServicesNotification_Geolocation_LocationKey @"newLocation"
+
 #pragma mark - NSNotification Category
 @implementation NSNotification (EQSGeoServices)
 // kEQSGeoServicesNotification_PointsFromAddress_OK
@@ -105,8 +131,8 @@ return nil;
     return (double)distanceNum.doubleValue;
 }
 
-// kEQSGeoServicesNotification_FindRoute_OK
-// kEQSGeoServicesNotification_FindRoute_Error
+// kEQSGeoServicesNotification_FindDirections_OK
+// kEQSGeoServicesNotification_FindDirections_Error
 - (AGSRouteTaskResult *) routeTaskResults
 {
     return [self.userInfo objectForKey:kEQSGeoServicesNotification_FindRoute_RouteTaskResultsKey];
@@ -118,6 +144,16 @@ return nil;
 - (CLLocation *) geolocationResult
 {
     return [self.userInfo objectForKey:kEQSGeoServicesNotification_Geolocation_LocationKey];
+}
+
+- (AGSPoint *) geolocationMapPoint
+{
+    CLLocation *loc = [self geolocationResult];
+    if (loc)
+    {
+        return [AGSPoint pointFromLat:loc.coordinate.latitude lon:loc.coordinate.longitude];
+    }
+    return nil;
 }
 
 - (NSOperation *) geoServicesOperation
@@ -155,7 +191,9 @@ return nil;
 #define kEQSRoutingRouteTaskUrl @"http://tasks.arcgisonline.com/ArcGIS/rest/services/NetworkAnalysis/ESRI_Route_NA/NAServer/Route"
 #define kEQSRoutingRouteTaskUrlEU @"http://tasks.arcgisonline.com/ArcGIS/rest/services/NetworkAnalysis/ESRI_Route_EU/NAServer/Route"
 
-
+// Keys to determine properties of the Route Task results.
+#define kEQSRoutingStartPointName @"Start Point"
+#define kEQSRoutingEndPointName @"End Point"
 
 @interface EQSGeoServices () <AGSLocatorDelegate, AGSRouteTaskDelegate, CLLocationManagerDelegate>
 // Properties to store the geoservices…
@@ -228,14 +266,14 @@ return nil;
 	{
 		[[NSNotificationCenter defaultCenter] addObserver:object
 												 selector:successHandler
-													 name:kEQSGeoServicesNotification_FindRoute_OK
+													 name:kEQSGeoServicesNotification_FindDirections_OK
 												   object:self];
 	}
 	if (failureHandler)
 	{
 		[[NSNotificationCenter defaultCenter] addObserver:object
 												 selector:failureHandler
-													 name:kEQSGeoServicesNotification_FindRoute_Error
+													 name:kEQSGeoServicesNotification_FindDirections_Error
 												   object:self];
 	}
 }
@@ -329,7 +367,7 @@ return nil;
                                   nil];
         
         // Post the notification.
-        [[NSNotificationCenter defaultCenter] postNotificationName:kEQSGeoServicesNotification_FindPlace_OK
+        [[NSNotificationCenter defaultCenter] postNotificationName:kEQSGeoServicesNotification_FindPlaces_OK
                                                             object:self
                                                           userInfo:userInfo];
     }
@@ -363,7 +401,7 @@ return nil;
 								  nil];
         
         // And alert our listeners that there was an error.
-        [[NSNotificationCenter defaultCenter] postNotificationName:kEQSGeoServicesNotification_FindPlace_Error
+        [[NSNotificationCenter defaultCenter] postNotificationName:kEQSGeoServicesNotification_FindPlaces_Error
                                                             object:self
                                                           userInfo:userInfo];
     }
@@ -459,7 +497,7 @@ return nil;
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:routeTaskResult
 														 forKey:kEQSGeoServicesNotification_FindRoute_RouteTaskResultsKey];
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName:kEQSGeoServicesNotification_FindRoute_OK
+	[[NSNotificationCenter defaultCenter] postNotificationName:kEQSGeoServicesNotification_FindDirections_OK
 														object:self
 													  userInfo:userInfo];
 }
@@ -468,7 +506,7 @@ return nil;
 {
     NSLog(@"Failed to get route: %@", error);
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:error forKey:@"error"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kEQSGeoServicesNotification_FindRoute_Error
+    [[NSNotificationCenter defaultCenter] postNotificationName:kEQSGeoServicesNotification_FindDirections_Error
 														object:self
 													  userInfo:userInfo];
 }

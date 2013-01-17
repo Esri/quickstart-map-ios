@@ -59,7 +59,7 @@
 {
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(didSolveRouteOK:)
-												 name:kEQSGeoServicesNotification_FindRoute_OK
+												 name:kEQSGeoServicesNotification_FindDirections_OK
 											   object:self.mapView.geoServices];
 }</string>
 		<key>highlightedLines</key>

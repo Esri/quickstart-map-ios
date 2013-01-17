@@ -12,7 +12,7 @@
 #import <ArcGIS/ArcGIS.h>
 #import "EQSBasemapTypeEnum.h"
 
-#define kEQSNotification_BasemapDidChange @"BasemapDidChange"
+#define kEQSNotification_BasemapDidChange @"EQSBasemapDidChange"
 
 @interface NSNotification (EQSBasemaps)
 // Convenience accessors to read info from the basemap notifications

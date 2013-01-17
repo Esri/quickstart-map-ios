@@ -284,14 +284,13 @@ typedef enum {
 	// Set up our map with a basemap, and jump to a location and scale level.
     [self.mapView setBasemap: self.currentBasemapType];
     [self.mapView zoomToLevel:13 withLat:40.7302 lon:-73.9958 animated:YES];
-
+    
 	[self registerForGeoServicesNotifications];
 }
 
 //    AGSPoint *nyc = [AGSPoint pointFromLat:40.7302 Lon:-73.9958];
-//    [self.mapView centerAtPoint:nyc withScaleLevel:0];
-//    [self.mapView centerAtLat:40.7302 Long:-73.9958];
-//    [self.mapView zoomToLevel:7];
+//    [self.mapView centerAtLat:40.7302 Lon:-73.9958 animated:YES];
+//    [self.mapView zoomToLevel:7 animated:YES];
 //    [self.mapView zoomToLevel:13 withLat:40.7302 lon:-73.9958 animated:YES];
 //    [self.mapView centerAtMyLocation];
 //    [self.mapView centerAtMyLocationWithScaleLevel:15];
@@ -486,12 +485,12 @@ typedef enum {
     // And let me know when it finds points for an address.
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(gotFindPlacesResults:)
-                                                 name:kEQSGeoServicesNotification_PointsFromAddress_OK
+                                                 name:kEQSGeoServicesNotification_FindPlaces_OK
                                                object:self.mapView.geoServices];
     // Or not...
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didFailToFindPlaces:)
-                                                 name:kEQSGeoServicesNotification_PointsFromAddress_Error
+                                                 name:kEQSGeoServicesNotification_FindPlaces_Error
                                                object:self.mapView.geoServices];
     
     
@@ -2228,9 +2227,7 @@ typedef enum {
 
 	// Find places, using the current view extent as a constraint
 	NSLog(@"Searching for: %@", searchString);
-    AGSPolygon *v = self.mapView.visibleArea;
-    AGSEnvelope *env = v.envelope;
-	[self.mapView.geoServices findPlaces:searchString withinEnvelope:env];
+	[self.mapView.geoServices findPlaces:searchString withinEnvelope:self.mapView.visibleAreaEnvelope];
 }
 
 #pragma mark - Find Places Service Handlers

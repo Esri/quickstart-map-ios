@@ -28,7 +28,3 @@
 // Get the map's nearest zoom level (an integer in the range 1-20).
 - (NSUInteger) getZoomLevel;
 @end
-
-@interface NSNotification (EQSNavigation)
-- (BOOL) findPlacesWasZoomToPlaceRequest;
-@end
