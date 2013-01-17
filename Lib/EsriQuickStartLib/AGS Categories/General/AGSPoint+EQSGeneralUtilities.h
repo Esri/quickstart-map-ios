@@ -13,8 +13,8 @@
 + (AGSPoint *) pointFromLat:(double)latitude lon:(double)longitude;
 
 // Read the Lat and Lon values from any point, regardless of its internal spatial reference.
-- (double) latitude;
-- (double) longitude;
+@property (nonatomic, readonly) double latitude;
+@property (nonatomic, readonly) double longitude;
 
 // Convenience functions for translating to Web Mercator Auxiliary Sphere spatial reference
 //+ (AGSPoint *) getWebMercatorAuxSpherePointFromLat:(double) latitude Lon:(double) longitude;

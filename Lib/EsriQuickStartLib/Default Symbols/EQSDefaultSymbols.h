@@ -7,7 +7,6 @@
 //
 
 #import <ArcGIS/ArcGIS.h>
-#import <Foundation/Foundation.h>
 
 // Forward reference the class
 @class EQSDefaultSymbols;

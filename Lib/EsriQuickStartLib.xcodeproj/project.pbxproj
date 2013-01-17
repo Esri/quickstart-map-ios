@@ -23,6 +23,8 @@
 
 /* Begin PBXBuildFile section */
 		D93B555A16A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D93B555816A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.m */; };
+		D95971AC16A75893000948D0 /* AGSMutablePoint+EQSGeneralUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = D95971AA16A75893000948D0 /* AGSMutablePoint+EQSGeneralUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D95971AD16A75893000948D0 /* AGSMutablePoint+EQSGeneralUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D95971AB16A75893000948D0 /* AGSMutablePoint+EQSGeneralUtilities.m */; };
 		D9E1615D1629C9020055844C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D9E1615B1629C9020055844C /* InfoPlist.strings */; };
 		D9E161841629CAA60055844C /* AGSLayer+EQSBasemap.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E161091629C8B40055844C /* AGSLayer+EQSBasemap.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D9E161851629CAA60055844C /* AGSMapView+EQSBasemaps.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E1610B1629C8B40055844C /* AGSMapView+EQSBasemaps.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -106,6 +108,8 @@
 		D939FBE71629EE3400E8B8ED /* EQSHelper_int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSHelper_int.h; sourceTree = "<group>"; };
 		D93B555716A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapViewBase+EQSHelper.h"; sourceTree = "<group>"; };
 		D93B555816A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapViewBase+EQSHelper.m"; sourceTree = "<group>"; };
+		D95971AA16A75893000948D0 /* AGSMutablePoint+EQSGeneralUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMutablePoint+EQSGeneralUtilities.h"; sourceTree = "<group>"; };
+		D95971AB16A75893000948D0 /* AGSMutablePoint+EQSGeneralUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMutablePoint+EQSGeneralUtilities.m"; sourceTree = "<group>"; };
 		D9E161091629C8B40055844C /* AGSLayer+EQSBasemap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSLayer+EQSBasemap.h"; sourceTree = "<group>"; };
 		D9E1610A1629C8B40055844C /* AGSLayer+EQSBasemap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AGSLayer+EQSBasemap.m"; sourceTree = "<group>"; };
 		D9E1610B1629C8B40055844C /* AGSMapView+EQSBasemaps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+EQSBasemaps.h"; sourceTree = "<group>"; };
@@ -309,6 +313,8 @@
 				D9E161311629C8B40055844C /* AGSMapView+EQSGeneralUtilities.m */,
 				D9E161321629C8B40055844C /* AGSPoint+EQSGeneralUtilities.h */,
 				D9E161331629C8B40055844C /* AGSPoint+EQSGeneralUtilities.m */,
+				D95971AA16A75893000948D0 /* AGSMutablePoint+EQSGeneralUtilities.h */,
+				D95971AB16A75893000948D0 /* AGSMutablePoint+EQSGeneralUtilities.m */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -477,6 +483,7 @@
 				D9E1618A1629CAA60055844C /* EQSRouteResultsCell.h in Headers */,
 				D9E1618B1629CAA60055844C /* EQSRouteResultsTableViewController.h in Headers */,
 				D9E1618E1629CAA60055844C /* EQSRouteResultsViewControllerCompact.h in Headers */,
+				D95971AC16A75893000948D0 /* AGSMutablePoint+EQSGeneralUtilities.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -622,6 +629,7 @@
 				D9E161AF1629CB1E0055844C /* EQSGeoServices.m in Sources */,
 				D9E161B01629CB1E0055844C /* EQSHelper.m in Sources */,
 				D93B555A16A0D6BD004F3D19 /* AGSMapViewBase+EQSHelper.m in Sources */,
+				D95971AD16A75893000948D0 /* AGSMutablePoint+EQSGeneralUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6,7 +6,6 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <ArcGIS/ArcGIS.h>
 #import "EQSBasemapTypeEnum.h"
 

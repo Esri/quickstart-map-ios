@@ -13,10 +13,10 @@
 #import "AGSMapView+EQSNavigation.h"
 #import "AGSMapView+EQSRouteDisplay.h"
 #import "AGSMapView+EQSGraphics.h"
-#import "AGSMapView+EQSNavigation.h"
 
 #import "AGSMapView+EQSGeneralUtilities.h"
 #import "AGSPoint+EQSGeneralUtilities.h"
+#import "AGSMutablePoint+EQSGeneralUtilities.h"
 
 #import "EQSDefaultSymbols.h"
 #import "EQSGeoServices.h"
