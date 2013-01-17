@@ -186,6 +186,7 @@
 		D9E1621C1629DDF30055844C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D9E1621E1629DDF30055844C /* EQSResources-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EQSResources-Prefix.pch"; sourceTree = "<group>"; };
 		D9E162381629E3150055844C /* EsriQuickStart.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EsriQuickStart.h; sourceTree = "<group>"; };
+		D9EB648D16A889DF00049676 /* EQSRouteDisplayHelper_int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQSRouteDisplayHelper_int.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,6 +255,7 @@
 			isa = PBXGroup;
 			children = (
 				D9E161131629C8B40055844C /* EQSRouteDisplayHelper.h */,
+				D9EB648D16A889DF00049676 /* EQSRouteDisplayHelper_int.h */,
 				D9E161141629C8B40055844C /* EQSRouteDisplayHelper.m */,
 				D9E161151629C8B40055844C /* UI */,
 			);

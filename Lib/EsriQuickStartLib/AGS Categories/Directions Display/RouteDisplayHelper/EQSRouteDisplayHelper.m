@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 ESRI. All rights reserved.
 //
 
-#import "EQSRouteDisplayHelper.h"
+#import "EQSRouteDisplayHelper_int.h"
 
 #import "EQSHelper_int.h"
 #import "AGSMapView+EQSGeneralUtilities.h"

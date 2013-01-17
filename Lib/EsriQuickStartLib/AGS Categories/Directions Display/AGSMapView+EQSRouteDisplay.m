@@ -9,7 +9,7 @@
 #import "AGSMapView+EQSRouteDisplay.h"
 #import "AGSMapView+EQSGeneralUtilities.h"
 #import "EQSHelper.h"
-#import "EQSRouteDisplayHelper.h"
+#import "EQSRouteDisplayHelper_int.h"
 #import "EQSGeoServices.h"
 
 #import <objc/runtime.h>
