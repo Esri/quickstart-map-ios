@@ -1946,12 +1946,9 @@ typedef enum {
 
 	[self hideProgress];
 	
-	AGSRouteTaskResult *results = [notification routeTaskResults];
-    NSLog(@"Got UserInfo");
+	AGSRouteTaskResult *results = notification.routeTaskResults;
 	if (results)
 	{
-        // Store the route result for ourselves.
-
         // Tell our RouteDisplayHelper about the object we've created in our NIB for the table view.
         self.mapView.routeDisplayHelper.routeResultsViewController = self.routeResultsView.viewController;
 		[self.mapView.routeDisplayHelper showRouteResult:results];
@@ -1964,20 +1961,10 @@ typedef enum {
 {
 	[self hideProgress];
 	
-	NSError *error = [notification geoServicesError];
+	NSError *error = notification.geoServicesError;
 	if (error)
 	{
 		NSLog(@"Failed to solve route: %@", error);
-//		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not calculate route"
-//														message:[error.userInfo objectForKey:@"NSLocalizedFailureReason"]
-//													   delegate:nil
-//											  cancelButtonTitle:@"OK"
-//											  otherButtonTitles:nil];
-//		objc_setAssociatedObject(alert, @"Route Failed", error, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-//		[alert show];
-//		self.currentState = EQSSampleAppStateDirections;
-//		self.userMessage = @"Could not solve route!";
-//		self.messageState = EQSSampleAppMessageStateAlert;
 		[self setCurrentState:EQSSampleAppStateDirections withUserAlertMessage:@"Could not solve route!"];
 	}
 }
@@ -2210,9 +2197,7 @@ typedef enum {
 #pragma mark - Find Places Service Handlers
 - (void) gotFindPlacesResults:(NSNotification *)notification
 {
-    NSOperation *op = [notification geoServicesOperation];
-	
-    if (op)
+    if (notification.geoServicesOperation)
     {
         NSArray *candidates = notification.findPlacesResultSortedByScore;
         if (candidates.count > 0)
@@ -2339,8 +2324,7 @@ typedef enum {
 
 - (void) didFailToFindPlaces:(NSNotification *)notification
 {
-	NSError *error = [notification geoServicesError];
-	NSLog(@"Failed to get candidates for address: %@", error);
+	NSLog(@"Failed to get candidates for address: %@", notification.geoServicesError);
 }
 
 

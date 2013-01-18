@@ -24,7 +24,7 @@
     [super viewDidLoad];
 
 	// Set up our map with a basemap, and jump to a location and scale level.
-    [self.mapView setBasemap: EQSBasemapTypeTopographic];
+    self.mapView.basemap = EQSBasemapTypeTopographic;
     [self.mapView centerAtLat:40.7302 Lon:-73.9958 withScaleLevel:13];
 }</string>
 		<key>highlightedLines</key>
@@ -41,29 +41,25 @@
 	                                          To:self.routeEndPoint];
 }
 
-- (void) didSolveRouteOK:(NSNotification *)notification
+- (void) didSolveRouteOK:(NSNotification *)n
 {
-	AGSRouteTaskResult *results = [notification routeTaskResults];
-
-	if (results)
-	{
-		[self.mapView.routeDisplayHelper showRouteResults:results];
-	}
+	[self.mapView.routeDisplayHelper showRouteResult:n.routeTaskResults];
 }
 
-
-
+- (void) didFailToSolveRoute:(NSNotification *)n
+{
+	NSLog(@&quot;Failed to solve route: %@&quot;, n.geoServicesError);
+}
 
 // Call from viewDidLoad to register our listener (see above) for route notifications
 - (void)registerForGeoServicesNotifications
 {
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(didSolveRouteOK:)
-												 name:kEQSGeoServicesNotification_FindDirections_OK
-											   object:self.mapView.geoServices];
+	[self.mapView.geoServices registerHandler:self
+					 forFindDirectionsSuccess:@selector(didSolveRouteOK:)
+								   andFailure:@selector(didFailToSolveRoute:)];
 }</string>
 		<key>highlightedLines</key>
-		<string>3,4,9,13,23,24,25,26</string>
+		<string>3,4,9,14,20,21,22</string>
 	</dict>
 	<key>Graphics</key>
 	<dict>
@@ -83,11 +79,11 @@
 }
 
 - (IBAction)undoEditingGraphic:(id)sender {
-    [[self.mapView getUndoManagerForGraphicsEdits] undo];
+    [self.mapView.undoManagerForGraphicsEdits undo];
 }
 
 - (IBAction)redoEditingGraphic:(id)sender {
-    [[self.mapView getUndoManagerForGraphicsEdits] redo];
+    [self.mapView.undoManagerForGraphicsEdits redo];
 }</string>
 		<key>highlightedLines</key>
 		<string>2,6,10,14,18</string>
@@ -101,9 +97,44 @@
 {
 	NSString *searchString = searchBar.text;
 	[self.mapView.geoServices findPlaces:searchString];
+}
+
+- (void) gotFindPlacesResults:(NSNotification *)n
+{
+    if (n.geoServicesOperation)
+    {
+        NSArray *candidates = n.findPlacesResultSortedByScore;
+        if (candidates.count &gt; 0)
+        {
+            for (AGSLocatorFindResult *r in candidates)
+			{
+				// Add a graphic to the map for this result.
+				AGSGraphic *g = r.graphic;
+                g.symbol = self.mapView.defaultSymbols.findPlace;
+                [self.mapView addGraphic:g];
+            }
+        }
+        else
+        {
+            NSLog(@&quot;No results found!&quot;);
+        }
+    }
+}
+
+- (void) didFailToFindPlaces:(NSNotification *)n
+{
+	NSLog(@&quot;Failed to get candidates for address: %@&quot;, n.geoServicesError);
+}
+
+// Call from viewDidLoad to register our listener (see above) for find notifications
+- (void)registerForGeoServicesNotifications
+{
+    [self.mapView.geoServices registerHandler:self
+                         forFindPlacesSuccess:@selector(gotFindPlacesResults:)
+                                   andFailure:@selector(didFailToFindPlaces:)];
 }</string>
 		<key>highlightedLines</key>
-		<string>4</string>
+		<string>4,9,11,14,18,19,31,37,38,39</string>
 	</dict>
 	<key>Data</key>
 	<dict>
