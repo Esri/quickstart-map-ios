@@ -23,8 +23,8 @@
 - (void) centerAtMyLocation;
 - (void) centerAtMyLocationWithZoomLevel:(NSUInteger)level;
 
-// Return the centerpoint of the map's current visible extent.
+// Set or get the centerpoint of the map's current visible extent. Setting is animated.
 @property (nonatomic, assign) AGSPoint *centerPoint;
-// Get the map's nearest zoom level (an integer in the range 1-20).
+// Set or get the map's nearest zoom level (an integer in the range 1-20). Setting is animated.
 @property (nonatomic, assign) NSUInteger zoomLevel;
 @end

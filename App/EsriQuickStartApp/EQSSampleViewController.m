@@ -466,44 +466,21 @@ typedef enum {
 #pragma mark - GeoServices Registration
 - (void)registerForGeoServicesNotifications
 {
-	// Let me know when the Geoservices object finds an address for a point.
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(gotAddressFromPoint:)
-												 name:kEQSGeoServicesNotification_AddressFromPoint_OK
-											   object:self.mapView.geoServices];
-    // Or not...
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(didFailToGetAddressFromPoint:)
-												 name:kEQSGeoServicesNotification_AddressFromPoint_Error
-											   object:self.mapView.geoServices];
+    [self.mapView.geoServices registerHandler:self
+                         forFindPlacesSuccess:@selector(gotFindPlacesResults:)
+                                   andFailure:@selector(didFailToFindPlaces:)];
     
-    // And I also want to know when it found directions we asked for.
+    [self.mapView.geoServices registerHandler:self
+               forFindAddressFromPointSuccess:@selector(gotAddressFromPoint:)
+                                   andFailure:@selector(didFailToGetAddressFromPoint:)];
+    
 	[self.mapView.geoServices registerHandler:self
 					 forFindDirectionsSuccess:@selector(didSolveRouteOK:)
 								   andFailure:@selector(didFailToSolveRoute:)];
     
-    // And let me know when it finds points for an address.
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(gotFindPlacesResults:)
-                                                 name:kEQSGeoServicesNotification_FindPlaces_OK
-                                               object:self.mapView.geoServices];
-    // Or not...
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didFailToFindPlaces:)
-                                                 name:kEQSGeoServicesNotification_FindPlaces_Error
-                                               object:self.mapView.geoServices];
-    
-    
-    // If I ask where I am, let me know it's foudn me
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didGeolocate:)
-                                                 name:kEQSGeoServicesNotification_Geolocation_OK
-                                               object:self.mapView.geoServices];
-    // Or not...
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didFailToGeolocate:)
-                                                 name:kEQSGeoServicesNotification_Geolocation_Error
-                                               object:self.mapView.geoServices];
+    [self.mapView.geoServices registerHandler:self
+                     forFindMyLocationSuccess:@selector(didGeolocate:)
+                                   andFailure:@selector(didFailToGeolocate:)];
 }
 
 

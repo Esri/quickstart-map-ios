@@ -257,6 +257,42 @@ return nil;
 }
 
 #pragma mark - Public Methods
+- (void) registerHandler:(id)object forFindPlacesSuccess:(SEL)successHandler andFailure:(SEL)failureHandler
+{
+	if (successHandler)
+	{
+		[[NSNotificationCenter defaultCenter] addObserver:object
+												 selector:successHandler
+													 name:kEQSGeoServicesNotification_FindPlaces_OK
+												   object:self];
+	}
+	if (failureHandler)
+	{
+		[[NSNotificationCenter defaultCenter] addObserver:object
+												 selector:failureHandler
+													 name:kEQSGeoServicesNotification_FindPlaces_Error
+												   object:self];
+	}
+}
+
+- (void) registerHandler:(id)object forFindAddressFromPointSuccess:(SEL)successHandler andFailure:(SEL)failureHandler
+{
+	if (successHandler)
+	{
+		[[NSNotificationCenter defaultCenter] addObserver:object
+												 selector:successHandler
+													 name:kEQSGeoServicesNotification_AddressFromPoint_OK
+												   object:self];
+	}
+	if (failureHandler)
+	{
+		[[NSNotificationCenter defaultCenter] addObserver:object
+												 selector:failureHandler
+													 name:kEQSGeoServicesNotification_AddressFromPoint_Error
+												   object:self];
+	}
+}
+
 - (void) registerHandler:(id)object forFindDirectionsSuccess:(SEL)successHandler andFailure:(SEL)failureHandler
 {
 	if (successHandler)
@@ -274,6 +310,25 @@ return nil;
 												   object:self];
 	}
 }
+
+- (void) registerHandler:(id)object forFindMyLocationSuccess:(SEL)successHandler andFailure:(SEL)failureHandler
+{
+	if (successHandler)
+	{
+		[[NSNotificationCenter defaultCenter] addObserver:object
+												 selector:successHandler
+													 name:kEQSGeoServicesNotification_Geolocation_OK
+												   object:self];
+	}
+	if (failureHandler)
+	{
+		[[NSNotificationCenter defaultCenter] addObserver:object
+												 selector:failureHandler
+													 name:kEQSGeoServicesNotification_Geolocation_Error
+												   object:self];
+	}
+}
+
 
 - (NSOperation *) findPlaces:(NSString *)singleLineAddress 
 {

@@ -34,7 +34,10 @@
 - (void) findMyLocation;
 
 // Notification Registration
+- (void) registerHandler:(id)object forFindPlacesSuccess:(SEL)successHandler andFailure:(SEL)failureHandler;
+- (void) registerHandler:(id)object forFindAddressFromPointSuccess:(SEL)successHandler andFailure:(SEL)failureHandler;
 - (void) registerHandler:(id)object forFindDirectionsSuccess:(SEL)successHandler andFailure:(SEL)failureHandler;
+- (void) registerHandler:(id)object forFindMyLocationSuccess:(SEL)successHandler andFailure:(SEL)failureHandler;
 @end
 
 

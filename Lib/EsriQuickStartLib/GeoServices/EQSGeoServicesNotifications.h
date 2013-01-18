@@ -47,18 +47,20 @@
 @interface NSNotification (EQSGeoServices_FindPlaces)
 // kEQSGeoServicesNotification_FindPlace_OK
 // kEQSGeoServicesNotification_FindPlace_Error
-@property (nonatomic, readonly) NSArray *findPlacesResults;
-@property (nonatomic, readonly) NSArray *findPlacesResultSortedByScore;
 @property (nonatomic, readonly) NSString *findPlacesSearchString;
 @property (nonatomic, readonly) AGSEnvelope *findPlacesSearchExtent; // may be nil
+
+@property (nonatomic, readonly) NSArray *findPlacesResults;
+@property (nonatomic, readonly) NSArray *findPlacesResultSortedByScore;
 @end
 
 @interface NSNotification (EQSGeoServices_FindAddress)
 // kEQSGeoServicesNotification_AddressFromPoint_OK
 // kEQSGeoServicesNotification_AddressFromPoint_Error
-@property (nonatomic, readonly) AGSAddressCandidate *findAddressCandidate;
 @property (nonatomic, readonly) AGSPoint *findAddressSearchPoint;
 @property (nonatomic, readonly) double findAddressSearchDistance;
+
+@property (nonatomic, readonly) AGSAddressCandidate *findAddressCandidate;
 @end
 
 @interface NSNotification (EQSGeoServices_FindDirections)
