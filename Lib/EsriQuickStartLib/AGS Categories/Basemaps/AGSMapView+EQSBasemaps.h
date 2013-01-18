@@ -11,7 +11,7 @@
 #import "EQSBasemapsNotifications.h"
 
 @interface AGSMapView (EQSBasemaps)
-- (void) setBasemap:(EQSBasemapType)basemapType;
+@property (nonatomic, assign) EQSBasemapType basemap;
 
 @property (nonatomic, assign) BOOL renderBasemapsAtNativeResolution;
 @end

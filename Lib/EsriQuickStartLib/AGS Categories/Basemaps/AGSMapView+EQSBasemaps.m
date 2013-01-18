@@ -65,8 +65,8 @@
     // And now we'll try to set the layers we do have to reflect that stored setting.
     if ([self updateBasemapLayersNativeResolutionSetting])
     {
-        // We had to change a layer from it's previous state.
-        [self setBasemap:[self getBasemapType]];
+        // We had to change a layer from it's previous state. Force a refresh.
+        self.basemap = self.basemap;
     }
 }
 
@@ -147,12 +147,12 @@
     [currentWebMap openIntoMapView:self];
 }
 
-- (EQSBasemapType) getBasemapType
+- (EQSBasemapType) basemap
 {
     NSNumber *basemapNum = objc_getAssociatedObject(self, kEQSBasemapTypeKey);
     
     // Ensure the helper library is being used properly.
-    NSAssert(basemapNum != nil, @"You must call setBasemap (and the basemap must have loaded successfully) before trying to read the Basemap Type!");
+    NSAssert(basemapNum != nil, @"You must set mapView.basemap (and the basemap must have loaded successfully) before trying to read the Basemap Type!");
     
     return (EQSBasemapType)basemapNum.intValue;
 }
@@ -200,7 +200,7 @@
     }
     
     AGSPortalItem *pi = webMap.portalItem;
-    [self postNewBasemapNotification:[self getBasemapType] forPortalItem:pi];
+    [self postNewBasemapNotification:self.basemap forPortalItem:pi];
 }
 
 - (void)webMap:(AGSWebMap *)webMap didFailToLoadWithError:(NSError *)error

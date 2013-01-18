@@ -282,7 +282,7 @@ typedef enum {
 	[self initUI];
 
 	// Set up our map with a basemap, and jump to a location and scale level.
-    [self.mapView setBasemap: self.currentBasemapType];
+    self.mapView.basemap = self.currentBasemapType;
     [self.mapView zoomToLevel:13 withLat:40.7302 lon:-73.9958 animated:YES];
     
 	[self registerForGeoServicesNotifications];
@@ -1531,7 +1531,7 @@ typedef enum {
 {
 	self.currentBasemapType = basemapType;
 	self.currentPortalItem = self.basemapsPicker.currentPortalItem;
-	[self.mapView setBasemap:basemapType];
+	self.mapView.basemap = basemapType;
 }
 
 - (void)setCurrentBasemapType:(EQSBasemapType)currentBasemapType
