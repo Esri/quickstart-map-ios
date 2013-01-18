@@ -111,7 +111,7 @@
     if ([notification findPlacesWasZoomToPlaceRequest])
     {
         NSLog(@"Got results for ZoomToPlace");
-        NSArray *foundPlaces = notification.findPlacesCandidatesSortedByScore;
+        NSArray *foundPlaces = notification.findPlacesResultSortedByScore;
         
         if (foundPlaces.count > 0)
         {
@@ -151,7 +151,7 @@
 {
     [self ensureNavigationHelperInitialized];
     
-    if ([self.geoServices isGeolocationEnabled])
+    if (self.geoServices.geolocationEnabled)
     {
         [self.geoServices findMyLocation];
     }
@@ -162,14 +162,25 @@
 }
 
 #pragma mark - Centerpoint of map
-- (AGSPoint *) getCenterPoint
+-(AGSPoint *) centerPoint
 {
     return [self.visibleArea.envelope.center getWebMercatorAuxSpherePoint];
 }
 
-- (NSUInteger) getZoomLevel
+-(void)setCenterPoint:(AGSPoint *)centerPoint
+{
+    [self centerAtPoint:centerPoint animated:YES];
+}
+
+#pragma mark - Zoom Level
+-(NSUInteger) zoomLevel
 {
     return [EQSHelper getLevelForScale:self.mapScale];
+}
+
+-(void)setZoomLevel:(NSUInteger)zoomLevel
+{
+    [self zoomToLevel:zoomLevel animated:YES];
 }
 
 #pragma mark - Handle geolocation notifications

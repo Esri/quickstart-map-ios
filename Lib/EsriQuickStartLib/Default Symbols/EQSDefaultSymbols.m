@@ -26,19 +26,15 @@
 #define kEQSCircleSize CGSizeMake(28,28)
 
 @implementation AGSMapView (EQSDisplay)
-#define kEQSDefaultSymbolsHelperKey @"EQSDefaultSymbolsHelper"
-
-- (EQSDefaultSymbols *) defaultSymbols
+-(EQSDefaultSymbols *) defaultSymbols
 {
-    EQSDefaultSymbols *helper = objc_getAssociatedObject(self, kEQSDefaultSymbolsHelperKey);
+    static EQSDefaultSymbols *helper = nil;
     if (helper == nil)
     {
         helper = [[EQSDefaultSymbols alloc] init];
-        objc_setAssociatedObject(self, kEQSDefaultSymbolsHelperKey, helper, OBJC_ASSOCIATION_RETAIN);
     }
     return helper;
 }
-
 @end
 
 @interface EQSDefaultSymbols ()

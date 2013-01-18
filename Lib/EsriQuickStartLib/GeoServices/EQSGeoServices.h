@@ -9,6 +9,13 @@
 #import <ArcGIS/ArcGIS.h>
 #import "EQSGeoServicesNotifications.h"
 
+@class EQSGeoServices;
+
+// Provide a reference to the geoServices instance for an AGSMapView.
+@interface AGSMapView (EQSGeoServices)
+@property (nonatomic, readonly) EQSGeoServices *geoServices;
+@end
+
 @interface EQSGeoServices : NSObject
 // Geocoding
 - (NSOperation *) findPlaces:(NSString *)singleLineAddress;
@@ -23,7 +30,7 @@
                                   to:(AGSPoint *)endPoint named:(NSString *)endPointName;
 
 // Geolocation
-- (BOOL) isGeolocationEnabled;
+@property (nonatomic, readonly) BOOL geolocationEnabled;
 - (void) findMyLocation;
 
 // Notification Registration
@@ -31,11 +38,6 @@
 @end
 
 
-
-// Provide a reference to the geoServices instance for an AGSMapView.
-@interface AGSMapView (EQSGeoServices)
-- (EQSGeoServices *) geoServices;
-@end
 
 
 

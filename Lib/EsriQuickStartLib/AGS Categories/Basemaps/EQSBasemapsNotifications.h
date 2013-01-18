@@ -14,10 +14,10 @@
 
 #define kEQSNotification_BasemapDidChange @"EQSBasemapDidChange"
 
-@interface NSNotification (EQSBasemaps)
 // Convenience accessors to read info from the basemap notifications
-- (AGSPortalItem *) basemapPortalItem;
-- (EQSBasemapType) basemapType;
+@interface NSNotification (EQSBasemaps)
+@property (nonatomic, readonly) AGSPortalItem *basemapPortalItem;
+@property (nonatomic, readonly) EQSBasemapType basemapType;
 @end
 
 #endif

@@ -10,5 +10,5 @@
 #import "EQSRouteDisplayHelper.h"
 
 @interface AGSMapView (EQSDirections)
-- (EQSRouteDisplayHelper *)routeDisplayHelper;
+@property (nonatomic, readonly) EQSRouteDisplayHelper *routeDisplayHelper;
 @end

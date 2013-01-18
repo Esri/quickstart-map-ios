@@ -534,12 +534,12 @@ typedef enum {
     switch (self.currentState) {
         case EQSSampleAppStateGraphics:
             if (graphics.count > 0)
-{
+            {
                 // The user selected a graphic. Let's edit it.
                 AGSGraphic *editGraphic = [self.mapView editGraphicFromMapViewDidClickAtPoint:graphics];
                 EQSSampleAppState newState = EQSSampleAppStateGraphics;
                 if (editGraphic)
-    {
+                {
                     AGSGeometryType geomType = AGSGeometryTypeForGeometry(editGraphic.geometry);
                     switch (geomType) {
                         case AGSGeometryTypePoint:
@@ -558,10 +558,10 @@ typedef enum {
                             break;
                     }
                     self.currentState = newState;
-    }
+                }
             }
             break;
-    
+            
         case EQSSampleAppStateDirections_WaitingForRouteStart:
             [self didTapStartPoint:mapPoint];
             break;
@@ -569,13 +569,13 @@ typedef enum {
         case EQSSampleAppStateDirections_WaitingForRouteEnd:
             [self didTapEndPoint:mapPoint];
             break;
-    
+            
         case EQSSampleAppStateFindPlace:
         {
             BOOL shouldReverseGeocode = YES;
             AGSGraphic *g = [self nearestGraphicToPoint:mapPoint FromMapViewClickedGraphics:graphics];
             if (g && g.infoTemplateDelegate)
-    {
+            {
                 [self.mapView.callout showCalloutAtPoint:mapPoint forGraphic:g animated:YES];
                 shouldReverseGeocode = NO;
             }
@@ -583,16 +583,16 @@ typedef enum {
             {
                 [self didTapToReverseGeocode:mapPoint];
             }
-    }
+        }
             break;
-    
+            
         default:
             for (id key in graphics.allKeys) {
                 NSArray *graphicsInLayer = [graphics objectForKey:key];
                 for (AGSGraphic *g in graphicsInLayer) {
                     NSLog(@"MVCAP: %@", g);
                     NSLog(@"MVCAP ITD: %@", g.infoTemplateDelegate);
-}
+                }
             }
             break;
     }
@@ -818,8 +818,8 @@ typedef enum {
             _currentState == EQSSampleAppStateGraphics_Editing_Line ||
             _currentState == EQSSampleAppStateGraphics_Editing_Polygon)
 		{
-			if (self.mapView.getUndoManagerForGraphicsEdits.canUndo ||
-				self.mapView.getUndoManagerForGraphicsEdits.canRedo)
+			if (self.mapView.undoManagerForGraphicsEdits.canUndo ||
+				self.mapView.undoManagerForGraphicsEdits.canRedo)
 			{
 				UIAlertView *editAlert = [[UIAlertView alloc] initWithTitle:@"Unsaved Edits"
 																	message:@"Are you sure you want to leave Graphics mode? Any unsaved edits will be lost!"
@@ -863,7 +863,7 @@ typedef enum {
 				for (UIBarButtonItem *buttonItem in self.editGraphicsToolbar.items) {
 					buttonItem.enabled = YES;
 				}
-				if (![self.mapView getCurrentEditGraphic])
+				if (!self.mapView.currentEditGraphic)
 				{
 					self.deleteGraphicButton.enabled = NO;
 				}
@@ -1078,7 +1078,7 @@ typedef enum {
             newMessage = @"Edit graphic, or create a graphic below";
 			break;
         case EQSSampleAppStateGraphics_Editing_Point:
-			if ([self.mapView getUndoManagerForGraphicsEdits].canUndo)
+			if (self.mapView.undoManagerForGraphicsEdits.canUndo)
 			{
 				newMessage = @"Tap the check mark to save";
 			}
@@ -1088,7 +1088,7 @@ typedef enum {
 			}
 			break;
         case EQSSampleAppStateGraphics_Editing_Line:
-			if ([self.mapView getUndoManagerForGraphicsEdits].canUndo)
+			if (self.mapView.undoManagerForGraphicsEdits.canUndo)
 			{
 				newMessage = @"Tap the check mark to save";
 			}
@@ -1098,7 +1098,7 @@ typedef enum {
 			}
 			break;
         case EQSSampleAppStateGraphics_Editing_Polygon:
-			if ([self.mapView getUndoManagerForGraphicsEdits].canUndo)
+			if (self.mapView.undoManagerForGraphicsEdits.canUndo)
 			{
 				newMessage = @"Tap the check mark to save";
 			}
@@ -1481,13 +1481,13 @@ typedef enum {
 
 - (void) setZoomToGraphicButtonState
 {
-    AGSGeometry *editGeom = [self.mapView getCurrentEditGeometry];
+    AGSGeometry *editGeom = self.mapView.currentEditGeometry;
     self.zoomToGraphicButton.enabled = !editGeom.isEmpty;
 }
 
 - (void) setUndoRedoButtonStates
 {
-    [self setButtonStatesForUndoManager:[self.mapView getUndoManagerForGraphicsEdits]];
+    [self setButtonStatesForUndoManager:self.mapView.undoManagerForGraphicsEdits];
 }
 
 - (void) editUndoRedoChanged:(NSNotification *)notification
@@ -1622,7 +1622,7 @@ typedef enum {
 }
 
 - (IBAction)zoomToEditGeometry:(id)sender {
-    AGSGeometry *editGeom = [self.mapView getCurrentEditGeometry];
+    AGSGeometry *editGeom = self.mapView.currentEditGeometry;
     if (editGeom)
     {
         [self.mapView zoomToGeometry:editGeom withPadding:100 animated:YES];
@@ -2237,7 +2237,7 @@ typedef enum {
 	
     if (op)
     {
-        NSArray *candidates = notification.findPlacesCandidatesSortedByScore;
+        NSArray *candidates = notification.findPlacesResultSortedByScore;
         if (candidates.count > 0)
         {
             // First, let's remove all the old items from the UI (if any)

@@ -9,6 +9,5 @@
 #import <ArcGIS/ArcGIS.h>
 
 @interface AGSLayer (EQSBasemaps)
-- (BOOL) isEQSBasemapLayer;
-- (void) setIsEQSBasemapLayer:(BOOL)isBasemapLayer;
+@property (nonatomic, assign) BOOL isEQSBasemapLayer;
 @end

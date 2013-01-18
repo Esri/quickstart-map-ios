@@ -314,19 +314,19 @@
 #pragma mark - Undo/Redo
 - (void)undoGraphicEdit
 {
-    [[self getUndoManagerForGraphicsEdits] undo];
+    [self.undoManagerForGraphicsEdits undo];
 }
 
 - (void)redoGraphicEdit
 {
-    [[self getUndoManagerForGraphicsEdits] redo];
+    [self.undoManagerForGraphicsEdits redo];
 }
 
 - (NSUndoManager *) registerListener:(id)object ForEditGraphicUndoRedoNotificationsUsing:(SEL)handlerMethod
 {
     [self stop:object ListeningForEditGraphicUndoRedoNotificationsOn:nil];
     
-    NSUndoManager *um = [self getUndoManagerForGraphicsEdits];
+    NSUndoManager *um = self.undoManagerForGraphicsEdits;
     if (um)
     {
         [[NSNotificationCenter defaultCenter] addObserver:object
@@ -360,17 +360,17 @@
 
 
 #pragma mark - Accessors to useful objects for UI feedback during editing
-- (NSUndoManager *) getUndoManagerForGraphicsEdits
+- (NSUndoManager *) undoManagerForGraphicsEdits
 {
     return [self __eqsGraphics_SketchGraphicsLayer].undoManager;
 }
 
-- (AGSGeometry *) getCurrentEditGeometry
+- (AGSGeometry *) currentEditGeometry
 {
     return [self __eqsGraphics_SketchGraphicsLayer].geometry;
 }
 
-- (AGSGraphic *) getCurrentEditGraphic
+- (AGSGraphic *) currentEditGraphic
 {
     return [self __eqsGraphics_GetCurrentEditingGraphic];
 }

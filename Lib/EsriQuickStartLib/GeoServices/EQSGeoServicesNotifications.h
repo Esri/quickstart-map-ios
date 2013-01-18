@@ -37,40 +37,40 @@
 #pragma mark - Categories to help read information from EQSGeoServices Notifications
 @interface NSNotification (EQSGeoServices)
 // All notifications include the worker NSOperation
-- (NSOperation *) geoServicesOperation;
+@property (nonatomic, readonly) NSOperation *geoServicesOperation;
 
 // Error notifications also include an NSError object.
-- (NSError *) geoServicesError;
+@property (nonatomic, readonly) NSError *geoServicesError;
 @end
 
 // Additional values can be retrieved according to geoservice request.
 @interface NSNotification (EQSGeoServices_FindPlaces)
 // kEQSGeoServicesNotification_FindPlace_OK
 // kEQSGeoServicesNotification_FindPlace_Error
-- (NSArray *) findPlacesCandidates;
-- (NSArray *) findPlacesCandidatesSortedByScore;
-- (NSString *) findPlacesSearchString;
-- (AGSEnvelope *) findPlacesSearchExtent; // optional
+@property (nonatomic, readonly) NSArray *findPlacesResults;
+@property (nonatomic, readonly) NSArray *findPlacesResultSortedByScore;
+@property (nonatomic, readonly) NSString *findPlacesSearchString;
+@property (nonatomic, readonly) AGSEnvelope *findPlacesSearchExtent; // may be nil
 @end
 
 @interface NSNotification (EQSGeoServices_FindAddress)
 // kEQSGeoServicesNotification_AddressFromPoint_OK
 // kEQSGeoServicesNotification_AddressFromPoint_Error
-- (AGSAddressCandidate *) findAddressCandidate;
-- (AGSPoint *) findAddressSearchPoint;
-- (double) findAddressSearchDistance;
+@property (nonatomic, readonly) AGSAddressCandidate *findAddressCandidate;
+@property (nonatomic, readonly) AGSPoint *findAddressSearchPoint;
+@property (nonatomic, readonly) double findAddressSearchDistance;
 @end
 
 @interface NSNotification (EQSGeoServices_FindDirections)
 // kEQSGeoServicesNotification_FindDirections_OK
 // kEQSGeoServicesNotification_FindDirections_Error
-- (AGSRouteTaskResult *) routeTaskResults;
+@property (nonatomic, readonly) AGSRouteTaskResult *routeTaskResults;
 @end
 
 @interface NSNotification (EQSGeoServices_Geolocate)
 // kEQSGeoServicesNotification_Geolocation_OK
 // kEQSGeoServicesNotification_Geolocation_Error
-- (CLLocation *) geolocationResult;
-- (AGSPoint *) geolocationMapPoint;
+@property (nonatomic, readonly) CLLocation *geolocationResult;
+@property (nonatomic, readonly) AGSPoint *geolocationMapPoint;
 @end
 #endif

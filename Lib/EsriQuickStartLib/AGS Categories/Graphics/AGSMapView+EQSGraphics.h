@@ -113,7 +113,7 @@ typedef enum {
 - (void) stop:(id)listener ListeningForEditGraphicUndoRedoNotificationsOn:(NSUndoManager *)manager;
 // Get a handle on the NSUndoManager (returned from registerListener:ForEditGraphicUndoRedoNotificationsUsing:)
 // in case you don't want to hold on to it yourself. And why would you?
-- (NSUndoManager *) getUndoManagerForGraphicsEdits;
+@property (nonatomic, readonly) NSUndoManager *undoManagerForGraphicsEdits;
 
 
 
@@ -123,7 +123,7 @@ typedef enum {
 // iOS undo/redo functionality of the NSUndoManager. Listen to NSUndoManagerDidCloseUndoGroupNotification,
 // NSUndoManagerDidUndoChangeNotification and NSUndoManagerDidRedoChangeNotification to determine when to
 // read it's canUndo and canRedo properties to update the UI appropriately.
-- (AGSGeometry *) getCurrentEditGeometry;
-- (AGSGraphic *) getCurrentEditGraphic;
+@property (nonatomic, readonly) AGSGeometry *currentEditGeometry;
+@property (nonatomic, readonly) AGSGraphic *currentEditGraphic;
 - (AGSGraphicsLayer *) getGraphicsLayer:(EQSGraphicsLayerType)layerType;
 @end

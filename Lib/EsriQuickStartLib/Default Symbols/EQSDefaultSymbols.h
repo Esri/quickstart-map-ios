@@ -12,7 +12,7 @@
 @class EQSDefaultSymbols;
 
 @interface AGSMapView (EQSDisplay)
-- (EQSDefaultSymbols *) defaultSymbols;
+@property (nonatomic, readonly) EQSDefaultSymbols *defaultSymbols;
 @end
 
 @interface EQSDefaultSymbols : NSObject

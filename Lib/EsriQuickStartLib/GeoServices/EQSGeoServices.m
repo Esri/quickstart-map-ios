@@ -16,15 +16,12 @@
 
 #pragma mark - AGSMapView Category
 @implementation AGSMapView (EQSGeoServices)
-#define kEQSGeoServicesHelperKey @"EQSGeoServicesHelper"
-
 - (EQSGeoServices *) geoServices
 {
-    EQSGeoServices *helper = objc_getAssociatedObject(self, kEQSGeoServicesHelperKey);
+    static EQSGeoServices *helper = nil;
     if (helper == nil)
     {
         helper = [[EQSGeoServices alloc] init];
-        objc_setAssociatedObject(self, kEQSGeoServicesHelperKey, helper, OBJC_ASSOCIATION_RETAIN);
     }
     return helper;
 }
@@ -87,14 +84,14 @@ return nil;
 @implementation NSNotification (EQSGeoServices)
 // kEQSGeoServicesNotification_PointsFromAddress_OK
 // kEQSGeoServicesNotification_PointsFromAddress_Error
-- (NSArray *) findPlacesCandidates
+- (NSArray *) findPlacesResults
 {
     return [self.userInfo objectForKey:kEQSGeoServicesNotification_PointsFromAddress_ResultsKey];
 }
 
-- (NSArray *) findPlacesCandidatesSortedByScore
+- (NSArray *) findPlacesResultSortedByScore
 {
-    NSArray *unsortedCandidates = self.findPlacesCandidates;
+    NSArray *unsortedCandidates = self.findPlacesResults;
     
     NSArray *sortedCandidates = [unsortedCandidates sortedArrayUsingComparator:^(id obj1, id obj2) {
         AGSLocatorFindResult *r1 = obj1;
@@ -565,7 +562,7 @@ return nil;
     [self.locationManager startUpdatingLocation];
 }
 
-- (BOOL) isGeolocationEnabled
+- (BOOL) geolocationEnabled
 {
     return [CLLocationManager locationServicesEnabled];
 }
