@@ -103,7 +103,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if (keyPath == @"thumbnail")
+    if ([keyPath isEqualToString:@"thumbnail"])
     {
         // We were waiting for the thumbnail to load.
         NSLog(@"Thumbnail is here at last!");
@@ -111,7 +111,7 @@
         [pi removeObserver:self forKeyPath:@"thumbnail"];
         [self setDetailsThumbnail:pi];
     }
-    else if (keyPath == @"title")
+    else if ([keyPath isEqualToString:@"title"])
     {
         // We were waiting for the thumbnail to load.
         NSLog(@"Title is here at last!");
@@ -119,7 +119,7 @@
         [pi removeObserver:self forKeyPath:@"title"];
         [self setDetailsTitle:pi];
     }
-    else if (keyPath == @"snippet")
+    else if ([keyPath isEqualToString:@"snippet"])
     {
         // We were waiting for the thumbnail to load.
         NSLog(@"Snippet is here at last!");

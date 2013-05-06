@@ -739,10 +739,10 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = EQS;
-				LastUpgradeCheck = 0440;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = ESRI;
 			};
-			buildConfigurationList = E16C28EF15598A5E00E2DB56 /* Build configuration list for PBXProject "EsriQuickStartApp" */;
+			buildConfigurationList = E16C28EF15598A5E00E2DB56 /* Build configuration list for PBXProject "esriQuickStartApp" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -971,6 +971,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -997,6 +1001,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1061,7 +1069,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E16C28EF15598A5E00E2DB56 /* Build configuration list for PBXProject "EsriQuickStartApp" */ = {
+		E16C28EF15598A5E00E2DB56 /* Build configuration list for PBXProject "esriQuickStartApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E16C291415598A5E00E2DB56 /* Debug */,
