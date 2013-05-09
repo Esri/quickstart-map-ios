@@ -21,10 +21,11 @@ Be sure to check out the:
    
    Note: You will need to create an ESRI account to do so. Learn more [here](https://webaccounts.esri.com/cas/index.cfm).
 2. Either clone or [download and unzip](https://github.com/Esri/quickstart-map-ios/archive/master.zip) this repository.
-3. Open the EsriQuickStartLib project and build the "Universal Framework" scheme.
 
-### Build the Quick Start Sample Application
-1. Open and run the EsriQuickStartApp Xcode project on your device or simulator.
+### Build & Run the Quick Start Sample Application
+1. Open the EsriQuickStartApp Xcode project and run the `esriQuickStartApp` scheme on your device or simulator.
+
+![App](quickstart-app-scheme.jpg)
 
 [New to Github? Get started here.](http://htmlpreview.github.com/?https://github.com/Esri/esri.github.com/blob/master/help/esri-getting-to-know-github.html)
 
