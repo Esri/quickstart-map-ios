@@ -1,3 +1,6 @@
+# DEPRECATiON NOTICE
+This repo references the now-retired 10.2.x version of the Runtime SDK. Please see the [current SDK documentation](https://developers.arcgis.com/ios/latest/) where you will find tutorials, sample code, forums, conceptual guide doc, API reference, and more. To watch a simple Runtime app being built in under an hour, see [this Technical Session](https://youtu.be/9XWvvfRqPOU) from the 2020 Esri Developer Summit.
+
 quickstart-map-ios
 ==================
 
